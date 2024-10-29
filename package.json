@@ -19,5 +19,8 @@
   "engines": {
     "node": ">=18"
   },
-  "name": "with-tailwind"
+  "name": "with-tailwind",
+  "dependencies": {
+    "gitmoji-cli": "^9.5.0"
+  }
 }
