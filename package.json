@@ -16,6 +16,7 @@
     "@commitlint/types": "^19.5.0",
     "commitlint": "^19.5.0",
     "commitlint-config-gitmoji": "^2.3.1",
+    "gitmoji-cli": "^9.5.0",
     "husky": "^9.1.6",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11",
@@ -26,8 +27,5 @@
   "engines": {
     "node": ">=18"
   },
-  "name": "with-tailwind",
-  "dependencies": {
-    "gitmoji-cli": "^9.5.0"
-  }
+  "name": "with-tailwind"
 }
