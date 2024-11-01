@@ -1,5 +1,6 @@
 package com.mulmeong.utility.application.port.out.dto;
 
+import com.mulmeong.utility.application.port.in.dto.ReactionRequestDto;
 import com.mulmeong.utility.domain.model.Reaction;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,4 +26,6 @@ public class ReactionResponseDto {
                 .status(status)
                 .build();
     }
+
+
 }

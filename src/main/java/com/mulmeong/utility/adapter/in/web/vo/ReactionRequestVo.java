@@ -1,5 +1,6 @@
 package com.mulmeong.utility.adapter.in.web.vo;
 
+import com.mulmeong.utility.application.port.in.dto.ReactionRequestDto;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -10,6 +11,12 @@ public class ReactionRequestVo {
     private String memberUuid;
     private String kind;
     private String kindUuid;
-    private Integer status;
 
+    public ReactionRequestDto toDto() {
+        return ReactionRequestDto.builder()
+                .memberUuid(memberUuid)
+                .kind(kind)
+                .kindUuid(kindUuid)
+                .build();
+    }
 }
