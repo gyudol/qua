@@ -2,6 +2,11 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.5'
     id 'io.spring.dependency-management' version '1.1.6'
+    id 'checkstyle'
+}
+
+ext {
+    springCloudVersion = "2023.0.3"
 }
 
 group = 'com.mulmeong'
@@ -11,6 +16,12 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
+}
+
+checkstyle {
+    maxWarnings = 0
+    configFile = file("checkstyle/google_checks.xml")
+    toolVersion = "10.18.0" //
 }
 
 repositories {
@@ -26,6 +37,12 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
+    }
 }
 
 tasks.named('test') {
