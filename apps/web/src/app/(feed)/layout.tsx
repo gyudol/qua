@@ -1,14 +1,14 @@
 import FeedTabHeader from "../../components/feed-tab/organisms/FeedTabHeader";
 
 export default function layout({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }): JSX.Element {
-	return (
-		<>
-			<FeedTabHeader />
-			{children}
-		</>
-	);
+  return (
+    <>
+      <FeedTabHeader />
+      {children}
+    </>
+  );
 }

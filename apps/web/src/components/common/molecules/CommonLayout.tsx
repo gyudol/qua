@@ -1,55 +1,61 @@
 import { cn } from "@repo/ui/lib/utils";
 
+interface CommonLayoutProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+const commonStyle = cn("w-full min-w-[320px] max-w-[600px]");
+
 //
-function Container({ children }: Readonly<{ children: React.ReactNode }>) {
-	return (
-		<div
-			className={cn(
-				"w-full min-w-[320px] max-w-[600px]",
-				"flex flex-col align-middle"
-			)}
-		>
-			{children}
-		</div>
-	);
+function Container({ className, children }: CommonLayoutProps) {
+  return (
+    <div className={cn(commonStyle, "flex flex-col items-center", className)}>
+      {children}
+    </div>
+  );
 }
 
 //
-function Header({ children }: Readonly<{ children: React.ReactNode }>) {
-	return <header className={cn("w-full")}>{children}</header>;
+function Header({ className, children }: CommonLayoutProps) {
+  return <header className={cn(commonStyle, className)}>{children}</header>;
 }
 
 // Tob Navigation Bar
-function Tnb({ children }: Readonly<{ children: React.ReactNode }>) {
-	return <nav className="w-full">{children}</nav>;
+function Tnb({ className, children }: CommonLayoutProps) {
+  return <nav className={cn(commonStyle, className)}>{children}</nav>;
 }
 
 //
-function Contents({ children }: Readonly<{ children: React.ReactNode }>) {
-	return <main className="w-full">{children}</main>;
+function Contents({ className, children }: CommonLayoutProps) {
+  return <main className={cn(commonStyle, className)}>{children}</main>;
 }
 
 // Floating Action Button
-function Fab({ children }: Readonly<{ children: React.ReactNode }>) {
-	return <aside>{children}</aside>;
+function Fab({ className, children }: CommonLayoutProps) {
+  return <aside className={cn(className)}>{children}</aside>;
 }
 
 //
-function Footer({ children }: Readonly<{ children: React.ReactNode }>) {
-	return <footer className="w-full">{children}</footer>;
+function Footer({ className, children }: CommonLayoutProps) {
+  return <footer className={cn(commonStyle, className)}>{children}</footer>;
 }
 
 // Bnb Navigation Bar
-function Bnb({ children }: Readonly<{ children: React.ReactNode }>) {
-	return <nav className="w-full">{children}</nav>;
+function Bnb({ className, children }: CommonLayoutProps) {
+  return (
+    <nav className={cn(commonStyle, "fixed bottom-0", className)}>
+      {children}
+    </nav>
+  );
 }
 
 export const CommonLayout = {
-	Container,
-	Header,
-	Tnb,
-	Contents,
-	Fab,
-	Footer,
-	Bnb,
+  Container,
+  Header,
+  Tnb,
+  Contents,
+  Fab,
+  Footer,
+  Bnb,
 };
