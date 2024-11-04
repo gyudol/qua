@@ -1,11 +1,7 @@
 import Link from "next/link";
-import { CommonLayout } from "../molecules/CommonLayout";
-import Post from "../icons/Post";
-import type { IconProps } from "../icons/type";
-import Mypage from "../icons/Mypage";
-import Home from "../icons/Home";
-import Search from "../icons/Search";
-import Shorts from "../icons/Shorts";
+import { CommonLayout } from "@/components/common/molecules/CommonLayout";
+import type { IconProps } from "../icons/@type";
+import { Home, Mypage, Post, Search, Shorts } from "../icons";
 
 interface GbnbListItemProp {
   name: string;

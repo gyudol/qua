@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { CommonLayout } from "../components/common/molecules/CommonLayout";
-import FeedTabHeader from "../components/feed-tab/organisms/FeedTabHeader";
+import { CommonLayout } from "@/components/common/molecules";
+import { FeedTabHeader } from "@/components/feed-tab/organisms";
 
 export default function NotFound() {
   return (

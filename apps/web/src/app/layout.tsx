@@ -1,9 +1,9 @@
-import "./globals.css";
-import "@repo/ui/styles.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { CommonLayout } from "../components/common/molecules/CommonLayout";
-import CommonGbnb from "../components/common/organisms/CommonGbnb";
+import "@/app/globals.css";
+import { CommonLayout } from "@/components/common/molecules";
+import { CommonGbnb } from "@/components/common/organisms";
+import "@repo/ui/styles.css";
 
 const inter = Inter({ subsets: ["latin"] });
 

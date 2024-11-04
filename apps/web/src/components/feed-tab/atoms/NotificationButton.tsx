@@ -1,6 +1,6 @@
 "use client";
 
-import Notification from "../../common/icons/Notification";
+import { Notification } from "@/components/common/icons";
 
 export default function NotificationButton() {
   const handleClick = () => {

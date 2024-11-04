@@ -1,9 +1,11 @@
-import Logo from "../../common/icons/Logo";
-import { CommonLayout } from "../../common/molecules/CommonLayout";
-import ChatButton from "../atoms/ChatButton";
-import GlobalButton from "../atoms/GlobalButton";
-import LnbMenuButton from "../atoms/LnbMenuButton";
-import NotificationButton from "../atoms/NotificationButton";
+import { CommonLayout } from "@/components/common/molecules/CommonLayout";
+import { Logo } from "@/components/common/icons";
+import {
+  ChatButton,
+  GlobalButton,
+  LnbMenuButton,
+  NotificationButton,
+} from "../atoms";
 
 export default function FeedTabHeader() {
   return (

@@ -1,4 +1,4 @@
-import type { IconProps } from "./type";
+import type { IconProps } from "./@type";
 
 export default function Kitty({ width = 30, height = 38 }: IconProps) {
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import Kitty from "../../common/icons/Kitty";
+import { Kitty } from "@/components/common/icons";
 
 export default function ChatButton() {
   const handleClick = () => {
