@@ -8,7 +8,7 @@ plugins {
 checkstyle {
     maxWarnings = 0
     configFile = file("checkstyle/google_checks.xml")
-    toolVersion = "10.18.0" //
+    toolVersion = "10.18.0"
 }
 
 group = 'com.mulmeong'
@@ -18,6 +18,10 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
+}
+
+jar {
+    enabled = false
 }
 
 configurations {
