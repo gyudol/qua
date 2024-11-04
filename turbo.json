@@ -14,6 +14,10 @@
     },
     "clean": {
       "cache": false
+    },
+    "json-server": {
+      "cache": false,
+      "persistent": true
     }
   }
 }
