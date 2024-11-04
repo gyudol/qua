@@ -1,4 +1,4 @@
-import FeedTabHeader from "../../components/feed-tab/organisms/FeedTabHeader";
+import { FeedTabHeader } from "@/components/feed-tab/organisms";
 
 export default function layout({
   children,

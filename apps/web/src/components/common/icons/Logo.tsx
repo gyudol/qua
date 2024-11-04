@@ -1,4 +1,4 @@
-import type { IconProps } from "./type";
+import type { IconProps } from "./@type";
 
 export default function Logo({
   width = 75,

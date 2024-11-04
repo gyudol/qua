@@ -1,4 +1,4 @@
-import type { IconProps } from "./type";
+import type { IconProps } from "./@type";
 
 export default function Post({
   width = 48,

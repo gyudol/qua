@@ -1,6 +1,6 @@
 "use client";
 
-import Menu from "../../common/icons/Menu";
+import { Menu } from "@/components/common/icons";
 
 export default function LnbMenuButton() {
   const handleClick = () => {

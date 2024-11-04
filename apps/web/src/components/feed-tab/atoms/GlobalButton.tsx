@@ -1,6 +1,6 @@
 "use client";
 
-import Globe from "../../common/icons/Globe";
+import { Globe } from "@/components/common/icons";
 
 export default function GlobalButton() {
   const handleClick = () => {

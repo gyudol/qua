@@ -1,4 +1,4 @@
-import type { IconProps } from "./type";
+import type { IconProps } from "./@type";
 
 export default function Globe({
   width = 24,
