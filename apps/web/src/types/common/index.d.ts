@@ -1,7 +1,7 @@
 export interface CommonRes<T> {
   httpStatus: string;
   isSuccess: boolean;
-  messaged: string;
+  message: string;
   code: number;
   result: T;
 }
