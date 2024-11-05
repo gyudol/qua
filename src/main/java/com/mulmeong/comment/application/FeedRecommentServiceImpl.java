@@ -23,10 +23,10 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
     }
 
     @Override
-    public void updateFeedComment(FeedRecommentUpdateDto requestDto) {
-        FeedRecomment feedRecomment = feedRecommentRepository.findByRecommentUuid(requestDto.getRecommentUuid())
+    public void updateFeedComment(FeedRecommentUpdateDto updateDto) {
+        FeedRecomment feedRecomment = feedRecommentRepository.findByRecommentUuid(updateDto.getRecommentUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_RE_COMMENT));
-        feedRecommentRepository.save(requestDto.toEntity(feedRecomment));
+        feedRecommentRepository.save(updateDto.toEntity(feedRecomment));
     }
 
     @Override
