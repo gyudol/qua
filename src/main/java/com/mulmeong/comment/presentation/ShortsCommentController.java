@@ -20,7 +20,7 @@ public class ShortsCommentController {
     private final ShortsCommentService shortsCommentService;
 
     @PostMapping("/{shortsUuid}/comments")
-    @Operation(summary = "쇼츠 댓글 추가", tags = {"Feed Comment Service"})
+    @Operation(summary = "쇼츠 댓글 추가", tags = {"Shorts Comment Service"})
     public BaseResponse<Void> addShortsComment(
             @RequestBody ShortsCommentRequestVo requestVo,
             @PathVariable String shortsUuid) {
@@ -29,7 +29,7 @@ public class ShortsCommentController {
     }
 
     @PutMapping("/comments/{commentUuid}")
-    @Operation(summary = "쇼츠 댓글 수정", tags = {"Feed Comment Service"})
+    @Operation(summary = "쇼츠 댓글 수정", tags = {"Shorts Comment Service"})
     public BaseResponse<Void> updateShortsComment(
             @RequestBody ShortsCommentUpdateVo updateVo,
             @PathVariable String commentUuid) {
@@ -38,7 +38,7 @@ public class ShortsCommentController {
     }
 
     @DeleteMapping("/comments/{commentUuid}")
-    @Operation(summary = "쇼츠 댓글 삭제", tags = {"Feed Comment Service"})
+    @Operation(summary = "쇼츠 댓글 삭제", tags = {"Shorts Comment Service"})
     public BaseResponse<Void> deleteShortsComment(
             @PathVariable String commentUuid) {
         shortsCommentService.deleteShortsComment(commentUuid);
