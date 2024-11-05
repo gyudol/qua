@@ -6,7 +6,7 @@ import com.mulmeong.comment.dto.in.FeedRecommentUpdateDto;
 public interface FeedRecommentService {
     void createFeedComment(FeedRecommentRequestDto requestDto);
 
-    void updateFeedComment(FeedRecommentUpdateDto requestDto);
+    void updateFeedComment(FeedRecommentUpdateDto updateDto);
 
     void deleteFeedComment(String recommentUuid);
 }
