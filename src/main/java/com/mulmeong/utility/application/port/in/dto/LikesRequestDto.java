@@ -6,14 +6,14 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class ReactionRequestDto {
+public class LikesRequestDto {
 
     private String memberUuid;
     private String kind;
     private String kindUuid;
 
     @Builder
-    public ReactionRequestDto(
+    public LikesRequestDto(
             String memberUuid,
             String kind,
             String kindUuid
