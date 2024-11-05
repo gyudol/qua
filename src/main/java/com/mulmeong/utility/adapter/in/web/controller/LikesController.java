@@ -23,7 +23,7 @@ public class LikesController {
 
         try {
             likesUseCase.likes(request.toDto());
-            return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+            return new BaseResponse<>();
         } catch (Exception e) {
             return new BaseResponse<>(BaseResponseStatus.INTERNAL_SERVER_ERROR);
         }
