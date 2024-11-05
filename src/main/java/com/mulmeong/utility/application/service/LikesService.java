@@ -30,9 +30,7 @@ public class LikesService implements LikesUseCase {
         if (existingLikesDto.isPresent()) {
             // 좋아요가 이미 존재하면 상태를 토글
             Likes likes = likesDtoMapper.toEntity(existingLikesDto.get());
-            log.info("1111111 : {}", likes.toString());
             likes.toggleStatus();
-            log.info("1111111 : {}", likes.toString());
             likesPort.updateLikes(likesDtoMapper.toEntityDto(likes)); // 업데이트된 리액션 저장
         } else {
             // 좋아요가 존재하지 않으면 새 좋아요 생성

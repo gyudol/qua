@@ -27,7 +27,6 @@ public class LikesRepository implements LikesPort {
 
     @Override
     public void updateLikes(LikesEntityResponseDto likesEntityResponseDto) {
-        log.info("@@@@@@@@@@@@@@@@@@@@@@@@@ : {}", likesEntityResponseDto.toString());
         likesMongoRepository.save(likesEntityMapper.toUpdate(likesEntityResponseDto));
     }
 
