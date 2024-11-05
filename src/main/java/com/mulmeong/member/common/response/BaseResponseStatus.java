@@ -24,12 +24,13 @@ public enum BaseResponseStatus {
     // 600 : Auth
     WRONG_JWT_TOKEN(HttpStatus.UNAUTHORIZED, false, 600, "다시 로그인 해주세요"),
     NO_JWT_TOKEN(HttpStatus.UNAUTHORIZED, false, 601, "토큰이 없습니다."),
-    NO_SUPPORTED_PROVIDER(HttpStatus.BAD_REQUEST, false, 602, "지원하지 않는 플랫폼입니다."),
-    INVALID_OAUTH(HttpStatus.BAD_REQUEST, false, 603, "올바르지 않은 소셜 계정입니다."),
-    NO_EXIST_USER(HttpStatus.NOT_FOUND, false, 604, "존재하지 않는 회원 정보입니다."),
-    FAILED_TO_LOGIN(HttpStatus.UNAUTHORIZED, false, 605, "로그인에 실패하였습니다."),
-    DISABLED_USER(HttpStatus.UNAUTHORIZED, false, 606, "비활성화된 계정입니다."),
-    NO_ACCESS_AUTHORITY(HttpStatus.FORBIDDEN, false, 607, "접근 권한이 없습니다."),
+    TOKEN_NOT_VALID(HttpStatus.UNAUTHORIZED, false, 602, "토큰이 유효하지 않습니다."),
+    NO_SUPPORTED_PROVIDER(HttpStatus.BAD_REQUEST, false, 603, "지원하지 않는 플랫폼입니다."),
+    INVALID_OAUTH(HttpStatus.BAD_REQUEST, false, 604, "올바르지 않은 소셜 계정입니다."),
+    NO_EXIST_USER(HttpStatus.NOT_FOUND, false, 605, "존재하지 않는 회원 정보입니다."),
+    FAILED_TO_LOGIN(HttpStatus.UNAUTHORIZED, false, 606, "로그인에 실패하였습니다."),
+    DISABLED_USER(HttpStatus.UNAUTHORIZED, false, 607, "비활성화된 계정입니다."),
+    NO_ACCESS_AUTHORITY(HttpStatus.FORBIDDEN, false, 608, "접근 권한이 없습니다."),
 
     // 900 : 기타 에러
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "요청 처리 중 에러가 발생하였습니다.");

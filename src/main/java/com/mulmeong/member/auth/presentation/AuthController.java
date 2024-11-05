@@ -33,7 +33,7 @@ public class AuthController {
     }
 
     @PostMapping("/token/refresh")
-    @Operation(summary = "액세스토큰 재발급", description = "Health check를 위한 API")
+    @Operation(summary = "액세스 토큰 재발급", description = "리프레시 토큰과 회원 UUID를 받아와 새로운 액세스 토큰을 발급합니다.")
     public BaseResponse<String> createNewAccessToken(@RequestBody NewAccessTokenRequestVo requestVo) {
 
         return new BaseResponse<>(authService.createNewAccessToken(
