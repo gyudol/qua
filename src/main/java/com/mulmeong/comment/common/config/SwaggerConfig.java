@@ -21,22 +21,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @RequiredArgsConstructor
 public class SwaggerConfig {
-
-// 상단 우측, 그룹화 + 넣고싶은 API 경로만 지정
-//    @Bean GroupedOpenApi customOpenApi() {
-//        String[] paths = {"/api/v1/member/**", "api/v1/auth/**", "/api/v1/health-check/**"};
-//
-//        return GroupedOpenApi.builder()
-//                .group("멤버 도메인에 대한 API")
-//                .pathsToMatch(paths)
-//                .build();
-//    }
-
     private static final String BEARER_TOKEN_PREFIX = "Bearer";
 
     //Authorize 버튼
     @Bean
-    public OpenAPI openAPI() {
+    public OpenAPI openApi() {
 
         String securityJwtName = "JWT";
         SecurityRequirement securityRequirement = new SecurityRequirement().addList(securityJwtName);
