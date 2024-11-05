@@ -12,9 +12,9 @@ public class FeedCommentUpdateDto {
     private String content;
     private String commentUuid;
 
-    public static FeedCommentUpdateDto toDto(FeedCommentUpdateVo requestVo, String commentUuid) {
+    public static FeedCommentUpdateDto toDto(FeedCommentUpdateVo updateVo, String commentUuid) {
         return FeedCommentUpdateDto.builder()
-                .content(requestVo.getContent())
+                .content(updateVo.getContent())
                 .commentUuid(commentUuid)
                 .build();
     }

@@ -29,9 +29,9 @@ public class FeedCommentController {
     @PutMapping("/comments/{commentUuid}")
     @Operation(summary = "피드 댓글 수정", tags = {"Feed Comment Service"})
     public BaseResponse<Void> updateFeedComment(
-            @RequestBody FeedCommentUpdateVo requestVo,
+            @RequestBody FeedCommentUpdateVo updateVo,
             @PathVariable String commentUuid) {
-        feedCommentService.updateFeedComment(FeedCommentUpdateDto.toDto(requestVo, commentUuid));
+        feedCommentService.updateFeedComment(FeedCommentUpdateDto.toDto(updateVo, commentUuid));
         return new BaseResponse<>();
     }
 
