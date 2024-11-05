@@ -10,9 +10,9 @@ import java.util.Optional;
 public interface FeedCommentRepository extends JpaRepository<FeedComment, Long> {
     Optional<FeedComment> findByCommentUuid(String commentUuid);
 
-    Optional<FeedComment> findByMemberUuid(String memberUuid);
+    List<FeedComment> findByMemberUuid(String memberUuid);
 
-    Optional<FeedComment> findByFeedUuid(String feedUuid);
+    List<FeedComment> findByFeedUuid(String feedUuid);
 
     Boolean existsByCommentUuid(String commentUuid);
 
