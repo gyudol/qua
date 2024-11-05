@@ -1,3 +1,4 @@
+import type { Datetime } from "../common";
 import type { Member } from "../member";
 import type { ContentsStatistics, CUAt, Hashtag, Media, Uuid } from "./common";
 
@@ -16,4 +17,6 @@ export interface Feed extends BaseFeed, CUAt {
   content: string;
   mediaList: Media[];
   hashtags: Hashtag[];
+  createdAt: Datetime;
+  updatedAt: Datetime
 }

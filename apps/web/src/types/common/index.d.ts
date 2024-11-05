@@ -14,4 +14,6 @@ export interface Pagination<T> {
   pageNo: number;
 }
 
+export type Datetime = `${string}-${string}-${string} ${string}:${string}:${string}`;
+
 export type CommonPaginationRes<T> = CommonRes<Pagination<T>>;
