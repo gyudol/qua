@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"oauthId", "oauthProvider"})})
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Member {
@@ -25,7 +26,7 @@ public class Member {
     private String memberUuid;
 
     @Comment("소셜 식별자")
-    @Column(nullable = false, length = 255, unique = true)
+    @Column(nullable = false, length = 255)
     private String oauthId;
 
     @Comment("소셜 제공자")
@@ -37,7 +38,7 @@ public class Member {
     private String email;
 
     @Comment("회원 닉네임")
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 15)
     private String nickname;
 
     @Comment("가입 일시")
@@ -51,7 +52,7 @@ public class Member {
 
     @Builder
     public Member(Long id, String memberUuid, String oauthId, String oauthProvider,
-             String email, String nickname, LocalDateTime createdAt, String profileImageUrl) {
+                  String email, String nickname, LocalDateTime createdAt, String profileImageUrl) {
         this.id = id;
         this.memberUuid = memberUuid;
         this.oauthId = oauthId;
@@ -60,5 +61,9 @@ public class Member {
         this.nickname = nickname;
         this.createdAt = createdAt;
         this.profileImageUrl = profileImageUrl;
+    }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

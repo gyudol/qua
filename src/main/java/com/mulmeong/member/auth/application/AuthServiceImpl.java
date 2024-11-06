@@ -1,6 +1,7 @@
 package com.mulmeong.member.auth.application;
 
 import com.mulmeong.member.auth.domain.Member;
+import com.mulmeong.member.auth.domain.OauthProvider;
 import com.mulmeong.member.auth.dto.in.NewAccessTokenRequestDto;
 import com.mulmeong.member.auth.dto.in.SignUpAndInRequestDto;
 import com.mulmeong.member.auth.dto.out.SignUpAndInResponseDto;
@@ -15,7 +16,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -31,7 +31,6 @@ public class AuthServiceImpl implements AuthService {
     private final RedisTemplate<String, Object> redisTemplate;
     private static final String TOKEN_PREFIX = "refreshToken";
 
-
     /**
      * 회원가입 및 로그인 겸용(oAtuh only)
      * 이미 회원가입된 경우 바로 토큰 발급, 아닌 경우 회원가입 후 토큰 발급.
@@ -43,15 +42,17 @@ public class AuthServiceImpl implements AuthService {
     @Transactional(rollbackFor = Exception.class)
     public SignUpAndInResponseDto signUpAndSignIn(SignUpAndInRequestDto requestDto) {
 
-        log.info("회원가입 요청: {}", requestDto.toString());
-        // oAuth 정보가 유효한지 확인(지원하는 플랫폼인지... 해야하나?)
-        if (!validOauth(requestDto.getOauthId(), requestDto.getOauthProvider())) {
-            throw new BaseException(BaseResponseStatus.INVALID_OAUTH);
+        // oAuth 정보가 유효한지 확인(지원하는 플랫폼인지)
+        if (!OauthProvider.isSupported(requestDto.getOauthProvider())) {
+            throw new BaseException(BaseResponseStatus.NO_SUPPORTED_PROVIDER);
         }
 
         // 이미 회원가입시 바로 로그인(토큰 발급)
-        if (memberRepository.existsMemberByOauthId(requestDto.getOauthId())) {
-            return respondSignIn(memberRepository.findByOauthId(requestDto.getOauthId()).get());
+        if (memberRepository.existsMemberByOauthIdAndOauthProvider(
+                requestDto.getOauthId(), requestDto.getOauthProvider())) {
+
+            return respondSignIn(memberRepository.findByOauthIdAndOauthProvider(
+                    requestDto.getOauthId(), requestDto.getOauthProvider()).get());
         }
 
         // 회원가입
@@ -71,35 +72,12 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String createNewAccessToken(NewAccessTokenRequestDto requestDto) {
 
-        String storedRefreshToken = findRefreshTokenByMemberUuid(requestDto.getMemberUuid());
-
-        if (!storedRefreshToken.equals(requestDto.getRefreshToken())) {
+        // Refresh Token 조회해 비교
+        if (!findRefreshTokenByMemberUuid(requestDto.getMemberUuid()).equals(requestDto.getRefreshToken())) {
             throw new BaseException(BaseResponseStatus.NO_SIGN_IN);
         }
 
         return jwtProvider.generateToken(requestDto.getMemberUuid(), jwtProperties.getAccessExpireTime());
-    }
-
-    /**
-     * oAuth 정보가 유효한지 확인하는 private 메서드.
-     *
-     * @param oauthId       oAuth ID(식별자)
-     * @param oauthProvider oAuth 제공자
-     * @return 유효하면 true, 아니면 false
-     */
-    private boolean validOauth(String oauthId, String oauthProvider) {
-
-        // Swagger 테스트시 String으로 넘어오므로
-        if (oauthId.equals("string")) {
-            return false;
-        }
-        // 지원하는 oAuth 플랫폼인지 확인
-        final Set<String> SupportedProviders = Set.of("kakao", "naver");
-        if (!SupportedProviders.contains(oauthProvider)) {
-            throw new BaseException(BaseResponseStatus.NO_SUPPORTED_PROVIDER);
-        }
-
-        return true;
     }
 
     /**
@@ -111,13 +89,7 @@ public class AuthServiceImpl implements AuthService {
     private String findRefreshTokenByMemberUuid(String memberUuid) {
         String key = TOKEN_PREFIX + memberUuid;
 
-        String refreshToken;
-        try {
-            refreshToken = (String) redisTemplate.opsForValue().get(key);
-        } catch (Exception e) {
-            log.error("Refresh Token 조회 중 오류 발생: {}", e.getMessage());
-            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-        }
+        String refreshToken = (String) redisTemplate.opsForValue().get(key);
 
         if (refreshToken == null) {
             throw new BaseException(BaseResponseStatus.NO_SIGN_IN);
@@ -148,7 +120,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * Refresh Token 저장/업데이트하는 private 메서드.
+     * Refresh Token 저장 또는 업데이트하는 private 메서드.
      *
      * @param memberUuid   회원 식별자(Redis Key)
      * @param refreshToken (새로 발급된) Refresh Token

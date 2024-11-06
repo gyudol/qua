@@ -7,9 +7,12 @@ import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    Optional<Member> findByMemberUuid(String uuid);
+    Optional<Member> findByMemberUuid(String memberUuid);
 
-    Optional<Member> findByOauthId(String oauthId);
+    Optional<Member> findByOauthIdAndOauthProvider(String oauthId, String oauthProvider);
 
-    Boolean existsMemberByOauthId(String oauthId);
+    Boolean existsMemberByOauthIdAndOauthProvider(String oauthId, String oauthProvider);
+
+    Boolean existsMemberByNickname(String nickname);
+
 }
