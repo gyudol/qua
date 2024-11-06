@@ -4,14 +4,13 @@ import com.mulmeong.utility.adapter.in.web.vo.DislikeRequestVo;
 import com.mulmeong.utility.adapter.in.web.vo.LikesRequestVo;
 import com.mulmeong.utility.application.port.in.DislikeUseCase;
 import com.mulmeong.utility.application.port.in.LikesUseCase;
+import com.mulmeong.utility.application.port.in.dto.DislikeRequestDto;
+import com.mulmeong.utility.application.port.in.dto.LikesRequestDto;
 import com.mulmeong.utility.common.response.BaseResponse;
 import com.mulmeong.utility.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -31,6 +30,15 @@ public class DislikeController {
             return new BaseResponse<>(BaseResponseStatus.INTERNAL_SERVER_ERROR);
         }
 
+    }
+
+    @GetMapping("/{memberUuid}/{kind}/{kindUuid}/dislike-status")
+    public BaseResponse<Boolean> dislikeStatus(@PathVariable String memberUuid, @PathVariable String kind, @PathVariable String kindUuid) {
+        try {
+            return new BaseResponse<>(dislikeUseCase.isChecked(new DislikeRequestDto(memberUuid, kind, kindUuid)));
+        } catch (Exception e) {
+            return new BaseResponse<>(BaseResponseStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

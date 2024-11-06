@@ -5,6 +5,7 @@ import com.mulmeong.utility.application.port.in.DislikeUseCase;
 import com.mulmeong.utility.application.port.in.dto.DislikeRequestDto;
 import com.mulmeong.utility.application.port.out.DislikePort;
 import com.mulmeong.utility.application.port.out.dto.DislikeEntityResponseDto;
+import com.mulmeong.utility.application.port.out.dto.LikesEntityResponseDto;
 import com.mulmeong.utility.domain.model.Dislike;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +43,13 @@ public class DislikeService implements DislikeUseCase {
             dislikePort.saveDislike(dislikeDtoMapper.toDto(newDislike)); // 새 리액션 저장
         }
 
+    }
+
+    @Override
+    public boolean isChecked(DislikeRequestDto dislikeRequestDto) {
+        return dislikePort.findByMemberAndKind(dislikeRequestDto)
+                .map(DislikeEntityResponseDto::isStatus)
+                .orElse(false);
     }
 
 }
