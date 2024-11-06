@@ -5,7 +5,6 @@ import com.mulmeong.utility.application.port.in.LikesUseCase;
 import com.mulmeong.utility.application.port.in.dto.LikesRequestDto;
 import com.mulmeong.utility.application.port.out.LikesPort;
 import com.mulmeong.utility.application.port.out.dto.LikesEntityResponseDto;
-import com.mulmeong.utility.application.port.out.dto.LikesResponseDto;
 import com.mulmeong.utility.domain.model.Likes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,5 +43,13 @@ public class LikesService implements LikesUseCase {
         }
 
     }
+
+    @Override
+    public boolean isLiked(LikesRequestDto likesRequestDto) {
+        return likesPort.findByMemberAndKind(likesRequestDto)
+                .map(LikesEntityResponseDto::isStatus)
+                .orElse(false);
+    }
+
 
 }

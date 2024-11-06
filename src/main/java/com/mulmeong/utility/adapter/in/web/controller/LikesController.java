@@ -3,6 +3,7 @@ package com.mulmeong.utility.adapter.in.web.controller;
 import com.mulmeong.utility.adapter.in.web.vo.DislikeRequestVo;
 import com.mulmeong.utility.adapter.in.web.vo.LikesRequestVo;
 import com.mulmeong.utility.application.port.in.LikesUseCase;
+import com.mulmeong.utility.application.port.in.dto.LikesRequestDto;
 import com.mulmeong.utility.common.response.BaseResponse;
 import com.mulmeong.utility.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
@@ -29,5 +30,16 @@ public class LikesController {
         }
 
     }
+
+
+    @GetMapping("/{memberUuid}/{kind}/{kindUuid}/like-status")
+    public BaseResponse<Boolean> likesStatus(@PathVariable String memberUuid, @PathVariable String kind, @PathVariable String kindUuid) {
+        try {
+            return new BaseResponse<>(likesUseCase.isLiked(new LikesRequestDto(memberUuid, kind, kindUuid)));
+        } catch (Exception e) {
+            return new BaseResponse<>(BaseResponseStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }
