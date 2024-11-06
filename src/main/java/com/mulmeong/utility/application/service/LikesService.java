@@ -45,7 +45,7 @@ public class LikesService implements LikesUseCase {
     }
 
     @Override
-    public boolean isLiked(LikesRequestDto likesRequestDto) {
+    public boolean isChecked(LikesRequestDto likesRequestDto) {
         return likesPort.findByMemberAndKind(likesRequestDto)
                 .map(LikesEntityResponseDto::isStatus)
                 .orElse(false);
