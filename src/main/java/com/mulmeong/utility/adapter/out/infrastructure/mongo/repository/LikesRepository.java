@@ -2,6 +2,7 @@ package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository;
 
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.LikesEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.mapper.LikesEntityMapper;
+import com.mulmeong.utility.application.port.in.dto.LikesListRequestDto;
 import com.mulmeong.utility.application.port.in.dto.LikesRequestDto;
 import com.mulmeong.utility.application.port.out.LikesPort;
 import com.mulmeong.utility.application.port.out.dto.LikesEntityResponseDto;
@@ -10,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Repository
@@ -43,6 +46,19 @@ public class LikesRepository implements LikesPort {
         }
 
         return Optional.of(likesEntityMapper.toDto(entity));
+    }
+
+    @Override
+    public List<LikesEntityResponseDto> getByMemberAndKind(LikesListRequestDto likesListRequestDto) {
+        List<LikesEntity> entities = likesMongoRepository.findByMemberUuidAndKindAndStatus(
+                likesListRequestDto.getMemberUuid(),
+                likesListRequestDto.getKind(),
+                true
+        );
+
+        return entities.stream()
+                .map(likesEntityMapper::toDto)
+                .collect(Collectors.toList());
     }
 
 
