@@ -40,12 +40,11 @@ public record BaseResponse<T>(HttpStatusCode httpStatus, Boolean isSuccess, Stri
      * @param status 요청 상태
      * @param e      에러 객체 => e.getMessage()로 에러 메시지 전달
      */
-    public BaseResponse(BaseResponseStatus status, RuntimeException e) {
+    public BaseResponse(BaseResponseStatus status, Exception e) {
         this(status.getHttpStatusCode(),
                 false,
                 String.format("%s: %s", status.getMessage(), e.getMessage()),
                 status.getCode(),
                 null);
     }
-
 }

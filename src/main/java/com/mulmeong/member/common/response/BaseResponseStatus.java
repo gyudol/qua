@@ -33,8 +33,12 @@ public enum BaseResponseStatus {
     NO_ACCESS_AUTHORITY(HttpStatus.FORBIDDEN, false, 608, "접근 권한이 없습니다."),
 
     // 900 : 기타 에러
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "요청 처리 중 에러가 발생하였습니다.");
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "요청 처리 중 에러가 발생하였습니다."),
 
+
+    // 1100 : Member 관련
+    NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, false, 1100, "존재하지 않는 회원입니다."),
+    EXISTS_NICKNAME(HttpStatus.CONFLICT, false, 1101, "이미 존재하는 닉네임입니다.");
 
     private final HttpStatusCode httpStatusCode;
     private final boolean isSuccess;

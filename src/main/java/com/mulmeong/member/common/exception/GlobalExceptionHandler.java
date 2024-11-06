@@ -3,6 +3,7 @@ package com.mulmeong.member.common.exception;
 import com.mulmeong.member.common.response.BaseResponse;
 import com.mulmeong.member.common.response.BaseResponseStatus;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -42,5 +43,14 @@ public class GlobalExceptionHandler {
         log.error("런타임 예외: {}", e.getMessage());
 
         return new BaseResponse<>(BaseResponseStatus.INTERNAL_SERVER_ERROR, e);
+    }
+
+    /**
+     * "@Valid" 유효성 검사 실패 예외 처리.
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected BaseResponse<Void> handleValidException(MethodArgumentNotValidException e) {
+        log.error("MethodArgumentNotValidException 발생 : {}", e.getMessage());
+        return new BaseResponse<>(BaseResponseStatus.INVALID_INPUT_VALUE, e);
     }
 }
