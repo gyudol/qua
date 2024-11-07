@@ -1,3 +1,5 @@
+"use server";
+
 import type { Pagination } from "@/types/common";
 import { commonPaginationRes, commonRes } from "@/types/common/dummy";
 import type { Feed } from "@/types/contents";
@@ -30,7 +32,7 @@ export async function getAllFeed(
   }
 
   // eslint-disable-next-line no-console -- for test
-  console.log(result);
+  // console.log(result);
   return result;
 }
 
