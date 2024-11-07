@@ -43,7 +43,7 @@ public class SwaggerConfig {
                 .addServersItem(new Server().url("/comment-service"));
 
         //test
-//                .addServersItem(new Server().url("/"));
+                //.addServersItem(new Server().url("/"));
 
     }
 }
