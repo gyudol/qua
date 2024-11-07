@@ -46,9 +46,9 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
 
     @Override
     public CursorPage<ShortsRecommentResponseDto> getShortsRecommets(
-            String commentUuid, String sortBy, Long lastId, Integer pageSize, Integer pageNo) {
+            String commentUuid, Long lastId, Integer pageSize, Integer pageNo) {
         CursorPage<ShortsRecomment> cursorPage = shortsRecommentRepositoryCustom
-                .getFeedComments(commentUuid, sortBy, lastId, pageSize, pageNo);
+                .getShortsComments(commentUuid, lastId, pageSize, pageNo);
         return CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
                 .map(ShortsRecommentResponseDto::toDto).toList());
     }

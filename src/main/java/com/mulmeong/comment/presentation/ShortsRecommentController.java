@@ -51,20 +51,15 @@ public class ShortsRecommentController {
     }
 
     @GetMapping("/comments/{commentUuid}/recomments")
-    @Operation(summary = "쇼츠 대댓글 최신순, 추천순 조회", tags = {"Shorts Comment Service"})
+    @Operation(summary = "쇼츠 대댓글 최신순 조회", tags = {"Shorts Comment Service"})
     public BaseResponse<CursorPage<ShortsRecommentResponseVo>> findShortsRecomment(
             @PathVariable String commentUuid,
-            @Parameter(
-                    description = "정렬 기준",
-                    schema = @Schema(allowableValues = {"latest", "likes"})
-            )
-            @RequestParam(value = "sortBy") String sortBy,
             @RequestParam(value = "lastId", required = false) Long lastId,
             @RequestParam(value = "pageSize", required = false) Integer pageSize,
             @RequestParam(value = "pageNo", required = false) Integer pageNo
     ) {
         CursorPage<ShortsRecommentResponseDto> cursorPage = shortsRecommentService.getShortsRecommets(
-                commentUuid, sortBy, lastId, pageSize, pageNo);
+                commentUuid, lastId, pageSize, pageNo);
 
         return new BaseResponse<>(CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
                 .map(ShortsRecommentResponseDto::toVo).toList()));

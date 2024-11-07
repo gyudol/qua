@@ -21,9 +21,8 @@ public class ShortsRecommentRepositoryCustomImpl implements ShortsRecommentRepos
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public CursorPage<ShortsRecomment> getFeedComments(
+    public CursorPage<ShortsRecomment> getShortsComments(
             String commentUuid,
-            String sortBy,
             Long lastId,
             Integer pageSize,
             Integer pageNo) {
@@ -47,18 +46,13 @@ public class ShortsRecommentRepositoryCustomImpl implements ShortsRecommentRepos
         // offset 계산
         int offset = currentPage == 0 ? 0 : (currentPage - 1) * currentPageSize;
 
-        List<ShortsRecomment> shortsRecomments;
-        if (sortBy.equals("latest")) {
-            shortsRecomments = jpaQueryFactory
-                    .selectFrom(shortsRecomment)
-                    .where(builder)
-                    .orderBy(shortsRecomment.createdAt.desc())
-                    .offset(offset)
-                    .limit(currentPageSize + 1)
-                    .fetch();
-        } else { //todo: 추천순 정렬
-            shortsRecomments = null;
-        }
+        List<ShortsRecomment> shortsRecomments = jpaQueryFactory
+                .selectFrom(shortsRecomment)
+                .where(builder)
+                .orderBy(shortsRecomment.createdAt.desc())
+                .offset(offset)
+                .limit(currentPageSize + 1)
+                .fetch();
 
         // 다음 페이지의 커서 처리 및 hasNext 여부 판단
         Long nextCursor = null;

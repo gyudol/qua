@@ -15,5 +15,5 @@ public interface ShortsRecommentService {
     void deleteShortsRecomment(String recommentUuid);
 
     CursorPage<ShortsRecommentResponseDto> getShortsRecommets(
-            String commentUuid, String sortBy, Long lastId, Integer pageSize, Integer pageNo);
+            String commentUuid, Long lastId, Integer pageSize, Integer pageNo);
 }

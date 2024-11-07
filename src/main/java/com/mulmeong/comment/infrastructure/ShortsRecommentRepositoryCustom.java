@@ -5,9 +5,8 @@ import com.mulmeong.comment.dto.out.ShortsRecommentResponseDto;
 import com.mulmeong.comment.entity.ShortsRecomment;
 
 public interface ShortsRecommentRepositoryCustom {
-    CursorPage<ShortsRecomment> getFeedComments(
-            String shortsUuid,
-            String sortBy,
+    CursorPage<ShortsRecomment> getShortsComments(
+            String commentUuid,
             Long lastId,
             Integer pageSize,
             Integer pageNo);
