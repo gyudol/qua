@@ -67,16 +67,8 @@ public class ShortsCommentController {
     ) {
         CursorPage<ShortsCommentResponseDto> cursorPage = shortsCommentService.getShortsCommentsByPage(
                 shortsUuid, sortBy, lastId, pageSize, pageNo);
-        List<ShortsCommentResponseVo> voList = cursorPage.getList().stream()
-                .map(ShortsCommentResponseDto::toVo).toList();
         return new BaseResponse<>(
-                new CursorPage<>(
-                        voList,
-                        cursorPage.getNextCursor(),
-                        cursorPage.getHasNext(),
-                        cursorPage.getPageSize(),
-                        cursorPage.getPageNo())
-        );
-
+                CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
+                        .map(ShortsCommentResponseDto::toVo).toList()));
     }
 }

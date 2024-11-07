@@ -2,12 +2,13 @@ package com.mulmeong.comment.infrasturcture;
 
 import com.mulmeong.comment.common.utils.CursorPage;
 import com.mulmeong.comment.dto.out.ShortsCommentResponseDto;
+import com.mulmeong.comment.entity.ShortsComment;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ShortsCommentRepositoryCustom {
 
-    CursorPage<ShortsCommentResponseDto> getShortsComments(
+    CursorPage<ShortsComment> getShortsComments(
             String shortsUuid,
             String sortBy,
             Long lastId,

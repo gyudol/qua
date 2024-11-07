@@ -60,6 +60,10 @@ public class ShortsCommentServiceImpl implements ShortsCommentService {
             Integer pageSize,
             Integer pageNo) {
 
-        return shortsCommentRepositoryCustom.getShortsComments(shortsUuid, sortBy, lastId, pageSize, pageNo);
+        CursorPage<ShortsComment> cursorPage = shortsCommentRepositoryCustom
+                .getShortsComments(shortsUuid, sortBy, lastId, pageSize, pageNo);
+
+        return CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
+                .map(ShortsCommentResponseDto::toDto).toList());
     }
 }

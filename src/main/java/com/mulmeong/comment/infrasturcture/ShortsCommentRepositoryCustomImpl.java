@@ -24,7 +24,7 @@ public class ShortsCommentRepositoryCustomImpl implements ShortsCommentRepositor
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public CursorPage<ShortsCommentResponseDto> getShortsComments(
+    public CursorPage<ShortsComment> getShortsComments(
             String shortsUuid,
             String sortBy,
             Long lastId,
@@ -74,10 +74,7 @@ public class ShortsCommentRepositoryCustomImpl implements ShortsCommentRepositor
             nextCursor = shortsComments.get(shortsComments.size() - 1).getId();  // 마지막 항목의 ID를 커서로 설정
         }
 
-        List<ShortsCommentResponseDto> responseDtos = shortsComments.stream()
-                .map(ShortsCommentResponseDto::toDto).toList();
-
         // CursorPage 객체 반환
-        return new CursorPage<>(responseDtos, nextCursor, hasNext, pageSize, pageNo);
+        return new CursorPage<>(shortsComments, nextCursor, hasNext, pageSize, pageNo);
     }
 }
