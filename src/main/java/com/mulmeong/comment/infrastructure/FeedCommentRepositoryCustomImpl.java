@@ -30,7 +30,7 @@ public class FeedCommentRepositoryCustomImpl implements FeedCommentRepositoryCus
             String sortBy,
             Long lastId,
             Integer pageSize,
-            Integer page) {
+            Integer pageNo) {
         QFeedComment feedComment = QFeedComment.feedComment;
 
         BooleanBuilder builder = new BooleanBuilder();
@@ -38,13 +38,15 @@ public class FeedCommentRepositoryCustomImpl implements FeedCommentRepositoryCus
         // 카테고리 필터 적용
         Optional.ofNullable(feedUuid)
                 .ifPresent(code -> builder.and(feedComment.feedUuid.eq(feedUuid)));
-
+        //삭제된 댓글은 조회X
+        Optional.of(Boolean.FALSE)
+                .ifPresent(code -> builder.and(feedComment.status.eq(Boolean.FALSE)));
         // 마지막 ID 커서 적용
         Optional.ofNullable(lastId)
                 .ifPresent(id -> builder.and(feedComment.id.lt(id)));
 
         // 페이지와 페이지 크기 기본값 설정
-        int currentPage = Optional.ofNullable(page).orElse(DEFAULT_PAGE_NUMBER);
+        int currentPage = Optional.ofNullable(pageNo).orElse(DEFAULT_PAGE_NUMBER);
         int currentPageSize = Optional.ofNullable(pageSize).orElse(DEFAULT_PAGE_SIZE);
 
         // offset 계산
@@ -76,7 +78,7 @@ public class FeedCommentRepositoryCustomImpl implements FeedCommentRepositoryCus
         List<FeedCommentResponseDto> responseDtos = feedComments.stream().map(FeedCommentResponseDto::toDto).toList();
 
         // CursorPage 객체 반환
-        return new CursorPage<>(responseDtos, nextCursor, hasNext, pageSize, page);
+        return new CursorPage<>(responseDtos, nextCursor, hasNext, pageSize, pageNo);
 
     }
 

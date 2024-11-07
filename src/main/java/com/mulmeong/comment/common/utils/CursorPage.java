@@ -14,18 +14,18 @@ public class CursorPage<T> {
     private Long nextCursor;
     private Boolean hasNext;
     private Integer pageSize;
-    private Integer page;
+    private Integer pageNo;
 
     public boolean hasNext() {
         return nextCursor != null;
     }
 
     @Builder
-    public CursorPage(List<T> list, Long nextCursor, Boolean hasNext, Integer pageSize, Integer page) {
+    public CursorPage(List<T> list, Long nextCursor, Boolean hasNext, Integer pageSize, Integer pageNo) {
         this.list = list;
         this.nextCursor = nextCursor;
         this.hasNext = hasNext;
         this.pageSize = pageSize;
-        this.page = page;
+        this.pageNo = pageNo;
     }
 }

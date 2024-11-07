@@ -72,10 +72,10 @@ public class FeedCommentController {
             @RequestParam(value = "sortBy") String sortBy,
             @RequestParam(value = "lastId", required = false) Long lastId,
             @RequestParam(value = "pageSize", required = false) Integer pageSize,
-            @RequestParam(value = "page", required = false) Integer page
+            @RequestParam(value = "pageNo", required = false) Integer pageNo
     ) {
         CursorPage<FeedCommentResponseDto> cursorPage = feedCommentService.getFeedCommentsByPage(
-                feedUuid, sortBy, lastId, pageSize, page);
+                feedUuid, sortBy, lastId, pageSize, pageNo);
         List<FeedCommentResponseVo> voList = cursorPage.getList().stream().map(FeedCommentResponseDto::toVo).toList();
         return new BaseResponse<>(
                 new CursorPage<>(
@@ -83,7 +83,7 @@ public class FeedCommentController {
                         cursorPage.getNextCursor(),
                         cursorPage.getHasNext(),
                         cursorPage.getPageSize(),
-                        cursorPage.getPage())
+                        cursorPage.getPageNo())
         );
 
     }

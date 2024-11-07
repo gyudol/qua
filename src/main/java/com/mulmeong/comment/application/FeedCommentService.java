@@ -22,5 +22,5 @@ public interface FeedCommentService {
             String sortBy,
             Long lastId,
             Integer pageSize,
-            Integer page);
+            Integer pageNo);
 }

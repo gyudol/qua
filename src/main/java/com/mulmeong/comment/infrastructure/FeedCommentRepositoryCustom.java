@@ -13,5 +13,5 @@ public interface FeedCommentRepositoryCustom {
             String sortBy,
             Long lastId,
             Integer pageSize,
-            Integer page);
+            Integer pageNo);
 }

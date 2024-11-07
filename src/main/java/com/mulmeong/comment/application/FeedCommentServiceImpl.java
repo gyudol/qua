@@ -59,9 +59,9 @@ public class FeedCommentServiceImpl implements FeedCommentService {
             String sortBy,
             Long lastId,
             Integer pageSize,
-            Integer page) {
+            Integer pageNo) {
 
-        return feedCommentRepositoryCustom.getFeedComments(feedUuid, sortBy, lastId, pageSize, page);
+        return feedCommentRepositoryCustom.getFeedComments(feedUuid, sortBy, lastId, pageSize, pageNo);
     }
 
 }
