@@ -14,4 +14,11 @@ public class BookmarkEntityMapper {
                 .build();
     }
 
+    public BookmarkResponseDto toDto(FeedBookmarkEntity entity) {
+        return BookmarkResponseDto.builder()
+                .memberUuid(entity.getMemberUuid())
+                .bookmarkUuid(entity.getFeedUuid())
+                .build();
+    }
+
 }

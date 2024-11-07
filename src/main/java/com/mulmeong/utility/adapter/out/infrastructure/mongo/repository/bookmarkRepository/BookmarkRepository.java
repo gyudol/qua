@@ -1,5 +1,7 @@
 package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository.bookmarkRepository;
 
+import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.DislikeEntity;
+import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.FeedBookmarkEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.mapper.BookmarkEntityMapper;
 import com.mulmeong.utility.application.port.in.dto.BookmarkRequestDto;
 import com.mulmeong.utility.application.port.out.BookmarkPort;
@@ -9,6 +11,9 @@ import com.mulmeong.utility.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Repository
@@ -29,5 +34,13 @@ public class BookmarkRepository implements BookmarkPort {
     @Override
     public void deleteFeedBookmark(BookmarkRequestDto bookmarkRequestDto) {
         feedBookmarkMongoRepository.deleteByMemberUuidAndFeedUuid(bookmarkRequestDto.getMemberUuid(), bookmarkRequestDto.getBookmarkUuid());
+    }
+
+    @Override
+    public List<BookmarkResponseDto> getFeedBookmarks(String memberUuid) {
+        List<FeedBookmarkEntity> entities = feedBookmarkMongoRepository.findAllByMemberUuid(memberUuid);
+        return entities.stream()
+                .map(bookmarkEntityMapper::toDto)
+                .collect(Collectors.toList());
     }
 }

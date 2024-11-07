@@ -4,10 +4,15 @@ import com.mulmeong.utility.application.mapper.BookmarkDtoMapper;
 import com.mulmeong.utility.application.port.in.BookmarkUseCase;
 import com.mulmeong.utility.application.port.in.dto.BookmarkRequestDto;
 import com.mulmeong.utility.application.port.out.BookmarkPort;
+import com.mulmeong.utility.application.port.out.dto.BookmarkResponseDto;
+import com.mulmeong.utility.application.port.out.dto.DislikeEntityResponseDto;
 import com.mulmeong.utility.domain.model.Bookmark;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -29,5 +34,13 @@ public class BookmarkService implements BookmarkUseCase {
     @Override
     public void deleteFeedBookmark(BookmarkRequestDto bookmarkRequestDto) {
         bookmarkPort.deleteFeedBookmark(bookmarkRequestDto);
+    }
+
+    @Override
+    public List<String> getFeedBookmarks(String memberUuid) {
+        List<BookmarkResponseDto> feedBookmarks = bookmarkPort.getFeedBookmarks(memberUuid);
+        return feedBookmarks.stream()
+                .map(BookmarkResponseDto::getBookmarkUuid)
+                .collect(Collectors.toList());
     }
 }

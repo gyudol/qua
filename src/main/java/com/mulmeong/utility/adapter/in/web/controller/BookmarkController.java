@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/v1/members")
@@ -27,6 +29,11 @@ public class BookmarkController {
     public BaseResponse<Void> deleteFeedBookmark(@PathVariable("memberUuid") String memberUuid, @PathVariable("feedUuid") String feedUuid) {
         bookmarkUseCase.deleteFeedBookmark(new BookmarkRequestDto(memberUuid, feedUuid));
         return new BaseResponse<>();
+    }
+
+    @GetMapping("/{memberUuid}/feeds/bookmarks")
+    public BaseResponse<List<String>> getFeedBookmarks (@PathVariable("memberUuid") String memberUuid) {
+        return new BaseResponse<>(bookmarkUseCase.getFeedBookmarks(memberUuid));
     }
 
 }
