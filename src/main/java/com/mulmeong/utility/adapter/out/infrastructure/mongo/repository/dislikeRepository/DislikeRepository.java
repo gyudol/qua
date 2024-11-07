@@ -1,4 +1,4 @@
-package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository;
+package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository.dislikeRepository;
 
 
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.DislikeEntity;

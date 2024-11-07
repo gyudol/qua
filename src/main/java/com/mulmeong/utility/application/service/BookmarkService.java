@@ -17,12 +17,12 @@ public class BookmarkService implements BookmarkUseCase {
     private final BookmarkDtoMapper bookmarkDtoMapper;
 
     @Override
-    public void addBookmark(BookmarkRequestDto requestDto) {
+    public void addFeedBookmark(BookmarkRequestDto requestDto) {
         Bookmark newBookmark = Bookmark.builder()
                 .memberUuid(requestDto.getMemberUuid())
-                .bookmarkUuid(requestDto.getFeedUuid())
+                .bookmarkUuid(requestDto.getBookmarkUuid())
                 .build();
 
-        bookmarkPort.addBookmark(bookmarkDtoMapper.toDto(newBookmark));
+        bookmarkPort.addFeedBookmark(bookmarkDtoMapper.toDto(newBookmark));
     }
 }

@@ -8,22 +8,22 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @NoArgsConstructor
-@Document(collection = "bookmark")
-public class BookmarkEntity {
+@Document(collection = "feed_bookmark")
+public class FeedBookmarkEntity {
 
     @Id
     private String id;
     private String memberUuid;
-    private String bookmarkUuid;
+    private String feedUuid;
 
     @Builder
-    public BookmarkEntity(
+    public FeedBookmarkEntity(
             String id,
             String memberUuid,
-            String bookmarkUuid
+            String feedUuid
     ) {
         this.id = id;
         this.memberUuid = memberUuid;
-        this.bookmarkUuid = bookmarkUuid;
+        this.feedUuid = feedUuid;
     }
 }

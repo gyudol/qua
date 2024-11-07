@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 public class BookmarkRequestDto {
 
     private String memberUuid;
-    private String feedUuid;
+    private String bookmarkUuid;
 
     @Builder
     public BookmarkRequestDto(
             String memberUuid,
-            String feedUuid
+            String bookmarkUuid
     ) {
         this.memberUuid = memberUuid;
-        this.feedUuid = feedUuid;
+        this.bookmarkUuid = bookmarkUuid;
     }
 }

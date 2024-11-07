@@ -6,14 +6,14 @@ import lombok.ToString;
 
 @ToString
 @Getter
-public class BookmarkRequestVo {
+public class FeedBookmarkRequestVo {
 
     private String feedUuid;
 
     public BookmarkRequestDto toDto(String memberUuid) {
         return BookmarkRequestDto.builder()
                 .memberUuid(memberUuid)
-                .feedUuid(feedUuid)
+                .bookmarkUuid(feedUuid)
                 .build();
     }
 }

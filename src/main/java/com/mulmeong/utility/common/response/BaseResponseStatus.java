@@ -20,10 +20,13 @@ public enum BaseResponseStatus {
      **/
     SUCCESS(HttpStatus.OK, true, 200, "요청에 성공하였습니다."),
 
+    DUPLICATED_BOOKMARK(HttpStatus.BAD_REQUEST, false, 701, "이미 추가된 북마크입니다."),
+
     /**
      * 900: 기타 에러.
      */
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "요청 처리 중 에러가 발생하였습니다.");
+
 
 //  이 위에 본인이 사용할 커스텀 예외를 추가해주세요.
 
