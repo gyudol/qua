@@ -1,6 +1,6 @@
-import { getFeed } from "@/actions/feed";
+// import { getFeed } from "@/actions/feed";
 import { CommonLayout } from "@/components/common/molecules";
-import Feed from "@/components/feed/organisms/Feed";
+// import Feed from "@/components/feed/organisms/Feed";
 
 interface PageProps {
   params: {
@@ -8,11 +8,12 @@ interface PageProps {
   };
 }
 
-export default async function page({ params }: PageProps) {
-  const feed = await getFeed(params.feedUuid);
+export default function page({ params }: PageProps) {
+  // const feed = await getFeed(params.feedUuid);
   return (
     <CommonLayout.Contents>
-      <Feed {...feed} detail />
+      {params.feedUuid}
+      {/* <Feed {...feed} detail /> */}
     </CommonLayout.Contents>
   );
 }

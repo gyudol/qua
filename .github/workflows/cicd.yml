@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Node.js CI/CD
 
 on:
   push:
@@ -32,9 +32,12 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
         if: github.ref == 'refs/heads/release'
 
-      - name: Docker build & push to production
+      - name: Docker build
         run: |
           docker build -f Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/client-frontend .
+
+      - name: Docker push to production
+        run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/client-frontend
         if: github.ref == 'refs/heads/release'
 
