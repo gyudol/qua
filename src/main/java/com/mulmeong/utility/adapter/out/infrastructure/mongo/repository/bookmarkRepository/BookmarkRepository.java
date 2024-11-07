@@ -1,6 +1,5 @@
 package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository.bookmarkRepository;
 
-import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.DislikeEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.FeedBookmarkEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.mapper.BookmarkEntityMapper;
 import com.mulmeong.utility.application.port.in.dto.BookmarkRequestDto;
@@ -21,6 +20,7 @@ import java.util.stream.Collectors;
 public class BookmarkRepository implements BookmarkPort {
 
     private final FeedBookmarkMongoRepository feedBookmarkMongoRepository;
+    private final ShortsBookmarkMongoRepository shortsBookmarkMongoRepository;
     private final BookmarkEntityMapper bookmarkEntityMapper;
 
     @Override
@@ -28,7 +28,7 @@ public class BookmarkRepository implements BookmarkPort {
         if (feedBookmarkMongoRepository.existsByMemberUuidAndFeedUuid(responseDto.getMemberUuid(), responseDto.getBookmarkUuid())) {
             throw new BaseException(BaseResponseStatus.DUPLICATED_BOOKMARK);
         }
-        feedBookmarkMongoRepository.save(bookmarkEntityMapper.toEntity(responseDto));
+        feedBookmarkMongoRepository.save(bookmarkEntityMapper.toFeedBookmarkEntity(responseDto));
     }
 
     @Override
@@ -42,5 +42,13 @@ public class BookmarkRepository implements BookmarkPort {
         return entities.stream()
                 .map(bookmarkEntityMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void addShortsBookmark(BookmarkResponseDto responseDto) {
+        if (shortsBookmarkMongoRepository.existsByMemberUuidAndShortsUuid(responseDto.getMemberUuid(), responseDto.getBookmarkUuid())) {
+            throw new BaseException(BaseResponseStatus.DUPLICATED_BOOKMARK);
+        }
+        shortsBookmarkMongoRepository.save(bookmarkEntityMapper.toShortsBookmarkEntity(responseDto));
     }
 }

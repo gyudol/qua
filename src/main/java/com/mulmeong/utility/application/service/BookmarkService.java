@@ -43,4 +43,14 @@ public class BookmarkService implements BookmarkUseCase {
                 .map(BookmarkResponseDto::getBookmarkUuid)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void addShortsBookmark(BookmarkRequestDto requestDto) {
+        Bookmark newBookmark = Bookmark.builder()
+                .memberUuid(requestDto.getMemberUuid())
+                .bookmarkUuid(requestDto.getBookmarkUuid())
+                .build();
+
+        bookmarkPort.addShortsBookmark(bookmarkDtoMapper.toDto(newBookmark));
+    }
 }
