@@ -15,8 +15,8 @@ public interface ShortsCommentRepository extends JpaRepository<ShortsComment, Lo
 
     List<ShortsComment> findByStatus(Boolean status);
 
-    Boolean existsByCommentUuid(String commentUuid);
+    boolean existsByCommentUuid(String commentUuid);
 
-    Boolean existsByShortsUuid(String shortsUuid);
+    boolean existsByShortsUuid(String shortsUuid);
 
 }
