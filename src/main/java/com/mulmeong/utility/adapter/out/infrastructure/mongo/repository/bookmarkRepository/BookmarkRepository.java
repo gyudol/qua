@@ -1,6 +1,7 @@
 package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository.bookmarkRepository;
 
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.FeedBookmarkEntity;
+import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.ShortsBookmarkEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.mapper.BookmarkEntityMapper;
 import com.mulmeong.utility.application.port.in.dto.BookmarkRequestDto;
 import com.mulmeong.utility.application.port.out.BookmarkPort;
@@ -55,5 +56,13 @@ public class BookmarkRepository implements BookmarkPort {
     @Override
     public void deleteShortsBookmark(BookmarkRequestDto bookmarkRequestDto) {
         shortsBookmarkMongoRepository.deleteByMemberUuidAndShortsUuid(bookmarkRequestDto.getMemberUuid(), bookmarkRequestDto.getBookmarkUuid());
+    }
+
+    @Override
+    public List<BookmarkResponseDto> getShortsBookmarks(String memberUuid) {
+        List<ShortsBookmarkEntity> entities = shortsBookmarkMongoRepository.findAllByMemberUuid(memberUuid);
+        return entities.stream()
+                .map(bookmarkEntityMapper::toDto)
+                .collect(Collectors.toList());
     }
 }

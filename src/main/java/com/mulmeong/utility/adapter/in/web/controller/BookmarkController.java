@@ -48,4 +48,9 @@ public class BookmarkController {
         bookmarkUseCase.deleteShortsBookmark(new BookmarkRequestDto(memberUuid, shortsUuid));
         return new BaseResponse<>();
     }
+
+    @GetMapping("/{memberUuid}/shorts/bookmarks")
+    public BaseResponse<List<String>> getShortsBookmarks (@PathVariable("memberUuid") String memberUuid) {
+        return new BaseResponse<>(bookmarkUseCase.getShortsBookmarks(memberUuid));
+    }
 }

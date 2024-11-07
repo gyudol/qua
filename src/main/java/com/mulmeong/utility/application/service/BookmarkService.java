@@ -5,7 +5,6 @@ import com.mulmeong.utility.application.port.in.BookmarkUseCase;
 import com.mulmeong.utility.application.port.in.dto.BookmarkRequestDto;
 import com.mulmeong.utility.application.port.out.BookmarkPort;
 import com.mulmeong.utility.application.port.out.dto.BookmarkResponseDto;
-import com.mulmeong.utility.application.port.out.dto.DislikeEntityResponseDto;
 import com.mulmeong.utility.domain.model.Bookmark;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,5 +56,13 @@ public class BookmarkService implements BookmarkUseCase {
     @Override
     public void deleteShortsBookmark(BookmarkRequestDto bookmarkRequestDto) {
         bookmarkPort.deleteShortsBookmark(bookmarkRequestDto);
+    }
+
+    @Override
+    public List<String> getShortsBookmarks(String memberUuid) {
+        List<BookmarkResponseDto> shortsBookmarks = bookmarkPort.getShortsBookmarks(memberUuid);
+        return shortsBookmarks.stream()
+                .map(BookmarkResponseDto::getBookmarkUuid)
+                .collect(Collectors.toList());
     }
 }

@@ -22,6 +22,13 @@ public class BookmarkEntityMapper {
                 .build();
     }
 
+    public BookmarkResponseDto toDto(ShortsBookmarkEntity entity) {
+        return BookmarkResponseDto.builder()
+                .memberUuid(entity.getMemberUuid())
+                .bookmarkUuid(entity.getShortsUuid())
+                .build();
+    }
+
     public ShortsBookmarkEntity toShortsBookmarkEntity(BookmarkResponseDto dto) {
         return ShortsBookmarkEntity.builder()
                 .memberUuid(dto.getMemberUuid())
