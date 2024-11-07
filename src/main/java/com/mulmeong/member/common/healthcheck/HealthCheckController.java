@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "health-check", description = "헬스 체크")
+@Tag(name = "헬스체크", description = "본 서비스가 잘 돌아가는지 확인용")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1")

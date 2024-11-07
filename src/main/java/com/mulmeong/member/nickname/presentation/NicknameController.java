@@ -7,6 +7,7 @@ import com.mulmeong.member.nickname.dto.in.CheckNicknameRequestDto;
 import com.mulmeong.member.nickname.dto.in.UpdateNicknameRequestDto;
 import com.mulmeong.member.nickname.vo.in.NicknameVo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,8 @@ public class NicknameController {
 
     @PostMapping("/check-nickname")
     @Operation(summary = "닉네임 중복 검사", description = " 변경 가능 : 200(메시지 in result) / 변경 불가 : 409(메시지 in message)")
+    @ApiResponse(responseCode = "200", description = "SUCCESS(성공)")
+    @ApiResponse(responseCode = "409", description = "CONFLICT(이미 존재하는 닉네임입니다")
     public BaseResponse<Object> checkNickname(
             @RequestBody @Valid NicknameVo nicknameVo) {
 
