@@ -15,5 +15,12 @@ public interface FeedCommentService {
 
     void deleteFeedComment(String commentUuid);
 
-    CursorPage<FeedCommentResponseDto> getFeedComments(String feedUuid, Integer pageSize, Integer page);
+    List<FeedCommentResponseDto> getFeedComments(String feedUuid);
+
+    CursorPage<FeedCommentResponseDto> getFeedCommentsByPage(
+            String feedUuid,
+            String sortBy,
+            Long lastId,
+            Integer pageSize,
+            Integer page);
 }

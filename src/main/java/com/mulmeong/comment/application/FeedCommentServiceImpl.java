@@ -47,9 +47,21 @@ public class FeedCommentServiceImpl implements FeedCommentService {
     }
 
     @Override
-    public CursorPage<FeedCommentResponseDto> getFeedComments(String feedUuid, Integer pageSize, Integer page) {
+    public List<FeedCommentResponseDto> getFeedComments(String feedUuid) {
+        List<FeedComment> feedComments = feedCommentRepository.findByFeedUuid(feedUuid);
 
-        return feedCommentRepositoryCustom.getFeedComments(feedUuid, pageSize, page);
+        return feedComments.stream().map(FeedCommentResponseDto::toDto).toList();
+    }
+
+    @Override
+    public CursorPage<FeedCommentResponseDto> getFeedCommentsByPage(
+            String feedUuid,
+            String sortBy,
+            Long lastId,
+            Integer pageSize,
+            Integer page) {
+
+        return feedCommentRepositoryCustom.getFeedComments(feedUuid, sortBy, lastId, pageSize, page);
     }
 
 }
