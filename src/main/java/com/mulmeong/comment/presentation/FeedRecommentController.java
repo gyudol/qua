@@ -2,6 +2,7 @@ package com.mulmeong.comment.presentation;
 
 import com.mulmeong.comment.application.FeedRecommentService;
 import com.mulmeong.comment.common.response.BaseResponse;
+import com.mulmeong.comment.common.utils.CursorPage;
 import com.mulmeong.comment.dto.in.FeedRecommentRequestDto;
 import com.mulmeong.comment.dto.in.FeedRecommentUpdateDto;
 import com.mulmeong.comment.dto.out.FeedRecommentResponseDto;
@@ -9,6 +10,8 @@ import com.mulmeong.comment.vo.in.FeedRecommentRequestVo;
 import com.mulmeong.comment.vo.in.FeedRecommentUpdateVo;
 import com.mulmeong.comment.vo.out.FeedRecommentResponseVo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,9 +50,16 @@ public class FeedRecommentController {
 
     @GetMapping("/comments/{commentUuid}/recomments")
     @Operation(summary = "피드 대댓글 조회", tags = {"Feed Comment Service"})
-    public BaseResponse<List<FeedRecommentResponseVo>> findFeedRecomments(@PathVariable String commentUuid) {
-        return new BaseResponse<>(
-                feedRecommentService.getFeedRecomments(commentUuid).stream()
-                        .map(FeedRecommentResponseDto::toVo).toList());
+    public BaseResponse<CursorPage<FeedRecommentResponseVo>> findFeedRecomments(
+            @PathVariable String commentUuid,
+            @RequestParam(value = "lastId", required = false) Long lastId,
+            @RequestParam(value = "pageSize", required = false) Integer pageSize,
+            @RequestParam(value = "pageNo", required = false) Integer pageNo) {
+
+        CursorPage<FeedRecommentResponseDto> cursorPage = feedRecommentService
+                .getFeedRecomments(commentUuid, lastId, pageSize, pageNo);
+
+        return new BaseResponse<>(CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
+                .map(FeedRecommentResponseDto::toVo).toList()));
     }
 }

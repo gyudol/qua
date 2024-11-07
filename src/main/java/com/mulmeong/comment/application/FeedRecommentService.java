@@ -1,5 +1,6 @@
 package com.mulmeong.comment.application;
 
+import com.mulmeong.comment.common.utils.CursorPage;
 import com.mulmeong.comment.dto.in.FeedRecommentRequestDto;
 import com.mulmeong.comment.dto.in.FeedRecommentUpdateDto;
 import com.mulmeong.comment.dto.out.FeedRecommentResponseDto;
@@ -13,5 +14,6 @@ public interface FeedRecommentService {
 
     void deleteFeedComment(String recommentUuid);
 
-    List<FeedRecommentResponseDto> getFeedRecomments(String commentUuid);
+    CursorPage<FeedRecommentResponseDto> getFeedRecomments(
+            String commentUuid, Long lastId, Integer pageSize, Integer pageNo);
 }

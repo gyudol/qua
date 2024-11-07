@@ -2,11 +2,13 @@ package com.mulmeong.comment.application;
 
 import com.mulmeong.comment.common.exception.BaseException;
 import com.mulmeong.comment.common.response.BaseResponseStatus;
+import com.mulmeong.comment.common.utils.CursorPage;
 import com.mulmeong.comment.dto.in.FeedRecommentRequestDto;
 import com.mulmeong.comment.dto.in.FeedRecommentUpdateDto;
 import com.mulmeong.comment.dto.out.FeedRecommentResponseDto;
 import com.mulmeong.comment.entity.FeedRecomment;
 import com.mulmeong.comment.infrastructure.FeedRecommentRepository;
+import com.mulmeong.comment.infrastructure.FeedRecommentRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import java.util.List;
 public class FeedRecommentServiceImpl implements FeedRecommentService {
 
     private final FeedRecommentRepository feedRecommentRepository;
+    private final FeedRecommentRepositoryCustom feedRecommentRepositoryCustom;
 
     @Override
     public void createFeedComment(FeedRecommentRequestDto requestDto) {
@@ -40,8 +43,12 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
     }
 
     @Override
-    public List<FeedRecommentResponseDto> getFeedRecomments(String commentUuid) {
-        return feedRecommentRepository.findByCommentUuid(commentUuid).stream()
-                .map(FeedRecommentResponseDto::toDto).toList();
+    public CursorPage<FeedRecommentResponseDto> getFeedRecomments(
+            String commentUuid, Long lastId, Integer pageSize, Integer pageNo) {
+        CursorPage<FeedRecomment> cursorPage = feedRecommentRepositoryCustom
+                .getFeedComments(commentUuid, lastId, pageSize, pageNo);
+
+        return CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
+                .map(FeedRecommentResponseDto::toDto).toList());
     }
 }
