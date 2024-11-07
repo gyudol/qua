@@ -1,5 +1,5 @@
 import type { Pagination } from "@/types/common";
-import { commonPaginationRes } from "@/types/common/dummy";
+import { commonPaginationRes, commonRes } from "@/types/common/dummy";
 import type { Feed } from "@/types/contents";
 
 const API_SERVER = process.env.JSON_SERVER;
@@ -32,4 +32,26 @@ export async function getAllFeed(
   // eslint-disable-next-line no-console -- for test
   console.log(result);
   return result;
+}
+
+export async function getFeed(feedUuid: string): Promise<Feed> {
+  const res: Response = await fetch(
+    `${API_SERVER}/feeds?feedUuid=${feedUuid}`,
+    {
+      cache: "no-cache",
+    },
+  );
+
+  const feed = (await res.json()) as Feed[];
+
+  // const {isSuccess, result} = await res.json() as CommonPaginationRes<Feed>;
+  const { isSuccess, result } = commonRes(feed);
+
+  if (!isSuccess) {
+    throw Error();
+  }
+
+  // eslint-disable-next-line no-console -- for test
+  console.log(result);
+  return result[0];
 }

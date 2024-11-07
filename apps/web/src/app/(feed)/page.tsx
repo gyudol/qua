@@ -1,10 +1,10 @@
 import { CommonLayout } from "@/components/common/molecules";
-import Feed from "@/components/feed/organisms/Feed";
+import FeedList from "@/components/feed-tab/templates/FeedList";
 
 export default function Page(): JSX.Element {
   return (
     <CommonLayout.Contents>
-      <Feed />
+      <FeedList />
     </CommonLayout.Contents>
   );
 }
