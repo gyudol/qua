@@ -76,14 +76,9 @@ public class FeedCommentController {
     ) {
         CursorPage<FeedCommentResponseDto> cursorPage = feedCommentService.getFeedCommentsByPage(
                 feedUuid, sortBy, lastId, pageSize, pageNo);
-        List<FeedCommentResponseVo> voList = cursorPage.getList().stream().map(FeedCommentResponseDto::toVo).toList();
         return new BaseResponse<>(
-                new CursorPage<>(
-                        voList,
-                        cursorPage.getNextCursor(),
-                        cursorPage.getHasNext(),
-                        cursorPage.getPageSize(),
-                        cursorPage.getPageNo())
+            CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
+                    .map(FeedCommentResponseDto::toVo).toList())
         );
 
     }

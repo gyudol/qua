@@ -25,7 +25,7 @@ public class FeedCommentRepositoryCustomImpl implements FeedCommentRepositoryCus
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public CursorPage<FeedCommentResponseDto> getFeedComments(
+    public CursorPage<FeedComment> getFeedComments(
             String feedUuid,
             String sortBy,
             Long lastId,
@@ -75,10 +75,8 @@ public class FeedCommentRepositoryCustomImpl implements FeedCommentRepositoryCus
             nextCursor = feedComments.get(feedComments.size() - 1).getId();  // 마지막 항목의 ID를 커서로 설정
         }
 
-        List<FeedCommentResponseDto> responseDtos = feedComments.stream().map(FeedCommentResponseDto::toDto).toList();
-
         // CursorPage 객체 반환
-        return new CursorPage<>(responseDtos, nextCursor, hasNext, pageSize, pageNo);
+        return new CursorPage<>(feedComments, nextCursor, hasNext, pageSize, pageNo);
 
     }
 

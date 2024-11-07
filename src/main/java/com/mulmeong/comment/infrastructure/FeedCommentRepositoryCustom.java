@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FeedCommentRepositoryCustom {
 
-    CursorPage<FeedCommentResponseDto> getFeedComments(
+    CursorPage<FeedComment> getFeedComments(
             String feedUuid,
             String sortBy,
             Long lastId,

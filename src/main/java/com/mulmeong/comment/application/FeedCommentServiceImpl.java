@@ -61,7 +61,10 @@ public class FeedCommentServiceImpl implements FeedCommentService {
             Integer pageSize,
             Integer pageNo) {
 
-        return feedCommentRepositoryCustom.getFeedComments(feedUuid, sortBy, lastId, pageSize, pageNo);
+        CursorPage<FeedComment> cursorPage = feedCommentRepositoryCustom.getFeedComments(
+                feedUuid, sortBy, lastId, pageSize, pageNo);
+        return CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
+                .map(FeedCommentResponseDto::toDto).toList());
     }
 
 }

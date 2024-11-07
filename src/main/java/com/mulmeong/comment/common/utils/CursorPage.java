@@ -1,5 +1,6 @@
 package com.mulmeong.comment.common.utils;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,25 +8,25 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class CursorPage<T> {
 
-    private List<T> list;
+    private List<T> content;
     private Long nextCursor;
     private Boolean hasNext;
     private Integer pageSize;
     private Integer pageNo;
 
-    public boolean hasNext() {
-        return nextCursor != null;
+    public static <T, U> CursorPage<T> toCursorPage(CursorPage<U> cursorPage, List<T> content) {
+
+        return CursorPage.<T>builder()
+                .content(content)
+                .nextCursor(cursorPage.getNextCursor())
+                .hasNext(cursorPage.getHasNext())
+                .pageSize(cursorPage.getPageSize())
+                .pageNo(cursorPage.getPageNo())
+                .build();
     }
 
-    @Builder
-    public CursorPage(List<T> list, Long nextCursor, Boolean hasNext, Integer pageSize, Integer pageNo) {
-        this.list = list;
-        this.nextCursor = nextCursor;
-        this.hasNext = hasNext;
-        this.pageSize = pageSize;
-        this.pageNo = pageNo;
-    }
 }
