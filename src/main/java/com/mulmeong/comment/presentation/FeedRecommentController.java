@@ -4,11 +4,15 @@ import com.mulmeong.comment.application.FeedRecommentService;
 import com.mulmeong.comment.common.response.BaseResponse;
 import com.mulmeong.comment.dto.in.FeedRecommentRequestDto;
 import com.mulmeong.comment.dto.in.FeedRecommentUpdateDto;
+import com.mulmeong.comment.dto.out.FeedRecommentResponseDto;
 import com.mulmeong.comment.vo.in.FeedRecommentRequestVo;
 import com.mulmeong.comment.vo.in.FeedRecommentUpdateVo;
+import com.mulmeong.comment.vo.out.FeedRecommentResponseVo;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -41,4 +45,11 @@ public class FeedRecommentController {
         return new BaseResponse<>();
     }
 
+    @GetMapping("/comments/{commentUuid}/recomments")
+    @Operation(summary = "피드 대댓글 조회", tags = {"Feed Comment Service"})
+    public BaseResponse<List<FeedRecommentResponseVo>> findFeedRecomments(@PathVariable String commentUuid) {
+        return new BaseResponse<>(
+                feedRecommentService.getFeedRecomments(commentUuid).stream()
+                        .map(FeedRecommentResponseDto::toVo).toList());
+    }
 }
