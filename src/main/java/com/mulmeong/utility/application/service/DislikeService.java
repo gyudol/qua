@@ -2,16 +2,18 @@ package com.mulmeong.utility.application.service;
 
 import com.mulmeong.utility.application.mapper.DislikeDtoMapper;
 import com.mulmeong.utility.application.port.in.DislikeUseCase;
+import com.mulmeong.utility.application.port.in.dto.DislikeListRequestDto;
 import com.mulmeong.utility.application.port.in.dto.DislikeRequestDto;
 import com.mulmeong.utility.application.port.out.DislikePort;
 import com.mulmeong.utility.application.port.out.dto.DislikeEntityResponseDto;
-import com.mulmeong.utility.application.port.out.dto.LikesEntityResponseDto;
 import com.mulmeong.utility.domain.model.Dislike;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -50,6 +52,13 @@ public class DislikeService implements DislikeUseCase {
         return dislikePort.findByMemberAndKind(dislikeRequestDto)
                 .map(DislikeEntityResponseDto::isStatus)
                 .orElse(false);
+    }
+
+    public List<String> getDislikes(DislikeListRequestDto dislikeListRequestDto) {
+        List<DislikeEntityResponseDto> dislikedEntities = dislikePort.getByMemberAndKind(dislikeListRequestDto);
+        return dislikedEntities.stream()
+                .map(DislikeEntityResponseDto::getKindUuid)
+                .collect(Collectors.toList());
     }
 
 }

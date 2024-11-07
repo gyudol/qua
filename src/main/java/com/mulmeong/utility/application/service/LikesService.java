@@ -1,6 +1,5 @@
 package com.mulmeong.utility.application.service;
 
-import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.LikesEntity;
 import com.mulmeong.utility.application.mapper.LikesDtoMapper;
 import com.mulmeong.utility.application.port.in.LikesUseCase;
 import com.mulmeong.utility.application.port.in.dto.LikesListRequestDto;

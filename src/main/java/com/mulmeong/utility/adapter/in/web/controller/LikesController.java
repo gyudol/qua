@@ -9,8 +9,6 @@ import com.mulmeong.utility.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 @Slf4j
