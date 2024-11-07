@@ -31,7 +31,6 @@ export async function getAllFeed(
     throw Error();
   }
 
-  // eslint-disable-next-line no-console -- for test
   // console.log(result);
   return result;
 }
