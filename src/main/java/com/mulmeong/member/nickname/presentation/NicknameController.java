@@ -3,7 +3,6 @@ package com.mulmeong.member.nickname.presentation;
 import com.mulmeong.member.common.response.BaseResponse;
 import com.mulmeong.member.common.response.BaseResponseStatus;
 import com.mulmeong.member.nickname.application.NicknameService;
-import com.mulmeong.member.nickname.dto.in.CheckNicknameRequestDto;
 import com.mulmeong.member.nickname.dto.in.UpdateNicknameRequestDto;
 import com.mulmeong.member.nickname.vo.in.NicknameVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,8 +46,7 @@ public class NicknameController {
     public BaseResponse<Object> checkNickname(
             @RequestBody @Valid NicknameVo nicknameVo) {
 
-
-        if (nicknameService.checkNickname(CheckNicknameRequestDto.toDto(nicknameVo.getNickname()))) {
+        if (nicknameService.checkNickname(nicknameVo.getNickname())) {
             return new BaseResponse<>("사용 가능한 닉네임입니다.");
         } else {
             return new BaseResponse<>(BaseResponseStatus.EXISTS_NICKNAME);

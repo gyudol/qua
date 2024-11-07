@@ -1,7 +1,5 @@
 package com.mulmeong.member.nickname.application;
 
-import com.mulmeong.member.common.response.BaseResponse;
-import com.mulmeong.member.nickname.dto.in.CheckNicknameRequestDto;
 import com.mulmeong.member.nickname.dto.in.UpdateNicknameRequestDto;
 
 public interface NicknameService {
@@ -10,5 +8,5 @@ public interface NicknameService {
 
     public void updateNickname(UpdateNicknameRequestDto updateNicknameRequestDto);
 
-    public boolean checkNickname(CheckNicknameRequestDto checkNicknameRequestDto);
+    public boolean checkNickname(String nickname);
 }

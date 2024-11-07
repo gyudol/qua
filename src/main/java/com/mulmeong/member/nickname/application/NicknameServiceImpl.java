@@ -4,7 +4,6 @@ import com.mulmeong.member.auth.domain.Member;
 import com.mulmeong.member.auth.infrastructure.MemberRepository;
 import com.mulmeong.member.common.exception.BaseException;
 import com.mulmeong.member.common.response.BaseResponseStatus;
-import com.mulmeong.member.nickname.dto.in.CheckNicknameRequestDto;
 import com.mulmeong.member.nickname.dto.in.UpdateNicknameRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,12 +46,12 @@ public class NicknameServiceImpl implements NicknameService {
     /**
      * 닉네임 중복 검사.
      *
-     * @param requestDto uuid, 닉네임
+     * @param nickname 중복 검사할 닉네임
      * @return 중복 여부(true: 중복 없음, false: 중복 있음)
      */
     @Override
-    public boolean checkNickname(CheckNicknameRequestDto requestDto) {
+    public boolean checkNickname(String nickname) {
 
-        return !memberRepository.existsMemberByNickname(requestDto.getNickname());
+        return !memberRepository.existsMemberByNickname(nickname);
     }
 }
