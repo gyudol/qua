@@ -53,4 +53,9 @@ public class BookmarkService implements BookmarkUseCase {
 
         bookmarkPort.addShortsBookmark(bookmarkDtoMapper.toDto(newBookmark));
     }
+
+    @Override
+    public void deleteShortsBookmark(BookmarkRequestDto bookmarkRequestDto) {
+        bookmarkPort.deleteShortsBookmark(bookmarkRequestDto);
+    }
 }

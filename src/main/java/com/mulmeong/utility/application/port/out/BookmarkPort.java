@@ -14,4 +14,6 @@ public interface BookmarkPort {
     List<BookmarkResponseDto> getFeedBookmarks(String memberUuid);
 
     void addShortsBookmark(BookmarkResponseDto responseDto);
+
+    void deleteShortsBookmark(BookmarkRequestDto bookmarkRequestDto);
 }

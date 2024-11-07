@@ -51,4 +51,9 @@ public class BookmarkRepository implements BookmarkPort {
         }
         shortsBookmarkMongoRepository.save(bookmarkEntityMapper.toShortsBookmarkEntity(responseDto));
     }
+
+    @Override
+    public void deleteShortsBookmark(BookmarkRequestDto bookmarkRequestDto) {
+        shortsBookmarkMongoRepository.deleteByMemberUuidAndShortsUuid(bookmarkRequestDto.getMemberUuid(), bookmarkRequestDto.getBookmarkUuid());
+    }
 }

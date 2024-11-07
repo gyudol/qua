@@ -13,4 +13,6 @@ public interface BookmarkUseCase {
     List<String> getFeedBookmarks(String memberUuid);
 
     void addShortsBookmark(BookmarkRequestDto requestDto);
+
+    void deleteShortsBookmark(BookmarkRequestDto bookmarkRequestDto);
 }
