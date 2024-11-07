@@ -48,11 +48,12 @@ public class AuthServiceImpl implements AuthService {
         }
 
         // 이미 회원가입시 바로 로그인(토큰 발급)
-        if (memberRepository.existsMemberByOauthIdAndOauthProvider(
-                requestDto.getOauthId(), requestDto.getOauthProvider())) {
+        Member existingMember = memberRepository.findByOauthIdAndOauthProvider(
+                        requestDto.getOauthId(), requestDto.getOauthProvider())
+                .orElse(null);
 
-            return respondSignIn(memberRepository.findByOauthIdAndOauthProvider(
-                    requestDto.getOauthId(), requestDto.getOauthProvider()).get());
+        if (existingMember != null) {
+            return respondSignIn(existingMember);
         }
 
         // 회원가입
