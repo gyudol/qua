@@ -5,4 +5,6 @@ import com.mulmeong.utility.application.port.in.dto.BookmarkRequestDto;
 public interface BookmarkUseCase {
 
     void addFeedBookmark(BookmarkRequestDto requestDto);
+
+    void deleteFeedBookmark(BookmarkRequestDto bookmarkRequestDto);
 }

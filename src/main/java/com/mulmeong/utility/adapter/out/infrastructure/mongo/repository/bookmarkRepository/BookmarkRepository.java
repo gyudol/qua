@@ -1,6 +1,7 @@
 package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository.bookmarkRepository;
 
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.mapper.BookmarkEntityMapper;
+import com.mulmeong.utility.application.port.in.dto.BookmarkRequestDto;
 import com.mulmeong.utility.application.port.out.BookmarkPort;
 import com.mulmeong.utility.application.port.out.dto.BookmarkResponseDto;
 import com.mulmeong.utility.common.exception.BaseException;
@@ -23,5 +24,10 @@ public class BookmarkRepository implements BookmarkPort {
             throw new BaseException(BaseResponseStatus.DUPLICATED_BOOKMARK);
         }
         feedBookmarkMongoRepository.save(bookmarkEntityMapper.toEntity(responseDto));
+    }
+
+    @Override
+    public void deleteFeedBookmark(BookmarkRequestDto bookmarkRequestDto) {
+        feedBookmarkMongoRepository.deleteByMemberUuidAndFeedUuid(bookmarkRequestDto.getMemberUuid(), bookmarkRequestDto.getBookmarkUuid());
     }
 }

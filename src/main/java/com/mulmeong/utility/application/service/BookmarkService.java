@@ -25,4 +25,9 @@ public class BookmarkService implements BookmarkUseCase {
 
         bookmarkPort.addFeedBookmark(bookmarkDtoMapper.toDto(newBookmark));
     }
+
+    @Override
+    public void deleteFeedBookmark(BookmarkRequestDto bookmarkRequestDto) {
+        bookmarkPort.deleteFeedBookmark(bookmarkRequestDto);
+    }
 }
