@@ -41,7 +41,7 @@ public class NicknameServiceImpl implements NicknameService {
         Member member = memberRepository.findByMemberUuid(requestDto.getMemberUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MEMBER));
 
-        member.updateNickname(requestDto.getNickname());
+        memberRepository.save(requestDto.toEntity(member));
     }
 
     /**
