@@ -2,19 +2,20 @@ name: Node.js CI/CD
 
 on:
   push:
-    branches: [ develop, release ]
+    branches: [develop, release]
   pull_request:
-    types: [ closed ]
-    branches: [ develop, release ]
+    types: [closed]
+    branches: [develop, release]
 
 jobs:
   build:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         # x를 사용하여 해당 범위 내의 최신 버전 설치
-        node-version: [ 22.x ]
+        node-version: [22.x]
 
     steps:
       - name: Checkout code
@@ -25,26 +26,26 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: docker login
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-        if: github.ref == 'refs/heads/release'
-
       - name: Docker build
         run: |
           docker build -f Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/client-frontend .
 
+      - name: docker login
+        if: github.ref == 'refs/heads/release'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
       - name: Docker push to production
+        if: github.ref == 'refs/heads/release'
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/client-frontend
-        if: github.ref == 'refs/heads/release'
 
   deploy:
+    if: github.ref == 'refs/heads/release'
     runs-on: ubuntu-latest
     needs: build
-    if: github.ref == 'refs/heads/release'
 
     steps:
       - name: Checkout code
