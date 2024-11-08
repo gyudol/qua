@@ -31,7 +31,7 @@ public class SignUpAndInRequestDto {
                 .oauthId(oauthId)
                 .oauthProvider(oauthProvider)
                 .email(email)
-                .nickname(UUID.randomUUID().toString().substring(0, 30)) // todo: 정책 결정 후 수정
+                .nickname(UUID.randomUUID().toString().substring(0, 15)) // todo: 형용사 + 명사 + 숫자조합 수정 필요
                 .profileImageUrl(null) // todo: 정책 결정 후 수정
                 .build();
     }

@@ -62,8 +62,4 @@ public class Member {
         this.createdAt = createdAt;
         this.profileImageUrl = profileImageUrl;
     }
-
-    public void updateNickname(String nickname) {
-        this.nickname = nickname;
-    }
 }
