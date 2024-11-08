@@ -52,10 +52,9 @@ public class FeedRecommentRepositoryCustomImpl implements FeedRecommentRepositor
 
         // 다음 페이지의 커서 처리 및 hasNext 여부 판단
         Long nextCursor = null;
-        boolean hasNext = false;
+        boolean hasNext = shortsRecomments.size() > currentPageSize;
 
-        if (shortsRecomments.size() > currentPageSize) {
-            hasNext = true;
+        if (hasNext) {
             shortsRecomments = shortsRecomments.subList(0, currentPageSize);  // 실제 페이지 사이즈 만큼 자르기
             nextCursor = shortsRecomments.get(shortsRecomments.size() - 1).getId();  // 마지막 항목의 ID를 커서로 설정
         }
