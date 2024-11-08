@@ -34,7 +34,6 @@ public class ShortsCommentRepositoryCustomImpl implements ShortsCommentRepositor
 
         BooleanBuilder builder = new BooleanBuilder();
 
-        // 카테고리 필터 적용
         Optional.ofNullable(shortsUuid)
                 .ifPresent(code -> builder.and(shortsComment.shortsUuid.eq(shortsUuid)));
         //삭제된 댓글은 조회X
@@ -66,10 +65,9 @@ public class ShortsCommentRepositoryCustomImpl implements ShortsCommentRepositor
 
         // 다음 페이지의 커서 처리 및 hasNext 여부 판단
         Long nextCursor = null;
-        boolean hasNext = false;
+        boolean hasNext = shortsComments.size() > currentPageSize;
 
-        if (shortsComments.size() > currentPageSize) {
-            hasNext = true;
+        if (hasNext) {
             shortsComments = shortsComments.subList(0, currentPageSize);  // 실제 페이지 사이즈 만큼 자르기
             nextCursor = shortsComments.get(shortsComments.size() - 1).getId();  // 마지막 항목의 ID를 커서로 설정
         }
