@@ -67,10 +67,9 @@ public class FeedCommentRepositoryCustomImpl implements FeedCommentRepositoryCus
 
         // 다음 페이지의 커서 처리 및 hasNext 여부 판단
         Long nextCursor = null;
-        boolean hasNext = false;
+        boolean hasNext = feedComments.size() > currentPageSize;
 
-        if (feedComments.size() > currentPageSize) {
-            hasNext = true;
+        if (hasNext) {
             feedComments = feedComments.subList(0, currentPageSize);  // 실제 페이지 사이즈 만큼 자르기
             nextCursor = feedComments.get(feedComments.size() - 1).getId();  // 마지막 항목의 ID를 커서로 설정
         }
