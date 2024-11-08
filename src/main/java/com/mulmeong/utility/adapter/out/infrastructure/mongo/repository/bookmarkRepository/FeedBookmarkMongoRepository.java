@@ -7,7 +7,10 @@ import java.util.List;
 
 
 public interface FeedBookmarkMongoRepository extends MongoRepository<FeedBookmarkEntity, String> {
+
     boolean existsByMemberUuidAndFeedUuid(String memberUuid, String bookmarkUuid);
+
     void deleteByMemberUuidAndFeedUuid(String memberUuid, String feedUuid);
+
     List<FeedBookmarkEntity> findAllByMemberUuid(String memberUuid);
 }

@@ -7,7 +7,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface ShortsBookmarkMongoRepository extends MongoRepository<ShortsBookmarkEntity, String> {
+
     boolean existsByMemberUuidAndShortsUuid(String memberUuid, String bookmarkUuid);
+
     void deleteByMemberUuidAndShortsUuid(String memberUuid, String feedUuid);
+
     List<ShortsBookmarkEntity> findAllByMemberUuid(String memberUuid);
 }

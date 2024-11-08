@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface LikesMongoRepository extends MongoRepository<LikesEntity, String> {
     LikesEntity findByMemberUuidAndKindAndKindUuid(String memberUuid, String kind, String kindUuid);
+
     List<LikesEntity> findByMemberUuidAndKindAndStatus(String memberUuid, String kind, boolean status);
 }

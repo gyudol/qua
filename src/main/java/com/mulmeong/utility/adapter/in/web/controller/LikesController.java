@@ -34,7 +34,8 @@ public class LikesController {
 
     // 좋아요 상태 조회
     @GetMapping("/{memberUuid}/{kind}/{kindUuid}/like-status")
-    public BaseResponse<Boolean> likesStatus(@PathVariable String memberUuid, @PathVariable String kind, @PathVariable String kindUuid) {
+    public BaseResponse<Boolean> likesStatus(
+            @PathVariable String memberUuid, @PathVariable String kind, @PathVariable String kindUuid) {
         try {
             return new BaseResponse<>(likesUseCase.isChecked(new LikesRequestDto(memberUuid, kind, kindUuid)));
         } catch (Exception e) {

@@ -41,10 +41,6 @@ public class LikesRepository implements LikesPort {
                 likesRequestDto.getKindUuid()
         );
 
-        if (entity == null) {
-            return Optional.empty();
-        }
-
         return Optional.of(likesEntityMapper.toDto(entity));
     }
 

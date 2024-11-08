@@ -28,10 +28,8 @@ public enum BaseResponseStatus {
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "요청 처리 중 에러가 발생하였습니다.");
 
 
-//  이 위에 본인이 사용할 커스텀 예외를 추가해주세요.
-
     private final HttpStatusCode httpStatusCode;
     private final boolean isSuccess;
     private final int code;
     private final String message;
-    }
+}

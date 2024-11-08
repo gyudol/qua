@@ -26,7 +26,8 @@ public class BookmarkRepository implements BookmarkPort {
 
     @Override
     public void addFeedBookmark(BookmarkResponseDto responseDto) {
-        if (feedBookmarkMongoRepository.existsByMemberUuidAndFeedUuid(responseDto.getMemberUuid(), responseDto.getBookmarkUuid())) {
+        if (feedBookmarkMongoRepository.existsByMemberUuidAndFeedUuid(
+                responseDto.getMemberUuid(), responseDto.getBookmarkUuid())) {
             throw new BaseException(BaseResponseStatus.DUPLICATED_BOOKMARK);
         }
         feedBookmarkMongoRepository.save(bookmarkEntityMapper.toFeedBookmarkEntity(responseDto));
@@ -34,7 +35,8 @@ public class BookmarkRepository implements BookmarkPort {
 
     @Override
     public void deleteFeedBookmark(BookmarkRequestDto bookmarkRequestDto) {
-        feedBookmarkMongoRepository.deleteByMemberUuidAndFeedUuid(bookmarkRequestDto.getMemberUuid(), bookmarkRequestDto.getBookmarkUuid());
+        feedBookmarkMongoRepository.deleteByMemberUuidAndFeedUuid(
+                bookmarkRequestDto.getMemberUuid(), bookmarkRequestDto.getBookmarkUuid());
     }
 
     @Override
@@ -47,7 +49,8 @@ public class BookmarkRepository implements BookmarkPort {
 
     @Override
     public void addShortsBookmark(BookmarkResponseDto responseDto) {
-        if (shortsBookmarkMongoRepository.existsByMemberUuidAndShortsUuid(responseDto.getMemberUuid(), responseDto.getBookmarkUuid())) {
+        if (shortsBookmarkMongoRepository.existsByMemberUuidAndShortsUuid(
+                responseDto.getMemberUuid(), responseDto.getBookmarkUuid())) {
             throw new BaseException(BaseResponseStatus.DUPLICATED_BOOKMARK);
         }
         shortsBookmarkMongoRepository.save(bookmarkEntityMapper.toShortsBookmarkEntity(responseDto));
@@ -55,7 +58,8 @@ public class BookmarkRepository implements BookmarkPort {
 
     @Override
     public void deleteShortsBookmark(BookmarkRequestDto bookmarkRequestDto) {
-        shortsBookmarkMongoRepository.deleteByMemberUuidAndShortsUuid(bookmarkRequestDto.getMemberUuid(), bookmarkRequestDto.getBookmarkUuid());
+        shortsBookmarkMongoRepository.deleteByMemberUuidAndShortsUuid(
+                bookmarkRequestDto.getMemberUuid(), bookmarkRequestDto.getBookmarkUuid());
     }
 
     @Override
