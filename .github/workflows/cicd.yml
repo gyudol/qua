@@ -28,7 +28,7 @@ jobs:
 
       - name: Docker build
         run: |
-          docker build -f Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/client-frontend .
+          docker build -f Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/qua-client .
 
       - name: docker login
         if: github.ref == 'refs/heads/release'
@@ -40,7 +40,7 @@ jobs:
       - name: Docker push to production
         if: github.ref == 'refs/heads/release'
         run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/client-frontend
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/qua-client
 
   deploy:
     if: github.ref == 'refs/heads/release'
@@ -75,14 +75,14 @@ jobs:
           timeout: 60s
           script: |
             echo "Stopping existing application..."
-            sudo docker stop client-frontend || true
-            sudo docker rm client-frontend || true
+            sudo docker stop qua-client || true
+            sudo docker rm qua-client || true
 
             echo "Pulling latest image..."
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/client-frontend:latest
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/qua-client:latest
 
             echo "Running new container..."
-            sudo docker run -d --name client-frontend -p ${{ secrets.APPLICATION_PORT }}:${{ secrets.APPLICATION_PORT }} ${{ secrets.DOCKERHUB_USERNAME }}/client-frontend:latest
+            sudo docker run -d --name qua-client -p ${{ secrets.HOST_PORT }}:${{ secrets.CONTAINER_PORT }} ${{ secrets.DOCKERHUB_USERNAME }}/qua-client:latest
 
             echo "Cleaning up unused Docker images..."
             sudo docker image prune -f
