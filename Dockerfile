@@ -18,4 +18,4 @@ RUN pnpm install
 RUN pnpm turbo build
 
 # 실행 명령어
-CMD ["pnpm", "run", "dev"]
+CMD ["pnpm", "-F=web", "start"]
