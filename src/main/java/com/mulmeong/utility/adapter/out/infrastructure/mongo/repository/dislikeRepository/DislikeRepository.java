@@ -42,6 +42,10 @@ public class DislikeRepository implements DislikePort {
                 dislikeRequestDto.getKindUuid()
         );
 
+        if (entity == null) {
+            return Optional.empty();
+        }
+
         return Optional.of(dislikeEntityMapper.toDto(entity));
     }
 
