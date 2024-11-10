@@ -6,6 +6,7 @@ import com.mulmeong.utility.application.port.in.dto.LikesListRequestDto;
 import com.mulmeong.utility.application.port.in.dto.LikesRequestDto;
 import com.mulmeong.utility.application.port.out.LikesPort;
 import com.mulmeong.utility.application.port.out.dto.LikesEntityResponseDto;
+import com.mulmeong.utility.common.utils.CursorPage;
 import com.mulmeong.utility.domain.model.Likes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,11 +55,9 @@ public class LikesService implements LikesUseCase {
                 .orElse(false);
     }
 
-    public List<String> getLikes(LikesListRequestDto likesListRequestDto) {
-        List<LikesEntityResponseDto> likedEntities = likesPort.getByMemberAndKind(likesListRequestDto);
-        return likedEntities.stream()
-                .map(LikesEntityResponseDto::getKindUuid)
-                .collect(Collectors.toList());
+    @Override
+    public CursorPage<String> getLikes(String memberUuid, String kind, String lastId, int pageSize) {
+        return likesPort.getLikes(memberUuid, kind, lastId, pageSize);
     }
 
 
