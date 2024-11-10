@@ -1,6 +1,8 @@
 package com.mulmeong.utility.application.port.in;
 
 import com.mulmeong.utility.application.port.in.dto.BookmarkRequestDto;
+import com.mulmeong.utility.application.port.out.dto.FeedBookmarkResponseDto;
+import com.mulmeong.utility.common.utils.CursorPage;
 
 import java.util.List;
 
@@ -10,11 +12,12 @@ public interface BookmarkUseCase {
 
     void deleteFeedBookmark(BookmarkRequestDto bookmarkRequestDto);
 
-    List<String> getFeedBookmarks(String memberUuid);
+    //todo get
+    CursorPage<String> getFeedBookmarks(String memberUuid, String lastId, int pageSize);
 
     void addShortsBookmark(BookmarkRequestDto requestDto);
 
     void deleteShortsBookmark(BookmarkRequestDto bookmarkRequestDto);
 
-    List<String> getShortsBookmarks(String memberUuid);
+    //todo get
 }

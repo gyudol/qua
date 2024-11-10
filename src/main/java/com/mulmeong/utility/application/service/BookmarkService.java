@@ -4,8 +4,10 @@ import com.mulmeong.utility.application.mapper.BookmarkDtoMapper;
 import com.mulmeong.utility.application.port.in.BookmarkUseCase;
 import com.mulmeong.utility.application.port.in.dto.BookmarkRequestDto;
 import com.mulmeong.utility.application.port.out.BookmarkPort;
-import com.mulmeong.utility.application.port.out.dto.BookmarkResponseDto;
-import com.mulmeong.utility.domain.model.Bookmark;
+import com.mulmeong.utility.application.port.out.dto.FeedBookmarkResponseDto;
+import com.mulmeong.utility.common.utils.CursorPage;
+import com.mulmeong.utility.domain.model.FeedBookmark;
+import com.mulmeong.utility.domain.model.ShortsBookmark;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,12 +24,12 @@ public class BookmarkService implements BookmarkUseCase {
 
     @Override
     public void addFeedBookmark(BookmarkRequestDto requestDto) {
-        Bookmark newBookmark = Bookmark.builder()
+        FeedBookmark newBookmark = FeedBookmark.builder()
                 .memberUuid(requestDto.getMemberUuid())
-                .bookmarkUuid(requestDto.getBookmarkUuid())
+                .feedUuid(requestDto.getBookmarkUuid())
                 .build();
 
-        bookmarkPort.addFeedBookmark(bookmarkDtoMapper.toDto(newBookmark));
+        bookmarkPort.addFeedBookmark(bookmarkDtoMapper.toFeedDto(newBookmark));
     }
 
     @Override
@@ -35,22 +37,20 @@ public class BookmarkService implements BookmarkUseCase {
         bookmarkPort.deleteFeedBookmark(bookmarkRequestDto);
     }
 
+    //todo get
     @Override
-    public List<String> getFeedBookmarks(String memberUuid) {
-        List<BookmarkResponseDto> feedBookmarks = bookmarkPort.getFeedBookmarks(memberUuid);
-        return feedBookmarks.stream()
-                .map(BookmarkResponseDto::getBookmarkUuid)
-                .collect(Collectors.toList());
+    public CursorPage<String> getFeedBookmarks(String memberUuid, String lastId, int pageSize) {
+        return bookmarkPort.getFeedBookmarks(memberUuid, lastId, pageSize);
     }
 
     @Override
     public void addShortsBookmark(BookmarkRequestDto requestDto) {
-        Bookmark newBookmark = Bookmark.builder()
+        ShortsBookmark newBookmark = ShortsBookmark.builder()
                 .memberUuid(requestDto.getMemberUuid())
-                .bookmarkUuid(requestDto.getBookmarkUuid())
+                .shortsUuid(requestDto.getBookmarkUuid())
                 .build();
 
-        bookmarkPort.addShortsBookmark(bookmarkDtoMapper.toDto(newBookmark));
+        bookmarkPort.addShortsBookmark(bookmarkDtoMapper.toShortsDto(newBookmark));
     }
 
     @Override
@@ -58,11 +58,5 @@ public class BookmarkService implements BookmarkUseCase {
         bookmarkPort.deleteShortsBookmark(bookmarkRequestDto);
     }
 
-    @Override
-    public List<String> getShortsBookmarks(String memberUuid) {
-        List<BookmarkResponseDto> shortsBookmarks = bookmarkPort.getShortsBookmarks(memberUuid);
-        return shortsBookmarks.stream()
-                .map(BookmarkResponseDto::getBookmarkUuid)
-                .collect(Collectors.toList());
-    }
+    //todo get
 }
