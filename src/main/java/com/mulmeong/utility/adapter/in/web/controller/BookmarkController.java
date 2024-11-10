@@ -36,19 +36,13 @@ public class BookmarkController {
         return new BaseResponse<>();
     }
 
-//    @GetMapping("/{memberUuid}/feeds/bookmarks")
-//    public BaseResponse<List<String>> getFeedBookmarks(@PathVariable("memberUuid") String memberUuid) {
-//        return new BaseResponse<>(bookmarkUseCase.getFeedBookmarks(memberUuid));
-//    }
-
     @GetMapping("/{memberUuid}/feeds/bookmarks")
     public BaseResponse<CursorPage<String>> getFeedBookmarks(
             @PathVariable("memberUuid") String memberUuid,
             @RequestParam(value = "lastId", required = false) String lastId,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
 
-        CursorPage<String> response = bookmarkUseCase.getFeedBookmarks(memberUuid, lastId, pageSize);
-        return new BaseResponse<>(response);
+        return new BaseResponse<>(bookmarkUseCase.getFeedBookmarks(memberUuid, lastId, pageSize));
     }
 
     @PostMapping("/{memberUuid}/shorts/bookmarks")
@@ -66,8 +60,12 @@ public class BookmarkController {
         return new BaseResponse<>();
     }
 
-//    @GetMapping("/{memberUuid}/shorts/bookmarks")
-//    public BaseResponse<List<String>> getShortsBookmarks(@PathVariable("memberUuid") String memberUuid) {
-//        return new BaseResponse<>(bookmarkUseCase.getShortsBookmarks(memberUuid));
-//    }
+    @GetMapping("/{memberUuid}/shorts/bookmarks")
+    public BaseResponse<CursorPage<String>> getShortsBookmarks(
+            @PathVariable("memberUuid") String memberUuid,
+            @RequestParam(value = "lastId", required = false) String lastId,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+
+        return new BaseResponse<>(bookmarkUseCase.getShortsBookmarks(memberUuid, lastId, pageSize));
+    }
 }

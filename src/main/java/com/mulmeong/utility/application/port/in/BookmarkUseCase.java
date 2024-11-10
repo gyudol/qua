@@ -12,12 +12,12 @@ public interface BookmarkUseCase {
 
     void deleteFeedBookmark(BookmarkRequestDto bookmarkRequestDto);
 
-    //todo get
     CursorPage<String> getFeedBookmarks(String memberUuid, String lastId, int pageSize);
 
     void addShortsBookmark(BookmarkRequestDto requestDto);
 
     void deleteShortsBookmark(BookmarkRequestDto bookmarkRequestDto);
 
-    //todo get
+    CursorPage<String> getShortsBookmarks(String memberUuid, String lastId, int pageSize);
+
 }

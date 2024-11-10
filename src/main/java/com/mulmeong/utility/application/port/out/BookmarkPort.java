@@ -19,4 +19,5 @@ public interface BookmarkPort {
 
     void deleteShortsBookmark(BookmarkRequestDto bookmarkRequestDto);
 
+    CursorPage<String> getShortsBookmarks(String memberUuid, String lastId, int pageSize);
 }

@@ -37,7 +37,6 @@ public class BookmarkService implements BookmarkUseCase {
         bookmarkPort.deleteFeedBookmark(bookmarkRequestDto);
     }
 
-    //todo get
     @Override
     public CursorPage<String> getFeedBookmarks(String memberUuid, String lastId, int pageSize) {
         return bookmarkPort.getFeedBookmarks(memberUuid, lastId, pageSize);
@@ -58,5 +57,8 @@ public class BookmarkService implements BookmarkUseCase {
         bookmarkPort.deleteShortsBookmark(bookmarkRequestDto);
     }
 
-    //todo get
+    @Override
+    public CursorPage<String> getShortsBookmarks(String memberUuid, String lastId, int pageSize) {
+        return bookmarkPort.getShortsBookmarks(memberUuid, lastId, pageSize);
+    }
 }

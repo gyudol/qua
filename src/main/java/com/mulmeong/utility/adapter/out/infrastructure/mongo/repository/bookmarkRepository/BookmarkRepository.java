@@ -51,7 +51,6 @@ public class BookmarkRepository implements BookmarkPort {
                 bookmarkRequestDto.getMemberUuid(), bookmarkRequestDto.getBookmarkUuid());
     }
 
-    //todo get
     @Override
     public CursorPage<String> getFeedBookmarks(String memberUuid, String lastId, int pageSize) {
         Pageable pageable = PageRequest.of(0, pageSize, Sort.by(Sort.Direction.DESC, "id"));
@@ -95,5 +94,31 @@ public class BookmarkRepository implements BookmarkPort {
                 bookmarkRequestDto.getMemberUuid(), bookmarkRequestDto.getBookmarkUuid());
     }
 
-    //todo get
+    @Override
+    public CursorPage<String> getShortsBookmarks(String memberUuid, String lastId, int pageSize) {
+        Pageable pageable = PageRequest.of(0, pageSize, Sort.by(Sort.Direction.DESC, "id"));
+
+        List<ShortsBookmarkEntity> entities;
+        if (lastId != null) {
+            entities = shortsBookmarkMongoRepository.findByMemberUuidAndIdLessThanOrderByIdDesc(
+                    memberUuid, lastId, pageable);
+        } else {
+            entities = shortsBookmarkMongoRepository.findAllByMemberUuidOrderByIdDesc(
+                    memberUuid, pageable);
+        }
+
+        List<String> feedUuids = entities.stream()
+                .map(ShortsBookmarkEntity::getShortsUuid)
+                .collect(Collectors.toList());
+
+        boolean hasNext = feedUuids.size() == pageSize;
+        String nextCursor = hasNext ? entities.get(entities.size() - 1).getId() : null;
+
+        return CursorPage.<String>builder()
+                .content(feedUuids)
+                .nextCursor(nextCursor)
+                .hasNext(hasNext)
+                .pageSize(pageSize)
+                .build();
+    }
 }
