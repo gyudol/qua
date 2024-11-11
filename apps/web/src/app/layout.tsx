@@ -22,8 +22,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <QueryClientProvider>
-          <div className="flex justify-center">
-            <CommonLayout.Container>
+          <div className="flex justify-center h-full">
+            <CommonLayout.Container className="bg-white h-full">
               {children}
               <CommonGbnb />
             </CommonLayout.Container>
