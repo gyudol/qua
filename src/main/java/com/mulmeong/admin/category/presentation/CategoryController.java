@@ -33,15 +33,6 @@ public class CategoryController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "카테고리 조회", description = "카테고리 전체 조회")
-    @GetMapping
-    public BaseResponse<List<CategoryVo>> getCategories() {
-
-        return new BaseResponse<>(categoryService.getCategoryList().stream()
-                .map(CategoryDto::toVo)
-                .collect(Collectors.toList()));
-    }
-
     @Operation(summary = "카테고리 수정", description = "카테고리 정보 수정")
     @PutMapping("/{categoryId}")
     public BaseResponse<Void> updateCategory(@PathVariable Long categoryId,
@@ -51,11 +42,29 @@ public class CategoryController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "카테고리 삭제", description = "카테고리 삭제")
+    @Operation(summary = "카테고리 삭제", description = "Id로 카테고리 삭제")
     @DeleteMapping("/{categoryId}")
     public BaseResponse<Void> deleteCategory(@PathVariable Long categoryId) {
 
         categoryService.deleteCategory(categoryId);
         return new BaseResponse<>();
     }
+
+    @Operation(summary = "전체 카테고리 목록 조회", description = "전체 카테고리 목록 조회")
+    @GetMapping
+    public BaseResponse<List<CategoryVo>> getCategories() {
+
+        return new BaseResponse<>(categoryService.getCategoryList().stream()
+                .map(CategoryDto::toVo)
+                .collect(Collectors.toList()));
+    }
+
+    @Operation(summary = "카테고리 단건 조회", description = "Id로 카테고리 조회")
+    @GetMapping("/{categoryId}")
+    public BaseResponse<CategoryVo> getCategory(@PathVariable Long categoryId) {
+
+        return new BaseResponse<>(categoryService.getCategory(categoryId).toVo());
+    }
+
+
 }

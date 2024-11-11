@@ -10,10 +10,12 @@ public interface CategoryService {
 
     public void createCategory(CategoryCreateDto requestDto);
 
-    public List<CategoryDto> getCategoryList();
-
     public void updateCategory(CategoryUpdateDto requestDto);
 
     public void deleteCategory(Long categoryId);
+
+    public CategoryDto getCategory(Long categoryId);
+
+    public List<CategoryDto> getCategoryList();
 
 }

@@ -32,18 +32,6 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
-     * 카테고리 전체 조회(카테고리 수가 많지 않음).
-     *
-     * @return 카테고리 리스트
-     */
-    @Override
-    public List<CategoryDto> getCategoryList() {
-        return categoryRepository.findAll().stream()
-                .map(CategoryDto::fromEntity)
-                .toList();
-    }
-
-    /**
      * 카테고리 정보 수정(name or viewType).
      *
      * @param requestDto 카테고리 수정 요청 DTO
@@ -67,5 +55,28 @@ public class CategoryServiceImpl implements CategoryService {
         // FIXME : 또한 카테고리의 경우 ID만 보내면 삭제할 수 있음 => 논의 필요
         categoryRepository.delete(categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CATEGORY)));
+    }
+
+    /**
+     * 카테고리 단건 조회.
+     *
+     * @param categoryId 카테고리 id
+     * @return 카테고리 정보
+     */
+    public CategoryDto getCategory(Long categoryId) {
+        return CategoryDto.fromEntity(categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CATEGORY)));
+    }
+
+    /**
+     * 카테고리 전체 조회(카테고리 수가 많지 않음).
+     *
+     * @return 카테고리 리스트
+     */
+    @Override
+    public List<CategoryDto> getCategoryList() {
+        return categoryRepository.findAll().stream()
+                .map(CategoryDto::fromEntity)
+                .toList();
     }
 }
