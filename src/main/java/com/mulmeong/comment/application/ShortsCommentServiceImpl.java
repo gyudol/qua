@@ -8,8 +8,8 @@ import com.mulmeong.comment.dto.in.ShortsCommentRequestDto;
 import com.mulmeong.comment.dto.in.ShortsCommentUpdateDto;
 import com.mulmeong.comment.dto.out.ShortsCommentResponseDto;
 import com.mulmeong.comment.entity.ShortsComment;
-import com.mulmeong.comment.infrasturcture.ShortsCommentRepository;
-import com.mulmeong.comment.infrasturcture.ShortsCommentRepositoryCustom;
+import com.mulmeong.comment.infrastructure.ShortsCommentRepository;
+import com.mulmeong.comment.infrastructure.ShortsCommentRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -46,10 +46,11 @@ public class ShortsCommentServiceImpl implements ShortsCommentService {
     }
 
     @Override
-    public List<ShortsCommentResponseDto> getShortsComments(String shortsUuid) {
-        List<ShortsComment> feedComments = shortsCommentRepository.findByShortsUuid(shortsUuid);
-
-        return feedComments.stream().map(ShortsCommentResponseDto::toDto).toList();
+    public ShortsCommentResponseDto getShortsComment(String commentUuid) {
+        ShortsComment shortsComment = shortsCommentRepository.findByCommentUuid(commentUuid).orElseThrow(
+                () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT)
+        );
+        return ShortsCommentResponseDto.toDto(shortsComment);
     }
 
     @Override

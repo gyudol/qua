@@ -24,7 +24,7 @@ public class FeedRecommentController {
     private final FeedRecommentService feedRecommentService;
 
     @PostMapping("/comments/{commentUuid}/recomments")
-    @Operation(summary = "피드 대댓글 추가", tags = {"Feed Comment Service"})
+    @Operation(summary = "피드 대댓글 추가", tags = {"Feed Recomment Service"})
     public BaseResponse<Void> addFeedRecomment(
             @RequestBody FeedRecommentRequestVo requestVo,
             @PathVariable String commentUuid) {
@@ -33,7 +33,7 @@ public class FeedRecommentController {
     }
 
     @PutMapping("/comments/recomments/{recommentUuid}")
-    @Operation(summary = "피드 대댓글 수정", tags = {"Feed Comment Service"})
+    @Operation(summary = "피드 대댓글 수정", tags = {"Feed Recomment Service"})
     public BaseResponse<Void> updateFeedRecomment(
             @RequestBody FeedRecommentUpdateVo updateVo,
             @PathVariable String recommentUuid) {
@@ -42,14 +42,20 @@ public class FeedRecommentController {
     }
 
     @DeleteMapping("/comments/recomments/{recommentUuid}")
-    @Operation(summary = "피드 대댓글 삭제", tags = {"Feed Comment Service"})
+    @Operation(summary = "피드 대댓글 삭제", tags = {"Feed Recomment Service"})
     public BaseResponse<Void> deleteFeedRecomment(@PathVariable String recommentUuid) {
         feedRecommentService.deleteFeedComment(recommentUuid);
         return new BaseResponse<>();
     }
 
+    @GetMapping("/comments/recomments")
+    @Operation(summary = "피드 대댓글 단건 조회", tags = {"Feed Recomment Service"})
+    public BaseResponse<FeedRecommentResponseVo> getFeedRecomment(@RequestParam String recommentUuid) {
+        return new BaseResponse<>(feedRecommentService.getFeedRecomment(recommentUuid).toVo());
+    }
+
     @GetMapping("/comments/{commentUuid}/recomments")
-    @Operation(summary = "피드 대댓글 조회", tags = {"Feed Comment Service"})
+    @Operation(summary = "피드 대댓글 페이지 조회", tags = {"Feed Recomment Service"})
     public BaseResponse<CursorPage<FeedRecommentResponseVo>> findFeedRecomments(
             @PathVariable String commentUuid,
             @RequestParam(value = "lastId", required = false) Long lastId,

@@ -1,4 +1,4 @@
-package com.mulmeong.comment.infrasturcture;
+package com.mulmeong.comment.infrastructure;
 
 import com.mulmeong.comment.common.utils.CursorPage;
 import com.mulmeong.comment.dto.out.ShortsCommentResponseDto;
