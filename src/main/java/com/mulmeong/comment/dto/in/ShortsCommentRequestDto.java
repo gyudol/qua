@@ -32,7 +32,7 @@ public class ShortsCommentRequestDto {
                 .memberUuid(memberUuid)
                 .commentUuid(UUID.randomUUID().toString())
                 .content(content)
-                .status(Boolean.FALSE)
+                .status(true)
                 .build();
     }
 }

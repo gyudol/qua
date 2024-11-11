@@ -21,7 +21,7 @@ public class ShortsComment extends BaseEntity {
     private String commentUuid;
     @Column(length = 1000)
     private String content;
-    private Boolean status;
+    private boolean status;
 
     @Builder
     public ShortsComment(
@@ -30,7 +30,7 @@ public class ShortsComment extends BaseEntity {
             String memberUuid,
             String commentUuid,
             String content,
-            Boolean status
+            boolean status
     ) {
         this.id = id;
         this.shortsUuid = shortsUuid;

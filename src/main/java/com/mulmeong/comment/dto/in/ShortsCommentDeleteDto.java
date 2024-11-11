@@ -15,7 +15,7 @@ public class ShortsCommentDeleteDto {
                 .memberUuid(shortsComment.getMemberUuid())
                 .commentUuid(shortsComment.getCommentUuid())
                 .content(shortsComment.getContent())
-                .status(Boolean.TRUE)
+                .status(false)
                 .build();
     }
 }

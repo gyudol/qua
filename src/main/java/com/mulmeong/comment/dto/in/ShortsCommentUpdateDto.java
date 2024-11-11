@@ -26,7 +26,7 @@ public class ShortsCommentUpdateDto {
                 .memberUuid(shortsComment.getMemberUuid())
                 .commentUuid(commentUuid)
                 .content(content)
-                .status(shortsComment.getStatus())
+                .status(shortsComment.isStatus())
                 .build();
     }
 
