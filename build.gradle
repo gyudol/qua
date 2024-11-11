@@ -18,10 +18,14 @@ java {
     }
 }
 
+jar {
+    enabled = false
+}
+
 checkstyle {
     maxWarnings = 0
     configFile = file("checkstyle/google_checks.xml")
-    toolVersion = "10.18.0" //
+    toolVersion = "10.18.0"
 }
 
 repositories {
