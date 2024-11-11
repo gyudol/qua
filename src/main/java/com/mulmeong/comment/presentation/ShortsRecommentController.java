@@ -9,6 +9,7 @@ import com.mulmeong.comment.dto.in.ShortsRecommentUpdateDto;
 import com.mulmeong.comment.dto.out.ShortsRecommentResponseDto;
 import com.mulmeong.comment.vo.in.ShortsRecommentRequestVo;
 import com.mulmeong.comment.vo.in.ShortsRecommentUpdateVo;
+import com.mulmeong.comment.vo.out.FeedRecommentResponseVo;
 import com.mulmeong.comment.vo.out.ShortsRecommentResponseVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -26,7 +27,7 @@ public class ShortsRecommentController {
     private final ShortsRecommentService shortsRecommentService;
 
     @PostMapping("/comments/{commentUuid}/recomments")
-    @Operation(summary = "쇼츠 대댓글 추가", tags = {"Shorts Comment Service"})
+    @Operation(summary = "쇼츠 대댓글 추가", tags = {"Shorts Recomment Service"})
     public BaseResponse<Void> addShortsRecomment(
             @RequestBody ShortsRecommentRequestVo requestVo,
             @PathVariable String commentUuid) {
@@ -35,7 +36,7 @@ public class ShortsRecommentController {
     }
 
     @PutMapping("/comments/recomments/{recommentUuid}")
-    @Operation(summary = "쇼츠 대댓글 수정", tags = {"Shorts Comment Service"})
+    @Operation(summary = "쇼츠 대댓글 수정", tags = {"Shorts Recomment Service"})
     public BaseResponse<Void> updateShortsRecomment(
             @RequestBody ShortsRecommentUpdateVo updateVo,
             @PathVariable String recommentUuid) {
@@ -44,14 +45,20 @@ public class ShortsRecommentController {
     }
 
     @DeleteMapping("/comments/recomments/{recommentUuid}")
-    @Operation(summary = "쇼츠 대댓글 삭제", tags = {"Shorts Comment Service"})
+    @Operation(summary = "쇼츠 대댓글 삭제", tags = {"Shorts Recomment Service"})
     public BaseResponse<Void> deleteShortsRecomment(@PathVariable String recommentUuid) {
         shortsRecommentService.deleteShortsRecomment(recommentUuid);
         return new BaseResponse<>();
     }
 
+    @GetMapping("/comments/recomments")
+    @Operation(summary = "쇼츠 대댓글 단건 조회", tags = {"Shorts Recomment Service"})
+    public BaseResponse<ShortsRecommentResponseVo> getShortsRecomment(@RequestParam String recommentUuid) {
+        return new BaseResponse<>(shortsRecommentService.getShortsRecomment(recommentUuid).toVo());
+    }
+
     @GetMapping("/comments/{commentUuid}/recomments")
-    @Operation(summary = "쇼츠 대댓글 최신순 조회", tags = {"Shorts Comment Service"})
+    @Operation(summary = "쇼츠 대댓글 페이지 조회", tags = {"Shorts Recomment Service"})
     public BaseResponse<CursorPage<ShortsRecommentResponseVo>> findShortsRecomment(
             @PathVariable String commentUuid,
             @RequestParam(value = "lastId", required = false) Long lastId,

@@ -47,11 +47,12 @@ public class FeedCommentServiceImpl implements FeedCommentService {
     }
 
     @Override
-    public List<FeedCommentResponseDto> getFeedComments(String feedUuid) {
-        List<FeedComment> feedComments = feedCommentRepository.findByFeedUuid(feedUuid);
-
-        return feedComments.stream().map(FeedCommentResponseDto::toDto).toList();
+    public FeedCommentResponseDto getFeedComment(String commentUuid) {
+        FeedComment feedComment = feedCommentRepository.findByCommentUuid(commentUuid).orElseThrow(
+                () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT));
+        return FeedCommentResponseDto.toDto(feedComment);
     }
+
 
     @Override
     public CursorPage<FeedCommentResponseDto> getFeedCommentsByPage(

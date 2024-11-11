@@ -14,7 +14,7 @@ public interface ShortsCommentService {
 
     void deleteShortsComment(String commentUuid);
 
-    List<ShortsCommentResponseDto> getShortsComments(String shortsUuid);
+    ShortsCommentResponseDto getShortsComment(String commentUuid);
 
     CursorPage<ShortsCommentResponseDto> getShortsCommentsByPage(
             String shortsUuid,

@@ -14,7 +14,6 @@ public class FeedRecommentRequestDto {
 
     private String commentUuid;
     private String memberUuid;
-    private String recommentUuid;
     private String content;
 
     public static FeedRecommentRequestDto toDto(FeedRecommentRequestVo requestVo, String commentUuid) {

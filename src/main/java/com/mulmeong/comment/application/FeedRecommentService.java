@@ -14,6 +14,8 @@ public interface FeedRecommentService {
 
     void deleteFeedComment(String recommentUuid);
 
+    FeedRecommentResponseDto getFeedRecomment(String recommentUuid);
+
     CursorPage<FeedRecommentResponseDto> getFeedRecomments(
             String commentUuid, Long lastId, Integer pageSize, Integer pageNo);
 }

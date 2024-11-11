@@ -10,6 +10,7 @@ import com.mulmeong.comment.dto.in.ShortsCommentUpdateDto;
 import com.mulmeong.comment.dto.out.ShortsCommentResponseDto;
 import com.mulmeong.comment.vo.in.ShortsCommentRequestVo;
 import com.mulmeong.comment.vo.in.ShortsCommentUpdateVo;
+import com.mulmeong.comment.vo.out.FeedCommentResponseVo;
 import com.mulmeong.comment.vo.out.ShortsCommentResponseVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -42,6 +43,13 @@ public class ShortsCommentController {
             @PathVariable String commentUuid) {
         shortsCommentService.updateFeedComment(ShortsCommentUpdateDto.toDto(updateVo, commentUuid));
         return new BaseResponse<>();
+    }
+
+    @GetMapping("/comments")
+    @Operation(summary = "쇼츠 댓글 단건 조회", tags = {"Shorts Comment Service"})
+    public BaseResponse<ShortsCommentResponseVo> getShortsComment(@RequestParam String commentUuid) {
+
+        return new BaseResponse<>(shortsCommentService.getShortsComment(commentUuid).toVo());
     }
 
     @DeleteMapping("/comments/{commentUuid}")

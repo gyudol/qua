@@ -52,14 +52,13 @@ public class FeedCommentController {
         feedCommentService.deleteFeedComment(commentUuid);
         return new BaseResponse<>();
     }
-    /*
-    @GetMapping("/{feedUuid}/comments")
-    @Operation(summary = "피드 댓글 조회", tags = {"Feed Comment Service"})
-    public BaseResponse<List<FeedCommentResponseVo>> getFeedComments(@PathVariable String feedUuid) {
-        return new BaseResponse<>(
-                feedCommentService.getFeedComments(feedUuid).stream().map(FeedCommentResponseDto::toVo).toList());
+
+    @GetMapping("/comments")
+    @Operation(summary = "피드 댓글 단건 조회", tags = {"Feed Comment Service"})
+    public BaseResponse<FeedCommentResponseVo> getFeedComment(@RequestParam String commentUuid) {
+
+        return new BaseResponse<>(feedCommentService.getFeedComment(commentUuid).toVo());
     }
-      */
 
     @GetMapping("/{feedUuid}/comments")
     @Operation(summary = "피드 댓글 최신순 , 추천순 조회", tags = {"Feed Comment Service"})
@@ -77,8 +76,8 @@ public class FeedCommentController {
         CursorPage<FeedCommentResponseDto> cursorPage = feedCommentService.getFeedCommentsByPage(
                 feedUuid, sortBy, lastId, pageSize, pageNo);
         return new BaseResponse<>(
-            CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
-                    .map(FeedCommentResponseDto::toVo).toList())
+                CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
+                        .map(FeedCommentResponseDto::toVo).toList())
         );
 
     }

@@ -1,12 +1,14 @@
 package com.mulmeong.comment.application;
 
 import com.mulmeong.comment.common.exception.BaseException;
+import com.mulmeong.comment.common.response.BaseResponse;
 import com.mulmeong.comment.common.response.BaseResponseStatus;
 import com.mulmeong.comment.common.utils.CursorPage;
 import com.mulmeong.comment.dto.in.ShortsRecommentRequestDto;
 import com.mulmeong.comment.dto.in.ShortsRecommentUpdateDto;
 import com.mulmeong.comment.dto.out.ShortsRecommentResponseDto;
 import com.mulmeong.comment.entity.ShortsRecomment;
+import com.mulmeong.comment.infrastructure.ShortsCommentRepository;
 import com.mulmeong.comment.infrastructure.ShortsRecommentRepository;
 import com.mulmeong.comment.infrastructure.ShortsRecommentRepositoryCustom;
 import lombok.RequiredArgsConstructor;
@@ -20,18 +22,22 @@ import java.util.List;
 @Service
 public class ShortsRecommentServiceImpl implements ShortsRecommentService {
 
+    private final ShortsCommentRepository shortsCommentRepository;
     private final ShortsRecommentRepository shortsRecommentRepository;
     private final ShortsRecommentRepositoryCustom shortsRecommentRepositoryCustom;
 
     @Override
     public void createShortsRecomment(ShortsRecommentRequestDto requestDto) {
+        if (!shortsCommentRepository.existsByCommentUuid(requestDto.getCommentUuid())) {
+            throw new BaseException(BaseResponseStatus.NO_EXIST_COMMENT);
+        }
         shortsRecommentRepository.save(requestDto.toEntity());
     }
 
     @Override
     public void updateShortsRecomment(ShortsRecommentUpdateDto updateDto) {
         ShortsRecomment shortsRecomment = shortsRecommentRepository.findByRecommentUuid(updateDto.getRecommentUuid())
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_RE_COMMENT)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT)
                 );
         shortsRecommentRepository.save(updateDto.toEntity(shortsRecomment));
     }
@@ -39,9 +45,17 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
     @Override
     public void deleteShortsRecomment(String recommentUuid) {
         ShortsRecomment shortsRecomment = shortsRecommentRepository.findByRecommentUuid(recommentUuid)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_RE_COMMENT)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT)
                 );
         shortsRecommentRepository.delete(shortsRecomment);
+    }
+
+    @Override
+    public ShortsRecommentResponseDto getShortsRecomment(String recommentUuid) {
+        ShortsRecomment shortsRecomment = shortsRecommentRepository.findByRecommentUuid(recommentUuid)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT)
+                );
+        return ShortsRecommentResponseDto.toDto(shortsRecomment);
     }
 
     @Override
