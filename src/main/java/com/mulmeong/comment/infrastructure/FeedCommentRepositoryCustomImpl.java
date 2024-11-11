@@ -39,8 +39,8 @@ public class FeedCommentRepositoryCustomImpl implements FeedCommentRepositoryCus
         Optional.ofNullable(feedUuid)
                 .ifPresent(code -> builder.and(feedComment.feedUuid.eq(feedUuid)));
         //삭제된 댓글은 조회X
-        Optional.of(Boolean.FALSE)
-                .ifPresent(code -> builder.and(feedComment.status.eq(Boolean.FALSE)));
+        Optional.of(true)
+                .ifPresent(code -> builder.and(feedComment.status.eq(true)));
         // 마지막 ID 커서 적용
         Optional.ofNullable(lastId)
                 .ifPresent(id -> builder.and(feedComment.id.lt(id)));

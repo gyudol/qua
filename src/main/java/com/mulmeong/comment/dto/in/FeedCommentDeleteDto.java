@@ -14,7 +14,7 @@ public class FeedCommentDeleteDto {
                 .feedUuid(feedComment.getFeedUuid())
                 .commentUuid(feedComment.getCommentUuid())
                 .content(feedComment.getContent())
-                .status(Boolean.TRUE)
+                .status(false)
                 .build();
     }
 }

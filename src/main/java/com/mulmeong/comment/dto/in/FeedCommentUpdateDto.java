@@ -26,7 +26,7 @@ public class FeedCommentUpdateDto {
                 .feedUuid(feedComment.getFeedUuid())
                 .commentUuid(commentUuid)
                 .content(content)
-                .status(feedComment.getStatus())
+                .status(feedComment.isStatus())
                 .build();
     }
 
