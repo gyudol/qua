@@ -13,6 +13,9 @@ import Share from "./Share";
 import Shorts from "./Shorts";
 import Save from "./Save";
 import Ellipsis from "./Ellipsis";
+import LeftChevron from "./LeftChevron";
+import List from "./List";
+import Group from "./Group";
 
 export {
   Globe,
@@ -30,4 +33,7 @@ export {
   Comment,
   Save,
   Ellipsis,
+  LeftChevron,
+  List,
+  Group,
 };
