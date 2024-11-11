@@ -21,23 +21,17 @@ public class LikesController {
     @PostMapping("/likes")
     public BaseResponse<Void> likes(@RequestBody LikesRequestVo request) {
 
-        try {
-            likesUseCase.likes(request.toDto());
-            return new BaseResponse<>();
-        } catch (Exception e) {
-            return new BaseResponse<>(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-        }
+        likesUseCase.likes(request.toDto());
+        return new BaseResponse<>();
 
     }
 
 
     @GetMapping("/{memberUuid}/{kind}/{kindUuid}/like-status")
     public BaseResponse<Boolean> likesStatus(@PathVariable String memberUuid, @PathVariable String kind, @PathVariable String kindUuid) {
-        try {
-            return new BaseResponse<>(likesUseCase.isChecked(new LikesRequestDto(memberUuid, kind, kindUuid)));
-        } catch (Exception e) {
-            return new BaseResponse<>(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-        }
+
+        return new BaseResponse<>(likesUseCase.isChecked(new LikesRequestDto(memberUuid, kind, kindUuid)));
+
     }
 
 

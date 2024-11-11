@@ -23,22 +23,17 @@ public class DislikeController {
     @PostMapping("/dislike")
     public BaseResponse<Void> dislike(@RequestBody DislikeRequestVo request) {
 
-        try {
-            dislikeUseCase.dislike(request.toDto());
-            return new BaseResponse<>();
-        } catch (Exception e) {
-            return new BaseResponse<>(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-        }
+        dislikeUseCase.dislike(request.toDto());
+        return new BaseResponse<>();
+
 
     }
 
     @GetMapping("/{memberUuid}/{kind}/{kindUuid}/dislike-status")
     public BaseResponse<Boolean> dislikeStatus(@PathVariable String memberUuid, @PathVariable String kind, @PathVariable String kindUuid) {
-        try {
-            return new BaseResponse<>(dislikeUseCase.isChecked(new DislikeRequestDto(memberUuid, kind, kindUuid)));
-        } catch (Exception e) {
-            return new BaseResponse<>(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-        }
+
+        return new BaseResponse<>(dislikeUseCase.isChecked(new DislikeRequestDto(memberUuid, kind, kindUuid)));
+
     }
 
 }
