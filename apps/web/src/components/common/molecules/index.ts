@@ -1,3 +1,4 @@
-import { CommonLayout } from "./CommonLayout";
+import { CommonLayout } from "../atoms/CommonLayout";
+import CommonHeader from "./CommonHeader";
 
-export { CommonLayout };
+export { CommonLayout, CommonHeader };

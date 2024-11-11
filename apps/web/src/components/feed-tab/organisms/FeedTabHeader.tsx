@@ -1,4 +1,4 @@
-import { CommonLayout } from "@/components/common/molecules/CommonLayout";
+import { CommonLayout } from "@/components/common/atoms/CommonLayout";
 import { Logo } from "@/components/common/icons";
 import {
   ChatButton,
