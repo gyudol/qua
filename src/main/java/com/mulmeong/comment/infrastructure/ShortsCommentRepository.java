@@ -1,4 +1,4 @@
-package com.mulmeong.comment.infrasturcture;
+package com.mulmeong.comment.infrastructure;
 
 import com.mulmeong.comment.entity.ShortsComment;
 import org.springframework.data.jpa.repository.JpaRepository;
