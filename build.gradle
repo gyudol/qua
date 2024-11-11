@@ -18,10 +18,14 @@ java {
     }
 }
 
+jar {
+    enabled = false
+}
+
 checkstyle {
     maxWarnings = 0
     configFile = file("checkstyle/google_checks.xml")
-    toolVersion = "10.18.0" //
+    toolVersion = "10.18.0"
 }
 
 repositories {
@@ -33,7 +37,7 @@ dependencies {
 //    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 //    implementation 'org.springframework.boot:spring-boot-starter-webflux'
-//    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

@@ -9,6 +9,7 @@ import com.mulmeong.utility.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Slf4j
@@ -23,33 +24,25 @@ public class LikesController {
     @PostMapping("/likes")
     public BaseResponse<Void> likes(@RequestBody LikesRequestVo request) {
 
-        try {
-            likesUseCase.likes(request.toDto());
-            return new BaseResponse<>();
-        } catch (Exception e) {
-            return new BaseResponse<>(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-        }
+        likesUseCase.likes(request.toDto());
+        return new BaseResponse<>();
 
     }
 
     // 좋아요 상태 조회
     @GetMapping("/{memberUuid}/{kind}/{kindUuid}/like-status")
     public BaseResponse<Boolean> likesStatus(@PathVariable String memberUuid, @PathVariable String kind, @PathVariable String kindUuid) {
-        try {
-            return new BaseResponse<>(likesUseCase.isChecked(new LikesRequestDto(memberUuid, kind, kindUuid)));
-        } catch (Exception e) {
-            return new BaseResponse<>(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-        }
+
+        return new BaseResponse<>(likesUseCase.isChecked(new LikesRequestDto(memberUuid, kind, kindUuid)));
+
     }
 
     // 좋아요 한 컨텐츠 조회
     @GetMapping("/{memberUuid}/{kind}/likes")
     public BaseResponse<List<String>> getLikes(@PathVariable String memberUuid, @PathVariable String kind) {
-        try {
-            return new BaseResponse<>(likesUseCase.getLikes(new LikesListRequestDto(memberUuid, kind)));
-        } catch (Exception e) {
-            return new BaseResponse<>(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-        }
+
+        return new BaseResponse<>(likesUseCase.getLikes(new LikesListRequestDto(memberUuid, kind)));
+
     }
 
 
