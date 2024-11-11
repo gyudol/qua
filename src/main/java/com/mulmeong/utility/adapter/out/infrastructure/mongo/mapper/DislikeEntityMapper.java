@@ -1,11 +1,8 @@
 package com.mulmeong.utility.adapter.out.infrastructure.mongo.mapper;
 
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.DislikeEntity;
-import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.LikesEntity;
 import com.mulmeong.utility.application.port.out.dto.DislikeEntityResponseDto;
 import com.mulmeong.utility.application.port.out.dto.DislikeResponseDto;
-import com.mulmeong.utility.application.port.out.dto.LikesEntityResponseDto;
-import com.mulmeong.utility.application.port.out.dto.LikesResponseDto;
 import org.springframework.stereotype.Component;
 
 @Component

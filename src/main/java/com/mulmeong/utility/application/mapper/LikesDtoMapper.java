@@ -1,6 +1,5 @@
 package com.mulmeong.utility.application.mapper;
 
-import com.mulmeong.utility.application.port.out.LikesPort;
 import com.mulmeong.utility.application.port.out.dto.LikesEntityResponseDto;
 import com.mulmeong.utility.application.port.out.dto.LikesResponseDto;
 import com.mulmeong.utility.domain.model.Likes;

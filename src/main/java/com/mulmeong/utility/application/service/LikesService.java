@@ -2,6 +2,7 @@ package com.mulmeong.utility.application.service;
 
 import com.mulmeong.utility.application.mapper.LikesDtoMapper;
 import com.mulmeong.utility.application.port.in.LikesUseCase;
+import com.mulmeong.utility.application.port.in.dto.LikesListRequestDto;
 import com.mulmeong.utility.application.port.in.dto.LikesRequestDto;
 import com.mulmeong.utility.application.port.out.LikesPort;
 import com.mulmeong.utility.application.port.out.dto.LikesEntityResponseDto;
@@ -10,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -49,6 +52,13 @@ public class LikesService implements LikesUseCase {
         return likesPort.findByMemberAndKind(likesRequestDto)
                 .map(LikesEntityResponseDto::isStatus)
                 .orElse(false);
+    }
+
+    public List<String> getLikes(LikesListRequestDto likesListRequestDto) {
+        List<LikesEntityResponseDto> likedEntities = likesPort.getByMemberAndKind(likesListRequestDto);
+        return likedEntities.stream()
+                .map(LikesEntityResponseDto::getKindUuid)
+                .collect(Collectors.toList());
     }
 
 

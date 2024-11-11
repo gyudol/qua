@@ -2,10 +2,7 @@ package com.mulmeong.utility.application.mapper;
 
 import com.mulmeong.utility.application.port.out.dto.DislikeEntityResponseDto;
 import com.mulmeong.utility.application.port.out.dto.DislikeResponseDto;
-import com.mulmeong.utility.application.port.out.dto.LikesEntityResponseDto;
-import com.mulmeong.utility.application.port.out.dto.LikesResponseDto;
 import com.mulmeong.utility.domain.model.Dislike;
-import com.mulmeong.utility.domain.model.Likes;
 import org.springframework.stereotype.Component;
 
 @Component
