@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FeedRecommentRepository extends JpaRepository<FeedRecomment, Long> {
-    Optional<FeedRecomment> findByMemberUuid(String memberUuid);
-
     List<FeedRecomment> findByCommentUuid(String commentUuid);
 
     Optional<FeedRecomment> findByRecommentUuid(String recommentUuid);

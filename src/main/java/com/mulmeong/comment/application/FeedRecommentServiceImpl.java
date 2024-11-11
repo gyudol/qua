@@ -46,7 +46,7 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
     public CursorPage<FeedRecommentResponseDto> getFeedRecomments(
             String commentUuid, Long lastId, Integer pageSize, Integer pageNo) {
         CursorPage<FeedRecomment> cursorPage = feedRecommentRepositoryCustom
-                .getFeedComments(commentUuid, lastId, pageSize, pageNo);
+                .getFeedRecomments(commentUuid, lastId, pageSize, pageNo);
 
         return CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
                 .map(FeedRecommentResponseDto::toDto).toList());

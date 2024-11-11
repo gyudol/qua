@@ -4,7 +4,7 @@ import com.mulmeong.comment.common.utils.CursorPage;
 import com.mulmeong.comment.entity.FeedRecomment;
 
 public interface FeedRecommentRepositoryCustom {
-    CursorPage<FeedRecomment> getFeedComments(
+    CursorPage<FeedRecomment> getFeedRecomments(
             String commentUuid,
             Long lastId,
             Integer pageSize,

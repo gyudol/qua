@@ -21,7 +21,7 @@ public class FeedRecommentRepositoryCustomImpl implements FeedRecommentRepositor
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public CursorPage<FeedRecomment> getFeedComments(
+    public CursorPage<FeedRecomment> getFeedRecomments(
             String commentUuid, Long lastId, Integer pageSize, Integer pageNo) {
         QFeedRecomment feedRecomment = QFeedRecomment.feedRecomment;
 
@@ -45,7 +45,7 @@ public class FeedRecommentRepositoryCustomImpl implements FeedRecommentRepositor
         List<FeedRecomment> shortsRecomments = jpaQueryFactory
                 .selectFrom(feedRecomment)
                 .where(builder)
-                .orderBy(feedRecomment.createdAt.desc())
+                .orderBy(feedRecomment.createdAt.asc())
                 .offset(offset)
                 .limit(currentPageSize + 1)
                 .fetch();
