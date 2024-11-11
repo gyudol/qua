@@ -41,5 +41,7 @@ out/
 package-lock.json
 .DS_Store
 
-### .yml files ###
-*.yml
+### Secrets ###
+src/main/resources
+application.yml
+
