@@ -33,7 +33,6 @@ public enum BaseResponseStatus {
     NO_DELETE_RE_COMMENT_AUTHORITY(HttpStatus.BAD_REQUEST, false, 4003, "대댓글 삭제 권한이 없습니다"),
     NO_EXIST_RE_COMMENT(HttpStatus.NOT_FOUND, false, 4003, "존재하지 않는 대댓글입니다");
 
-
     private final HttpStatusCode httpStatusCode;
     private final boolean isSuccess;
     private final int code;
