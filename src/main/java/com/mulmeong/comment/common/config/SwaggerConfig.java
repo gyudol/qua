@@ -42,7 +42,7 @@ public class SwaggerConfig {
                 // Swagger에서 요청보낼때 API에 추가되는 문자열
                 .addServersItem(new Server().url("/comment-service"));
 
-        //test
+                //test
                 //.addServersItem(new Server().url("/"));
 
     }
