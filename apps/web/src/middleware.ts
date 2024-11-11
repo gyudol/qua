@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export const config = {
-  matcher: ["/protected/:path*"],
+  matcher: ["/mypage"], // 마이페이지
 };
 
 export default function middleware(request: NextRequest) {
