@@ -18,5 +18,4 @@ public interface FeedCommentRepository extends JpaRepository<FeedComment, Long> 
 
     boolean existsByFeedUuid(String feedUuid);
 
-    List<FeedComment> findByStatus(boolean status);
 }
