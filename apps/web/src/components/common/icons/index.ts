@@ -13,6 +13,9 @@ import Share from "./Share";
 import Shorts from "./Shorts";
 import Save from "./Save";
 import Ellipsis from "./Ellipsis";
+import Bubbles from "./Bubbles";
+import NaverButton from "./NaverButton";
+import KakaoButton from "./KakaoButton";
 
 export {
   Globe,
@@ -30,4 +33,7 @@ export {
   Comment,
   Save,
   Ellipsis,
+  Bubbles,
+  NaverButton,
+  KakaoButton,
 };
