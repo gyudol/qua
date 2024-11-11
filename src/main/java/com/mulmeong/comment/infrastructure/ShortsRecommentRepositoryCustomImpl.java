@@ -21,7 +21,7 @@ public class ShortsRecommentRepositoryCustomImpl implements ShortsRecommentRepos
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public CursorPage<ShortsRecomment> getShortsComments(
+    public CursorPage<ShortsRecomment> getShortsReomments(
             String commentUuid,
             Long lastId,
             Integer pageSize,
@@ -49,7 +49,7 @@ public class ShortsRecommentRepositoryCustomImpl implements ShortsRecommentRepos
         List<ShortsRecomment> shortsRecomments = jpaQueryFactory
                 .selectFrom(shortsRecomment)
                 .where(builder)
-                .orderBy(shortsRecomment.createdAt.desc())
+                .orderBy(shortsRecomment.createdAt.asc())
                 .offset(offset)
                 .limit(currentPageSize + 1)
                 .fetch();

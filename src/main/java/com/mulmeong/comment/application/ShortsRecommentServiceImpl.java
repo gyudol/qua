@@ -48,7 +48,7 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
     public CursorPage<ShortsRecommentResponseDto> getShortsRecommets(
             String commentUuid, Long lastId, Integer pageSize, Integer pageNo) {
         CursorPage<ShortsRecomment> cursorPage = shortsRecommentRepositoryCustom
-                .getShortsComments(commentUuid, lastId, pageSize, pageNo);
+                .getShortsReomments(commentUuid, lastId, pageSize, pageNo);
         return CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
                 .map(ShortsRecommentResponseDto::toDto).toList());
     }
