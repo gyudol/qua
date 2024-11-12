@@ -26,4 +26,9 @@ public class FollowService implements FollowUseCase {
         }
     }
 
+    @Override
+    public void unfollow(FollowRequestDto followRequestDto) {
+        followPort.unfollow(followRequestDto);
+    }
+
 }

@@ -7,4 +7,6 @@ public interface FollowPort {
     boolean existsBySourceUuidAndTargetUuid(FollowRequestDto followRequestDto);
 
     void saveFollow(FollowRequestDto followRequestDto);
+
+    void unfollow(FollowRequestDto followRequestDto);
 }

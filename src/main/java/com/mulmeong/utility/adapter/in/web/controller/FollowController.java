@@ -5,10 +5,7 @@ import com.mulmeong.utility.application.port.in.dto.FollowRequestDto;
 import com.mulmeong.utility.common.response.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -24,6 +21,11 @@ public class FollowController {
         return new BaseResponse<>();
     }
 
+    @DeleteMapping("/{sourceUuid}/following/{targetUuid}")
+    public BaseResponse<Void> unfollow(@PathVariable String sourceUuid, @PathVariable String targetUuid) {
+        followUseCase.unfollow(new FollowRequestDto(sourceUuid, targetUuid));
+        return new BaseResponse<>();
+    }
 
 
 

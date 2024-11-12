@@ -7,4 +7,5 @@ public interface FollowUseCase {
 
     void follow(FollowRequestDto followRequestDto);
 
+    void unfollow(FollowRequestDto followRequestDto);
 }
