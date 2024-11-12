@@ -16,4 +16,8 @@ public interface FollowMongoRepository extends MongoRepository<FollowEntity, Str
     List<FollowEntity> findByTargetUuidAndIdLessThanOrderByIdDesc(String memberUuid, String lastId, Pageable pageable);
 
     List<FollowEntity> findByTargetUuidOrderByIdDesc(String memberUuid, Pageable pageable);
+
+    List<FollowEntity> findBySourceUuidAndIdLessThanOrderByIdDesc(String memberUuid, String lastId, Pageable pageable);
+
+    List<FollowEntity> findBySourceUuidOrderByIdDesc(String memberUuid, Pageable pageable);
 }

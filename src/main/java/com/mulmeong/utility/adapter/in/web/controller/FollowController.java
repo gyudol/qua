@@ -43,4 +43,12 @@ public class FollowController {
         return new BaseResponse<>(followUseCase.getFollowers(memberUuid, lastId, pageSize));
     }
 
+    @GetMapping("/{memberUuid}/followings")
+    public BaseResponse<CursorPage<String>> getFollowings(
+            @PathVariable String memberUuid,
+            @RequestParam(value = "nextCursor", required = false) String lastId,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        return new BaseResponse<>(followUseCase.getFollowings(memberUuid, lastId, pageSize));
+    }
+
 }

@@ -74,4 +74,32 @@ public class FollowRepository implements FollowPort {
                 .pageSize(pageSize)
                 .build();
     }
+
+    @Override
+    public CursorPage<String> getFollowings(String memberUuid, String lastId, int pageSize) {
+        Pageable pageable = PageRequest.of(0, pageSize, Sort.by(Sort.Direction.DESC, "id"));
+
+        List<FollowEntity> entities;
+        if (lastId != null) {
+            entities = followMongoRepository.findBySourceUuidAndIdLessThanOrderByIdDesc(
+                    memberUuid, lastId, pageable);
+        } else {
+            entities = followMongoRepository.findBySourceUuidOrderByIdDesc(
+                    memberUuid, pageable);
+        }
+
+        List<String> followerUuids = entities.stream()
+                .map(FollowEntity::getTargetUuid)
+                .collect(Collectors.toList());
+
+        boolean hasNext = followerUuids.size() == pageSize;
+        String nextCursor = hasNext ? entities.get(entities.size() - 1).getId() : null;
+
+        return CursorPage.<String>builder()
+                .content(followerUuids)
+                .nextCursor(nextCursor)
+                .hasNext(hasNext)
+                .pageSize(pageSize)
+                .build();
+    }
 }

@@ -14,4 +14,6 @@ public interface FollowUseCase {
     boolean followStatus(FollowRequestDto followRequestDto);
 
     CursorPage<String> getFollowers(String memberUuid, String lastId, int pageSize);
+
+    CursorPage<String> getFollowings(String memberUuid, String lastId, int pageSize);
 }
