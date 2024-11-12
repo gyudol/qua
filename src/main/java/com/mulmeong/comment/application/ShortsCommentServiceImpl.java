@@ -50,6 +50,9 @@ public class ShortsCommentServiceImpl implements ShortsCommentService {
         ShortsComment shortsComment = shortsCommentRepository.findByCommentUuid(commentUuid).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT)
         );
+        if (!shortsComment.isStatus()) {
+            throw new BaseException(BaseResponseStatus.NO_EXIST_COMMENT);
+        }
         return ShortsCommentResponseDto.toDto(shortsComment);
     }
 

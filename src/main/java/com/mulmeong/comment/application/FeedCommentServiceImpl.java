@@ -50,6 +50,9 @@ public class FeedCommentServiceImpl implements FeedCommentService {
     public FeedCommentResponseDto getFeedComment(String commentUuid) {
         FeedComment feedComment = feedCommentRepository.findByCommentUuid(commentUuid).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT));
+        if (!feedComment.isStatus()) {
+            throw new BaseException(BaseResponseStatus.NO_EXIST_COMMENT);
+        }
         return FeedCommentResponseDto.toDto(feedComment);
     }
 
@@ -64,6 +67,7 @@ public class FeedCommentServiceImpl implements FeedCommentService {
 
         CursorPage<FeedComment> cursorPage = feedCommentRepositoryCustom.getFeedComments(
                 feedUuid, sortBy, lastId, pageSize, pageNo);
+
         return CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
                 .map(FeedCommentResponseDto::toDto).toList());
     }
