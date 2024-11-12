@@ -36,13 +36,17 @@ public record BaseResponse<T>(HttpStatusCode httpStatus, Boolean isSuccess, Stri
     }
 
     /**
-     * 4. 요청에 실패한 경우. 에러 메시지를 result에 추가할 수 있는 생성자
+     * 4. 요청에 실패한 경우 + 에러 객체(메시지) 추가.
      *
      * @param status 요청 상태
-     * @param result 에러 메시지
+     * @param e      에러 객체 => e.getMessage()로 에러 메시지 전달
      */
-    public BaseResponse(BaseResponseStatus status, T result) {
-        this(status.getHttpStatusCode(), false, status.getMessage(), status.getCode(), result);
+    public BaseResponse(BaseResponseStatus status, Exception e) {
+        this(status.getHttpStatusCode(),
+                false,
+                e.getMessage(),
+                status.getCode(),
+                (T) status.getMessage());
     }
 
 }

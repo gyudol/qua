@@ -20,6 +20,8 @@ public enum BaseResponseStatus {
      **/
     SUCCESS(HttpStatus.OK, true, 200, "요청에 성공하였습니다."),
 
+    DUPLICATE_FOLLOW(HttpStatus.BAD_REQUEST,false, 702, "이미 팔로우 중인 유저입니다."),
+
     /**
      * 900: 기타 에러.
      */
