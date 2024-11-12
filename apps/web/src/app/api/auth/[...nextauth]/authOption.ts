@@ -27,13 +27,13 @@ export const options: NextAuthOptions = {
     async signIn({ user, account }) {
       if (account) {
         const res = await fetch(
-          `${process.env.BASE_API_URL}/member-service/auth/sign-in`,
+          `${process.env.BASE_API_URL}/member-service/v1/auth/sign-in`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              provider: account.provider,
-              providerId: account.providerAccountId,
+              oauthId: account.providerAccountId,
+              oauthProvider: account.provider,
             }),
           },
         );
