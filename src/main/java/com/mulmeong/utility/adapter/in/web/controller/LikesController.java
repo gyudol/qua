@@ -6,6 +6,7 @@ import com.mulmeong.utility.application.port.in.dto.LikesListRequestDto;
 import com.mulmeong.utility.application.port.in.dto.LikesRequestDto;
 import com.mulmeong.utility.common.response.BaseResponse;
 import com.mulmeong.utility.common.response.BaseResponseStatus;
+import com.mulmeong.utility.common.utils.CursorPage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

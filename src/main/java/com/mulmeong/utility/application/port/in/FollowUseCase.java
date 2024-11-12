@@ -2,6 +2,7 @@ package com.mulmeong.utility.application.port.in;
 
 import com.mulmeong.utility.application.port.in.dto.FollowRequestDto;
 import com.mulmeong.utility.common.response.BaseResponseStatus;
+import com.mulmeong.utility.common.utils.CursorPage;
 
 public interface FollowUseCase {
 
@@ -11,4 +12,6 @@ public interface FollowUseCase {
     void unfollow(FollowRequestDto followRequestDto);
 
     boolean followStatus(FollowRequestDto followRequestDto);
+
+    CursorPage<String> getFollowers(String memberUuid, String lastId, int pageSize);
 }
