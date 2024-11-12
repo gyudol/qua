@@ -10,12 +10,9 @@ import com.mulmeong.comment.vo.in.FeedRecommentRequestVo;
 import com.mulmeong.comment.vo.in.FeedRecommentUpdateVo;
 import com.mulmeong.comment.vo.out.FeedRecommentResponseVo;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -48,9 +45,9 @@ public class FeedRecommentController {
         return new BaseResponse<>();
     }
 
-    @GetMapping("/comments/recomments")
+    @GetMapping("/comments/recomments/{recommentUuid}")
     @Operation(summary = "피드 대댓글 단건 조회", tags = {"Feed Recomment Service"})
-    public BaseResponse<FeedRecommentResponseVo> getFeedRecomment(@RequestParam String recommentUuid) {
+    public BaseResponse<FeedRecommentResponseVo> getFeedRecomment(@PathVariable String recommentUuid) {
         return new BaseResponse<>(feedRecommentService.getFeedRecomment(recommentUuid).toVo());
     }
 
@@ -58,7 +55,7 @@ public class FeedRecommentController {
     @Operation(summary = "피드 대댓글 페이지 조회", tags = {"Feed Recomment Service"})
     public BaseResponse<CursorPage<FeedRecommentResponseVo>> findFeedRecomments(
             @PathVariable String commentUuid,
-            @RequestParam(value = "lastId", required = false) Long lastId,
+            @RequestParam(value = "nextCursor", required = false) Long lastId,
             @RequestParam(value = "pageSize", required = false) Integer pageSize,
             @RequestParam(value = "pageNo", required = false) Integer pageNo) {
 

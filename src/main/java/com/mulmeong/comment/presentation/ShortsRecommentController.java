@@ -1,6 +1,5 @@
 package com.mulmeong.comment.presentation;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.mulmeong.comment.application.ShortsRecommentService;
 import com.mulmeong.comment.common.response.BaseResponse;
 import com.mulmeong.comment.common.utils.CursorPage;
@@ -9,16 +8,10 @@ import com.mulmeong.comment.dto.in.ShortsRecommentUpdateDto;
 import com.mulmeong.comment.dto.out.ShortsRecommentResponseDto;
 import com.mulmeong.comment.vo.in.ShortsRecommentRequestVo;
 import com.mulmeong.comment.vo.in.ShortsRecommentUpdateVo;
-import com.mulmeong.comment.vo.out.FeedRecommentResponseVo;
 import com.mulmeong.comment.vo.out.ShortsRecommentResponseVo;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.awt.*;
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -51,9 +44,9 @@ public class ShortsRecommentController {
         return new BaseResponse<>();
     }
 
-    @GetMapping("/comments/recomments")
+    @GetMapping("/comments/recomments/{recommentUuid}")
     @Operation(summary = "쇼츠 대댓글 단건 조회", tags = {"Shorts Recomment Service"})
-    public BaseResponse<ShortsRecommentResponseVo> getShortsRecomment(@RequestParam String recommentUuid) {
+    public BaseResponse<ShortsRecommentResponseVo> getShortsRecomment(@PathVariable String recommentUuid) {
         return new BaseResponse<>(shortsRecommentService.getShortsRecomment(recommentUuid).toVo());
     }
 
@@ -61,7 +54,7 @@ public class ShortsRecommentController {
     @Operation(summary = "쇼츠 대댓글 페이지 조회", tags = {"Shorts Recomment Service"})
     public BaseResponse<CursorPage<ShortsRecommentResponseVo>> findShortsRecomment(
             @PathVariable String commentUuid,
-            @RequestParam(value = "lastId", required = false) Long lastId,
+            @RequestParam(value = "nextCursor", required = false) Long lastId,
             @RequestParam(value = "pageSize", required = false) Integer pageSize,
             @RequestParam(value = "pageNo", required = false) Integer pageNo
     ) {
