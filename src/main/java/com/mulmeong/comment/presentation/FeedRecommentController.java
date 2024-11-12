@@ -20,34 +20,6 @@ import org.springframework.web.bind.annotation.*;
 public class FeedRecommentController {
     private final FeedRecommentService feedRecommentService;
 
-    @PostMapping("/comments/{commentUuid}/recomments")
-    @Operation(summary = "피드 대댓글 추가", tags = {"Feed Recomment Service"})
-    public BaseResponse<Void> addFeedRecomment(
-            @RequestBody FeedRecommentRequestVo requestVo,
-            @PathVariable String commentUuid) {
-        feedRecommentService.createFeedRecomment(FeedRecommentRequestDto.toDto(requestVo, commentUuid));
-        return new BaseResponse<>();
-    }
-
-    @PutMapping("/comments/recomments/{recommentUuid}")
-    @Operation(summary = "피드 대댓글 수정", tags = {"Feed Recomment Service"})
-    public BaseResponse<Void> updateFeedRecomment(
-            @RequestHeader("Member-Uuid") String memberUuid,
-            @RequestBody FeedRecommentUpdateVo updateVo,
-            @PathVariable String recommentUuid) {
-        feedRecommentService.updateFeedRecomment(FeedRecommentUpdateDto.toDto(updateVo, recommentUuid, memberUuid));
-        return new BaseResponse<>();
-    }
-
-    @DeleteMapping("/comments/recomments/{recommentUuid}")
-    @Operation(summary = "피드 대댓글 삭제", tags = {"Feed Recomment Service"})
-    public BaseResponse<Void> deleteFeedRecomment(
-            @RequestHeader("Member-Uuid") String memberUuid,
-            @PathVariable String recommentUuid) {
-        feedRecommentService.deleteFeedRecomment(memberUuid, recommentUuid);
-        return new BaseResponse<>();
-    }
-
     @GetMapping("/comments/recomments/{recommentUuid}")
     @Operation(summary = "피드 대댓글 단건 조회", tags = {"Feed Recomment Service"})
     public BaseResponse<FeedRecommentResponseVo> getFeedRecomment(@PathVariable String recommentUuid) {

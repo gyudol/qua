@@ -19,35 +19,6 @@ import org.springframework.web.bind.annotation.*;
 public class ShortsRecommentController {
     private final ShortsRecommentService shortsRecommentService;
 
-    @PostMapping("/comments/{commentUuid}/recomments")
-    @Operation(summary = "쇼츠 대댓글 추가", tags = {"Shorts Recomment Service"})
-    public BaseResponse<Void> addShortsRecomment(
-            @RequestBody ShortsRecommentRequestVo requestVo,
-            @PathVariable String commentUuid) {
-        shortsRecommentService.createShortsRecomment(ShortsRecommentRequestDto.toDto(requestVo, commentUuid));
-        return new BaseResponse<>();
-    }
-
-    @PutMapping("/comments/recomments/{recommentUuid}")
-    @Operation(summary = "쇼츠 대댓글 수정", tags = {"Shorts Recomment Service"})
-    public BaseResponse<Void> updateShortsRecomment(
-            @RequestHeader("Member-Uuid") String memberUuid,
-            @RequestBody ShortsRecommentUpdateVo updateVo,
-            @PathVariable String recommentUuid) {
-        shortsRecommentService.updateShortsRecomment(
-                ShortsRecommentUpdateDto.toDto(updateVo, recommentUuid, memberUuid));
-        return new BaseResponse<>();
-    }
-
-    @DeleteMapping("/comments/recomments/{recommentUuid}")
-    @Operation(summary = "쇼츠 대댓글 삭제", tags = {"Shorts Recomment Service"})
-    public BaseResponse<Void> deleteShortsRecomment(
-            @RequestHeader("Member-Uuid") String memberUuid,
-            @PathVariable String recommentUuid) {
-        shortsRecommentService.deleteShortsRecomment(memberUuid, recommentUuid);
-        return new BaseResponse<>();
-    }
-
     @GetMapping("/comments/recomments/{recommentUuid}")
     @Operation(summary = "쇼츠 대댓글 단건 조회", tags = {"Shorts Recomment Service"})
     public BaseResponse<ShortsRecommentResponseVo> getShortsRecomment(@PathVariable String recommentUuid) {

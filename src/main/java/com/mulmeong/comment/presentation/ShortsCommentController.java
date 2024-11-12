@@ -22,39 +22,11 @@ public class ShortsCommentController {
 
     private final ShortsCommentService shortsCommentService;
 
-    @PostMapping("/{shortsUuid}/comments")
-    @Operation(summary = "쇼츠 댓글 추가", tags = {"Shorts Comment Service"})
-    public BaseResponse<Void> addShortsComment(
-            @RequestBody ShortsCommentRequestVo requestVo,
-            @PathVariable String shortsUuid) {
-        shortsCommentService.createFeedComment(ShortsCommentRequestDto.toDto(requestVo, shortsUuid));
-        return new BaseResponse<>();
-    }
-
-    @PutMapping("/comments/{commentUuid}")
-    @Operation(summary = "쇼츠 댓글 수정", tags = {"Shorts Comment Service"})
-    public BaseResponse<Void> updateShortsComment(
-            @RequestHeader("Member-Uuid") String memberUuid,
-            @RequestBody ShortsCommentUpdateVo updateVo,
-            @PathVariable String commentUuid) {
-        shortsCommentService.updateFeedComment(ShortsCommentUpdateDto.toDto(updateVo, commentUuid, memberUuid));
-        return new BaseResponse<>();
-    }
-
     @GetMapping("/comments/{commentUuid}")
     @Operation(summary = "쇼츠 댓글 단건 조회", tags = {"Shorts Comment Service"})
     public BaseResponse<ShortsCommentResponseVo> getShortsComment(@PathVariable String commentUuid) {
 
         return new BaseResponse<>(shortsCommentService.getShortsComment(commentUuid).toVo());
-    }
-
-    @DeleteMapping("/comments/{commentUuid}")
-    @Operation(summary = "쇼츠 댓글 삭제", tags = {"Shorts Comment Service"})
-    public BaseResponse<Void> deleteShortsComment(
-            @RequestHeader("Member-Uuid") String memberUuid,
-            @PathVariable String commentUuid) {
-        shortsCommentService.deleteShortsComment(memberUuid, commentUuid);
-        return new BaseResponse<>();
     }
 
     @GetMapping("/{shortsUuid}/comments")
@@ -65,7 +37,7 @@ public class ShortsCommentController {
                     description = "정렬 기준",
                     schema = @Schema(allowableValues = {"latest", "likes"})
             )
-            @RequestParam(value = "sortBy") String sortBy,
+            @RequestParam(defaultValue = "latest", value = "sortBy", required = false) String sortBy,
             @RequestParam(value = "nextCursor", required = false) Long lastId,
             @RequestParam(value = "pageSize", required = false) Integer pageSize,
             @RequestParam(value = "pageNo", required = false) Integer pageNo
