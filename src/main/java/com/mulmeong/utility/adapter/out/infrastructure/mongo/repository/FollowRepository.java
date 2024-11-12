@@ -33,4 +33,9 @@ public class FollowRepository implements FollowPort {
         followMongoRepository.delete(followMongoRepository.findBySourceUuidAndTargetUuid(followRequestDto.getSourceUuid(), followRequestDto.getTargetUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_EXIST)));
     }
+
+    @Override
+    public boolean followStatus(FollowRequestDto followRequestDto) {
+        return followMongoRepository.existsBySourceUuidAndTargetUuid(followRequestDto.getSourceUuid(), followRequestDto.getTargetUuid());
+    }
 }

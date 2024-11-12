@@ -9,4 +9,6 @@ public interface FollowPort {
     void saveFollow(FollowRequestDto followRequestDto);
 
     void unfollow(FollowRequestDto followRequestDto);
+
+    boolean followStatus(FollowRequestDto followRequestDto);
 }

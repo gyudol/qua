@@ -5,7 +5,6 @@ import com.mulmeong.utility.application.port.in.DislikeUseCase;
 import com.mulmeong.utility.application.port.in.dto.DislikeListRequestDto;
 import com.mulmeong.utility.application.port.in.dto.DislikeRequestDto;
 import com.mulmeong.utility.common.response.BaseResponse;
-import com.mulmeong.utility.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

@@ -31,4 +31,9 @@ public class FollowService implements FollowUseCase {
         followPort.unfollow(followRequestDto);
     }
 
+    @Override
+    public boolean followStatus(FollowRequestDto followRequestDto) {
+        return followPort.followStatus(followRequestDto);
+    }
+
 }
