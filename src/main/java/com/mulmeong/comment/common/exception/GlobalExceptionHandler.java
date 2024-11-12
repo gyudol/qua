@@ -3,7 +3,6 @@ package com.mulmeong.comment.common.exception;
 import com.mulmeong.comment.common.response.BaseResponse;
 import com.mulmeong.comment.common.response.BaseResponseStatus;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -30,7 +29,7 @@ public class GlobalExceptionHandler {
             System.out.println(s);
         }
 
-        return new BaseResponse<>(e.getStatus());
+        return new BaseResponse<>(e.getStatus(), e);
     }
 
     /**
