@@ -13,7 +13,8 @@ public class FeedCommentUpdateDto {
     private String commentUuid;
     private String memberUuid;
 
-    public static FeedCommentUpdateDto toDto(FeedCommentUpdateVo updateVo, String commentUuid, String memberUuid) {
+    public static FeedCommentUpdateDto toDto(
+            FeedCommentUpdateVo updateVo, String commentUuid, String memberUuid) {
         return FeedCommentUpdateDto.builder()
                 .content(updateVo.getContent())
                 .commentUuid(commentUuid)

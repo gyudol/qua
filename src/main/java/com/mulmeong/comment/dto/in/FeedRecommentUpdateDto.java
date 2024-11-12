@@ -12,7 +12,8 @@ public class FeedRecommentUpdateDto {
     private String recommentUuid;
     private String memberUuid;
 
-    public static FeedRecommentUpdateDto toDto(FeedRecommentUpdateVo updateVo, String recommentUuid, String memberUuid) {
+    public static FeedRecommentUpdateDto toDto(
+            FeedRecommentUpdateVo updateVo, String recommentUuid, String memberUuid) {
         return FeedRecommentUpdateDto.builder()
                 .content(updateVo.getContent())
                 .recommentUuid(recommentUuid)

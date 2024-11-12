@@ -34,7 +34,8 @@ public class ShortsRecommentController {
             @RequestHeader("Member-Uuid") String memberUuid,
             @RequestBody ShortsRecommentUpdateVo updateVo,
             @PathVariable String recommentUuid) {
-        shortsRecommentService.updateShortsRecomment(ShortsRecommentUpdateDto.toDto(updateVo, recommentUuid, memberUuid));
+        shortsRecommentService.updateShortsRecomment(
+                ShortsRecommentUpdateDto.toDto(updateVo, recommentUuid, memberUuid));
         return new BaseResponse<>();
     }
 

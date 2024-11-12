@@ -14,7 +14,8 @@ public class ShortsCommentUpdateDto {
     private String content;
     private String memberUuid;
 
-    public static ShortsCommentUpdateDto toDto(ShortsCommentUpdateVo updateVo, String commentUuid, String memberUuid) {
+    public static ShortsCommentUpdateDto toDto(
+            ShortsCommentUpdateVo updateVo, String commentUuid, String memberUuid) {
         return ShortsCommentUpdateDto.builder()
                 .commentUuid(commentUuid)
                 .content(updateVo.getContent())
