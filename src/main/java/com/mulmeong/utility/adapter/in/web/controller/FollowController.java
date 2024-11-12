@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/v1/members")
@@ -31,7 +33,5 @@ public class FollowController {
     public BaseResponse<Boolean> getFollowStatus(@PathVariable String sourceUuid, @PathVariable String targetUuid) {
         return new BaseResponse<>(followUseCase.followStatus(new FollowRequestDto(sourceUuid, targetUuid)));
     }
-
-
 
 }
