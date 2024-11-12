@@ -42,7 +42,21 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    // QueryDSL
+    implementation 'com.querydsl:querydsl-core:5.0.0'
+    annotationProcessor 'com.querydsl:querydsl-apt:5.0.0'
+    annotationProcessor 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation('com.querydsl:querydsl-mongodb') {
+        exclude group: 'org.mongodb', module: 'mongo-java-driver'
+    }
+
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+compileJava {
+    options.compilerArgs += [
+            "-processor", 'lombok.launch.AnnotationProcessorHider$AnnotationProcessor,org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor'
+    ]
 }
 
 dependencyManagement {

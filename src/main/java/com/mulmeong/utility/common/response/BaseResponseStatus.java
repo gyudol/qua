@@ -23,6 +23,8 @@ public enum BaseResponseStatus {
     DUPLICATE_FOLLOW(HttpStatus.BAD_REQUEST,false, 802, "이미 팔로우 중인 유저입니다."),
     NOT_EXIST(HttpStatus.BAD_REQUEST,false, 803, "존재하지 않는 데이터입니다."),
 
+    DUPLICATED_BOOKMARK(HttpStatus.BAD_REQUEST, false, 701, "이미 추가된 북마크입니다."),
+
     /**
      * 900: 기타 에러.
      */
@@ -34,4 +36,4 @@ public enum BaseResponseStatus {
     private final boolean isSuccess;
     private final int code;
     private final String message;
-    }
+}
