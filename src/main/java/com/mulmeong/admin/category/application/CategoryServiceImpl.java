@@ -63,6 +63,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @param categoryId 카테고리 id
      * @return 카테고리 정보
      */
+    @Override
     public CategoryDto getCategory(Long categoryId) {
         return CategoryDto.fromEntity(categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_CATEGORY)));
