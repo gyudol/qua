@@ -25,23 +25,26 @@ public class FeedRecommentController {
     public BaseResponse<Void> addFeedRecomment(
             @RequestBody FeedRecommentRequestVo requestVo,
             @PathVariable String commentUuid) {
-        feedRecommentService.createFeedComment(FeedRecommentRequestDto.toDto(requestVo, commentUuid));
+        feedRecommentService.createFeedRecomment(FeedRecommentRequestDto.toDto(requestVo, commentUuid));
         return new BaseResponse<>();
     }
 
     @PutMapping("/comments/recomments/{recommentUuid}")
     @Operation(summary = "피드 대댓글 수정", tags = {"Feed Recomment Service"})
     public BaseResponse<Void> updateFeedRecomment(
+            @RequestHeader("Member-Uuid") String memberUuid,
             @RequestBody FeedRecommentUpdateVo updateVo,
             @PathVariable String recommentUuid) {
-        feedRecommentService.updateFeedComment(FeedRecommentUpdateDto.toDto(updateVo, recommentUuid));
+        feedRecommentService.updateFeedRecomment(FeedRecommentUpdateDto.toDto(updateVo, recommentUuid, memberUuid));
         return new BaseResponse<>();
     }
 
     @DeleteMapping("/comments/recomments/{recommentUuid}")
     @Operation(summary = "피드 대댓글 삭제", tags = {"Feed Recomment Service"})
-    public BaseResponse<Void> deleteFeedRecomment(@PathVariable String recommentUuid) {
-        feedRecommentService.deleteFeedComment(recommentUuid);
+    public BaseResponse<Void> deleteFeedRecomment(
+            @RequestHeader("Member-Uuid") String memberUuid,
+            @PathVariable String recommentUuid) {
+        feedRecommentService.deleteFeedRecomment(memberUuid, recommentUuid);
         return new BaseResponse<>();
     }
 

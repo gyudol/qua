@@ -31,16 +31,19 @@ public class ShortsRecommentController {
     @PutMapping("/comments/recomments/{recommentUuid}")
     @Operation(summary = "쇼츠 대댓글 수정", tags = {"Shorts Recomment Service"})
     public BaseResponse<Void> updateShortsRecomment(
+            @RequestHeader("Member-Uuid") String memberUuid,
             @RequestBody ShortsRecommentUpdateVo updateVo,
             @PathVariable String recommentUuid) {
-        shortsRecommentService.updateShortsRecomment(ShortsRecommentUpdateDto.toDto(updateVo, recommentUuid));
+        shortsRecommentService.updateShortsRecomment(ShortsRecommentUpdateDto.toDto(updateVo, recommentUuid, memberUuid));
         return new BaseResponse<>();
     }
 
     @DeleteMapping("/comments/recomments/{recommentUuid}")
     @Operation(summary = "쇼츠 대댓글 삭제", tags = {"Shorts Recomment Service"})
-    public BaseResponse<Void> deleteShortsRecomment(@PathVariable String recommentUuid) {
-        shortsRecommentService.deleteShortsRecomment(recommentUuid);
+    public BaseResponse<Void> deleteShortsRecomment(
+            @RequestHeader("Member-Uuid") String memberUuid,
+            @PathVariable String recommentUuid) {
+        shortsRecommentService.deleteShortsRecomment(memberUuid, recommentUuid);
         return new BaseResponse<>();
     }
 

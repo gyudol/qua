@@ -14,6 +14,7 @@ import com.mulmeong.comment.infrastructure.ShortsRecommentRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,26 +36,31 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
     }
 
     @Override
+    @Transactional
     public void updateShortsRecomment(ShortsRecommentUpdateDto updateDto) {
         ShortsRecomment shortsRecomment = shortsRecommentRepository.findByRecommentUuid(updateDto.getRecommentUuid())
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT)
-                );
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT));
+        if (!shortsRecomment.getMemberUuid().equals(updateDto.getMemberUuid())) {
+            throw new BaseException(BaseResponseStatus.NO_UPDATE_RECOMMENT_AUTHORITY);
+        }
         shortsRecommentRepository.save(updateDto.toEntity(shortsRecomment));
     }
 
     @Override
-    public void deleteShortsRecomment(String recommentUuid) {
+    @Transactional
+    public void deleteShortsRecomment(String memberUuid, String recommentUuid) {
         ShortsRecomment shortsRecomment = shortsRecommentRepository.findByRecommentUuid(recommentUuid)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT)
-                );
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT));
+        if (!shortsRecomment.getMemberUuid().equals(memberUuid)) {
+            throw new BaseException(BaseResponseStatus.NO_UPDATE_RECOMMENT_AUTHORITY);
+        }
         shortsRecommentRepository.delete(shortsRecomment);
     }
 
     @Override
     public ShortsRecommentResponseDto getShortsRecomment(String recommentUuid) {
         ShortsRecomment shortsRecomment = shortsRecommentRepository.findByRecommentUuid(recommentUuid)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT)
-                );
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT));
         return ShortsRecommentResponseDto.toDto(shortsRecomment);
     }
 

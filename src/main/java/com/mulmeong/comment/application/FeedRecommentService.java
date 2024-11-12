@@ -8,11 +8,11 @@ import com.mulmeong.comment.dto.out.FeedRecommentResponseDto;
 import java.util.List;
 
 public interface FeedRecommentService {
-    void createFeedComment(FeedRecommentRequestDto requestDto);
+    void createFeedRecomment(FeedRecommentRequestDto requestDto);
 
-    void updateFeedComment(FeedRecommentUpdateDto updateDto);
+    void updateFeedRecomment(FeedRecommentUpdateDto updateDto);
 
-    void deleteFeedComment(String recommentUuid);
+    void deleteFeedRecomment(String memberUuid, String recommentUuid);
 
     FeedRecommentResponseDto getFeedRecomment(String recommentUuid);
 

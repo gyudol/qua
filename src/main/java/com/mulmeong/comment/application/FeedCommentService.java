@@ -13,7 +13,7 @@ public interface FeedCommentService {
 
     void updateFeedComment(FeedCommentUpdateDto updateDto);
 
-    void deleteFeedComment(String commentUuid);
+    void deleteFeedComment(String memberUuid, String commentUuid);
 
     FeedCommentResponseDto getFeedComment(String commentUuid);
 

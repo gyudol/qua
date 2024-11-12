@@ -38,16 +38,19 @@ public class FeedCommentController {
     @PutMapping("/comments/{commentUuid}")
     @Operation(summary = "피드 댓글 수정", tags = {"Feed Comment Service"})
     public BaseResponse<Void> updateFeedComment(
+            @RequestHeader("Member-Uuid") String memberUuid,
             @RequestBody FeedCommentUpdateVo updateVo,
             @PathVariable String commentUuid) {
-        feedCommentService.updateFeedComment(FeedCommentUpdateDto.toDto(updateVo, commentUuid));
+        feedCommentService.updateFeedComment(FeedCommentUpdateDto.toDto(updateVo, commentUuid, memberUuid));
         return new BaseResponse<>();
     }
 
     @DeleteMapping("/comments/{commentUuid}")
     @Operation(summary = "피드 댓글 삭제", tags = {"Feed Comment Service"})
-    public BaseResponse<Void> deleteFeedComment(@PathVariable String commentUuid) {
-        feedCommentService.deleteFeedComment(commentUuid);
+    public BaseResponse<Void> deleteFeedComment(
+            @RequestHeader("Member-Uuid") String memberUuid,
+            @PathVariable String commentUuid) {
+        feedCommentService.deleteFeedComment(memberUuid, commentUuid);
         return new BaseResponse<>();
     }
 

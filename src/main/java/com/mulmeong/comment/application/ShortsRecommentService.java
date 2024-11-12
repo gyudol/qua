@@ -12,7 +12,7 @@ public interface ShortsRecommentService {
 
     void updateShortsRecomment(ShortsRecommentUpdateDto updateDto);
 
-    void deleteShortsRecomment(String recommentUuid);
+    void deleteShortsRecomment(String memberUuid, String recommentUuid);
 
     ShortsRecommentResponseDto getShortsRecomment(String recommentUuid);
 

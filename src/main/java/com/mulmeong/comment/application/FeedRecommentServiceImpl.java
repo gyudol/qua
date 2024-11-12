@@ -14,6 +14,7 @@ import com.mulmeong.comment.infrastructure.FeedRecommentRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
     private final FeedRecommentRepositoryCustom feedRecommentRepositoryCustom;
 
     @Override
-    public void createFeedComment(FeedRecommentRequestDto requestDto) {
+    public void createFeedRecomment(FeedRecommentRequestDto requestDto) {
         if (!feedCommentRepository.existsByCommentUuid(requestDto.getCommentUuid())) {
             throw new BaseException(BaseResponseStatus.NO_EXIST_COMMENT);
         }
@@ -35,16 +36,24 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
     }
 
     @Override
-    public void updateFeedComment(FeedRecommentUpdateDto updateDto) {
+    @Transactional
+    public void updateFeedRecomment(FeedRecommentUpdateDto updateDto) {
         FeedRecomment feedRecomment = feedRecommentRepository.findByRecommentUuid(updateDto.getRecommentUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT));
+        if (!(feedRecomment.getMemberUuid().equals(updateDto.getMemberUuid()))) {
+            throw new BaseException(BaseResponseStatus.NO_UPDATE_RECOMMENT_AUTHORITY);
+        }
         feedRecommentRepository.save(updateDto.toEntity(feedRecomment));
     }
 
     @Override
-    public void deleteFeedComment(String recommentUuid) {
+    @Transactional
+    public void deleteFeedRecomment(String memberUuid, String recommentUuid) {
         FeedRecomment feedRecomment = feedRecommentRepository.findByRecommentUuid(recommentUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT));
+        if (!feedRecomment.getMemberUuid().equals(memberUuid)) {
+            throw new BaseException(BaseResponseStatus.NO_DELETE_RECOMMENT_AUTHORITY);
+        }
         feedRecommentRepository.delete(feedRecomment);
     }
 

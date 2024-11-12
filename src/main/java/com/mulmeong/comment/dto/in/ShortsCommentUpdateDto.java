@@ -12,18 +12,20 @@ import java.util.UUID;
 public class ShortsCommentUpdateDto {
     private String commentUuid;
     private String content;
+    private String memberUuid;
 
-    public static ShortsCommentUpdateDto toDto(ShortsCommentUpdateVo updateVo, String commentUuid) {
+    public static ShortsCommentUpdateDto toDto(ShortsCommentUpdateVo updateVo, String commentUuid, String memberUuid) {
         return ShortsCommentUpdateDto.builder()
                 .commentUuid(commentUuid)
                 .content(updateVo.getContent())
+                .memberUuid(memberUuid)
                 .build();
     }
 
     public ShortsComment toEntity(ShortsComment shortsComment) {
         return ShortsComment.builder()
                 .shortsUuid(shortsComment.getShortsUuid())
-                .memberUuid(shortsComment.getMemberUuid())
+                .memberUuid(memberUuid)
                 .commentUuid(commentUuid)
                 .content(content)
                 .status(shortsComment.isStatus())

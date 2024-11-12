@@ -34,9 +34,10 @@ public class ShortsCommentController {
     @PutMapping("/comments/{commentUuid}")
     @Operation(summary = "쇼츠 댓글 수정", tags = {"Shorts Comment Service"})
     public BaseResponse<Void> updateShortsComment(
+            @RequestHeader("Member-Uuid") String memberUuid,
             @RequestBody ShortsCommentUpdateVo updateVo,
             @PathVariable String commentUuid) {
-        shortsCommentService.updateFeedComment(ShortsCommentUpdateDto.toDto(updateVo, commentUuid));
+        shortsCommentService.updateFeedComment(ShortsCommentUpdateDto.toDto(updateVo, commentUuid, memberUuid));
         return new BaseResponse<>();
     }
 
@@ -50,8 +51,9 @@ public class ShortsCommentController {
     @DeleteMapping("/comments/{commentUuid}")
     @Operation(summary = "쇼츠 댓글 삭제", tags = {"Shorts Comment Service"})
     public BaseResponse<Void> deleteShortsComment(
+            @RequestHeader("Member-Uuid") String memberUuid,
             @PathVariable String commentUuid) {
-        shortsCommentService.deleteShortsComment(commentUuid);
+        shortsCommentService.deleteShortsComment(memberUuid, commentUuid);
         return new BaseResponse<>();
     }
 
