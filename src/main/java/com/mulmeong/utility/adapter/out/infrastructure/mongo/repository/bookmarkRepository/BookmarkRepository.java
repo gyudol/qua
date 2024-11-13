@@ -52,8 +52,8 @@ public class BookmarkRepository implements BookmarkPort {
     }
 
     @Override
-    public CursorPage<String> getFeedBookmarks(String memberUuid, String lastId, int pageSize) {
-        Pageable pageable = PageRequest.of(0, pageSize + 1, Sort.by(Sort.Direction.DESC, "id"));
+    public CursorPage<String> getFeedBookmarks(String memberUuid, String lastId, int pageSize, int pageNo) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize + 1, Sort.by(Sort.Direction.DESC, "id"));
 
         List<FeedBookmarkEntity> entities;
         if (lastId != null) {
@@ -80,6 +80,7 @@ public class BookmarkRepository implements BookmarkPort {
                 .nextCursor(nextCursor)
                 .hasNext(hasNext)
                 .pageSize(pageSize)
+                .pageNo(pageNo)
                 .build();
     }
 
@@ -99,8 +100,8 @@ public class BookmarkRepository implements BookmarkPort {
     }
 
     @Override
-    public CursorPage<String> getShortsBookmarks(String memberUuid, String lastId, int pageSize) {
-        Pageable pageable = PageRequest.of(0, pageSize + 1, Sort.by(Sort.Direction.DESC, "id"));
+    public CursorPage<String> getShortsBookmarks(String memberUuid, String lastId, int pageSize, int pageNo) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize + 1, Sort.by(Sort.Direction.DESC, "id"));
 
         List<ShortsBookmarkEntity> entities;
         if (lastId != null) {
@@ -127,6 +128,7 @@ public class BookmarkRepository implements BookmarkPort {
                 .nextCursor(nextCursor)
                 .hasNext(hasNext)
                 .pageSize(pageSize)
+                .pageNo(pageNo)
                 .build();
     }
 }
