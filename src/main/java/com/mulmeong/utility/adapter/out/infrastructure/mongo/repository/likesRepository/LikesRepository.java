@@ -1,6 +1,5 @@
 package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository.likesRepository;
 
-import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.FeedBookmarkEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.LikesEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.mapper.LikesEntityMapper;
 import com.mulmeong.utility.application.port.in.dto.LikesListRequestDto;
@@ -40,17 +39,11 @@ public class LikesRepository implements LikesPort {
 
     @Override
     public Optional<LikesEntityResponseDto> findByMemberAndKind(LikesRequestDto likesRequestDto) {
-        LikesEntity entity = likesMongoRepository.findByMemberUuidAndKindAndKindUuid(
-                likesRequestDto.getMemberUuid(),
-                likesRequestDto.getKind(),
-                likesRequestDto.getKindUuid()
-        );
-
-        if (entity == null) {
-            return Optional.empty();
-        }
-
-        return Optional.of(likesEntityMapper.toDto(entity));
+        return likesMongoRepository.findByMemberUuidAndKindAndKindUuid(
+                        likesRequestDto.getMemberUuid(),
+                        likesRequestDto.getKind(),
+                        likesRequestDto.getKindUuid())
+                .map(likesEntityMapper::toDto);
     }
 
     @Override
