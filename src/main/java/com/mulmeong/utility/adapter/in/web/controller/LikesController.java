@@ -6,10 +6,10 @@ import com.mulmeong.utility.application.port.in.dto.LikesListRequestDto;
 import com.mulmeong.utility.application.port.in.dto.LikesRequestDto;
 import com.mulmeong.utility.common.response.BaseResponse;
 import com.mulmeong.utility.common.response.BaseResponseStatus;
+import com.mulmeong.utility.common.utils.CursorPage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Slf4j
@@ -40,10 +40,13 @@ public class LikesController {
 
     // 좋아요 한 컨텐츠 조회
     @GetMapping("/{memberUuid}/{kind}/likes")
-    public BaseResponse<List<String>> getLikes(@PathVariable String memberUuid, @PathVariable String kind) {
+    public BaseResponse<CursorPage<String>> getLikes(
+            @PathVariable("memberUuid") String memberUuid,
+            @PathVariable("kind") String kind,
+            @RequestParam(value = "lastId", required = false) String lastId,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
 
-        return new BaseResponse<>(likesUseCase.getLikes(new LikesListRequestDto(memberUuid, kind)));
-
+        return new BaseResponse<>(likesUseCase.getLikes(memberUuid, kind, lastId, pageSize));
     }
 
 

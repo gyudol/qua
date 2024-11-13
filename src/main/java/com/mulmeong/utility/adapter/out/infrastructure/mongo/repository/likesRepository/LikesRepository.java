@@ -7,8 +7,12 @@ import com.mulmeong.utility.application.port.in.dto.LikesRequestDto;
 import com.mulmeong.utility.application.port.out.LikesPort;
 import com.mulmeong.utility.application.port.out.dto.LikesEntityResponseDto;
 import com.mulmeong.utility.application.port.out.dto.LikesResponseDto;
+import com.mulmeong.utility.common.utils.CursorPage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -43,16 +47,31 @@ public class LikesRepository implements LikesPort {
     }
 
     @Override
-    public List<LikesEntityResponseDto> getByMemberAndKind(LikesListRequestDto likesListRequestDto) {
-        List<LikesEntity> entities = likesMongoRepository.findByMemberUuidAndKindAndStatus(
-                likesListRequestDto.getMemberUuid(),
-                likesListRequestDto.getKind(),
-                true
-        );
+    public CursorPage<String> getLikes(String memberUuid, String kind, String lastId, int pageSize) {
+        Pageable pageable = PageRequest.of(0, pageSize, Sort.by(Sort.Direction.DESC, "id"));
 
-        return entities.stream()
-                .map(likesEntityMapper::toDto)
+        List<LikesEntity> entities;
+        if (lastId != null) {
+            entities = likesMongoRepository.findByMemberUuidAndKindAndStatusAndIdLessThanOrderByIdDesc(
+                    memberUuid, kind, true, lastId, pageable);
+        } else {
+            entities = likesMongoRepository.findByMemberUuidAndKindAndStatusOrderByIdDesc(
+                    memberUuid, kind, true, pageable);
+        }
+
+        List<String> kindUuids = entities.stream()
+                .map(LikesEntity::getKindUuid)
                 .collect(Collectors.toList());
+
+        boolean hasNext = kindUuids.size() == pageSize;
+        String nextCursor = hasNext ? entities.get(entities.size() - 1).getId() : null;
+
+        return CursorPage.<String>builder()
+                .content(kindUuids)
+                .nextCursor(nextCursor)
+                .hasNext(hasNext)
+                .pageSize(pageSize)
+                .build();
     }
 
 

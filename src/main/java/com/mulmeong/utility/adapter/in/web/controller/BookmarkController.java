@@ -39,7 +39,7 @@ public class BookmarkController {
     @GetMapping("/{memberUuid}/feeds/bookmarks")
     public BaseResponse<CursorPage<String>> getFeedBookmarks(
             @PathVariable("memberUuid") String memberUuid,
-            @RequestParam(value = "lastId", required = false) String lastId,
+            @RequestParam(value = "nextCursor", required = false) String lastId,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
             @RequestParam(value = "pageNo", defaultValue = "0") int pageNo) {
 
@@ -64,7 +64,7 @@ public class BookmarkController {
     @GetMapping("/{memberUuid}/shorts/bookmarks")
     public BaseResponse<CursorPage<String>> getShortsBookmarks(
             @PathVariable("memberUuid") String memberUuid,
-            @RequestParam(value = "lastId", required = false) String lastId,
+            @RequestParam(value = "nextCursor", required = false) String lastId,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
             @RequestParam(value = "pageNo", defaultValue = "0") int pageNo) {
 
