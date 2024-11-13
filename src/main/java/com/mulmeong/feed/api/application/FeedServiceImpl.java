@@ -23,6 +23,7 @@ public class FeedServiceImpl implements FeedService {
     @Transactional
     @Override
     public void createFeed(CreateFeedRequestDto requestDto) {
+
         feedRepository.save(requestDto.toFeedEntity());
         feedMediaRepository.saveAll(requestDto.toFeedMediaEntities());
         feedHashtagRepository.saveAll(requestDto.toFeedHashtagEntities());
@@ -31,6 +32,7 @@ public class FeedServiceImpl implements FeedService {
     @Transactional
     @Override
     public void updateFeed(UpdateFeedRequestDto requestDto) {
+
         feedRepository.save(requestDto.toFeedEntity(
             feedRepository.findByFeedUuidAndMemberUuid(requestDto.getFeedUuid(),
                     requestDto.getMemberUuid())
@@ -39,6 +41,15 @@ public class FeedServiceImpl implements FeedService {
         // FeedHashtag 전체 삭제 후 재삽입
         feedHashtagRepository.deleteAllByFeedUuid(requestDto.getFeedUuid());
         feedHashtagRepository.saveAll(requestDto.toFeedHashtagEntities());
+    }
+
+    @Transactional
+    @Override
+    public void deleteFeed(String feedUuid, String memberUuid) {
+
+        feedRepository.deleteByFeedUuidAndMemberUuid(feedUuid, memberUuid);
+        feedHashtagRepository.deleteAllByFeedUuid(feedUuid);
+        feedMediaRepository.deleteAllByFeedUuid(feedUuid);
     }
 
 }
