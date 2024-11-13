@@ -1,5 +1,6 @@
 package com.mulmeong.feed.common.response;
 
+import com.mulmeong.feed.common.utils.TypeCaster;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 
@@ -33,7 +34,8 @@ public record BaseResponse<T>(HttpStatusCode httpStatus, Boolean isSuccess, Stri
      * @param status 응답 상태
      */
     public BaseResponse(BaseResponseStatus status) {
-        this(status.getHttpStatusCode(), false, status.getMessage(), status.getCode(), null);
+        this(status.getHttpStatusCode(), false, status.getMessage(), status.getCode(),
+            TypeCaster.castMessage(status.getMessage()));
     }
 
     /**
@@ -44,8 +46,8 @@ public record BaseResponse<T>(HttpStatusCode httpStatus, Boolean isSuccess, Stri
      */
 
     public BaseResponse(BaseResponseStatus status, RuntimeException e) {
-        this(status.getHttpStatusCode(), false,
-            String.format("%s: %s", status.getMessage(), e.getMessage()), status.getCode(), null);
+        this(status.getHttpStatusCode(), false, e.getMessage(), status.getCode(),
+            TypeCaster.castMessage(status.getMessage()));
     }
 
 }
