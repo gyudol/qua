@@ -30,7 +30,8 @@ public class DislikeController {
     }
 
     @GetMapping("/{memberUuid}/{kind}/{kindUuid}/dislike-status")
-    public BaseResponse<Boolean> dislikeStatus(@PathVariable String memberUuid, @PathVariable String kind, @PathVariable String kindUuid) {
+    public BaseResponse<Boolean> dislikeStatus(
+            @PathVariable String memberUuid, @PathVariable String kind, @PathVariable String kindUuid) {
 
         return new BaseResponse<>(dislikeUseCase.isChecked(new DislikeRequestDto(memberUuid, kind, kindUuid)));
 

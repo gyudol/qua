@@ -1,4 +1,4 @@
-package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository;
+package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository.likesRepository;
 
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.LikesEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.mapper.LikesEntityMapper;
@@ -40,10 +40,6 @@ public class LikesRepository implements LikesPort {
                 likesRequestDto.getKind(),
                 likesRequestDto.getKindUuid()
         );
-
-        if (entity == null) {
-            return Optional.empty();
-        }
 
         return Optional.of(likesEntityMapper.toDto(entity));
     }
