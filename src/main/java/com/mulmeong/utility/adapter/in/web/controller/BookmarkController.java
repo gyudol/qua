@@ -4,7 +4,9 @@ import com.mulmeong.utility.adapter.in.web.vo.FeedBookmarkRequestVo;
 import com.mulmeong.utility.adapter.in.web.vo.ShortsBookmarkRequestVo;
 import com.mulmeong.utility.application.port.in.BookmarkUseCase;
 import com.mulmeong.utility.application.port.in.dto.BookmarkRequestDto;
+import com.mulmeong.utility.application.port.out.dto.FeedBookmarkResponseDto;
 import com.mulmeong.utility.common.response.BaseResponse;
+import com.mulmeong.utility.common.utils.CursorPage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -35,8 +37,13 @@ public class BookmarkController {
     }
 
     @GetMapping("/{memberUuid}/feeds/bookmarks")
-    public BaseResponse<List<String>> getFeedBookmarks(@PathVariable("memberUuid") String memberUuid) {
-        return new BaseResponse<>(bookmarkUseCase.getFeedBookmarks(memberUuid));
+    public BaseResponse<CursorPage<String>> getFeedBookmarks(
+            @PathVariable("memberUuid") String memberUuid,
+            @RequestParam(value = "lastId", required = false) String lastId,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+            @RequestParam(value = "pageNo", defaultValue = "0") int pageNo) {
+
+        return new BaseResponse<>(bookmarkUseCase.getFeedBookmarks(memberUuid, lastId, pageSize, pageNo));
     }
 
     @PostMapping("/{memberUuid}/shorts/bookmarks")
@@ -55,7 +62,12 @@ public class BookmarkController {
     }
 
     @GetMapping("/{memberUuid}/shorts/bookmarks")
-    public BaseResponse<List<String>> getShortsBookmarks(@PathVariable("memberUuid") String memberUuid) {
-        return new BaseResponse<>(bookmarkUseCase.getShortsBookmarks(memberUuid));
+    public BaseResponse<CursorPage<String>> getShortsBookmarks(
+            @PathVariable("memberUuid") String memberUuid,
+            @RequestParam(value = "lastId", required = false) String lastId,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+            @RequestParam(value = "pageNo", defaultValue = "0") int pageNo) {
+
+        return new BaseResponse<>(bookmarkUseCase.getShortsBookmarks(memberUuid, lastId, pageSize, pageNo));
     }
 }

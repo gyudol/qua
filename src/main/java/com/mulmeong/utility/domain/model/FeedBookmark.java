@@ -8,17 +8,21 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @ToString
-public class Bookmark {
+public class FeedBookmark {
 
+    private String id;
     private String memberUuid;
-    private String bookmarkUuid;
+    private String feedUuid;
 
     @Builder
-    public Bookmark(
+    public FeedBookmark(
+            String id,
             String memberUuid,
-            String bookmarkUuid
+            String feedUuid
     ) {
+        this.id = id;
         this.memberUuid = memberUuid;
-        this.bookmarkUuid = bookmarkUuid;
+        this.feedUuid = feedUuid;
     }
+
 }

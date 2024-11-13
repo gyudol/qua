@@ -1,21 +1,23 @@
 package com.mulmeong.utility.application.port.out;
 
 import com.mulmeong.utility.application.port.in.dto.BookmarkRequestDto;
-import com.mulmeong.utility.application.port.out.dto.BookmarkResponseDto;
+import com.mulmeong.utility.application.port.out.dto.FeedBookmarkResponseDto;
+import com.mulmeong.utility.application.port.out.dto.ShortsBookmarkResponseDto;
+import com.mulmeong.utility.common.utils.CursorPage;
 
 import java.util.List;
 
 public interface BookmarkPort {
 
-    void addFeedBookmark(BookmarkResponseDto responseDto);
+    void addFeedBookmark(FeedBookmarkResponseDto responseDto);
 
     void deleteFeedBookmark(BookmarkRequestDto bookmarkRequestDto);
 
-    List<BookmarkResponseDto> getFeedBookmarks(String memberUuid);
+    CursorPage<String> getFeedBookmarks(String memberUuid, String lastId, int pageSize, int pageNo);
 
-    void addShortsBookmark(BookmarkResponseDto responseDto);
+    void addShortsBookmark(ShortsBookmarkResponseDto responseDto);
 
     void deleteShortsBookmark(BookmarkRequestDto bookmarkRequestDto);
 
-    List<BookmarkResponseDto> getShortsBookmarks(String memberUuid);
+    CursorPage<String> getShortsBookmarks(String memberUuid, String lastId, int pageSize, int pageNo);
 }

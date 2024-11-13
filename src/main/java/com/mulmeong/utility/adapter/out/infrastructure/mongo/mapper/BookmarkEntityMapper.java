@@ -2,37 +2,38 @@ package com.mulmeong.utility.adapter.out.infrastructure.mongo.mapper;
 
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.FeedBookmarkEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.ShortsBookmarkEntity;
-import com.mulmeong.utility.application.port.out.dto.BookmarkResponseDto;
+import com.mulmeong.utility.application.port.out.dto.FeedBookmarkResponseDto;
+import com.mulmeong.utility.application.port.out.dto.ShortsBookmarkResponseDto;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BookmarkEntityMapper {
 
-    public FeedBookmarkEntity toFeedBookmarkEntity(BookmarkResponseDto dto) {
+    public FeedBookmarkEntity toFeedBookmarkEntity(FeedBookmarkResponseDto dto) {
         return FeedBookmarkEntity.builder()
                 .memberUuid(dto.getMemberUuid())
-                .feedUuid(dto.getBookmarkUuid())
+                .feedUuid(dto.getFeedUuid())
                 .build();
     }
 
-    public BookmarkResponseDto toDto(FeedBookmarkEntity entity) {
-        return BookmarkResponseDto.builder()
+    public FeedBookmarkResponseDto toDto(FeedBookmarkEntity entity) {
+        return FeedBookmarkResponseDto.builder()
                 .memberUuid(entity.getMemberUuid())
-                .bookmarkUuid(entity.getFeedUuid())
+                .feedUuid(entity.getFeedUuid())
                 .build();
     }
 
-    public BookmarkResponseDto toDto(ShortsBookmarkEntity entity) {
-        return BookmarkResponseDto.builder()
+    public ShortsBookmarkResponseDto toDto(ShortsBookmarkEntity entity) {
+        return ShortsBookmarkResponseDto.builder()
                 .memberUuid(entity.getMemberUuid())
-                .bookmarkUuid(entity.getShortsUuid())
+                .shortsUuid(entity.getShortsUuid())
                 .build();
     }
 
-    public ShortsBookmarkEntity toShortsBookmarkEntity(BookmarkResponseDto dto) {
+    public ShortsBookmarkEntity toShortsBookmarkEntity(ShortsBookmarkResponseDto dto) {
         return ShortsBookmarkEntity.builder()
                 .memberUuid(dto.getMemberUuid())
-                .shortsUuid(dto.getBookmarkUuid())
+                .shortsUuid(dto.getShortsUuid())
                 .build();
     }
 }

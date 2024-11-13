@@ -9,8 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BookmarkResponseDto {
+public class ShortsBookmarkResponseDto {
 
+    private String id;
     private String memberUuid;
-    private String bookmarkUuid;
+    private String shortsUuid;
+
 }

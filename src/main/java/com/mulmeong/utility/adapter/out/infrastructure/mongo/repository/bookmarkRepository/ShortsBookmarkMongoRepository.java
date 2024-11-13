@@ -2,6 +2,7 @@ package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository.bookmar
 
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.FeedBookmarkEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.ShortsBookmarkEntity;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
@@ -12,5 +13,8 @@ public interface ShortsBookmarkMongoRepository extends MongoRepository<ShortsBoo
 
     void deleteByMemberUuidAndShortsUuid(String memberUuid, String feedUuid);
 
-    List<ShortsBookmarkEntity> findAllByMemberUuid(String memberUuid);
+    List<ShortsBookmarkEntity> findByMemberUuidAndIdLessThanOrderByIdDesc(
+            String memberUuid, String lastId, Pageable pageable);
+
+    List<ShortsBookmarkEntity> findAllByMemberUuidOrderByIdDesc(String memberUuid, Pageable pageable);
 }
