@@ -1,7 +1,6 @@
-package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository;
+package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository.FollowRepository;
 
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.FollowEntity;
-import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.LikesEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.mapper.FollowEntityMapper;
 import com.mulmeong.utility.application.port.in.dto.FollowRequestDto;
 import com.mulmeong.utility.application.port.out.FollowPort;
@@ -28,7 +27,8 @@ public class FollowRepository implements FollowPort {
 
     @Override
     public boolean existsBySourceUuidAndTargetUuid(FollowRequestDto followRequestDto) {
-        return followMongoRepository.existsBySourceUuidAndTargetUuid(followRequestDto.getSourceUuid(), followRequestDto.getTargetUuid());
+        return followMongoRepository.existsBySourceUuidAndTargetUuid(
+                followRequestDto.getSourceUuid(), followRequestDto.getTargetUuid());
     }
 
     @Override
@@ -38,13 +38,15 @@ public class FollowRepository implements FollowPort {
 
     @Override
     public void unfollow(FollowRequestDto followRequestDto) {
-        followMongoRepository.delete(followMongoRepository.findBySourceUuidAndTargetUuid(followRequestDto.getSourceUuid(), followRequestDto.getTargetUuid())
+        followMongoRepository.delete(followMongoRepository.findBySourceUuidAndTargetUuid(
+                followRequestDto.getSourceUuid(), followRequestDto.getTargetUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_EXIST)));
     }
 
     @Override
     public boolean followStatus(FollowRequestDto followRequestDto) {
-        return followMongoRepository.existsBySourceUuidAndTargetUuid(followRequestDto.getSourceUuid(), followRequestDto.getTargetUuid());
+        return followMongoRepository.existsBySourceUuidAndTargetUuid(
+                followRequestDto.getSourceUuid(), followRequestDto.getTargetUuid());
     }
 
     @Override

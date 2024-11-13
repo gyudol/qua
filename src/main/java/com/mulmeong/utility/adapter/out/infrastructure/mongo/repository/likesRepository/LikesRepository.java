@@ -1,8 +1,8 @@
 package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository.likesRepository;
 
+import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.FeedBookmarkEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.LikesEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.mapper.LikesEntityMapper;
-import com.mulmeong.utility.application.port.in.dto.LikesListRequestDto;
 import com.mulmeong.utility.application.port.in.dto.LikesRequestDto;
 import com.mulmeong.utility.application.port.out.LikesPort;
 import com.mulmeong.utility.application.port.out.dto.LikesEntityResponseDto;
@@ -47,8 +47,8 @@ public class LikesRepository implements LikesPort {
     }
 
     @Override
-    public CursorPage<String> getLikes(String memberUuid, String kind, String lastId, int pageSize) {
-        Pageable pageable = PageRequest.of(0, pageSize, Sort.by(Sort.Direction.DESC, "id"));
+    public CursorPage<String> getLikes(String memberUuid, String kind, String lastId, int pageSize, int pageNo) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize + 1, Sort.by(Sort.Direction.DESC, "id"));
 
         List<LikesEntity> entities;
         if (lastId != null) {
@@ -59,18 +59,23 @@ public class LikesRepository implements LikesPort {
                     memberUuid, kind, true, pageable);
         }
 
-        List<String> kindUuids = entities.stream()
-                .map(LikesEntity::getKindUuid)
-                .collect(Collectors.toList());
+        List<LikesEntity> pageData = entities.stream()
+                .limit(pageSize)
+                .toList();
 
-        boolean hasNext = kindUuids.size() == pageSize;
-        String nextCursor = hasNext ? entities.get(entities.size() - 1).getId() : null;
+        List<String> kindUuids = pageData.stream()
+                .map(LikesEntity::getKindUuid)
+                .toList();
+
+        boolean hasNext = entities.size() > pageSize;
+        String nextCursor = hasNext ? pageData.get(entities.size() - 1).getId() : null;
 
         return CursorPage.<String>builder()
                 .content(kindUuids)
                 .nextCursor(nextCursor)
                 .hasNext(hasNext)
                 .pageSize(pageSize)
+                .pageNo(pageNo)
                 .build();
     }
 

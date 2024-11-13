@@ -1,4 +1,4 @@
-package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository;
+package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository.FollowRepository;
 
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.FollowEntity;
 import org.springframework.data.domain.Pageable;

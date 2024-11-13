@@ -44,9 +44,10 @@ public class LikesController {
             @PathVariable("memberUuid") String memberUuid,
             @PathVariable("kind") String kind,
             @RequestParam(value = "lastId", required = false) String lastId,
-            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+            @RequestParam(value = "pageNo", defaultValue = "0") int pageNo) {
 
-        return new BaseResponse<>(likesUseCase.getLikes(memberUuid, kind, lastId, pageSize));
+        return new BaseResponse<>(likesUseCase.getLikes(memberUuid, kind, lastId, pageSize, pageNo));
     }
 
 
