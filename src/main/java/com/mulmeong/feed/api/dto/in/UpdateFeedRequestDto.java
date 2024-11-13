@@ -2,63 +2,47 @@ package com.mulmeong.feed.api.dto.in;
 
 import com.mulmeong.feed.api.domain.Feed;
 import com.mulmeong.feed.api.domain.FeedHashtag;
-import com.mulmeong.feed.api.domain.FeedMedia;
 import com.mulmeong.feed.api.domain.model.Hashtag;
-import com.mulmeong.feed.api.domain.model.Media;
-import com.mulmeong.feed.api.domain.model.MediaType;
 import com.mulmeong.feed.api.domain.model.Visibility;
-import com.mulmeong.feed.api.vo.in.CreateFeedRequestVo;
+import com.mulmeong.feed.api.vo.in.UpdateFeedRequestVo;
 import java.util.List;
-import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class CreateFeedRequestDto {
+public class UpdateFeedRequestDto {
 
     private String feedUuid;
     private String memberUuid;
     private String title;
     private String content;
     private Long categoryId;
+    private Visibility visibility;
     private List<Hashtag> hashtags;
-    private List<Media> mediaList;
 
-    public static CreateFeedRequestDto toDto(CreateFeedRequestVo requestVo) {
-        return CreateFeedRequestDto.builder()
-            .memberUuid(requestVo.getMemberUuid())
+    public static UpdateFeedRequestDto toDto(UpdateFeedRequestVo requestVo, String feedUuid,
+        String memberUuid) {
+        return UpdateFeedRequestDto.builder()
+            .feedUuid(feedUuid)
+            .memberUuid(memberUuid)
             .title(requestVo.getTitle())
             .content(requestVo.getContent())
             .categoryId(requestVo.getCategoryId())
+            .visibility(requestVo.getVisibility())
             .hashtags(requestVo.getHashtags())
-            .mediaList(requestVo.getMediaList())
             .build();
     }
 
-    public Feed toFeedEntity() {    // Default visibility: VISIBLE
+    public Feed toFeedEntity(Long originalFeedId) {
         return Feed.builder()
-            .feedUuid(feedUuid = UUID.randomUUID().toString())
+            .id(originalFeedId)
+            .feedUuid(feedUuid)
             .memberUuid(memberUuid)
             .title(title)
             .content(content)
             .categoryId(categoryId)
-            .visibility(Visibility.VISIBLE)
+            .visibility(visibility)
             .build();
-    }
-
-    public List<FeedMedia> toFeedMediaEntities() {
-        if (mediaList == null) {
-            return List.of();
-        }
-
-        return mediaList.stream()
-            .map(media -> FeedMedia.builder()
-                .feedUuid(feedUuid)
-                .mediaUrl(media.getMediaUrl())
-                .mediaType(media.getMediaType())
-                .description(media.getDescription())
-                .build())
-            .toList();
     }
 
     public List<FeedHashtag> toFeedHashtagEntities() {
@@ -75,14 +59,15 @@ public class CreateFeedRequestDto {
     }
 
     @Builder
-    public CreateFeedRequestDto(String memberUuid, String title, String content, Long categoryId,
-        List<Hashtag> hashtags, List<Media> mediaList) {
+    public UpdateFeedRequestDto(String feedUuid, String memberUuid, String title, String content,
+        Long categoryId, Visibility visibility, List<Hashtag> hashtags) {
+        this.feedUuid = feedUuid;
         this.memberUuid = memberUuid;
         this.title = title;
         this.content = content;
         this.categoryId = categoryId;
+        this.visibility = visibility;
         this.hashtags = hashtags;
-        this.mediaList = mediaList;
     }
 
 }

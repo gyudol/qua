@@ -21,7 +21,7 @@ public class FeedMedia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 36)
+    @Column(nullable = false, length = 36)
     private String feedUuid;
 
     @Column(nullable = false, length = 2083)
