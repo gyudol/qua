@@ -79,6 +79,7 @@ public class FollowRepository implements FollowPort {
                 .nextCursor(nextCursor)
                 .hasNext(hasNext)
                 .pageSize(pageSize)
+                .pageNo(pageNo)
                 .build();
     }
 
@@ -111,6 +112,7 @@ public class FollowRepository implements FollowPort {
                 .nextCursor(nextCursor)
                 .hasNext(hasNext)
                 .pageSize(pageSize)
+                .pageNo(pageNo)
                 .build();
     }
 }
