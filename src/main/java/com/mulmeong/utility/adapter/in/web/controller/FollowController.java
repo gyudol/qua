@@ -39,16 +39,18 @@ public class FollowController {
     public BaseResponse<CursorPage<String>> getFollowers(
             @PathVariable String memberUuid,
             @RequestParam(value = "nextCursor", required = false) String lastId,
-            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        return new BaseResponse<>(followUseCase.getFollowers(memberUuid, lastId, pageSize));
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+            @RequestParam(value = "pageNo", defaultValue = "0") int pageNo) {
+        return new BaseResponse<>(followUseCase.getFollowers(memberUuid, lastId, pageSize, pageNo));
     }
 
     @GetMapping("/{memberUuid}/followings")
     public BaseResponse<CursorPage<String>> getFollowings(
             @PathVariable String memberUuid,
             @RequestParam(value = "nextCursor", required = false) String lastId,
-            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        return new BaseResponse<>(followUseCase.getFollowings(memberUuid, lastId, pageSize));
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+            @RequestParam(value = "pageNo", defaultValue = "0") int pageNo) {
+        return new BaseResponse<>(followUseCase.getFollowings(memberUuid, lastId, pageSize, pageNo));
     }
 
 }

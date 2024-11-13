@@ -1,5 +1,6 @@
 package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository.FollowRepository;
 
+import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.FeedBookmarkEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.FollowEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.mapper.FollowEntityMapper;
 import com.mulmeong.utility.application.port.in.dto.FollowRequestDto;
@@ -50,8 +51,8 @@ public class FollowRepository implements FollowPort {
     }
 
     @Override
-    public CursorPage<String> getFollowers(String memberUuid, String lastId, int pageSize) {
-        Pageable pageable = PageRequest.of(0, pageSize, Sort.by(Sort.Direction.DESC, "id"));
+    public CursorPage<String> getFollowers(String memberUuid, String lastId, int pageSize, int pageNo) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id"));
 
         List<FollowEntity> entities;
         if (lastId != null) {
@@ -62,12 +63,16 @@ public class FollowRepository implements FollowPort {
                     memberUuid, pageable);
         }
 
-        List<String> followerUuids = entities.stream()
-                .map(FollowEntity::getSourceUuid)
-                .collect(Collectors.toList());
+        List<FollowEntity> pageData = entities.stream()
+                .limit(pageSize)
+                .toList();
 
-        boolean hasNext = followerUuids.size() == pageSize;
-        String nextCursor = hasNext ? entities.get(entities.size() - 1).getId() : null;
+        List<String> followerUuids = pageData.stream()
+                .map(FollowEntity::getSourceUuid)
+                .toList();
+
+        boolean hasNext = entities.size() > pageSize;
+        String nextCursor = hasNext ? pageData.get(pageData.size() - 1).getId() : null;
 
         return CursorPage.<String>builder()
                 .content(followerUuids)
@@ -78,8 +83,8 @@ public class FollowRepository implements FollowPort {
     }
 
     @Override
-    public CursorPage<String> getFollowings(String memberUuid, String lastId, int pageSize) {
-        Pageable pageable = PageRequest.of(0, pageSize, Sort.by(Sort.Direction.DESC, "id"));
+    public CursorPage<String> getFollowings(String memberUuid, String lastId, int pageSize, int pageNo) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id"));
 
         List<FollowEntity> entities;
         if (lastId != null) {
@@ -90,12 +95,16 @@ public class FollowRepository implements FollowPort {
                     memberUuid, pageable);
         }
 
-        List<String> followerUuids = entities.stream()
-                .map(FollowEntity::getTargetUuid)
-                .collect(Collectors.toList());
+        List<FollowEntity> pageData = entities.stream()
+                .limit(pageSize)
+                .toList();
 
-        boolean hasNext = followerUuids.size() == pageSize;
-        String nextCursor = hasNext ? entities.get(entities.size() - 1).getId() : null;
+        List<String> followerUuids = pageData.stream()
+                .map(FollowEntity::getTargetUuid)
+                .toList();
+
+        boolean hasNext = entities.size() > pageSize;
+        String nextCursor = hasNext ? pageData.get(pageData.size() - 1).getId() : null;
 
         return CursorPage.<String>builder()
                 .content(followerUuids)

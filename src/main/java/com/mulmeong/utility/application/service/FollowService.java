@@ -38,13 +38,13 @@ public class FollowService implements FollowUseCase {
     }
 
     @Override
-    public CursorPage<String> getFollowers(String memberUuid, String lastId, int pageSize) {
-        return followPort.getFollowers(memberUuid, lastId, pageSize);
+    public CursorPage<String> getFollowers(String memberUuid, String lastId, int pageSize, int pageNo) {
+        return followPort.getFollowers(memberUuid, lastId, pageSize, pageNo);
     }
 
     @Override
-    public CursorPage<String> getFollowings(String memberUuid, String lastId, int pageSize) {
-        return followPort.getFollowings(memberUuid, lastId, pageSize);
+    public CursorPage<String> getFollowings(String memberUuid, String lastId, int pageSize, int pageNo) {
+        return followPort.getFollowings(memberUuid, lastId, pageSize, pageNo);
     }
 
 
