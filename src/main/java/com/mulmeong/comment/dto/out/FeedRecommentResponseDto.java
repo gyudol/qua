@@ -15,8 +15,8 @@ public class FeedRecommentResponseDto {
     private String memberUuid;
     private String recommentUuid;
     private String content;
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public static FeedRecommentResponseDto toDto(FeedRecomment feedRecomment) {
         return FeedRecommentResponseDto.builder()
@@ -24,8 +24,8 @@ public class FeedRecommentResponseDto {
                 .memberUuid(feedRecomment.getMemberUuid())
                 .recommentUuid(feedRecomment.getRecommentUuid())
                 .content(feedRecomment.getContent())
-                .createAt(feedRecomment.getCreatedAt())
-                .updateAt(feedRecomment.getUpdatedAt())
+                .createdAt(feedRecomment.getCreatedAt())
+                .updatedAt(feedRecomment.getUpdatedAt())
                 .build();
     }
 
@@ -35,8 +35,8 @@ public class FeedRecommentResponseDto {
                 .memberUuid(memberUuid)
                 .recommentUuid(recommentUuid)
                 .content(content)
-                .createAt(createAt)
-                .updateAt(updateAt)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
                 .build();
     }
 }

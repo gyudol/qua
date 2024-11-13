@@ -13,6 +13,7 @@ import com.mulmeong.comment.infrastructure.ShortsCommentRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,18 +31,26 @@ public class ShortsCommentServiceImpl implements ShortsCommentService {
     }
 
     @Override
+    @Transactional
     public void updateFeedComment(ShortsCommentUpdateDto updateDto) {
         ShortsComment shortsComment = shortsCommentRepository.findByCommentUuid(updateDto.getCommentUuid()).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT)
         );
+        if (!shortsComment.getMemberUuid().equals(updateDto.getMemberUuid())) {
+            throw new BaseException(BaseResponseStatus.NO_UPDATE_COMMENT_AUTHORITY);
+        }
         shortsCommentRepository.save(updateDto.toEntity(shortsComment));
     }
 
     @Override
-    public void deleteShortsComment(String commentUuid) {
+    @Transactional
+    public void deleteShortsComment(String memberUuid, String commentUuid) {
         ShortsComment shortsComment = shortsCommentRepository.findByCommentUuid(commentUuid).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT)
         );
+        if (!shortsComment.getMemberUuid().equals(memberUuid)) {
+            throw new BaseException(BaseResponseStatus.NO_DELETE_COMMENT_AUTHORITY);
+        }
         shortsCommentRepository.save(ShortsCommentDeleteDto.toEntity(shortsComment));
     }
 
@@ -50,6 +59,9 @@ public class ShortsCommentServiceImpl implements ShortsCommentService {
         ShortsComment shortsComment = shortsCommentRepository.findByCommentUuid(commentUuid).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT)
         );
+        if (!shortsComment.isStatus()) {
+            throw new BaseException(BaseResponseStatus.NO_EXIST_COMMENT);
+        }
         return ShortsCommentResponseDto.toDto(shortsComment);
     }
 

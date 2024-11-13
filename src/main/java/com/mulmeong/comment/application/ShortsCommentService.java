@@ -12,7 +12,7 @@ public interface ShortsCommentService {
 
     void updateFeedComment(ShortsCommentUpdateDto updateDto);
 
-    void deleteShortsComment(String commentUuid);
+    void deleteShortsComment(String memberUuid, String commentUuid);
 
     ShortsCommentResponseDto getShortsComment(String commentUuid);
 

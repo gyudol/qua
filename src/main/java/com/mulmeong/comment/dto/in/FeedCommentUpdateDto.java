@@ -11,18 +11,21 @@ public class FeedCommentUpdateDto {
 
     private String content;
     private String commentUuid;
+    private String memberUuid;
 
-    public static FeedCommentUpdateDto toDto(FeedCommentUpdateVo updateVo, String commentUuid) {
+    public static FeedCommentUpdateDto toDto(
+            FeedCommentUpdateVo updateVo, String commentUuid, String memberUuid) {
         return FeedCommentUpdateDto.builder()
                 .content(updateVo.getContent())
                 .commentUuid(commentUuid)
+                .memberUuid(memberUuid)
                 .build();
     }
 
     public FeedComment toEntity(FeedComment feedComment) {
         return FeedComment.builder()
                 .id(feedComment.getId())
-                .memberUuid(feedComment.getMemberUuid())
+                .memberUuid(memberUuid)
                 .feedUuid(feedComment.getFeedUuid())
                 .commentUuid(commentUuid)
                 .content(content)

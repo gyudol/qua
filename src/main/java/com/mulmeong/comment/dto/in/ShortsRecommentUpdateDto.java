@@ -10,11 +10,14 @@ import lombok.Getter;
 public class ShortsRecommentUpdateDto {
     private String content;
     private String recommentUuid;
+    private String memberUuid;
 
-    public static ShortsRecommentUpdateDto toDto(ShortsRecommentUpdateVo updateVo, String recommentUuid) {
+    public static ShortsRecommentUpdateDto toDto(
+            ShortsRecommentUpdateVo updateVo, String recommentUuid, String memberUuid) {
         return ShortsRecommentUpdateDto.builder()
                 .content(updateVo.getContent())
                 .recommentUuid(recommentUuid)
+                .memberUuid(memberUuid)
                 .build();
     }
 
