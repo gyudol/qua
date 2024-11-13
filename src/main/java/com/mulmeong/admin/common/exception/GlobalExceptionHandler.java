@@ -3,7 +3,6 @@ package com.mulmeong.admin.common.exception;
 import com.mulmeong.admin.common.response.BaseResponse;
 import com.mulmeong.admin.common.response.BaseResponseStatus;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -31,7 +30,7 @@ public class GlobalExceptionHandler {
             System.out.println(s);
         }
 
-        return new BaseResponse<>(e.getStatus());
+        return new BaseResponse<>(e.getStatus(), e);
     }
 
     /**

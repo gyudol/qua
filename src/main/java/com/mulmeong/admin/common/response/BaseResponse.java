@@ -31,7 +31,7 @@ public record BaseResponse<T>(HttpStatusCode httpStatus, Boolean isSuccess, Stri
      * @param status 요청 상태
      */
     public BaseResponse(BaseResponseStatus status) {
-        this(status.getHttpStatusCode(), false, status.getMessage(), status.getCode(), null);
+        this(status.getHttpStatusCode(), false, status.getMessage(), status.getCode(), (T) status.getMessage());
     }
 
     /**
@@ -43,8 +43,8 @@ public record BaseResponse<T>(HttpStatusCode httpStatus, Boolean isSuccess, Stri
     public BaseResponse(BaseResponseStatus status, Exception e) {
         this(status.getHttpStatusCode(),
                 false,
-                String.format("%s: %s", status.getMessage(), e.getMessage()),
+                e.getMessage(),
                 status.getCode(),
-                null);
+                (T) status.getMessage());
     }
 }
