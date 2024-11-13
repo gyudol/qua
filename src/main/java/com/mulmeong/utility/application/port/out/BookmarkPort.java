@@ -13,11 +13,11 @@ public interface BookmarkPort {
 
     void deleteFeedBookmark(BookmarkRequestDto bookmarkRequestDto);
 
-    CursorPage<String> getFeedBookmarks(String memberUuid, String lastId, int pageSize);
+    CursorPage<String> getFeedBookmarks(String memberUuid, String lastId, int pageSize, int pageNo);
 
     void addShortsBookmark(ShortsBookmarkResponseDto responseDto);
 
     void deleteShortsBookmark(BookmarkRequestDto bookmarkRequestDto);
 
-    CursorPage<String> getShortsBookmarks(String memberUuid, String lastId, int pageSize);
+    CursorPage<String> getShortsBookmarks(String memberUuid, String lastId, int pageSize, int pageNo);
 }

@@ -15,6 +15,7 @@ public class CursorPage<T> {
     private String nextCursor;
     private Boolean hasNext;
     private Integer pageSize;
+    private Integer pageNo;
 
     public static <T, U> CursorPage<T> toCursorPage(CursorPage<U> cursorPage, List<T> content) {
 
@@ -23,6 +24,7 @@ public class CursorPage<T> {
                 .nextCursor(cursorPage.getNextCursor())
                 .hasNext(cursorPage.getHasNext())
                 .pageSize(cursorPage.getPageSize())
+                .pageNo(cursorPage.getPageNo())
                 .build();
     }
 

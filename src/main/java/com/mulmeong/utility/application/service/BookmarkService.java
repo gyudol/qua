@@ -38,8 +38,8 @@ public class BookmarkService implements BookmarkUseCase {
     }
 
     @Override
-    public CursorPage<String> getFeedBookmarks(String memberUuid, String lastId, int pageSize) {
-        return bookmarkPort.getFeedBookmarks(memberUuid, lastId, pageSize);
+    public CursorPage<String> getFeedBookmarks(String memberUuid, String lastId, int pageSize, int pageNo) {
+        return bookmarkPort.getFeedBookmarks(memberUuid, lastId, pageSize, pageNo);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class BookmarkService implements BookmarkUseCase {
     }
 
     @Override
-    public CursorPage<String> getShortsBookmarks(String memberUuid, String lastId, int pageSize) {
-        return bookmarkPort.getShortsBookmarks(memberUuid, lastId, pageSize);
+    public CursorPage<String> getShortsBookmarks(String memberUuid, String lastId, int pageSize, int pageNo) {
+        return bookmarkPort.getShortsBookmarks(memberUuid, lastId, pageSize, pageNo);
     }
 }
