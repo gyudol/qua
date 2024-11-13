@@ -20,7 +20,7 @@ public class ShortsRecommentAuthController {
     private final ShortsRecommentService shortsRecommentService;
 
     @PostMapping("/comments/{commentUuid}/recomments")
-    @Operation(summary = "쇼츠 대댓글 추가", tags = {"Shorts Recomment Service"})
+    @Operation(summary = "쇼츠 대댓글 생성", tags = {"Shorts Recomment Service"})
     public BaseResponse<Void> addShortsRecomment(
             @RequestBody ShortsRecommentRequestVo requestVo,
             @PathVariable String commentUuid) {

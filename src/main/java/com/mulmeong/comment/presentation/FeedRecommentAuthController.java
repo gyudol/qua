@@ -21,7 +21,7 @@ public class FeedRecommentAuthController {
     private final FeedRecommentService feedRecommentService;
 
     @PostMapping("/comments/{commentUuid}/recomments")
-    @Operation(summary = "피드 대댓글 추가", tags = {"Feed Recomment Service"})
+    @Operation(summary = "피드 대댓글 생성", tags = {"Feed Recomment Service"})
     public BaseResponse<Void> addFeedRecomment(
             @RequestBody FeedRecommentRequestVo requestVo,
             @PathVariable String commentUuid) {

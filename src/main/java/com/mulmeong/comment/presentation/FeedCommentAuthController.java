@@ -25,7 +25,7 @@ public class FeedCommentAuthController {
     private final FeedCommentService feedCommentService;
 
     @PostMapping("{feedUuid}/comments")
-    @Operation(summary = "피드 댓글 추가", tags = {"Feed Comment Service"})
+    @Operation(summary = "피드 댓글 생성", tags = {"Feed Comment Service"})
     public BaseResponse<Void> addFeedComment(
             @RequestBody FeedCommentRequestVo requestVo,
             @PathVariable String feedUuid) {

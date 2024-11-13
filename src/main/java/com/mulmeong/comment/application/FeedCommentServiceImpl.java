@@ -7,6 +7,7 @@ import com.mulmeong.comment.dto.in.FeedCommentDeleteDto;
 import com.mulmeong.comment.dto.in.FeedCommentRequestDto;
 import com.mulmeong.comment.dto.in.FeedCommentUpdateDto;
 import com.mulmeong.comment.dto.out.FeedCommentResponseDto;
+import com.mulmeong.comment.dto.kafka.FeedCommentMessageDto;
 import com.mulmeong.comment.entity.FeedComment;
 import com.mulmeong.comment.infrastructure.FeedCommentRepository;
 import com.mulmeong.comment.infrastructure.FeedCommentRepositoryCustom;
@@ -15,8 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 
 @Slf4j
 @RequiredArgsConstructor
@@ -24,11 +23,13 @@ import java.util.List;
 public class FeedCommentServiceImpl implements FeedCommentService {
     private final FeedCommentRepository feedCommentRepository;
     private final FeedCommentRepositoryCustom feedCommentRepositoryCustom;
+    private final KafkaProducer kafkaProducer;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void createFeedComment(FeedCommentRequestDto requestDto) {
-
-        feedCommentRepository.save(requestDto.toEntity());
+        FeedComment feedComment = feedCommentRepository.save(requestDto.toEntity());
+        kafkaProducer.sendFeedCommentMessage(FeedCommentMessageDto.toCommentDto(feedComment));
     }
 
     @Override
@@ -42,7 +43,7 @@ public class FeedCommentServiceImpl implements FeedCommentService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void deleteFeedComment(String memberUuid, String commentUuid) {
         FeedComment feedComment = feedCommentRepository.findByCommentUuid(commentUuid).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT));

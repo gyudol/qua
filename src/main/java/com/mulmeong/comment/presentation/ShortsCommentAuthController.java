@@ -23,7 +23,7 @@ public class ShortsCommentAuthController {
     private final ShortsCommentService shortsCommentService;
 
     @PostMapping("/{shortsUuid}/comments")
-    @Operation(summary = "쇼츠 댓글 추가", tags = {"Shorts Comment Service"})
+    @Operation(summary = "쇼츠 댓글 생성", tags = {"Shorts Comment Service"})
     public BaseResponse<Void> addShortsComment(
             @RequestBody ShortsCommentRequestVo requestVo,
             @PathVariable String shortsUuid) {
