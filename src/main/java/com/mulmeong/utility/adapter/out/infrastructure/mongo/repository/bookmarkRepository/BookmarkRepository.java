@@ -53,7 +53,7 @@ public class BookmarkRepository implements BookmarkPort {
 
     @Override
     public CursorPage<String> getFeedBookmarks(String memberUuid, String lastId, int pageSize) {
-        Pageable pageable = PageRequest.of(0, pageSize, Sort.by(Sort.Direction.DESC, "id"));
+        Pageable pageable = PageRequest.of(0, pageSize + 1, Sort.by(Sort.Direction.DESC, "id"));
 
         List<FeedBookmarkEntity> entities;
         if (lastId != null) {
@@ -64,12 +64,16 @@ public class BookmarkRepository implements BookmarkPort {
                     memberUuid, pageable);
         }
 
-        List<String> feedUuids = entities.stream()
-                .map(FeedBookmarkEntity::getFeedUuid)
-                .collect(Collectors.toList());
+        List<FeedBookmarkEntity> pageData = entities.stream()
+                .limit(pageSize)
+                .toList();
 
-        boolean hasNext = feedUuids.size() == pageSize;
-        String nextCursor = hasNext ? entities.get(entities.size() - 1).getId() : null;
+        List<String> feedUuids = pageData.stream()
+                .map(FeedBookmarkEntity::getFeedUuid)
+                .toList();
+
+        boolean hasNext = entities.size() > pageSize;
+        String nextCursor = hasNext ? pageData.get(pageData.size() - 1).getId() : null;
 
         return CursorPage.<String>builder()
                 .content(feedUuids)
@@ -96,7 +100,7 @@ public class BookmarkRepository implements BookmarkPort {
 
     @Override
     public CursorPage<String> getShortsBookmarks(String memberUuid, String lastId, int pageSize) {
-        Pageable pageable = PageRequest.of(0, pageSize, Sort.by(Sort.Direction.DESC, "id"));
+        Pageable pageable = PageRequest.of(0, pageSize + 1, Sort.by(Sort.Direction.DESC, "id"));
 
         List<ShortsBookmarkEntity> entities;
         if (lastId != null) {
@@ -107,15 +111,19 @@ public class BookmarkRepository implements BookmarkPort {
                     memberUuid, pageable);
         }
 
-        List<String> feedUuids = entities.stream()
-                .map(ShortsBookmarkEntity::getShortsUuid)
-                .collect(Collectors.toList());
+        List<ShortsBookmarkEntity> pageData = entities.stream()
+                .limit(pageSize)
+                .toList();
 
-        boolean hasNext = feedUuids.size() == pageSize;
-        String nextCursor = hasNext ? entities.get(entities.size() - 1).getId() : null;
+        List<String> shortsUuid = pageData.stream()
+                .map(ShortsBookmarkEntity::getShortsUuid)
+                .toList();
+
+        boolean hasNext = entities.size() > pageSize;
+        String nextCursor = hasNext ? entities.get(pageData.size() - 1).getId() : null;
 
         return CursorPage.<String>builder()
-                .content(feedUuids)
+                .content(shortsUuid)
                 .nextCursor(nextCursor)
                 .hasNext(hasNext)
                 .pageSize(pageSize)
