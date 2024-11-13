@@ -24,37 +24,47 @@ export const options: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 
   callbacks: {
-    async signIn({ user, account }) {
-      if (account) {
-        const res = await fetch(
-          `${process.env.BASE_API_URL}/member-service/v1/auth/sign-in`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              oauthId: account.providerAccountId,
-              oauthProvider: account.provider,
-            }),
-          },
-        );
+    async signIn({ user, account, profile }) {
+      if (profile && account) {
+        try {
+          const res = await fetch(
+            `${process.env.BASE_API_URL}/member-service/v1/auth/sign-in`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                oauthId: account.providerAccountId,
+                oauthProvider: account.provider,
+              }),
+            },
+          );
 
-        const data = (await res.json()) as AuthResponse;
+          if (!res.ok) {
+            return false;
+          }
 
-        if (data.memberUuid && data.accessToken && data.refreshToken) {
-          user.memberUuid = data.memberUuid;
-          user.accessToken = data.accessToken;
-          refreshTokenStore[data.memberUuid] = data.refreshToken;
-          return true;
+          const responseData = (await res.json()) as { result: AuthResponse };
+
+          const data = responseData.result;
+
+          if (data.memberUuid && data.accessToken && data.refreshToken) {
+            user.memberUuid = data.memberUuid;
+            user.accessToken = data.accessToken;
+            refreshTokenStore[data.memberUuid] = data.refreshToken;
+            return true;
+          }
+          return false;
+        } catch (error) {
+          return false;
         }
       }
       return false;
     },
 
     jwt({ token, user }) {
-      Object.assign(token, {
-        memberUuid: user.memberUuid,
-        accessToken: user.accessToken,
-      });
+      token.memberUuid = user.memberUuid || token.memberUuid;
+      token.accessToken = user.accessToken || token.accessToken;
+
       return token;
     },
 
@@ -73,5 +83,6 @@ export const options: NextAuthOptions = {
 
   pages: {
     signIn: "/sign-in",
+    error: "/error",
   },
 };
