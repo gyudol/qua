@@ -1,4 +1,4 @@
-package com.mulmeong.contentread;
+package com.mulmeong.comment_read;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
