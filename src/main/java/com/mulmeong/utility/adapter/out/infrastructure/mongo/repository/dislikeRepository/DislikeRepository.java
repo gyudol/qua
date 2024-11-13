@@ -36,13 +36,11 @@ public class DislikeRepository implements DislikePort {
 
     @Override
     public Optional<DislikeEntityResponseDto> findByMemberAndKind(DislikeRequestDto dislikeRequestDto) {
-        DislikeEntity entity = dislikeMongoRepository.findByMemberUuidAndKindAndKindUuid(
-                dislikeRequestDto.getMemberUuid(),
-                dislikeRequestDto.getKind(),
-                dislikeRequestDto.getKindUuid()
-        );
-
-        return Optional.of(dislikeEntityMapper.toDto(entity));
+        return dislikeMongoRepository.findByMemberUuidAndKindAndKindUuid(
+                        dislikeRequestDto.getMemberUuid(),
+                        dislikeRequestDto.getKind(),
+                        dislikeRequestDto.getKindUuid())
+                .map(dislikeEntityMapper::toDto);
     }
 
     @Override

@@ -35,13 +35,11 @@ public class LikesRepository implements LikesPort {
 
     @Override
     public Optional<LikesEntityResponseDto> findByMemberAndKind(LikesRequestDto likesRequestDto) {
-        LikesEntity entity = likesMongoRepository.findByMemberUuidAndKindAndKindUuid(
-                likesRequestDto.getMemberUuid(),
-                likesRequestDto.getKind(),
-                likesRequestDto.getKindUuid()
-        );
-
-        return Optional.of(likesEntityMapper.toDto(entity));
+        return likesMongoRepository.findByMemberUuidAndKindAndKindUuid(
+                        likesRequestDto.getMemberUuid(),
+                        likesRequestDto.getKind(),
+                        likesRequestDto.getKindUuid())
+                .map(likesEntityMapper::toDto);
     }
 
     @Override
