@@ -13,6 +13,7 @@ import com.mulmeong.comment.infrastructure.FeedCommentRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -34,15 +35,20 @@ public class FeedCommentServiceImpl implements FeedCommentService {
     public void updateFeedComment(FeedCommentUpdateDto updateDto) {
         FeedComment feedComment = feedCommentRepository.findByCommentUuid(updateDto.getCommentUuid()).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT));
-
+        if (!(feedComment.getMemberUuid().equals(updateDto.getMemberUuid()))) {
+            throw new BaseException(BaseResponseStatus.NO_UPDATE_COMMENT_AUTHORITY);
+        }
         feedCommentRepository.save(updateDto.toEntity(feedComment));
     }
 
     @Override
-    public void deleteFeedComment(String commentUuid) {
+    @Transactional
+    public void deleteFeedComment(String memberUuid, String commentUuid) {
         FeedComment feedComment = feedCommentRepository.findByCommentUuid(commentUuid).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT));
-
+        if (!(feedComment.getMemberUuid().equals(memberUuid))) {
+            throw new BaseException(BaseResponseStatus.NO_DELETE_COMMENT_AUTHORITY);
+        }
         feedCommentRepository.save(FeedCommentDeleteDto.toEntity(feedComment));
     }
 
@@ -50,6 +56,9 @@ public class FeedCommentServiceImpl implements FeedCommentService {
     public FeedCommentResponseDto getFeedComment(String commentUuid) {
         FeedComment feedComment = feedCommentRepository.findByCommentUuid(commentUuid).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT));
+        if (!feedComment.isStatus()) {
+            throw new BaseException(BaseResponseStatus.NO_EXIST_COMMENT);
+        }
         return FeedCommentResponseDto.toDto(feedComment);
     }
 
@@ -64,6 +73,7 @@ public class FeedCommentServiceImpl implements FeedCommentService {
 
         CursorPage<FeedComment> cursorPage = feedCommentRepositoryCustom.getFeedComments(
                 feedUuid, sortBy, lastId, pageSize, pageNo);
+
         return CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
                 .map(FeedCommentResponseDto::toDto).toList());
     }

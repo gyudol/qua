@@ -15,8 +15,8 @@ public class ShortsRecommentResponseDto {
     private String memberUuid;
     private String recommentUuid;
     private String content;
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public static ShortsRecommentResponseDto toDto(ShortsRecomment shortsRecomment) {
         return ShortsRecommentResponseDto.builder()
@@ -24,8 +24,8 @@ public class ShortsRecommentResponseDto {
                 .memberUuid(shortsRecomment.getMemberUuid())
                 .recommentUuid(shortsRecomment.getRecommentUuid())
                 .content(shortsRecomment.getContent())
-                .createAt(shortsRecomment.getCreatedAt())
-                .updateAt(shortsRecomment.getUpdatedAt())
+                .createdAt(shortsRecomment.getCreatedAt())
+                .updatedAt(shortsRecomment.getUpdatedAt())
                 .build();
     }
 
@@ -35,8 +35,8 @@ public class ShortsRecommentResponseDto {
                 .memberUuid(memberUuid)
                 .recommentUuid(recommentUuid)
                 .content(content)
-                .createAt(createAt)
-                .updateAt(updateAt)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
                 .build();
     }
 }

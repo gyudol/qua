@@ -14,6 +14,6 @@ public class ShortsRecommentResponseVo {
     private String memberUuid;
     private String recommentUuid;
     private String content;
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
