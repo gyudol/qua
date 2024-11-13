@@ -1,7 +1,6 @@
 package com.mulmeong.comment.presentation;
 
 import com.mulmeong.comment.application.FeedCommentService;
-import com.mulmeong.comment.application.KafkaProducer;
 import com.mulmeong.comment.common.response.BaseResponse;
 import com.mulmeong.comment.common.utils.CursorPage;
 import com.mulmeong.comment.dto.in.FeedCommentRequestDto;

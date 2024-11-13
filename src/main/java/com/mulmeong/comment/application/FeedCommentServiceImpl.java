@@ -7,7 +7,6 @@ import com.mulmeong.comment.dto.in.FeedCommentDeleteDto;
 import com.mulmeong.comment.dto.in.FeedCommentRequestDto;
 import com.mulmeong.comment.dto.in.FeedCommentUpdateDto;
 import com.mulmeong.comment.dto.out.FeedCommentResponseDto;
-import com.mulmeong.comment.dto.kafka.FeedCommentMessageDto;
 import com.mulmeong.comment.entity.FeedComment;
 import com.mulmeong.comment.infrastructure.FeedCommentRepository;
 import com.mulmeong.comment.infrastructure.FeedCommentRepositoryCustom;
@@ -23,13 +22,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class FeedCommentServiceImpl implements FeedCommentService {
     private final FeedCommentRepository feedCommentRepository;
     private final FeedCommentRepositoryCustom feedCommentRepositoryCustom;
-    private final KafkaProducer kafkaProducer;
+    //private final KafkaProducer kafkaProducer;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void createFeedComment(FeedCommentRequestDto requestDto) {
-        FeedComment feedComment = feedCommentRepository.save(requestDto.toEntity());
-        kafkaProducer.sendFeedCommentMessage(FeedCommentMessageDto.toCommentDto(feedComment));
+        //FeedComment feedComment =
+        feedCommentRepository.save(requestDto.toEntity());
+        //kafkaProducer.sendFeedCommentMessage(FeedCommentMessageDto.toCommentDto(feedComment));
     }
 
     @Override
