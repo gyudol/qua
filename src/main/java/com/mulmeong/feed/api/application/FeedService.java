@@ -8,6 +8,8 @@ public interface FeedService {
 
     void createFeed(CreateFeedRequestDto requestDto);
 
+    FeedResponseDto getFeedDetail(String feedUuid);
+
     void updateFeed(UpdateFeedRequestDto requestDto);
 
     void deleteFeed(String feedUuid, String memberUuid);
