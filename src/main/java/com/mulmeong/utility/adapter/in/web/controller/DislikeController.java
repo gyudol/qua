@@ -39,7 +39,7 @@ public class DislikeController {
 
     @GetMapping("/{memberUuid}/{kind}/dislike")
     public BaseResponse<List<String>> getDislikes(@PathVariable String memberUuid, @PathVariable String kind) {
-        
+
         return new BaseResponse<>(dislikeUseCase.getDislikes(new DislikeListRequestDto(memberUuid, kind)));
 
     }

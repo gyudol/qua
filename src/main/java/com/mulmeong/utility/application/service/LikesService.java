@@ -2,7 +2,6 @@ package com.mulmeong.utility.application.service;
 
 import com.mulmeong.utility.application.mapper.LikesDtoMapper;
 import com.mulmeong.utility.application.port.in.LikesUseCase;
-import com.mulmeong.utility.application.port.in.dto.LikesListRequestDto;
 import com.mulmeong.utility.application.port.in.dto.LikesRequestDto;
 import com.mulmeong.utility.application.port.out.LikesPort;
 import com.mulmeong.utility.application.port.out.dto.LikesEntityResponseDto;
@@ -12,9 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -56,8 +53,8 @@ public class LikesService implements LikesUseCase {
     }
 
     @Override
-    public CursorPage<String> getLikes(String memberUuid, String kind, String lastId, int pageSize) {
-        return likesPort.getLikes(memberUuid, kind, lastId, pageSize);
+    public CursorPage<String> getLikes(String memberUuid, String kind, String lastId, int pageSize, int pageNo) {
+        return likesPort.getLikes(memberUuid, kind, lastId, pageSize, pageNo);
     }
 
 
