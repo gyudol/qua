@@ -43,8 +43,8 @@ public record BaseResponse<T>(HttpStatusCode httpStatus, Boolean isSuccess, Stri
     public BaseResponse(BaseResponseStatus status, Exception e) {
         this(status.getHttpStatusCode(),
                 false,
-                String.format("%s: %s", status.getMessage(), e.getMessage()),
+                e.getMessage(),
                 status.getCode(),
-                null);
+                (T) status.getMessage());
     }
 }

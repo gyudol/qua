@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
             System.out.println(s);
         }
 
-        return new BaseResponse<>(e.getStatus());
+        return new BaseResponse<>(e.getStatus(), e);
     }
 
     /**

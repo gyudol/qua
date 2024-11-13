@@ -27,7 +27,7 @@ public enum BaseResponseStatus {
     TOKEN_NOT_VALID(HttpStatus.UNAUTHORIZED, false, 602, "토큰이 유효하지 않습니다."),
     NO_SUPPORTED_PROVIDER(HttpStatus.BAD_REQUEST, false, 603, "지원하지 않는 플랫폼입니다."),
     INVALID_OAUTH(HttpStatus.BAD_REQUEST, false, 604, "올바르지 않은 소셜 계정입니다."),
-    NO_EXIST_USER(HttpStatus.NOT_FOUND, false, 605, "존재하지 않는 회원 정보입니다."),
+    NO_EXIST_USER(HttpStatus.BAD_REQUEST, false, 605, "존재하지 않는 회원 정보입니다."),
     FAILED_TO_LOGIN(HttpStatus.UNAUTHORIZED, false, 606, "로그인에 실패하였습니다."),
     DISABLED_USER(HttpStatus.UNAUTHORIZED, false, 607, "비활성화된 계정입니다."),
     NO_ACCESS_AUTHORITY(HttpStatus.FORBIDDEN, false, 608, "접근 권한이 없습니다."),
@@ -37,8 +37,9 @@ public enum BaseResponseStatus {
 
 
     // 1100 : Member 관련
-    NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, false, 1100, "존재하지 않는 회원입니다."),
+    NOT_FOUND_MEMBER(HttpStatus.BAD_REQUEST, false, 1100, "존재하지 않는 회원입니다."),
     EXISTS_NICKNAME(HttpStatus.CONFLICT, false, 1101, "이미 존재하는 닉네임입니다.");
+
 
     private final HttpStatusCode httpStatusCode;
     private final boolean isSuccess;
