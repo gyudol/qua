@@ -49,6 +49,8 @@ dependencies {
     implementation('com.querydsl:querydsl-mongodb') {
         exclude group: 'org.mongodb', module: 'mongo-java-driver'
     }
+    // swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }

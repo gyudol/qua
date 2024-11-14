@@ -7,6 +7,7 @@ import com.mulmeong.utility.application.port.in.dto.BookmarkRequestDto;
 import com.mulmeong.utility.application.port.out.dto.FeedBookmarkResponseDto;
 import com.mulmeong.utility.common.response.BaseResponse;
 import com.mulmeong.utility.common.utils.CursorPage;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ public class BookmarkController {
 
     private final BookmarkUseCase bookmarkUseCase;
 
+    @Operation(summary = "피드 북마크 추가", tags = {"Bookmark Service"})
     @PostMapping("/feeds/bookmarks")
     public BaseResponse<Void> addFeedBookmark(
             @RequestHeader("Member-Uuid") String memberUuid, @RequestBody FeedBookmarkRequestVo requestVo) {
@@ -29,6 +31,7 @@ public class BookmarkController {
         return new BaseResponse<>();
     }
 
+    @Operation(summary = "피드 북마크 삭제", tags = {"Bookmark Service"})
     @DeleteMapping("/feeds/{feedUuid}/bookmarks")
     public BaseResponse<Void> deleteFeedBookmark(
             @RequestHeader("Member-Uuid") String memberUuid, @PathVariable("feedUuid") String feedUuid) {
@@ -36,6 +39,7 @@ public class BookmarkController {
         return new BaseResponse<>();
     }
 
+    @Operation(summary = "피드 북마크 목록 조회", tags = {"Bookmark Service"})
     @GetMapping("/feeds/bookmarks")
     public BaseResponse<CursorPage<String>> getFeedBookmarks(
             @RequestHeader("Member-Uuid") String memberUuid,
@@ -46,6 +50,7 @@ public class BookmarkController {
         return new BaseResponse<>(bookmarkUseCase.getFeedBookmarks(memberUuid, lastId, pageSize, pageNo));
     }
 
+    @Operation(summary = "쇼츠 북마크 추가", tags = {"Bookmark Service"})
     @PostMapping("/shorts/bookmarks")
     public BaseResponse<Void> addShortsBookmark(
             @RequestHeader("Member-Uuid") String memberUuid, @RequestBody ShortsBookmarkRequestVo requestVo) {
@@ -54,6 +59,7 @@ public class BookmarkController {
         return new BaseResponse<>();
     }
 
+    @Operation(summary = "쇼츠 북마크 삭제", tags = {"Bookmark Service"})
     @DeleteMapping("/shorts/{shortsUuid}/bookmarks")
     public BaseResponse<Void> deleteShortsBookmark(
             @RequestHeader("Member-Uuid") String memberUuid, @PathVariable("shortsUuid") String shortsUuid) {
@@ -61,6 +67,7 @@ public class BookmarkController {
         return new BaseResponse<>();
     }
 
+    @Operation(summary = "쇼츠 북마크 목록 조회", tags = {"Bookmark Service"})
     @GetMapping("/shorts/bookmarks")
     public BaseResponse<CursorPage<String>> getShortsBookmarks(
             @RequestHeader("Member-Uuid") String memberUuid,
