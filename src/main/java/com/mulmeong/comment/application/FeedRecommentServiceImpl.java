@@ -5,6 +5,7 @@ import com.mulmeong.comment.common.response.BaseResponseStatus;
 import com.mulmeong.comment.common.utils.CursorPage;
 import com.mulmeong.comment.dto.in.FeedRecommentRequestDto;
 import com.mulmeong.comment.dto.in.FeedRecommentUpdateDto;
+import com.mulmeong.comment.dto.kafka.MessageDto;
 import com.mulmeong.comment.dto.out.FeedRecommentResponseDto;
 import com.mulmeong.comment.entity.FeedComment;
 import com.mulmeong.comment.entity.FeedRecomment;
@@ -26,13 +27,16 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
     private final FeedCommentRepository feedCommentRepository;
     private final FeedRecommentRepository feedRecommentRepository;
     private final FeedRecommentRepositoryCustom feedRecommentRepositoryCustom;
+    private final KafkaProducer kafkaProducer;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void createFeedRecomment(FeedRecommentRequestDto requestDto) {
         if (!feedCommentRepository.existsByCommentUuid(requestDto.getCommentUuid())) {
             throw new BaseException(BaseResponseStatus.NO_EXIST_COMMENT);
         }
-        feedRecommentRepository.save(requestDto.toEntity());
+        FeedRecomment feedRecomment = feedRecommentRepository.save(requestDto.toEntity());
+        kafkaProducer.sendMessage(MessageDto.toFeedRecommentDto(feedRecomment));
     }
 
     @Override
@@ -43,7 +47,7 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
         if (!(feedRecomment.getMemberUuid().equals(updateDto.getMemberUuid()))) {
             throw new BaseException(BaseResponseStatus.NO_UPDATE_RECOMMENT_AUTHORITY);
         }
-        feedRecommentRepository.save(updateDto.toEntity(feedRecomment));
+        FeedRecomment updateComment = feedRecommentRepository.save(updateDto.toEntity(feedRecomment));
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.mulmeong.comment.common.config;
 
-import com.mulmeong.comment.dto.kafka.FeedCommentMessageDto;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +15,7 @@ import java.util.Map;
 public class KafkaProducerConfig {
 
     @Bean
-    public ProducerFactory<String, FeedCommentMessageDto> producerFactory() {
+    public <T> ProducerFactory<String, T> producerFactory() {
         Map<String, Object> configProperties = Map.of(
                 ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39092,localhost:49092",
                 ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class,
@@ -27,7 +26,8 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, FeedCommentMessageDto> kafkaTemplate() {
+    public <T> KafkaTemplate<String, T> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
+
 }

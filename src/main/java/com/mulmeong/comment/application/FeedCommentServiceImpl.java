@@ -6,8 +6,8 @@ import com.mulmeong.comment.common.utils.CursorPage;
 import com.mulmeong.comment.dto.in.FeedCommentDeleteDto;
 import com.mulmeong.comment.dto.in.FeedCommentRequestDto;
 import com.mulmeong.comment.dto.in.FeedCommentUpdateDto;
+import com.mulmeong.comment.dto.kafka.MessageDto;
 import com.mulmeong.comment.dto.out.FeedCommentResponseDto;
-import com.mulmeong.comment.dto.kafka.FeedCommentMessageDto;
 import com.mulmeong.comment.entity.FeedComment;
 import com.mulmeong.comment.infrastructure.FeedCommentRepository;
 import com.mulmeong.comment.infrastructure.FeedCommentRepositoryCustom;
@@ -29,7 +29,7 @@ public class FeedCommentServiceImpl implements FeedCommentService {
     @Transactional(rollbackFor = Exception.class)
     public void createFeedComment(FeedCommentRequestDto requestDto) {
         FeedComment feedComment = feedCommentRepository.save(requestDto.toEntity());
-        kafkaProducer.sendFeedCommentMessage(FeedCommentMessageDto.toCommentDto(feedComment));
+        kafkaProducer.sendMessage(MessageDto.toFeedCommentDto(feedComment));
     }
 
     @Override
