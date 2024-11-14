@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "@/app/globals.css";
 import "@repo/ui/styles.css";
 import { CommonHeader } from "@/components/common/molecules";
+import { CommonGbnb } from "@/components/common/organisms";
 
 export const metadata: Metadata = {
   title: "Create Turborepo",
@@ -17,6 +18,7 @@ export default function RootLayout({
     <>
       <CommonHeader>채팅리스트</CommonHeader>
       {children}
+      <CommonGbnb />
     </>
   );
 }
