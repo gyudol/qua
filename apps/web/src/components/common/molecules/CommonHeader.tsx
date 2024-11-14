@@ -1,10 +1,5 @@
 import { cn } from "@repo/ui/lib/utils";
 import { Jua } from "next/font/google";
-import {
-  ChatButton,
-  GlobalButton,
-  NotificationButton,
-} from "@/components/feed-tab/atoms";
 import { CommonLayout, GoBackButton } from "../atoms";
 
 const jua = Jua({ weight: "400", subsets: ["latin"] });
@@ -18,7 +13,7 @@ export default function CommonHeader({ children }: CommonHeaderProp) {
     <CommonLayout.Header
       className={cn(
         "flex justify-between items-center",
-        "p-[20px_28px]",
+        "p-[45px_28px_20px]",
         "rounded-b-[20px] shadow-md z-10",
         "bg-[var(--theme-color)]",
       )}
@@ -32,11 +27,6 @@ export default function CommonHeader({ children }: CommonHeaderProp) {
       >
         <GoBackButton />
         {children}
-      </div>
-      <div className="flex items-center gap-[15px]">
-        <GlobalButton stroke="white" />
-        <NotificationButton fill="white" />
-        <ChatButton />
       </div>
     </CommonLayout.Header>
   );
