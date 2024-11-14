@@ -16,11 +16,11 @@ export default function FeedList() {
     queryFn: async () => getAllFeed(),
   });
   return (
-    <>
-      <section
+    <section className="w-full flex-col bg-[#EEE]">
+      <div
         className={cn(
           "w-ful flex justify-between items-center",
-          "p-[20px_28px] mb-[10px]",
+          "p-7 mb-2",
           "bg-white",
         )}
       >
@@ -31,7 +31,7 @@ export default function FeedList() {
         >
           Sorting by {">"}
         </button>
-        <div className="flex items-center gap-[20px]">
+        <div className="flex items-center gap-5">
           <button type="button" onClick={() => alertNotImplemented()}>
             <List />
           </button>
@@ -39,10 +39,10 @@ export default function FeedList() {
             <Group />
           </button>
         </div>
-      </section>
-      <section className="flex flex-col gap-[10px] pb-[80px]">
+      </div>
+      <div className="flex flex-col gap-2 pb-16">
         {data?.content.map((feed) => <Feed key={feed.feedUuid} {...feed} />)}
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

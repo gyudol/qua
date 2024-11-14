@@ -9,7 +9,7 @@ import {
 
 export default function FeedTabHeader() {
   return (
-    <CommonLayout.Header className="flex justify-between items-center p-[32px_24px_16px] bg-white">
+    <CommonLayout.Header className="flex justify-between items-center p-[45px_28px_20px] bg-white">
       <div className="flex items-center gap-[20px]">
         <LnbMenuButton />
         <Logo />
