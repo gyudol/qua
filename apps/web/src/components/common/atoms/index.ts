@@ -3,6 +3,7 @@ import { CommonLayout } from "./CommonLayout";
 import Fig from "./Fig";
 import GoBackButton from "./GoBackButton";
 import PostedAt from "./PostedAt";
+import { Skeleton } from "./Skeleton";
 import withLink from "./withLink";
 import withParams from "./withParams";
 
@@ -14,4 +15,5 @@ export {
   PostedAt,
   GoBackButton,
   CommonLayout,
+  Skeleton,
 };

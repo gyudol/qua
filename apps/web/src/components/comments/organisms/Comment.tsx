@@ -17,7 +17,7 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { PostedAt } from "@/components/common/atoms";
-import Profile from "@/components/profile/molecules/Profile";
+import { Profile } from "@/components/profile/molecules";
 import { alertNotImplemented } from "@/functions/utils";
 import type { Member } from "@/types/member";
 import type { CommentReqParam, TargetType } from "@/types/comment-service";
