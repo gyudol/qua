@@ -1,10 +1,11 @@
-name: CI
+name: Spring Boot CI/CD
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ develop, release ]
   pull_request:
-    branches: [ develop ]
+    types: [ closed ]
+    branches: [ develop, release ]
 
 jobs:
   build:
@@ -20,6 +21,17 @@ jobs:
           distribution: 'corretto'
           java-version: 17
 
+      - name: Gradle Caching
+        if: github.ref == 'refs/heads/release'
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: Create application.yml
         run: |
           mkdir -p ./src/main/resources
@@ -33,3 +45,66 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew clean build
+
+      - name: docker login
+        if: github.ref == 'refs/heads/release'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Docker build
+        run: docker build -f Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/admin-service .
+
+      - name: Docker push to production
+        if: github.ref == 'refs/heads/release'
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/admin-service
+
+  deploy:
+    if: github.ref == 'refs/heads/release'
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get GitHub IP
+        id: ip
+        uses: haythem/public-ip@v1.3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Add GitHub IP to AWS Security Group
+        run: |
+          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} --protocol tcp --port ${{ secrets.EC2_SSH_PORT }} --cidr ${{ steps.ip.outputs.ipv4 }}/32
+
+      - name: Deploy to EC2 using PEM Key
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          timeout: 60s
+          script: |
+            echo "Stopping existing application..."
+            sudo docker stop admin-service || true
+            sudo docker rm admin-service || true
+
+            echo "Pulling latest image..."
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/admin-service:latest
+
+            echo "Running new container..."
+            sudo docker run -d --name admin-service -p ${{ secrets.APPLICATION_PORT }}:${{ secrets.APPLICATION_PORT }} --network ${{secrets.DOCKER_NETWORK}} ${{ secrets.DOCKERHUB_USERNAME }}/admin-service:latest
+
+            echo "Cleaning up unused Docker images..."
+            sudo docker image prune -f
+
+      - name: Remove GitHub IP from AWS Security Group
+        run: |
+          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} --protocol tcp --port ${{ secrets.EC2_SSH_PORT }} --cidr ${{ steps.ip.outputs.ipv4 }}/32
