@@ -30,18 +30,18 @@ public class LikesController {
     }
 
     // 좋아요 상태 조회
-    @GetMapping("/{memberUuid}/{kind}/{kindUuid}/like-status")
+    @GetMapping("/{kind}/{kindUuid}/like-status")
     public BaseResponse<Boolean> likesStatus(
-            @PathVariable String memberUuid, @PathVariable String kind, @PathVariable String kindUuid) {
+            @RequestHeader("Member-Uuid") String memberUuid, @PathVariable String kind, @PathVariable String kindUuid) {
 
         return new BaseResponse<>(likesUseCase.isChecked(new LikesRequestDto(memberUuid, kind, kindUuid)));
 
     }
 
     // 좋아요 한 컨텐츠 조회
-    @GetMapping("/{memberUuid}/{kind}/likes")
+    @GetMapping("/{kind}/likes")
     public BaseResponse<CursorPage<String>> getLikes(
-            @PathVariable("memberUuid") String memberUuid,
+            @RequestHeader("Member-Uuid") String memberUuid,
             @PathVariable("kind") String kind,
             @RequestParam(value = "lastId", required = false) String lastId,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,

@@ -29,16 +29,17 @@ public class DislikeController {
 
     }
 
-    @GetMapping("/{memberUuid}/{kind}/{kindUuid}/dislike-status")
+    @GetMapping("/{kind}/{kindUuid}/dislike-status")
     public BaseResponse<Boolean> dislikeStatus(
-            @PathVariable String memberUuid, @PathVariable String kind, @PathVariable String kindUuid) {
+            @RequestHeader("Member-Uuid") String memberUuid, @PathVariable String kind, @PathVariable String kindUuid) {
 
         return new BaseResponse<>(dislikeUseCase.isChecked(new DislikeRequestDto(memberUuid, kind, kindUuid)));
 
     }
 
-    @GetMapping("/{memberUuid}/{kind}/dislike")
-    public BaseResponse<List<String>> getDislikes(@PathVariable String memberUuid, @PathVariable String kind) {
+    @GetMapping("/{kind}/dislike")
+    public BaseResponse<List<String>> getDislikes(
+            @RequestHeader("Member-Uuid") String memberUuid, @PathVariable String kind) {
 
         return new BaseResponse<>(dislikeUseCase.getDislikes(new DislikeListRequestDto(memberUuid, kind)));
 

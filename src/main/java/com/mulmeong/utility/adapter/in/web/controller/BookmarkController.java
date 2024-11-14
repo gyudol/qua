@@ -21,24 +21,24 @@ public class BookmarkController {
 
     private final BookmarkUseCase bookmarkUseCase;
 
-    @PostMapping("/{memberUuid}/feeds/bookmarks")
+    @PostMapping("/feeds/bookmarks")
     public BaseResponse<Void> addFeedBookmark(
-            @PathVariable("memberUuid") String memberUuid, @RequestBody FeedBookmarkRequestVo requestVo) {
+            @RequestHeader("Member-Uuid") String memberUuid, @RequestBody FeedBookmarkRequestVo requestVo) {
 
         bookmarkUseCase.addFeedBookmark(requestVo.toDto(memberUuid));
         return new BaseResponse<>();
     }
 
-    @DeleteMapping("/{memberUuid}/feeds/{feedUuid}/bookmarks")
+    @DeleteMapping("/feeds/{feedUuid}/bookmarks")
     public BaseResponse<Void> deleteFeedBookmark(
-            @PathVariable("memberUuid") String memberUuid, @PathVariable("feedUuid") String feedUuid) {
+            @RequestHeader("Member-Uuid") String memberUuid, @PathVariable("feedUuid") String feedUuid) {
         bookmarkUseCase.deleteFeedBookmark(new BookmarkRequestDto(memberUuid, feedUuid));
         return new BaseResponse<>();
     }
 
-    @GetMapping("/{memberUuid}/feeds/bookmarks")
+    @GetMapping("/feeds/bookmarks")
     public BaseResponse<CursorPage<String>> getFeedBookmarks(
-            @PathVariable("memberUuid") String memberUuid,
+            @RequestHeader("Member-Uuid") String memberUuid,
             @RequestParam(value = "nextCursor", required = false) String lastId,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
             @RequestParam(value = "pageNo", defaultValue = "0") int pageNo) {
@@ -46,24 +46,24 @@ public class BookmarkController {
         return new BaseResponse<>(bookmarkUseCase.getFeedBookmarks(memberUuid, lastId, pageSize, pageNo));
     }
 
-    @PostMapping("/{memberUuid}/shorts/bookmarks")
+    @PostMapping("/shorts/bookmarks")
     public BaseResponse<Void> addShortsBookmark(
-            @PathVariable("memberUuid") String memberUuid, @RequestBody ShortsBookmarkRequestVo requestVo) {
+            @RequestHeader("Member-Uuid") String memberUuid, @RequestBody ShortsBookmarkRequestVo requestVo) {
 
         bookmarkUseCase.addShortsBookmark(requestVo.toDto(memberUuid));
         return new BaseResponse<>();
     }
 
-    @DeleteMapping("/{memberUuid}/shorts/{shortsUuid}/bookmarks")
+    @DeleteMapping("/shorts/{shortsUuid}/bookmarks")
     public BaseResponse<Void> deleteShortsBookmark(
-            @PathVariable("memberUuid") String memberUuid, @PathVariable("shortsUuid") String shortsUuid) {
+            @RequestHeader("Member-Uuid") String memberUuid, @PathVariable("shortsUuid") String shortsUuid) {
         bookmarkUseCase.deleteShortsBookmark(new BookmarkRequestDto(memberUuid, shortsUuid));
         return new BaseResponse<>();
     }
 
-    @GetMapping("/{memberUuid}/shorts/bookmarks")
+    @GetMapping("/shorts/bookmarks")
     public BaseResponse<CursorPage<String>> getShortsBookmarks(
-            @PathVariable("memberUuid") String memberUuid,
+            @RequestHeader("Member-Uuid") String memberUuid,
             @RequestParam(value = "nextCursor", required = false) String lastId,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
             @RequestParam(value = "pageNo", defaultValue = "0") int pageNo) {
