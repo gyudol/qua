@@ -1,7 +1,6 @@
 package com.mulmeong.comment_read.presentation;
 
 import com.mulmeong.comment_read.application.KafkaConsumer;
-import com.mulmeong.comment_read.dto.kafka.FeedCommentMessageDto;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
