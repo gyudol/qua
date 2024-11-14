@@ -26,9 +26,15 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Docker build
+      - name: Create .env
         run: |
-          docker build -f Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/qua-client .
+          cd ./apps/web
+          touch ./.env
+          echo '${{ secrets.APPLICATION_PROD }}' > ./.env
+        shell: bash
+
+      - name: Docker build
+        run: docker build -f Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/qua-client .
 
       - name: docker login
         if: github.ref == 'refs/heads/release'
@@ -39,8 +45,7 @@ jobs:
 
       - name: Docker push to production
         if: github.ref == 'refs/heads/release'
-        run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/qua-client
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/qua-client
 
   deploy:
     if: github.ref == 'refs/heads/release'
@@ -82,11 +87,10 @@ jobs:
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/qua-client:latest
 
             echo "Running new container..."
-            sudo docker run -d --name qua-client -p ${{ secrets.HOST_PORT }}:${{ secrets.CONTAINER_PORT }} ${{ secrets.DOCKERHUB_USERNAME }}/qua-client:latest
+            sudo docker run -d --name qua-client -p ${{ secrets.HOST_PORT }}:${{ secrets.CONTAINER_PORT }} --network ${{secrets.DOCKER_NETWORK}} ${{ secrets.DOCKERHUB_USERNAME }}/qua-client:latest
 
             echo "Cleaning up unused Docker images..."
             sudo docker image prune -f
 
       - name: Remove GitHub IP from AWS Security Group
-        run: |
-          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} --protocol tcp --port ${{ secrets.EC2_SSH_PORT }} --cidr ${{ steps.ip.outputs.ipv4 }}/32
+        run: aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} --protocol tcp --port ${{ secrets.EC2_SSH_PORT }} --cidr ${{ steps.ip.outputs.ipv4 }}/32
