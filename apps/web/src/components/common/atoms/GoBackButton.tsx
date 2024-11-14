@@ -3,7 +3,11 @@
 import { useRouter } from "next/navigation";
 import { LeftChevron } from "../icons";
 
-export default function GoBackButton() {
+interface GoBackButtonProp {
+  fill?: string;
+}
+
+export default function GoBackButton({ fill }: GoBackButtonProp) {
   const router = useRouter();
 
   function handleClick() {
@@ -12,7 +16,7 @@ export default function GoBackButton() {
 
   return (
     <button type="button" onClick={handleClick}>
-      <LeftChevron />
+      <LeftChevron {...{ fill }} />
     </button>
   );
 }
