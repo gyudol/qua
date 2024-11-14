@@ -4,6 +4,7 @@ import com.mulmeong.utility.application.port.in.FollowUseCase;
 import com.mulmeong.utility.application.port.in.dto.FollowRequestDto;
 import com.mulmeong.utility.common.response.BaseResponse;
 import com.mulmeong.utility.common.utils.CursorPage;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -18,23 +19,27 @@ public class FollowController {
 
     private final FollowUseCase followUseCase;
 
+    @Operation(summary = "source -> target 팔로우", tags = {"follow Service"})
     @PostMapping("/{sourceUuid}/following/{targetUuid}")
     public BaseResponse<Void> follow(@PathVariable String sourceUuid, @PathVariable String targetUuid) {
         followUseCase.follow(new FollowRequestDto(sourceUuid, targetUuid));
         return new BaseResponse<>();
     }
 
+    @Operation(summary = "source -> target 팔로우 삭제", tags = {"follow Service"})
     @DeleteMapping("/{sourceUuid}/following/{targetUuid}")
     public BaseResponse<Void> unfollow(@PathVariable String sourceUuid, @PathVariable String targetUuid) {
         followUseCase.unfollow(new FollowRequestDto(sourceUuid, targetUuid));
         return new BaseResponse<>();
     }
 
+    @Operation(summary = "source -> target 팔로우 상태 조회", tags = {"follow Service"})
     @GetMapping("/{sourceUuid}/follow-status/{targetUuid}")
     public BaseResponse<Boolean> getFollowStatus(@PathVariable String sourceUuid, @PathVariable String targetUuid) {
         return new BaseResponse<>(followUseCase.followStatus(new FollowRequestDto(sourceUuid, targetUuid)));
     }
 
+    @Operation(summary = "해당 member의 팔로워 조회", tags = {"follow Service"})
     @GetMapping("/{memberUuid}/followers")
     public BaseResponse<CursorPage<String>> getFollowers(
             @PathVariable String memberUuid,
@@ -44,6 +49,7 @@ public class FollowController {
         return new BaseResponse<>(followUseCase.getFollowers(memberUuid, lastId, pageSize, pageNo));
     }
 
+    @Operation(summary = "해당 member의 팔로잉 조회", tags = {"follow Service"})
     @GetMapping("/{memberUuid}/followings")
     public BaseResponse<CursorPage<String>> getFollowings(
             @PathVariable String memberUuid,
