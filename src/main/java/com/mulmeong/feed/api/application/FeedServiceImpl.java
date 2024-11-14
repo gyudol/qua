@@ -3,15 +3,14 @@ package com.mulmeong.feed.api.application;
 import static com.mulmeong.feed.common.response.BaseResponseStatus.FEED_FORBIDDEN;
 import static com.mulmeong.feed.common.response.BaseResponseStatus.FEED_NOT_FOUND;
 
-import com.mulmeong.feed.api.domain.FeedMedia;
 import com.mulmeong.feed.api.dto.in.CreateFeedRequestDto;
 import com.mulmeong.feed.api.dto.in.UpdateFeedRequestDto;
+import com.mulmeong.feed.api.dto.in.UpdateFeedStatusRequestDto;
 import com.mulmeong.feed.api.dto.out.FeedResponseDto;
 import com.mulmeong.feed.api.infrastructure.FeedHashtagRepository;
 import com.mulmeong.feed.api.infrastructure.FeedMediaRepository;
 import com.mulmeong.feed.api.infrastructure.FeedRepository;
 import com.mulmeong.feed.common.exception.BaseException;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,11 +49,21 @@ public class FeedServiceImpl implements FeedService {
         feedRepository.save(requestDto.toFeedEntity(
             feedRepository.findByFeedUuidAndMemberUuid(requestDto.getFeedUuid(),
                     requestDto.getMemberUuid())
-                .orElseThrow(() -> new BaseException(FEED_NOT_FOUND)).getId()));
+                .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
 
         // FeedHashtag 전체 삭제 후 재삽입
         feedHashtagRepository.deleteAllByFeedUuid(requestDto.getFeedUuid());
         feedHashtagRepository.saveAll(requestDto.toFeedHashtagEntities());
+    }
+
+    @Transactional
+    @Override
+    public void updateFeedStatus(UpdateFeedStatusRequestDto requestDto) {
+
+        // only update visibility
+        feedRepository.save(requestDto.toFeedEntity(
+            feedRepository.findByFeedUuidAndMemberUuid(requestDto.getFeedUuid(),
+                requestDto.getMemberUuid()).orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
     }
 
     @Transactional
