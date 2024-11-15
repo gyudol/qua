@@ -32,12 +32,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Create application.yml
+      - name: Create application.yml & google-credentials.json
         run: |
           mkdir -p ./src/main/resources
           cd ./src/main/resources
           touch ./application.yml
           echo '${{ secrets.APPLICATION_PROD }}' > ./application.yml
+          
+          touch ./google-credentials.json
+          echo '${{ secrets.GOOGLE_CREDENTIALS }}' > ./google-credentials.json
         shell: bash
 
       - name: Grant execute permission for gradlew
