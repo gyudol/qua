@@ -1,10 +1,12 @@
-package com.mulmeong.member.nickname.presentation;
+package com.mulmeong.member.profile.presentation;
 
 import com.mulmeong.member.common.response.BaseResponse;
 import com.mulmeong.member.common.response.BaseResponseStatus;
-import com.mulmeong.member.nickname.application.NicknameService;
-import com.mulmeong.member.nickname.dto.in.UpdateNicknameRequestDto;
-import com.mulmeong.member.nickname.vo.in.NicknameVo;
+import com.mulmeong.member.profile.application.ProfileService;
+import com.mulmeong.member.profile.dto.in.NicknameUpdateRequestDto;
+import com.mulmeong.member.profile.dto.in.ProfileImgUpdateRequestDto;
+import com.mulmeong.member.profile.vo.in.NicknameVo;
+import com.mulmeong.member.profile.vo.in.ProfileImgVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,19 +14,19 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "닉네임", description = "닉네임 관련 API")
+@Tag(name = "프로필", description = "회원 정보 관련 API(마이페이지)")
 @RequestMapping("/v1/members")
 @RequiredArgsConstructor
 @RestController
-public class NicknameController {
+public class ProfileController {
 
-    private final NicknameService nicknameService;
+    private final ProfileService profileService;
 
     @GetMapping("/{memberUuid}/nickname")
     @Operation(summary = "닉네임 조회", description = "닉네임 조회 API")
     public BaseResponse<String> getNickname(@PathVariable String memberUuid) {
 
-        return new BaseResponse<>(nicknameService.getNickname(memberUuid));
+        return new BaseResponse<>(profileService.getNickname(memberUuid));
     }
 
     @PutMapping("/{memberUuid}/nickname")
@@ -33,7 +35,7 @@ public class NicknameController {
             @PathVariable String memberUuid,
             @RequestBody @Valid NicknameVo nicknameVo) {
 
-        nicknameService.updateNickname(UpdateNicknameRequestDto.toDto(
+        profileService.updateNickname(NicknameUpdateRequestDto.toDto(
                 memberUuid, nicknameVo.getNickname()));
 
         return new BaseResponse<>();
@@ -46,11 +48,24 @@ public class NicknameController {
     public BaseResponse<Object> checkNickname(
             @RequestBody @Valid NicknameVo nicknameVo) {
 
-        if (nicknameService.checkNickname(nicknameVo.getNickname())) {
+        if (profileService.checkNickname(nicknameVo.getNickname())) {
             return new BaseResponse<>("사용 가능한 닉네임입니다.");
         } else {
             return new BaseResponse<>(BaseResponseStatus.EXISTS_NICKNAME);
         }
     }
+
+    @PutMapping("/{memberUuid}/profile-img")
+    @Operation(summary = "프로필 이미지 수정", description = "프로필 이미지 수정 API")
+    public BaseResponse<Void> updateProfileImage(
+            @PathVariable String memberUuid,
+            @RequestBody @Valid ProfileImgVo profileImgVo) {
+
+        profileService.updateProfileImage(ProfileImgUpdateRequestDto.toDto(
+                memberUuid, profileImgVo.getProfileImgUrl()));
+
+        return new BaseResponse<>();
+    }
+
 
 }
