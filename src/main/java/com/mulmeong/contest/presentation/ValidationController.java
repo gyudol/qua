@@ -14,7 +14,7 @@ public class ValidationController {
 
     private final ValidationServiceImpl fishValidationService;
 
-    @GetMapping("/contest/validate")
+    @GetMapping("/contests/validate")
     public BaseResponse<Boolean> validateFish(@RequestParam String imgUrl) throws IOException {
 
         return new BaseResponse<>(fishValidationService.isFish(imgUrl));

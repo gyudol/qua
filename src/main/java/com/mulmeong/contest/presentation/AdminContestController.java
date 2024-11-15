@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/contest")
-public class ContestController {
+@RequestMapping("/admin/v1/contests")
+public class AdminContestController {
 
     private final ContestService contestService;
 
@@ -28,15 +28,4 @@ public class ContestController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "콘테스트 신청(Post 등록)", description = "Contest-Service")
-    @PostMapping("/{contestId}/apply")
-    public BaseResponse<Void> applyContest(
-            @RequestHeader("Member-Uuid") String memberUuid,
-            @PathVariable Long contestId,
-            @RequestBody PostRequestVo postRequestVo) {
-
-        contestService.applyContest(PostRequestDto.toDto(memberUuid, contestId, postRequestVo));
-
-        return new BaseResponse<>();
-    }
 }
