@@ -1,4 +1,4 @@
-package com.mulmeong.comment.dto.kafka;
+package com.mulmeong.event;
 
 import com.mulmeong.comment.entity.FeedRecomment;
 import lombok.Builder;
@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-public class FeedRecommentMessageDto {
-    private String feedUuid;
+public class FeedRecommentCreateEventDto {
+
     private String memberUuid;
     private String commentUuid;
     private String recommentUuid;
@@ -19,8 +19,8 @@ public class FeedRecommentMessageDto {
     private Integer likeCount;
     private Integer dislikeCount;
 
-    public static FeedRecommentMessageDto toRecommentDto(FeedRecomment feedRecomment) {
-        return FeedRecommentMessageDto.builder()
+    public static FeedRecommentCreateEventDto toDto(FeedRecomment feedRecomment) {
+        return FeedRecommentCreateEventDto.builder()
                 .commentUuid(feedRecomment.getCommentUuid())
                 .recommentUuid(feedRecomment.getRecommentUuid())
                 .memberUuid(feedRecomment.getMemberUuid())
@@ -31,4 +31,8 @@ public class FeedRecommentMessageDto {
                 .dislikeCount(0)
                 .build();
     }
+
+
+
+
 }

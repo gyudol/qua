@@ -1,22 +1,21 @@
 package com.mulmeong.comment.application;
 
-import com.mulmeong.comment.dto.kafka.FeedRecommentMessageDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @RequiredArgsConstructor
-@Service
-public class KafkaProducer {
-    private static final String TOPIC = "comment-events";
+@Component
+public class EventPublisher {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public void sendMessage(Object message) {
-        kafkaTemplate.send(TOPIC, message);
+    public void send(String topic, Object event) {
+        log.info("Publishing event: {}", event);
+        kafkaTemplate.send(topic, event);
     }
-
-
 }
-

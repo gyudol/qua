@@ -6,7 +6,7 @@ import com.mulmeong.comment.common.utils.CursorPage;
 import com.mulmeong.comment.dto.in.FeedCommentDeleteDto;
 import com.mulmeong.comment.dto.in.FeedCommentRequestDto;
 import com.mulmeong.comment.dto.in.FeedCommentUpdateDto;
-import com.mulmeong.comment.dto.kafka.MessageDto;
+import com.mulmeong.event.*;
 import com.mulmeong.comment.dto.out.FeedCommentResponseDto;
 import com.mulmeong.comment.entity.FeedComment;
 import com.mulmeong.comment.infrastructure.FeedCommentRepository;
@@ -23,34 +23,37 @@ import org.springframework.transaction.annotation.Transactional;
 public class FeedCommentServiceImpl implements FeedCommentService {
     private final FeedCommentRepository feedCommentRepository;
     private final FeedCommentRepositoryCustom feedCommentRepositoryCustom;
-    private final KafkaProducer kafkaProducer;
+    private final EventPublisher eventPublisher;
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void createFeedComment(FeedCommentRequestDto requestDto) {
         FeedComment feedComment = feedCommentRepository.save(requestDto.toEntity());
-        kafkaProducer.sendMessage(MessageDto.toFeedCommentDto(feedComment));
+        eventPublisher.send("feed-comment-create", FeedCommentCreateEventDto.toDto(feedComment));
     }
 
     @Override
+    @Transactional
     public void updateFeedComment(FeedCommentUpdateDto updateDto) {
         FeedComment feedComment = feedCommentRepository.findByCommentUuid(updateDto.getCommentUuid()).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT));
         if (!(feedComment.getMemberUuid().equals(updateDto.getMemberUuid()))) {
             throw new BaseException(BaseResponseStatus.NO_UPDATE_COMMENT_AUTHORITY);
         }
+        eventPublisher.send("feed-comment-update", FeedCommentUpdateEventDto.toDto(feedComment));
         feedCommentRepository.save(updateDto.toEntity(feedComment));
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void deleteFeedComment(String memberUuid, String commentUuid) {
         FeedComment feedComment = feedCommentRepository.findByCommentUuid(commentUuid).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT));
         if (!(feedComment.getMemberUuid().equals(memberUuid))) {
             throw new BaseException(BaseResponseStatus.NO_DELETE_COMMENT_AUTHORITY);
         }
-        feedCommentRepository.save(FeedCommentDeleteDto.toEntity(feedComment));
+        FeedComment deletedComment = feedCommentRepository.save(FeedCommentDeleteDto.toEntity(feedComment));
+        eventPublisher.send("feed-comment-delete", FeedCommentDeleteEventDto.toDto(deletedComment));
     }
 
     @Override
