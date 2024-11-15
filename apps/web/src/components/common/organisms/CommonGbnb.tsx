@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CommonLayout } from "@/components/common/molecules/CommonLayout";
+import { CommonLayout } from "@/components/common/atoms/CommonLayout";
 import type { IconProps } from "../icons/@type";
 import { Home, Mypage, Post, Search, Shorts } from "../icons";
 
