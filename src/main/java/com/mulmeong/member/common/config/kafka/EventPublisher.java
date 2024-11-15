@@ -13,7 +13,7 @@ public class EventPublisher {
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
     public void send(String topic, Object event) {
-        log.info("Publishing event: {}", event);
+        log.info("이벤트 발행, topic: {}", topic);
         kafkaTemplate.send(topic, event);
     }
 }

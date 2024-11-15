@@ -1,10 +1,12 @@
 package com.mulmeong.member.auth.application;
 
+import com.mulmeong.event.member.MemberCreateEvent;
 import com.mulmeong.member.auth.domain.Member;
 import com.mulmeong.member.auth.domain.OauthProvider;
 import com.mulmeong.member.auth.dto.in.NewAccessTokenRequestDto;
 import com.mulmeong.member.auth.dto.in.SignUpAndInRequestDto;
 import com.mulmeong.member.auth.dto.out.SignUpAndInResponseDto;
+import com.mulmeong.member.common.config.kafka.EventPublisher;
 import com.mulmeong.member.auth.infrastructure.MemberRepository;
 import com.mulmeong.member.common.exception.BaseException;
 import com.mulmeong.member.common.jwt.properties.JwtProperties;
@@ -31,9 +33,12 @@ public class AuthServiceImpl implements AuthService {
     private final RedisTemplate<String, Object> redisTemplate;
     private static final String TOKEN_PREFIX = "refreshToken";
 
+    private final EventPublisher eventPublisher;
+
     /**
      * 회원가입 및 로그인 겸용(oAtuh only)
-     * 이미 회원가입된 경우 바로 토큰 발급, 아닌 경우 회원가입 후 토큰 발급.
+     * 이미 회원가입된 경우 바로 토큰 발급, 아닌 경우 회원가입 후 토큰 발급
+     * 회원가입시 Kafka 이벤트 발행 => 회원에 대한 ReadDB 생성.
      *
      * @param requestDto 회원가입 요청 DTO
      * @return dto(uuid, 토큰 2종)
@@ -59,6 +64,7 @@ public class AuthServiceImpl implements AuthService {
         // 회원가입
         Member member = memberRepository.save(requestDto.toEntity());
 
+        eventPublisher.send("member-created", MemberCreateEvent.toDto(member));
         return respondSignIn(member);
     }
 
