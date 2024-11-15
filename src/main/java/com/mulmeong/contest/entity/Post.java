@@ -44,4 +44,9 @@ public class Post {
         this.mediaUrl = mediaUrl;
         this.mediaType = mediaType;
     }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }
