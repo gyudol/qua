@@ -15,7 +15,7 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/v1/members")
+@RequestMapping("auth/v1/members")
 @RestController
 public class LikesController {
 
