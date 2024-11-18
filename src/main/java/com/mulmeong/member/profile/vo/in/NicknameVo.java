@@ -1,4 +1,4 @@
-package com.mulmeong.member.nickname.vo.in;
+package com.mulmeong.member.profile.vo.in;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
