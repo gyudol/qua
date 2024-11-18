@@ -41,7 +41,7 @@ public class SwaggerConfig {
                 .components(components)
                 // Swagger에서 요청보낼때 API에 추가되는 문자열
                 .addServersItem(new Server().url("/member-read-service"));
-                //.addServersItem(new Server().url("/"));
+        //.addServersItem(new Server().url("/"));
     }
 
 }
