@@ -20,7 +20,7 @@ public class Post {
     private Long id;
     @Column(nullable = false)
     private Long contestId;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 36)
     private String memberUuid;
     @Column(nullable = false, length = 2083)
     private String mediaUrl;
