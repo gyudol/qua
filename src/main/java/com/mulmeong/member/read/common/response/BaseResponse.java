@@ -1,9 +1,9 @@
-package com.mulmeong.member_read.common.response;
+package com.mulmeong.member.read.common.response;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 
-import static com.mulmeong.member_read.common.response.BaseResponseStatus.SUCCESS;
+import static com.mulmeong.member.read.common.response.BaseResponseStatus.SUCCESS;
 
 public record BaseResponse<T>(HttpStatusCode httpStatus, Boolean isSuccess, String message, int code, T result) {
 
@@ -46,5 +46,22 @@ public record BaseResponse<T>(HttpStatusCode httpStatus, Boolean isSuccess, Stri
                 e.getMessage(),
                 status.getCode(),
                 (T) status.getMessage());
+    }
+
+    /**
+     * 5. 요청에 실패한 경우 + 에러 메시지 추가.
+     * Validation 실패 시 result에 validation 오류 메시지를 넣어주기 위해서 사용
+     *
+     * @param status  요청 상태
+     * @param errorMessage 에러 메시지
+     */
+    public BaseResponse(BaseResponseStatus status, String errorMessage) {
+        this(
+                status.getHttpStatusCode(),
+                false,
+                status.getMessage(),
+                status.getCode(),
+                (T) errorMessage // result에 오류 메시지를 넣음
+        );
     }
 }

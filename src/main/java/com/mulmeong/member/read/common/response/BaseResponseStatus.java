@@ -1,4 +1,4 @@
-package com.mulmeong.member_read.common.response;
+package com.mulmeong.member.read.common.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,10 +22,10 @@ public enum BaseResponseStatus {
     NO_SIGN_IN(HttpStatus.UNAUTHORIZED, false, 402, "로그인을 먼저 진행해주세요"),
 
     // 900 : 기타 에러
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "요청 처리 중 에러가 발생하였습니다.");
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "요청 처리 중 에러가 발생하였습니다."),
 
-
-    // 추가하세요.
+    // 1100 : Member 관련
+    NOT_FOUND_MEMBER(HttpStatus.BAD_REQUEST, false, 1100, "존재하지 않는 회원입니다.");
 
 
     private final HttpStatusCode httpStatusCode;
