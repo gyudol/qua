@@ -1,14 +1,22 @@
 package com.mulmeong.contest.common.config;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
+@OpenAPIDefinition(
+        info = @Info(title = "콘테스트 도메인 API", version = "v1",
+                description = "콘테스트 서비스",
+                termsOfService = "http://swagger.io/terms/")
+
+)
 @Configuration
 public class SwaggerConfig {
 
@@ -29,15 +37,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .addSecurityItem(securityRequirement)
                 .components(components)
-                .addServersItem(new Server().url("/feed-service"))
-                .info(apiInfo());
-    }
-
-    private Info apiInfo() {
-        return new Info()
-                .title("Qua - FEED SERVICE API")
-                .version("v1")
-                .description("Feed Service API Docs: <strong>Read & Write Operations</strong>");
+                .addServersItem(new Server().url("/contest-service"));
     }
 
 }

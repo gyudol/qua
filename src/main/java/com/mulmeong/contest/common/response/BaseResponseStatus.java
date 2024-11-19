@@ -24,6 +24,7 @@ public enum BaseResponseStatus {
     NOT_EXIST(HttpStatus.BAD_REQUEST, false, 803, "존재하지 않는 데이터입니다."),
 
     DUPLICATED_BOOKMARK(HttpStatus.BAD_REQUEST, false, 701, "이미 추가된 북마크입니다."),
+    NOT_IN_TIME(HttpStatus.BAD_REQUEST, false, 702, "참여 가능한 기간이 아닙니다."),
 
     /**
      * 900: 기타 에러.
