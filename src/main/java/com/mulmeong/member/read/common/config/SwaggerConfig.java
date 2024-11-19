@@ -1,4 +1,4 @@
-package com.mulmeong.member_read.common.config;
+package com.mulmeong.member.read.common.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @OpenAPIDefinition(
-        info = @Info(title = "회원 조회용 API", version = "v1",
+        info = @Info(title = "회원 Read Only API", version = "v1",
                 description = "회원 관련 조회용 서비스",
                 termsOfService = "http://swagger.io/terms/")
 

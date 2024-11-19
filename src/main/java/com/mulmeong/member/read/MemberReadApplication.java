@@ -1,4 +1,4 @@
-package com.mulmeong.member_read;
+package com.mulmeong.member.read;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
