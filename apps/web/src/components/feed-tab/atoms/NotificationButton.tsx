@@ -2,7 +2,11 @@
 
 import { Notification } from "@/components/common/icons";
 
-export default function NotificationButton() {
+interface NotificationButtonProp {
+  fill?: string;
+}
+
+export default function NotificationButton({ fill }: NotificationButtonProp) {
   const handleClick = () => {
     // eslint-disable-next-line no-alert -- 구현 여부 확인
     alert("아직 구현되지 않은 기능입니다.");
@@ -10,7 +14,7 @@ export default function NotificationButton() {
 
   return (
     <button type="button" onClick={handleClick}>
-      <Notification />
+      <Notification {...{ fill }} />
     </button>
   );
 }

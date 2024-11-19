@@ -44,7 +44,7 @@ export default function PostedAt({ postedAt }: PostedAtProps) {
       text = _postedAt({ unit: "minute", num: diffMin });
       break;
     default:
-      text = _postedAt({ unit: "second", num: diffSec });
+      text = "Just now";
   }
 
   return <div>{text}</div>;

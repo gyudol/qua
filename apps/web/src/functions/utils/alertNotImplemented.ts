@@ -5,7 +5,7 @@ interface AlertNotImplementedArgs {
 
 export default function alertNotImplemented({
   message = "아직 구현되지 않은 기능입니다.",
-  tag,
+  tag = "",
 }: AlertNotImplementedArgs = {}) {
   // eslint-disable-next-line no-alert -- for test
   alert(`${tag} ${message}`);

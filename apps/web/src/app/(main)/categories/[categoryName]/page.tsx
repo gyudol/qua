@@ -1,9 +1,9 @@
 import { CommonLayout } from "@/components/common/molecules";
 import FeedList from "@/components/feed-tab/templates/FeedList";
 
-export default function Page(): JSX.Element {
+export default function page() {
   return (
-    <CommonLayout.Contents>
+    <CommonLayout.Contents className="bg-[#EEE]">
       <FeedList />
     </CommonLayout.Contents>
   );

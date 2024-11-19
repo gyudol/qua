@@ -5,7 +5,7 @@
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
-      "env": ["JSON_SERVER"]
+      "env": ["JSON_SERVER", "API_SERVER"]
     },
     "lint": {},
     "type-check": {},

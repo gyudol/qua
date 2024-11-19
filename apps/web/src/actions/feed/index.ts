@@ -1,3 +1,5 @@
+"use server";
+
 import type { Pagination } from "@/types/common";
 import { commonPaginationRes, commonRes } from "@/types/common/dummy";
 import type { Feed } from "@/types/contents";
@@ -11,7 +13,7 @@ interface GetAllFeedParam {
 
 export async function getAllFeed(
   { pageSize, pageNo }: GetAllFeedParam = { pageSize: 3, pageNo: 0 },
-): Promise<Pagination<Feed>> {
+) {
   const res: Response = await fetch(`${API_SERVER}/feeds`, {
     cache: "no-cache",
   });
@@ -19,6 +21,7 @@ export async function getAllFeed(
   const feeds = (await res.json()) as Feed[];
 
   // const {isSuccess, result} = await res.json() as CommonPaginationRes<Feed>;
+
   const { isSuccess, result } = commonPaginationRes({
     content: feeds,
     pageSize,
@@ -26,15 +29,14 @@ export async function getAllFeed(
   });
 
   if (!isSuccess) {
-    throw Error();
+    throw Error(result as string);
   }
 
-  // eslint-disable-next-line no-console -- for test
-  console.log(result);
-  return result;
+  // console.log(result);
+  return result as Pagination<Feed>;
 }
 
-export async function getFeed(feedUuid: string): Promise<Feed> {
+export async function getFeed(feedUuid: string) {
   const res: Response = await fetch(
     `${API_SERVER}/feeds?feedUuid=${feedUuid}`,
     {
@@ -48,10 +50,9 @@ export async function getFeed(feedUuid: string): Promise<Feed> {
   const { isSuccess, result } = commonRes(feed);
 
   if (!isSuccess) {
-    throw Error();
+    throw Error(result as string);
   }
 
-  // eslint-disable-next-line no-console -- for test
-  console.log(result);
-  return result[0];
+  // console.log(result);
+  return (result as Feed[])[0];
 }
