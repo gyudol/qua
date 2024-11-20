@@ -37,7 +37,7 @@ public class AuthContestController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "콘테스트 포스트 투표", description = "Contest-Service")
+    @Operation(summary = "콘테스트 포스트 투표", description = "콘테스트 내 중복 투표 가능, 포스트 중복 투표 불가")
     @PostMapping("/posts/vote")
     public BaseResponse<Void> vote(
             @RequestBody PostVoteRequestVo postVoteRequestVo,
@@ -47,7 +47,7 @@ public class AuthContestController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "콘테스트 마감 테스트용(스케줄러로 처리)", description = "Contest-Service")
+    @Operation(summary = "콘테스트 마감 테스트용", description = "순위 집계는 콘테스트 종료 후 스케줄러로 자동 실행")
     @PostMapping("/{contestId}/finalize")
     public BaseResponse<Void> finalizeContest(@PathVariable Long contestId) {
         contestService.calculateWinners(contestId);
