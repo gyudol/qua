@@ -25,7 +25,8 @@ public enum BaseResponseStatus {
 
     DUPLICATED_BOOKMARK(HttpStatus.BAD_REQUEST, false, 701, "이미 추가된 북마크입니다."),
     NOT_IN_TIME(HttpStatus.BAD_REQUEST, false, 702, "참여 가능한 기간이 아닙니다."),
-
+    DUPLICATE_VOTE(HttpStatus.BAD_REQUEST, false, 703, "이미 투표한 포스트입니다."),
+    DUPLICATE_POST(HttpStatus.BAD_REQUEST, false, 704, "이미 참여한 콘테스트입니다."),
     /**
      * 900: 기타 에러.
      */

@@ -13,11 +13,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Post {
+public class ContestPost {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, unique = true, length = 36)
+    private String postUuid;
     @Column(nullable = false)
     private Long contestId;
     @Column(nullable = false, length = 36)
@@ -31,14 +33,16 @@ public class Post {
     private LocalDateTime createdAt;
 
     @Builder
-    public Post(
+    public ContestPost(
             Long id,
+            String postUuid,
             Long contestId,
             String memberUuid,
             String mediaUrl,
             MediaType mediaType
     ) {
         this.id = id;
+        this.postUuid = postUuid;
         this.contestId = contestId;
         this.memberUuid = memberUuid;
         this.mediaUrl = mediaUrl;
