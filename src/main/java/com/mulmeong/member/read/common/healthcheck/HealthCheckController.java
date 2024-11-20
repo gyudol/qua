@@ -1,4 +1,4 @@
-package com.mulmeong.member.read.common.healthcheck.healthcheck;
+package com.mulmeong.member.read.common.healthcheck;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
