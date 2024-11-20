@@ -12,6 +12,7 @@ import com.mulmeong.contest.infrastructure.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,8 +64,8 @@ public class ContestServiceImpl implements ContestService {
             throw new BaseException(BaseResponseStatus.DUPLICATE_VOTE);
         }
 
-        // key에 대한 value++
-        redisTemplate.opsForValue().increment(voteCountKey);
+        // ZINCRBY 사용하여 Sorted Set에 득표수 증가
+        redisTemplate.opsForZSet().incrementScore(voteCountKey, voteRequestDto.getPostUuid(), 1);
 
         // redis TTL 7일
         redisTemplate.expire(voterSetKey, 7, TimeUnit.DAYS);
@@ -87,60 +88,63 @@ public class ContestServiceImpl implements ContestService {
     @Override
     @Transactional
     public void calculateWinners(Long contestId) {
-        String pattern = String.format("contest:%d:post:*:votes", contestId);
-        Set<String> voteCountKeys = redisTemplate.keys(pattern);
+        String voteCountPattern = String.format(VOTE_COUNT_KEY, contestId, "*");
+        log.info("Vote count key pattern: {}", voteCountPattern);
 
-        // 콘테스트 내에서 투표가 없을 경우
+        // 해당 패턴에 맞는 모든 key 조회
+        Set<String> voteCountKeys = redisTemplate.keys(voteCountPattern);
+
+        // 콘테스트에 대한 득표가 없을 경우
         if (voteCountKeys == null || voteCountKeys.isEmpty()) {
             throw new BaseException(BaseResponseStatus.NOT_EXIST);
         }
 
-        // voteCount 기준 상위 3 post 추출
-        List<Map.Entry<String, Long>> sortedVotes = voteCountKeys.stream()
-                .map(key -> {
-                    String[] parts = key.split(":");
-                    String postUuid = parts[3];
-                    String voteCountStr = redisTemplate.opsForValue().get(key);
-                    Long voteCount = voteCountStr != null ? Long.parseLong(voteCountStr) : 0L;
-                    return Map.entry(postUuid, voteCount);
-                })
-                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
-                .toList();
+        List<ContestWinner> winners = new ArrayList<>();
+        byte rank = 1;
 
-        for (int i = 0; i < Math.min(TOP_WINNERS_COUNT, sortedVotes.size()); i++) {
-            Map.Entry<String, Long> entry = sortedVotes.get(i);
-            String postUuid = entry.getKey();
-            Long voteCount = entry.getValue();
+        // 각 voteCountKey에 대해 득표수 조회 후 상위 3개 포스트 추출
+        for (String voteCountKey : voteCountKeys) {
+            Set<ZSetOperations.TypedTuple<String>> topPosts = redisTemplate.opsForZSet()
+                    .reverseRangeWithScores(voteCountKey, 0, TOP_WINNERS_COUNT - 1);
 
-            byte rank = (byte) (i + 1);
-
-            ContestWinner winner = ContestWinner.builder()
-                    .contestId(contestId)
-                    .postUuid(postUuid)
-                    .voteCount(voteCount)
-                    .ranking(rank)
-                    .build();
-            contestWinnerRepository.save(winner);
-
-            // 수상자들에 대한 투표자 기록
-            String voterSetKey = String.format("contest:%d:post:%s:voters", contestId, postUuid);
-            Set<String> voters = redisTemplate.opsForSet().members(voterSetKey);
-            if (voters != null && !voters.isEmpty()) {
-                voters.forEach(voterUuid -> {
-                    ContestVote vote = ContestVote.builder()
-                            .contestId(contestId)
-                            .postUuid(postUuid)
-                            .memberUuid(voterUuid)
-                            .build();
-                    contestVoteRepository.save(vote);
-                });
+            if (topPosts == null || topPosts.isEmpty()) {
+                continue; // 득표가 없는 포스트는 건너뛰기
             }
-            // redis TTL 7일
-            redisTemplate.expire(voterSetKey, 7, TimeUnit.DAYS);
+
+            for (ZSetOperations.TypedTuple<String> post : topPosts) {
+                String postUuid = post.getValue();
+                Long voteCount = Objects.requireNonNull(post.getScore()).longValue();
+
+                ContestWinner winner = ContestWinner.builder()
+                        .contestId(contestId)
+                        .postUuid(postUuid)
+                        .voteCount(voteCount)
+                        .ranking(rank++)
+                        .build();
+                winners.add(winner);
+
+                // 수상자들에 대한 투표자 기록
+                String voterSetKey = String.format(VOTER_SET_KEY, contestId, postUuid);
+                Set<String> voters = redisTemplate.opsForSet().members(voterSetKey);
+                if (voters != null && !voters.isEmpty()) {
+                    voters.forEach(voterUuid -> {
+                        ContestVote vote = ContestVote.builder()
+                                .contestId(contestId)
+                                .postUuid(postUuid)
+                                .memberUuid(voterUuid)
+                                .build();
+                        contestVoteRepository.save(vote);
+                    });
+                }
+
+                // redis TTL 7일
+                redisTemplate.expire(voterSetKey, 7, TimeUnit.DAYS);
+            }
         }
 
-        // redis TTL 7일
+        contestWinnerRepository.saveAll(winners);
+
+        // voteCountKey의 TTL 설정
         voteCountKeys.forEach(key -> redisTemplate.expire(key, 7, TimeUnit.DAYS));
     }
-
 }
