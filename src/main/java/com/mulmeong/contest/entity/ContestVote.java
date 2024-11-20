@@ -17,7 +17,7 @@ public class ContestVote {
     @Column(nullable = false)
     private Long contestId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 36)
     private String postUuid;
 
     @Column(nullable = false, length = 36)

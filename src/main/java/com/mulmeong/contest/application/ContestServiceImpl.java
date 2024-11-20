@@ -80,14 +80,8 @@ public class ContestServiceImpl implements ContestService {
                 .filter(contest -> contest.getEndDate().isEqual(LocalDate.now().minusDays(1)))
                 .toList();
 
-        for (Contest contest : endedContests) {
+        endedContests.stream().map(Contest::getId).forEach(this::calculateWinners);
 
-            try {
-                calculateWinners(contest.getId());
-            } catch (Exception e) {
-                throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
     }
 
     @Override
@@ -118,11 +112,13 @@ public class ContestServiceImpl implements ContestService {
             String postUuid = entry.getKey();
             Long voteCount = entry.getValue();
 
+            byte rank = (byte) (i + 1);
+
             ContestWinner winner = ContestWinner.builder()
                     .contestId(contestId)
                     .postUuid(postUuid)
                     .voteCount(voteCount)
-                    .ranking(i + 1)
+                    .ranking(rank)
                     .build();
             contestWinnerRepository.save(winner);
 

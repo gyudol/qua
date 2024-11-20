@@ -1,9 +1,6 @@
 package com.mulmeong.contest.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,13 +14,12 @@ public class ContestWinner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private Long contestId;
-
+    @Column(nullable = false, length = 36)
     private String postUuid;
-
     private Long voteCount;
-
-    private Integer ranking;
+    private Byte ranking;
 
 
     @Builder
@@ -31,7 +27,7 @@ public class ContestWinner {
             Long contestId,
             String postUuid,
             Long voteCount,
-            Integer ranking
+            Byte ranking
     ) {
         this.contestId = contestId;
         this.postUuid = postUuid;
