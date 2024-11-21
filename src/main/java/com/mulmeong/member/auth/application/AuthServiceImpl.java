@@ -2,12 +2,12 @@ package com.mulmeong.member.auth.application;
 
 import com.mulmeong.event.member.MemberCreateEvent;
 import com.mulmeong.member.auth.domain.Member;
-import com.mulmeong.member.auth.domain.OauthProvider;
 import com.mulmeong.member.auth.dto.in.NewAccessTokenRequestDto;
 import com.mulmeong.member.auth.dto.in.SignUpAndInRequestDto;
+import com.mulmeong.member.auth.dto.out.NewAccessTokenResponseDto;
 import com.mulmeong.member.auth.dto.out.SignUpAndInResponseDto;
-import com.mulmeong.member.common.config.kafka.EventPublisher;
 import com.mulmeong.member.auth.infrastructure.MemberRepository;
+import com.mulmeong.member.common.config.kafka.EventPublisher;
 import com.mulmeong.member.common.exception.BaseException;
 import com.mulmeong.member.common.jwt.properties.JwtProperties;
 import com.mulmeong.member.common.jwt.util.JwtProvider;
@@ -46,45 +46,44 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public SignUpAndInResponseDto signUpAndSignIn(SignUpAndInRequestDto requestDto) {
-
-        // oAuth 정보가 유효한지 확인(지원하는 플랫폼인지)
-        if (!OauthProvider.isSupported(requestDto.getOauthProvider())) {
-            throw new BaseException(BaseResponseStatus.NO_SUPPORTED_PROVIDER);
-        }
-
-        // 이미 회원가입시 바로 로그인(토큰 발급)
-        Member existingMember = memberRepository.findByOauthIdAndOauthProvider(
+        
+        // 회원 조회 => 회원이면 바로 토큰 발급
+        Member existMember = memberRepository.findByOauthIdAndOauthProvider(
                         requestDto.getOauthId(), requestDto.getOauthProvider())
                 .orElse(null);
-
-        if (existingMember != null) {
-            return respondSignIn(existingMember);
+        if (existMember != null) {
+            return respondSignIn(existMember);
         }
 
-        // 회원가입
-        Member member = memberRepository.save(requestDto.toEntity());
+        // 회원이 아닌 경우 => 회원가입, Read-DB 반영 Kafka 이벤트 발행
+        Member signUpMember = memberRepository.save(requestDto.toEntity());
+        eventPublisher.send("member-create", MemberCreateEvent.from(signUpMember));
 
-        eventPublisher.send("member-created", MemberCreateEvent.toDto(member));
-        return respondSignIn(member);
+        return respondSignIn(signUpMember);
     }
-
 
     /**
      * Refresh Token으로 새로운 Access Token 발급
-     * 조회 -> 비교 -> 새로운 Access Token 발급.
+     * 조회 -> 비교 -> AccessToken, RefreshToken 발급,저장 -> 응답.
      *
      * @param requestDto memberUuid + refreshToken
-     * @return 새로 발급된 Access Token
+     * @return 응답 dto(uuid, accessToken, refreshToken)
      */
     @Override
-    public String createNewAccessToken(NewAccessTokenRequestDto requestDto) {
+    public NewAccessTokenResponseDto createNewAccessToken(NewAccessTokenRequestDto requestDto) {
+        String memberUuid = requestDto.getMemberUuid();
 
-        // Refresh Token 조회해 비교
-        if (!findRefreshTokenByMemberUuid(requestDto.getMemberUuid()).equals(requestDto.getRefreshToken())) {
+        // Refresh Token 조회해 요청값과 비교 => 일치하지 않으면 예외
+        if (!findRefreshTokenByMemberUuid(memberUuid).equals(requestDto.getRefreshToken())) {
             throw new BaseException(BaseResponseStatus.NO_SIGN_IN);
         }
 
-        return jwtProvider.generateToken(requestDto.getMemberUuid(), jwtProperties.getAccessExpireTime());
+        // 발급 -> 저장(리프레쉬 토큰) -> 응답
+        String newAccessToken = jwtProvider.generateToken(memberUuid, jwtProperties.getAccessExpireTime());
+        String newRefreshToken = jwtProvider.generateToken(memberUuid, jwtProperties.getRefreshExpireTime());
+        saveOrUpdateRefreshToken(memberUuid, requestDto.getRefreshToken());
+
+        return new NewAccessTokenResponseDto(requestDto.getMemberUuid(), newAccessToken, newRefreshToken);
     }
 
     /**
