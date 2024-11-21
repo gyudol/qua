@@ -20,7 +20,9 @@ import java.io.IOException;
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-    //시큐리티에서 발생하는 예외는 여기서 처리함.
+    /**
+     * JWT AUTHENTICATION FILTER에서 인증 실패 시 호출되는 메서드.
+     */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws ServletException, IOException {

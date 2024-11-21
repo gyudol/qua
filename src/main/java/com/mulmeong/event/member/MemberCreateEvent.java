@@ -16,7 +16,7 @@ public class MemberCreateEvent {
     private String profileImageUrl;
     private LocalDateTime createdAt;
 
-    public static MemberCreateEvent toDto(Member member) {
+    public static MemberCreateEvent from(Member member) {
         return MemberCreateEvent.builder()
                 .memberUuid(member.getMemberUuid())
                 .nickname(member.getNickname())
