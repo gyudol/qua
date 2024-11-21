@@ -29,9 +29,9 @@ export const options: NextAuthOptions = {
 
   callbacks: {
     async signIn({ user, account, profile }) {
-      const extendedUser = user as ExtendedUser; // 확장된 타입으로 캐스팅
+      const extendedUser = user as ExtendedUser;
       if (profile && account) {
-        // console.log(account); // 소셜 로그인 정보 출력
+        // console.log(account);
         try {
           const res = await fetch(
             `${process.env.BASE_API_URL}/member-service/v1/auth/sign-in`,
@@ -56,7 +56,7 @@ export const options: NextAuthOptions = {
           if (data.memberUuid && data.accessToken && data.refreshToken) {
             extendedUser.memberUuid = data.memberUuid;
             extendedUser.accessToken = data.accessToken;
-            extendedUser.refreshToken = data.refreshToken; // JWT에 저장할 수 있도록 추가
+            extendedUser.refreshToken = data.refreshToken;
             return true;
           }
           return false;
@@ -69,43 +69,46 @@ export const options: NextAuthOptions = {
     },
 
     async jwt({ token, user }) {
-      const extendedUser = user as ExtendedUser;
-      if (
-        extendedUser.memberUuid &&
-        extendedUser.accessToken &&
-        extendedUser.refreshToken
-      ) {
-        token.memberUuid = extendedUser.memberUuid;
-        token.accessToken = extendedUser.accessToken;
-        token.refreshToken = extendedUser.refreshToken;
-        token.accessTokenExpires = Date.now() + 3 * 60 * 60 * 1000; // 3시간 후 만료
-      }
+      token.memberUuid = (user as ExtendedUser).memberUuid;
+      token.accessToken = (user as ExtendedUser).accessToken;
+      token.refreshToken = (user as ExtendedUser).refreshToken;
 
-      if (Date.now() > (token.accessTokenExpires as number)) {
+      // 이후 로직 유지
+      const currentTime = Math.floor(Date.now() / 1000); // 현재 시간 (초 단위)
+      const accessTokenExpiry = token.accessTokenExpiry as number | undefined;
+
+      if (accessTokenExpiry && currentTime > accessTokenExpiry) {
+        // console.log("Access token expired, refreshing token...");
         try {
           const res = await fetch(
-            `${process.env.BASE_API_URL}/member-service/v1/auth/refresh-token`,
+            `${process.env.BASE_API_URL}/member-service/v1/auth/token/refresh`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
-                memberUuid: token.memberUuid,
                 refreshToken: token.refreshToken,
+                memberUuid: token.memberUuid,
               }),
             },
           );
 
-          if (!res.ok) throw new Error("Failed to refresh access token");
+          if (!res.ok) {
+            // console.error("Failed to refresh access token");
+            return token; // 기존 토큰 그대로 반환 (갱신 실패 시)
+          }
 
           const responseData = (await res.json()) as { result: AuthResponse };
-          const newAccessToken = responseData.result.accessToken;
 
-          // 새 액세스 토큰과 만료 시간 갱신
-          token.accessToken = newAccessToken;
-          token.accessTokenExpires = Date.now() + 3 * 60 * 60 * 1000; // 3시간 후 만료
+          // console.log("Token refresh response data:", responseData);
+
+          const newTokenData = responseData.result;
+
+          if (newTokenData.accessToken) {
+            token.accessToken = newTokenData.accessToken;
+            token.accessTokenExpiry = Math.floor(Date.now() / 1000) + 60 * 60; // 갱신된 토큰 만료 시간 (예: 1시간 후)
+          }
         } catch (error) {
-          // console.error("Failed to refresh token", error);
-          return { ...token, error: "RefreshAccessTokenError" };
+          // console.error("Error refreshing access token:", error);
         }
       }
 
@@ -118,9 +121,6 @@ export const options: NextAuthOptions = {
         memberUuid: token.memberUuid as string,
         accessToken: token.accessToken as string,
       };
-      session.expires = new Date(
-        token.accessTokenExpires as number,
-      ).toISOString();
       return session;
     },
   },
