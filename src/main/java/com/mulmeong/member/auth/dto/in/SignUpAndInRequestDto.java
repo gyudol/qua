@@ -1,7 +1,10 @@
 package com.mulmeong.member.auth.dto.in;
 
 import com.mulmeong.member.auth.domain.Member;
+import com.mulmeong.member.auth.domain.OauthProvider;
 import com.mulmeong.member.auth.vo.in.SignUpAndSignInRequestVo;
+import com.mulmeong.member.common.exception.BaseException;
+import com.mulmeong.member.common.response.BaseResponseStatus;
 import lombok.*;
 
 import java.util.UUID;
@@ -16,12 +19,17 @@ public class SignUpAndInRequestDto {
     private String oauthProvider;
     private String email;
 
-    public static SignUpAndInRequestDto toDto(SignUpAndSignInRequestVo signUpAndSignInRequestVo) {
+    public static SignUpAndInRequestDto toDto(SignUpAndSignInRequestVo requestVo) {
+
+        //oAuth 정보가 유효한지 확인
+        if (!OauthProvider.isSupported(requestVo.getOauthProvider())) {
+            throw new BaseException(BaseResponseStatus.NO_SUPPORTED_PROVIDER);
+        }
 
         return SignUpAndInRequestDto.builder()
-                .oauthId(signUpAndSignInRequestVo.getOauthId())
-                .oauthProvider(signUpAndSignInRequestVo.getOauthProvider())
-                .email(signUpAndSignInRequestVo.getEmail())
+                .oauthId(requestVo.getOauthId())
+                .oauthProvider(requestVo.getOauthProvider())
+                .email(requestVo.getEmail())
                 .build();
     }
 
