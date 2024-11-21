@@ -33,25 +33,4 @@ public class FeedCommentController {
         return new BaseResponse<>(feedCommentService.getFeedComment(commentUuid).toVo());
     }
 
-    @GetMapping("/{feedUuid}/comments")
-    @Operation(summary = "피드 댓글 최신순 , 추천순 조회", tags = {"Feed Comment Service"})
-    public BaseResponse<CursorPage<FeedCommentResponseVo>> getFeedCommentsByPage(
-            @PathVariable String feedUuid,
-            @Parameter(
-                    description = "정렬 기준",
-                    schema = @Schema(allowableValues = {"latest", "likes"})
-            )
-            @RequestParam(defaultValue = "latest", value = "sortBy", required = false) String sortBy,
-            @RequestParam(value = "nextCursor", required = false) Long lastId,
-            @RequestParam(value = "pageSize", required = false) Integer pageSize,
-            @RequestParam(value = "pageNo", required = false) Integer pageNo
-    ) {
-        CursorPage<FeedCommentResponseDto> cursorPage = feedCommentService.getFeedCommentsByPage(
-                feedUuid, sortBy, lastId, pageSize, pageNo);
-        return new BaseResponse<>(
-                CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
-                        .map(FeedCommentResponseDto::toVo).toList())
-        );
-
-    }
 }

@@ -27,7 +27,7 @@ public class ShortsCommentAuthController {
     public BaseResponse<Void> addShortsComment(
             @RequestBody ShortsCommentRequestVo requestVo,
             @PathVariable String shortsUuid) {
-        shortsCommentService.createFeedComment(ShortsCommentRequestDto.toDto(requestVo, shortsUuid));
+        shortsCommentService.createShortsComment(ShortsCommentRequestDto.toDto(requestVo, shortsUuid));
         return new BaseResponse<>();
     }
 
@@ -37,7 +37,7 @@ public class ShortsCommentAuthController {
             @RequestHeader("Member-Uuid") String memberUuid,
             @RequestBody ShortsCommentUpdateVo updateVo,
             @PathVariable String commentUuid) {
-        shortsCommentService.updateFeedComment(ShortsCommentUpdateDto.toDto(updateVo, commentUuid, memberUuid));
+        shortsCommentService.updateShortsComment(ShortsCommentUpdateDto.toDto(updateVo, commentUuid, memberUuid));
         return new BaseResponse<>();
     }
 
