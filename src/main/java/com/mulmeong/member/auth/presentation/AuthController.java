@@ -3,7 +3,6 @@ package com.mulmeong.member.auth.presentation;
 import com.mulmeong.member.auth.application.AuthService;
 import com.mulmeong.member.auth.dto.in.NewAccessTokenRequestDto;
 import com.mulmeong.member.auth.dto.in.SignUpAndInRequestDto;
-import com.mulmeong.member.auth.dto.out.NewAccessTokenResponseDto;
 import com.mulmeong.member.auth.vo.in.NewAccessTokenRequestVo;
 import com.mulmeong.member.auth.vo.in.SignUpAndSignInRequestVo;
 import com.mulmeong.member.auth.vo.out.NewAccessTokenResponseVo;
