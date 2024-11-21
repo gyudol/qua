@@ -81,6 +81,7 @@ export const options: NextAuthOptions = {
         // console.log("Access token expired, refreshing token...");
         try {
           const res = await fetch(
+            // 재발급 api
             `${process.env.BASE_API_URL}/member-service/v1/auth/token/refresh`,
             {
               method: "POST",
