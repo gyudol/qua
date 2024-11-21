@@ -40,7 +40,7 @@ public class FeedServiceImpl implements FeedService {
     public FeedResponseDto getFeedDetail(String feedUuid) {    // TODO: Feed-Read Service로 옮길 예정
 
         return FeedResponseDto.fromEntity(feedRepository.findByFeedUuid(feedUuid)
-            .orElseThrow(() -> new BaseException(FEED_NOT_FOUND)),
+                .orElseThrow(() -> new BaseException(FEED_NOT_FOUND)),
             feedHashtagRepository.findByFeedUuid(feedUuid),
             feedMediaRepository.findByFeedUuid(feedUuid));
     }
@@ -50,9 +50,8 @@ public class FeedServiceImpl implements FeedService {
     public void updateFeed(UpdateFeedRequestDto requestDto) {
 
         // memberUuid validation & Update Feed
-        feedRepository.save(requestDto.toFeedEntity(
-            feedRepository.findByFeedUuidAndMemberUuid(requestDto.getFeedUuid(),
-                    requestDto.getMemberUuid())
+        feedRepository.save(
+            requestDto.toFeedEntity(feedRepository.findByFeedUuid(requestDto.getFeedUuid())
                 .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
 
         // TODO: Hashtag NoSQL로 재작업
@@ -67,15 +66,15 @@ public class FeedServiceImpl implements FeedService {
 
         // only update visibility
         feedRepository.save(requestDto.toFeedEntity(
-            feedRepository.findByFeedUuidAndMemberUuid(requestDto.getFeedUuid(),
-                requestDto.getMemberUuid()).orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
+            feedRepository.findByFeedUuid(requestDto.getFeedUuid())
+                .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
     }
 
     @Transactional
     @Override
-    public void deleteFeed(String feedUuid, String memberUuid) {
+    public void deleteFeed(String feedUuid) {
 
-        feedRepository.delete(feedRepository.findByFeedUuidAndMemberUuid(feedUuid, memberUuid)
+        feedRepository.delete(feedRepository.findByFeedUuid(feedUuid)
             .orElseThrow(() -> new BaseException(FEED_FORBIDDEN)));
         feedHashtagRepository.deleteAllByFeedUuid(feedUuid);
         feedMediaRepository.deleteAllByFeedUuid(feedUuid);

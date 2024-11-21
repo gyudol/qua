@@ -12,17 +12,14 @@ import lombok.Getter;
 public class UpdateFeedRequestDto {
 
     private String feedUuid;
-    private String memberUuid;
     private String title;
     private String content;
     private Long categoryId;
     private List<Hashtag> hashtags;
 
-    public static UpdateFeedRequestDto toDto(UpdateFeedRequestVo requestVo, String feedUuid,
-        String memberUuid) {
+    public static UpdateFeedRequestDto toDto(UpdateFeedRequestVo requestVo, String feedUuid) {
         return UpdateFeedRequestDto.builder()
             .feedUuid(feedUuid)
-            .memberUuid(memberUuid)
             .title(requestVo.getTitle())
             .content(requestVo.getContent())
             .categoryId(requestVo.getCategoryId())
@@ -34,7 +31,7 @@ public class UpdateFeedRequestDto {
         return Feed.builder()
             .id(existingFeed.getId())
             .feedUuid(feedUuid)
-            .memberUuid(memberUuid)
+            .memberUuid(existingFeed.getMemberUuid())
             .title(title)
             .content(content)
             .categoryId(categoryId)
@@ -56,10 +53,10 @@ public class UpdateFeedRequestDto {
     }
 
     @Builder
-    public UpdateFeedRequestDto(String feedUuid, String memberUuid, String title, String content,
-        Long categoryId, List<Hashtag> hashtags) {
+    public UpdateFeedRequestDto(String feedUuid, String title, String content, Long categoryId,
+        List<Hashtag> hashtags) {
+
         this.feedUuid = feedUuid;
-        this.memberUuid = memberUuid;
         this.title = title;
         this.content = content;
         this.categoryId = categoryId;

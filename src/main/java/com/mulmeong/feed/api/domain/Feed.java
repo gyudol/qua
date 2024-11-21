@@ -44,6 +44,7 @@ public class Feed extends BaseEntity {
     @Builder
     public Feed(Long id, String feedUuid, String memberUuid, String title, String content,
         Long categoryId, Visibility visibility) {
+
         this.id = id;
         this.feedUuid = feedUuid;
         this.memberUuid = memberUuid;

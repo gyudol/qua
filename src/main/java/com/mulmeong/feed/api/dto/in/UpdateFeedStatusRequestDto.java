@@ -10,14 +10,13 @@ import lombok.Getter;
 public class UpdateFeedStatusRequestDto {
 
     private String feedUuid;
-    private String memberUuid;
     private Visibility visibility;
 
     public static UpdateFeedStatusRequestDto toDto(UpdateFeedStatusRequestVo requestVo,
-        String feedUuid, String memberUuid) {
+        String feedUuid) {
+
         return UpdateFeedStatusRequestDto.builder()
             .feedUuid(feedUuid)
-            .memberUuid(memberUuid)
             .visibility(requestVo.getVisibility())
             .build();
     }
@@ -26,7 +25,7 @@ public class UpdateFeedStatusRequestDto {
         return Feed.builder()
             .id(existingFeed.getId())
             .feedUuid(feedUuid)
-            .memberUuid(memberUuid)
+            .memberUuid(existingFeed.getMemberUuid())
             .title(existingFeed.getTitle())
             .content(existingFeed.getContent())
             .categoryId(existingFeed.getCategoryId())
@@ -35,9 +34,8 @@ public class UpdateFeedStatusRequestDto {
     }
 
     @Builder
-    public UpdateFeedStatusRequestDto(String feedUuid, String memberUuid, Visibility visibility) {
+    public UpdateFeedStatusRequestDto(String feedUuid, Visibility visibility) {
         this.feedUuid = feedUuid;
-        this.memberUuid = memberUuid;
         this.visibility = visibility;
     }
 

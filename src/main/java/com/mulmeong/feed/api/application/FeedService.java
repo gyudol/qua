@@ -15,6 +15,6 @@ public interface FeedService {
 
     void updateFeedStatus(UpdateFeedStatusRequestDto requestDto);
 
-    void deleteFeed(String feedUuid, String memberUuid);
+    void deleteFeed(String feedUuid);
 
 }
