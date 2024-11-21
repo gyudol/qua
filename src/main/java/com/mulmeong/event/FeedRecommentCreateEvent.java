@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-public class FeedRecommentCreateEventDto {
+public class FeedRecommentCreateEvent {
 
     private String memberUuid;
     private String commentUuid;
@@ -19,8 +19,8 @@ public class FeedRecommentCreateEventDto {
     private Integer likeCount;
     private Integer dislikeCount;
 
-    public static FeedRecommentCreateEventDto toDto(FeedRecomment feedRecomment) {
-        return FeedRecommentCreateEventDto.builder()
+    public static FeedRecommentCreateEvent toDto(FeedRecomment feedRecomment) {
+        return FeedRecommentCreateEvent.builder()
                 .commentUuid(feedRecomment.getCommentUuid())
                 .recommentUuid(feedRecomment.getRecommentUuid())
                 .memberUuid(feedRecomment.getMemberUuid())

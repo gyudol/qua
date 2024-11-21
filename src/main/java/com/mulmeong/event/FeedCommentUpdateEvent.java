@@ -8,18 +8,17 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-public class FeedCommentUpdateEventDto {
+public class FeedCommentUpdateEvent {
 
     private String commentUuid;
     private String content;
     private LocalDateTime updatedAt;
 
-    public static FeedCommentUpdateEventDto toDto(FeedComment feedcomment) {
-        System.out.println(feedcomment.getUpdatedAt());
-        return FeedCommentUpdateEventDto.builder()
+    public static FeedCommentUpdateEvent toDto(FeedComment feedcomment, LocalDateTime updatedAt) {
+        return FeedCommentUpdateEvent.builder()
                 .commentUuid(feedcomment.getCommentUuid())
                 .content(feedcomment.getContent())
-                .updatedAt(feedcomment.getUpdatedAt())
+                .updatedAt(updatedAt)
                 .build();
     }
 }

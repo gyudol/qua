@@ -6,13 +6,13 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class FeedCommentDeleteEventDto {
+public class FeedCommentDeleteEvent {
 
     private String commentUuid;
     private boolean status;
 
-    public static FeedCommentDeleteEventDto toDto(FeedComment feedcomment) {
-        return FeedCommentDeleteEventDto.builder()
+    public static FeedCommentDeleteEvent toDto(FeedComment feedcomment) {
+        return FeedCommentDeleteEvent.builder()
                 .commentUuid(feedcomment.getCommentUuid())
                 .status(feedcomment.isStatus())
                 .build();

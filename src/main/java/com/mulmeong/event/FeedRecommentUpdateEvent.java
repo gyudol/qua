@@ -8,17 +8,17 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-public class FeedRecommentUpdateEventDto {
+public class FeedRecommentUpdateEvent {
 
     private String recommentUuid;
     private String content;
     private LocalDateTime updatedAt;
 
-    public static FeedRecommentUpdateEventDto toDto(FeedRecomment feedRecomment) {
-        return FeedRecommentUpdateEventDto.builder()
+    public static FeedRecommentUpdateEvent toDto(FeedRecomment feedRecomment, LocalDateTime updatedAt) {
+        return FeedRecommentUpdateEvent.builder()
                 .recommentUuid(feedRecomment.getRecommentUuid())
                 .content(feedRecomment.getContent())
-                .updatedAt(feedRecomment.getUpdatedAt())
+                .updatedAt(updatedAt)
                 .build();
     }
 }
