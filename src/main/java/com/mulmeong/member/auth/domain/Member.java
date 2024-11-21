@@ -38,7 +38,7 @@ public class Member {
     private String email;
 
     @Comment("회원 닉네임")
-    @Column(nullable = false, length = 15)
+    @Column(nullable = false, length = 15, unique = true)
     private String nickname;
 
     @Comment("가입 일시")
