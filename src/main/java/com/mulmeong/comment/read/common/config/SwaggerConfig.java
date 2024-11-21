@@ -1,4 +1,4 @@
-package com.mulmeong.comment_read.common.config;
+package com.mulmeong.comment.read.common.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -39,10 +39,10 @@ public class SwaggerConfig {
                 .addSecurityItem(securityRequirement)
                 .components(components)
                 // Swagger에서 요청보낼때 API에 추가되는 문자열
-                //.addServersItem(new Server().url("/comment-service"));
+                .addServersItem(new Server().url("/comment-service"));
 
                 //test
-                .addServersItem(new Server().url("/"));
+                //.addServersItem(new Server().url("/"));
 
     }
 }
