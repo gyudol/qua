@@ -8,6 +8,7 @@ import com.mulmeong.feed.api.dto.in.UpdateFeedRequestDto;
 import com.mulmeong.feed.api.dto.in.UpdateFeedStatusRequestDto;
 import com.mulmeong.feed.api.dto.out.FeedResponseDto;
 import com.mulmeong.feed.api.infrastructure.FeedHashtagRepository;
+import com.mulmeong.feed.api.infrastructure.FeedKafkaProducer;
 import com.mulmeong.feed.api.infrastructure.FeedMediaRepository;
 import com.mulmeong.feed.api.infrastructure.FeedRepository;
 import com.mulmeong.feed.common.exception.BaseException;
@@ -22,6 +23,7 @@ public class FeedServiceImpl implements FeedService {
     private final FeedRepository feedRepository;
     private final FeedMediaRepository feedMediaRepository;
     private final FeedHashtagRepository feedHashtagRepository;
+    private final FeedKafkaProducer feedKafkaProducer;
 
     @Transactional
     @Override
@@ -30,11 +32,13 @@ public class FeedServiceImpl implements FeedService {
         feedRepository.save(requestDto.toFeedEntity());
         feedMediaRepository.saveAll(requestDto.toFeedMediaEntities());
         feedHashtagRepository.saveAll(requestDto.toFeedHashtagEntities());
+        feedKafkaProducer.send("feed-created", requestDto.toEventEntity());
     }
 
     @Transactional(readOnly = true)
     @Override
-    public FeedResponseDto getFeedDetail(String feedUuid) {
+    public FeedResponseDto getFeedDetail(String feedUuid) {    // TODO: Feed-Read Service로 옮길 예정
+
         return FeedResponseDto.fromEntity(feedRepository.findByFeedUuid(feedUuid)
             .orElseThrow(() -> new BaseException(FEED_NOT_FOUND)),
             feedHashtagRepository.findByFeedUuid(feedUuid),
@@ -51,6 +55,7 @@ public class FeedServiceImpl implements FeedService {
                     requestDto.getMemberUuid())
                 .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
 
+        // TODO: Hashtag NoSQL로 재작업
         // FeedHashtag 전체 삭제 후 재삽입
         feedHashtagRepository.deleteAllByFeedUuid(requestDto.getFeedUuid());
         feedHashtagRepository.saveAll(requestDto.toFeedHashtagEntities());

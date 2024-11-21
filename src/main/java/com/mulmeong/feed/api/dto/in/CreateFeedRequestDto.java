@@ -3,9 +3,9 @@ package com.mulmeong.feed.api.dto.in;
 import com.mulmeong.feed.api.domain.Feed;
 import com.mulmeong.feed.api.domain.FeedHashtag;
 import com.mulmeong.feed.api.domain.FeedMedia;
+import com.mulmeong.feed.api.domain.event.CreateFeedEvent;
 import com.mulmeong.feed.api.domain.model.Hashtag;
 import com.mulmeong.feed.api.domain.model.Media;
-import com.mulmeong.feed.api.domain.model.MediaType;
 import com.mulmeong.feed.api.domain.model.Visibility;
 import com.mulmeong.feed.api.vo.in.CreateFeedRequestVo;
 import java.util.List;
@@ -21,6 +21,7 @@ public class CreateFeedRequestDto {
     private String title;
     private String content;
     private Long categoryId;
+    private Visibility visibility;
     private List<Hashtag> hashtags;
     private List<Media> mediaList;
 
@@ -42,7 +43,7 @@ public class CreateFeedRequestDto {
             .title(title)
             .content(content)
             .categoryId(categoryId)
-            .visibility(Visibility.VISIBLE)
+            .visibility(visibility = Visibility.VISIBLE)
             .build();
     }
 
@@ -72,6 +73,19 @@ public class CreateFeedRequestDto {
                 .name(hashtag.getName())
                 .build())
             .toList();
+    }
+
+    public CreateFeedEvent toEventEntity() {    // to Kafka EventEntity
+        return CreateFeedEvent.builder()
+            .feedUuid(feedUuid)
+            .memberUuid(memberUuid)
+            .title(title)
+            .content(content)
+            .categoryId(categoryId)
+            .visibility(visibility)
+            .hashtags(hashtags)
+            .mediaList(mediaList)
+            .build();
     }
 
     @Builder
