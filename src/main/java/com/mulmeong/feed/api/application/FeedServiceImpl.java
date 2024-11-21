@@ -3,6 +3,7 @@ package com.mulmeong.feed.api.application;
 import static com.mulmeong.feed.common.response.BaseResponseStatus.FEED_FORBIDDEN;
 import static com.mulmeong.feed.common.response.BaseResponseStatus.FEED_NOT_FOUND;
 
+import com.mulmeong.feed.api.domain.event.DeleteFeedEvent;
 import com.mulmeong.feed.api.dto.in.CreateFeedRequestDto;
 import com.mulmeong.feed.api.dto.in.UpdateFeedRequestDto;
 import com.mulmeong.feed.api.dto.in.UpdateFeedStatusRequestDto;
@@ -70,7 +71,7 @@ public class FeedServiceImpl implements FeedService {
         feedRepository.save(requestDto.toFeedEntity(
             feedRepository.findByFeedUuid(requestDto.getFeedUuid())
                 .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
-
+        feedKafkaProducer.send("feed-status-updated", requestDto.toEventEntity());
     }
 
     @Transactional
@@ -81,6 +82,7 @@ public class FeedServiceImpl implements FeedService {
             .orElseThrow(() -> new BaseException(FEED_FORBIDDEN)));
         feedHashtagRepository.deleteAllByFeedUuid(feedUuid);
         feedMediaRepository.deleteAllByFeedUuid(feedUuid);
+        feedKafkaProducer.send("feed-deleted", new DeleteFeedEvent(feedUuid));
     }
 
 }
