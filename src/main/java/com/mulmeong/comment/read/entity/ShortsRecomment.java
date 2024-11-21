@@ -1,6 +1,9 @@
-package com.mulmeong.comment_read.entity;
+package com.mulmeong.comment.read.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,15 +13,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document(collection = "comment")
-public class FeedComment {
+@Document(collection = "shorts_recomment")
+public class ShortsRecomment {
     @Id
     private String id;
-    private String feedUuid;
     private String memberUuid;
     private String commentUuid;
+    private String recommentUuid;
     private String content;
-    private boolean status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Integer likeCount;

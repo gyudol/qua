@@ -1,4 +1,4 @@
-package com.mulmeong.comment_read.entity;
+package com.mulmeong.comment.read.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document(collection = "recomment")
+@Document(collection = "feed_recomment")
 public class FeedRecomment {
     @Id
     private String id;
