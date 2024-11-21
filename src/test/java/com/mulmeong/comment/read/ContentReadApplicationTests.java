@@ -1,4 +1,4 @@
-package com.mulmeong.comment_read;
+package com.mulmeong.comment.read;
 
 import org.junit.jupiter.api.Test;
 
