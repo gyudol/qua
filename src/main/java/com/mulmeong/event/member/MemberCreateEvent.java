@@ -22,6 +22,12 @@ public class MemberCreateEvent {
                 .nickname(nickname)
                 .profileImageUrl(profileImageUrl)
                 .createdAt(createdAt)
+                .point(0)
+                .grade("default") // 정책 결정 필요
+                .followerCount(0)
+                .followingCount(0)
+                .feedCount(0)
+                .shortsCount(0)
                 .build();
     }
 }

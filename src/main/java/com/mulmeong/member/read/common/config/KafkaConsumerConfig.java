@@ -52,6 +52,7 @@ public class KafkaConsumerConfig {
         ConcurrentKafkaListenerContainerFactory<String, MemberCreateEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(memberCreateEventConsumerFactory());
+        factory.getContainerProperties().setGroupId(groupId);
         return factory;
     }
 
@@ -67,6 +68,7 @@ public class KafkaConsumerConfig {
         ConcurrentKafkaListenerContainerFactory<String, MemberNicknameUpdateEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(nicknameUpdateEventConsumerFactory());
+        factory.getContainerProperties().setGroupId(groupId);
         return factory;
     }
 
@@ -82,6 +84,7 @@ public class KafkaConsumerConfig {
         ConcurrentKafkaListenerContainerFactory<String, MemberProfileImgUpdateEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(profileUpdateEventConsumerFactory());
+        factory.getContainerProperties().setGroupId(groupId);
         return factory;
     }
 }
