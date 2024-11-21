@@ -18,6 +18,7 @@ public class FeedCommentResponseDto {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private boolean status;
 
     public static FeedCommentResponseDto toDto(FeedComment feedComment) {
         return FeedCommentResponseDto.builder()
@@ -27,6 +28,7 @@ public class FeedCommentResponseDto {
                 .content(feedComment.getContent())
                 .createdAt(feedComment.getCreatedAt())
                 .updatedAt(feedComment.getUpdatedAt())
+                .status(feedComment.isStatus())
                 .build();
     }
 
@@ -38,6 +40,7 @@ public class FeedCommentResponseDto {
                 .content(content)
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)
+                .status(status)
                 .build();
     }
 }

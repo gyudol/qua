@@ -6,17 +6,18 @@ import com.mulmeong.comment.common.utils.CursorPage;
 import com.mulmeong.comment.dto.in.FeedRecommentRequestDto;
 import com.mulmeong.comment.dto.in.FeedRecommentUpdateDto;
 import com.mulmeong.comment.dto.out.FeedRecommentResponseDto;
-import com.mulmeong.comment.entity.FeedComment;
 import com.mulmeong.comment.entity.FeedRecomment;
 import com.mulmeong.comment.infrastructure.FeedCommentRepository;
 import com.mulmeong.comment.infrastructure.FeedRecommentRepository;
-import com.mulmeong.comment.infrastructure.FeedRecommentRepositoryCustom;
+import com.mulmeong.event.FeedRecommentCreateEvent;
+import com.mulmeong.event.FeedRecommentDeleteEvent;
+import com.mulmeong.event.FeedRecommentUpdateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -25,14 +26,16 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
 
     private final FeedCommentRepository feedCommentRepository;
     private final FeedRecommentRepository feedRecommentRepository;
-    private final FeedRecommentRepositoryCustom feedRecommentRepositoryCustom;
+    private final EventPublisher eventPublisher;
 
     @Override
+    @Transactional
     public void createFeedRecomment(FeedRecommentRequestDto requestDto) {
         if (!feedCommentRepository.existsByCommentUuid(requestDto.getCommentUuid())) {
             throw new BaseException(BaseResponseStatus.NO_EXIST_COMMENT);
         }
-        feedRecommentRepository.save(requestDto.toEntity());
+        FeedRecomment feedRecomment = feedRecommentRepository.save(requestDto.toEntity());
+        eventPublisher.send("feed-recomment-create", FeedRecommentCreateEvent.toDto(feedRecomment));
     }
 
     @Override
@@ -43,7 +46,9 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
         if (!(feedRecomment.getMemberUuid().equals(updateDto.getMemberUuid()))) {
             throw new BaseException(BaseResponseStatus.NO_UPDATE_RECOMMENT_AUTHORITY);
         }
+        LocalDateTime updatedAt = feedRecomment.getUpdatedAt();
         feedRecommentRepository.save(updateDto.toEntity(feedRecomment));
+        eventPublisher.send("feed-recomment-update", FeedRecommentUpdateEvent.toDto(feedRecomment, updatedAt));
     }
 
     @Override
@@ -54,7 +59,10 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
         if (!feedRecomment.getMemberUuid().equals(memberUuid)) {
             throw new BaseException(BaseResponseStatus.NO_DELETE_RECOMMENT_AUTHORITY);
         }
+
         feedRecommentRepository.delete(feedRecomment);
+        eventPublisher.send("feed-recomment-delete", FeedRecommentDeleteEvent.toDto(recommentUuid));
+
     }
 
     @Override
@@ -64,13 +72,4 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
         return FeedRecommentResponseDto.toDto(feedRecomment);
     }
 
-    @Override
-    public CursorPage<FeedRecommentResponseDto> getFeedRecomments(
-            String commentUuid, Long lastId, Integer pageSize, Integer pageNo) {
-        CursorPage<FeedRecomment> cursorPage = feedRecommentRepositoryCustom
-                .getFeedRecomments(commentUuid, lastId, pageSize, pageNo);
-
-        return CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
-                .map(FeedRecommentResponseDto::toDto).toList());
-    }
 }

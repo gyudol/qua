@@ -1,7 +1,6 @@
 package com.mulmeong.comment.application;
 
 import com.mulmeong.comment.common.exception.BaseException;
-import com.mulmeong.comment.common.response.BaseResponse;
 import com.mulmeong.comment.common.response.BaseResponseStatus;
 import com.mulmeong.comment.common.utils.CursorPage;
 import com.mulmeong.comment.dto.in.ShortsRecommentRequestDto;
@@ -10,13 +9,13 @@ import com.mulmeong.comment.dto.out.ShortsRecommentResponseDto;
 import com.mulmeong.comment.entity.ShortsRecomment;
 import com.mulmeong.comment.infrastructure.ShortsCommentRepository;
 import com.mulmeong.comment.infrastructure.ShortsRecommentRepository;
-import com.mulmeong.comment.infrastructure.ShortsRecommentRepositoryCustom;
+import com.mulmeong.event.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -25,14 +24,15 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
 
     private final ShortsCommentRepository shortsCommentRepository;
     private final ShortsRecommentRepository shortsRecommentRepository;
-    private final ShortsRecommentRepositoryCustom shortsRecommentRepositoryCustom;
+    private final EventPublisher eventPublisher;
 
     @Override
     public void createShortsRecomment(ShortsRecommentRequestDto requestDto) {
         if (!shortsCommentRepository.existsByCommentUuid(requestDto.getCommentUuid())) {
             throw new BaseException(BaseResponseStatus.NO_EXIST_COMMENT);
         }
-        shortsRecommentRepository.save(requestDto.toEntity());
+        ShortsRecomment shortsRecomment = shortsRecommentRepository.save(requestDto.toEntity());
+        eventPublisher.send("shorts-recomment-create", ShortsRecommentCreateEvent.toDto(shortsRecomment));
     }
 
     @Override
@@ -43,7 +43,9 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
         if (!shortsRecomment.getMemberUuid().equals(updateDto.getMemberUuid())) {
             throw new BaseException(BaseResponseStatus.NO_UPDATE_RECOMMENT_AUTHORITY);
         }
+        LocalDateTime updatedAt = shortsRecomment.getUpdatedAt();
         shortsRecommentRepository.save(updateDto.toEntity(shortsRecomment));
+        eventPublisher.send("shorts-recomment-update", ShortsRecommentUpdateEvent.toDto(shortsRecomment, updatedAt));
     }
 
     @Override
@@ -54,7 +56,9 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
         if (!shortsRecomment.getMemberUuid().equals(memberUuid)) {
             throw new BaseException(BaseResponseStatus.NO_UPDATE_RECOMMENT_AUTHORITY);
         }
+
         shortsRecommentRepository.delete(shortsRecomment);
+        eventPublisher.send("shorts-recomment-delete", ShortsRecommentDeleteEvent.toDto(recommentUuid));
     }
 
     @Override
@@ -64,12 +68,4 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
         return ShortsRecommentResponseDto.toDto(shortsRecomment);
     }
 
-    @Override
-    public CursorPage<ShortsRecommentResponseDto> getShortsRecommets(
-            String commentUuid, Long lastId, Integer pageSize, Integer pageNo) {
-        CursorPage<ShortsRecomment> cursorPage = shortsRecommentRepositoryCustom
-                .getShortsReomments(commentUuid, lastId, pageSize, pageNo);
-        return CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
-                .map(ShortsRecommentResponseDto::toDto).toList());
-    }
 }

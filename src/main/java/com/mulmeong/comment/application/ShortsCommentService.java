@@ -8,18 +8,12 @@ import com.mulmeong.comment.dto.out.ShortsCommentResponseDto;
 import java.util.List;
 
 public interface ShortsCommentService {
-    void createFeedComment(ShortsCommentRequestDto requestDto);
+    void createShortsComment(ShortsCommentRequestDto requestDto);
 
-    void updateFeedComment(ShortsCommentUpdateDto updateDto);
+    void updateShortsComment(ShortsCommentUpdateDto updateDto);
 
     void deleteShortsComment(String memberUuid, String commentUuid);
 
     ShortsCommentResponseDto getShortsComment(String commentUuid);
 
-    CursorPage<ShortsCommentResponseDto> getShortsCommentsByPage(
-            String shortsUuid,
-            String sortBy,
-            Long lastId,
-            Integer pageSize,
-            Integer pageNo);
 }

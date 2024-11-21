@@ -17,10 +17,4 @@ public interface FeedCommentService {
 
     FeedCommentResponseDto getFeedComment(String commentUuid);
 
-    CursorPage<FeedCommentResponseDto> getFeedCommentsByPage(
-            String feedUuid,
-            String sortBy,
-            Long lastId,
-            Integer pageSize,
-            Integer pageNo);
 }

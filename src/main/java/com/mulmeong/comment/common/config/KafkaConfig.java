@@ -1,8 +1,8 @@
 package com.mulmeong.comment.common.config;
 
-import com.mulmeong.comment.dto.kafka.FeedCommentMessageDto;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
@@ -13,21 +13,25 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import java.util.Map;
 
 @Configuration
-public class KafkaProducerConfig {
+public class KafkaConfig {
+
+    @Value("${spring.kafka.bootstrap-servers}")
+    private String bootstrapServers;
 
     @Bean
-    public ProducerFactory<String, FeedCommentMessageDto> producerFactory() {
-        Map<String, Object> configProperties = Map.of(
-                ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39092,localhost:49092",
+    public ProducerFactory<String, Object> producerFactory() {
+
+        Map<String, Object> configProps = Map.of(
+                ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
                 ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class,
-                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class,
-                JsonSerializer.ADD_TYPE_INFO_HEADERS, false
+                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class
         );
-        return new DefaultKafkaProducerFactory<>(configProperties);
+        return new DefaultKafkaProducerFactory<>(configProps);
     }
 
     @Bean
-    public KafkaTemplate<String, FeedCommentMessageDto> kafkaTemplate() {
+    public KafkaTemplate<String, Object> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
+
 }
