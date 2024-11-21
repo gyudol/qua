@@ -58,6 +58,8 @@ public class FeedServiceImpl implements FeedService {
         // FeedHashtag 전체 삭제 후 재삽입
         feedHashtagRepository.deleteAllByFeedUuid(requestDto.getFeedUuid());
         feedHashtagRepository.saveAll(requestDto.toFeedHashtagEntities());
+
+        feedKafkaProducer.send("feed-updated", requestDto.toEventEntity());
     }
 
     @Transactional
@@ -68,6 +70,7 @@ public class FeedServiceImpl implements FeedService {
         feedRepository.save(requestDto.toFeedEntity(
             feedRepository.findByFeedUuid(requestDto.getFeedUuid())
                 .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
+
     }
 
     @Transactional

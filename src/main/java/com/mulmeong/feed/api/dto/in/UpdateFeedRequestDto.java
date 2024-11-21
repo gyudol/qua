@@ -2,6 +2,7 @@ package com.mulmeong.feed.api.dto.in;
 
 import com.mulmeong.feed.api.domain.Feed;
 import com.mulmeong.feed.api.domain.FeedHashtag;
+import com.mulmeong.feed.api.domain.event.UpdateFeedEvent;
 import com.mulmeong.feed.api.domain.model.Hashtag;
 import com.mulmeong.feed.api.vo.in.UpdateFeedRequestVo;
 import java.util.List;
@@ -50,6 +51,16 @@ public class UpdateFeedRequestDto {
                 .name(hashtag.getName())
                 .build())
             .toList();
+    }
+
+    public UpdateFeedEvent toEventEntity() {    // to Kafka EventEntity
+        return UpdateFeedEvent.builder()
+            .feedUuid(feedUuid)
+            .title(title)
+            .content(content)
+            .categoryId(categoryId)
+            .hashtags(hashtags)
+            .build();
     }
 
     @Builder
