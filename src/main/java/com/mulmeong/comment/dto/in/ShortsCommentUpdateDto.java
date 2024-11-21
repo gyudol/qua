@@ -5,6 +5,7 @@ import com.mulmeong.comment.vo.in.ShortsCommentUpdateVo;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -25,6 +26,7 @@ public class ShortsCommentUpdateDto {
 
     public ShortsComment toEntity(ShortsComment shortsComment) {
         return ShortsComment.builder()
+                .id(shortsComment.getId())
                 .shortsUuid(shortsComment.getShortsUuid())
                 .memberUuid(memberUuid)
                 .commentUuid(commentUuid)
