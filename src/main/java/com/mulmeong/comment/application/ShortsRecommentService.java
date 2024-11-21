@@ -16,6 +16,4 @@ public interface ShortsRecommentService {
 
     ShortsRecommentResponseDto getShortsRecomment(String recommentUuid);
 
-    CursorPage<ShortsRecommentResponseDto> getShortsRecommets(
-            String commentUuid, Long lastId, Integer pageSize, Integer pageNo);
 }

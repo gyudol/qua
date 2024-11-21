@@ -16,6 +16,4 @@ public interface FeedRecommentService {
 
     FeedRecommentResponseDto getFeedRecomment(String recommentUuid);
 
-    CursorPage<FeedRecommentResponseDto> getFeedRecomments(
-            String commentUuid, Long lastId, Integer pageSize, Integer pageNo);
 }
