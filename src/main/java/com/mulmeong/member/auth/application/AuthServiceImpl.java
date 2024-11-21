@@ -46,7 +46,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public SignUpAndInResponseDto signUpAndSignIn(SignUpAndInRequestDto requestDto) {
-        
+
         // 회원 조회 => 회원이면 바로 토큰 발급
         Member existMember = memberRepository.findByOauthIdAndOauthProvider(
                         requestDto.getOauthId(), requestDto.getOauthProvider())
@@ -56,8 +56,8 @@ public class AuthServiceImpl implements AuthService {
         }
 
         // 회원이 아닌 경우 => 회원가입, Read-DB 반영 Kafka 이벤트 발행
-        Member signUpMember = memberRepository.save(requestDto.toEntity());
-        eventPublisher.send("member-create", MemberCreateEvent.from(signUpMember));
+        Member signUpMember = memberRepository.save(requestDto.toEntity()); //entity 변환시 uuid, 랜덤 닉네임, 기본이미지 설정
+        eventPublisher.send("member-created", MemberCreateEvent.from(signUpMember));
 
         return respondSignIn(signUpMember);
     }
