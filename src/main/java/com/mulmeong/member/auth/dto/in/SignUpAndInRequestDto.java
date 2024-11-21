@@ -2,6 +2,7 @@ package com.mulmeong.member.auth.dto.in;
 
 import com.mulmeong.member.auth.domain.Member;
 import com.mulmeong.member.auth.domain.OauthProvider;
+import com.mulmeong.member.auth.util.RandomNicknameUtil;
 import com.mulmeong.member.auth.vo.in.SignUpAndSignInRequestVo;
 import com.mulmeong.member.common.exception.BaseException;
 import com.mulmeong.member.common.response.BaseResponseStatus;
@@ -39,8 +40,8 @@ public class SignUpAndInRequestDto {
                 .oauthId(oauthId)
                 .oauthProvider(oauthProvider)
                 .email(email)
-                .nickname(UUID.randomUUID().toString().substring(0, 15)) // todo: 형용사 + 명사 + 숫자조합 수정 필요
-                .profileImageUrl(null) // todo: 정책 결정 후 수정
+                .nickname(new RandomNicknameUtil().generateNickname()) // 랜덤 닉네임(경우의수 840억)
+                .profileImageUrl("image/198af19d-bbc6-4252-a632-d1a1ccd5c659.webp") // 기본 이미지
                 .build();
     }
 

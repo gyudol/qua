@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -47,7 +48,7 @@ public class Member {
     private LocalDateTime createdAt;
 
     @Comment("프로필 이미지 URL")
-    @Column(length = 255)
+    @Column(length = 2083)
     private String profileImageUrl;
 
     @Builder
