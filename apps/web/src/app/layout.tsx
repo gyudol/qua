@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "@/app/globals.css";
 import { CommonLayout } from "@/components/common/molecules";
-import { CommonGbnb } from "@/components/common/organisms";
+import QueryClientProvider from "@/components/common/molecules/QueryClientProvider";
+import "@/app/globals.css";
 import "@repo/ui/styles.css";
+import "swiper/css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,12 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex justify-center">
-          <CommonLayout.Container>
-            {children}
-            <CommonGbnb />
-          </CommonLayout.Container>
-        </div>
+        <QueryClientProvider>
+          <div className="flex justify-center h-full">
+            <CommonLayout.Container className="bg-white h-full">
+              {children}
+            </CommonLayout.Container>
+          </div>
+        </QueryClientProvider>
       </body>
     </html>
   );

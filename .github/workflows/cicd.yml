@@ -26,9 +26,15 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Docker build
+      - name: Create .env
         run: |
-          docker build -f Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/client-frontend .
+          cd ./apps/web
+          touch ./.env
+          echo '${{ secrets.APPLICATION_PROD }}' > ./.env
+        shell: bash
+
+      - name: Docker build
+        run: docker build -f Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/qua-client .
 
       - name: docker login
         if: github.ref == 'refs/heads/release'
@@ -39,8 +45,7 @@ jobs:
 
       - name: Docker push to production
         if: github.ref == 'refs/heads/release'
-        run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/client-frontend
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/qua-client
 
   deploy:
     if: github.ref == 'refs/heads/release'
@@ -75,18 +80,17 @@ jobs:
           timeout: 60s
           script: |
             echo "Stopping existing application..."
-            sudo docker stop client-frontend || true
-            sudo docker rm client-frontend || true
+            sudo docker stop qua-client || true
+            sudo docker rm qua-client || true
 
             echo "Pulling latest image..."
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/client-frontend:latest
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/qua-client:latest
 
             echo "Running new container..."
-            sudo docker run -d --name client-frontend -p ${{ secrets.APPLICATION_PORT }}:${{ secrets.APPLICATION_PORT }} ${{ secrets.DOCKERHUB_USERNAME }}/client-frontend:latest
+            sudo docker run -d --name qua-client -p ${{ secrets.HOST_PORT }}:${{ secrets.CONTAINER_PORT }} --network ${{secrets.DOCKER_NETWORK}} ${{ secrets.DOCKERHUB_USERNAME }}/qua-client:latest
 
             echo "Cleaning up unused Docker images..."
             sudo docker image prune -f
 
       - name: Remove GitHub IP from AWS Security Group
-        run: |
-          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} --protocol tcp --port ${{ secrets.EC2_SSH_PORT }} --cidr ${{ steps.ip.outputs.ipv4 }}/32
+        run: aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} --protocol tcp --port ${{ secrets.EC2_SSH_PORT }} --cidr ${{ steps.ip.outputs.ipv4 }}/32
