@@ -7,6 +7,8 @@ import { Skeleton } from "./Skeleton";
 import withLink from "./withLink";
 import withParams from "./withParams";
 
+export * from "./Hashtag";
+
 export {
   withLink,
   withParams,

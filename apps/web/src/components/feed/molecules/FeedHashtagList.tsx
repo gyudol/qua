@@ -1,16 +1,5 @@
-import { withLink } from "@/components/common/atoms";
+import { HashtagWithLink } from "@/components/common/atoms";
 import type { Hashtag as HashtagType } from "@/types/contents";
-
-interface HashtagProp {
-  className?: string;
-  hashtag: HashtagType;
-}
-
-function Hashtag({ className, hashtag }: HashtagProp) {
-  return <div {...{ className }}>#{hashtag.name}</div>;
-}
-
-const HashtagWithLink = withLink(Hashtag);
 
 interface FeedHashtagListProp {
   hashtags: HashtagType[];
