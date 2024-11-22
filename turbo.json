@@ -5,7 +5,16 @@
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
-      "env": ["JSON_SERVER", "API_SERVER"]
+      "env": [
+        "JSON_SERVER",
+        "KAKAO_CLIENT_ID",
+        "KAKAO_CLIENT_SECRET",
+        "NAVER_CLIENT_ID",
+        "NAVER_CLIENT_SECRET",
+        "NEXTAUTH_SECRET",
+        "BASE_API_URL",
+        "API_SERVER"
+      ]
     },
     "lint": {},
     "type-check": {},
