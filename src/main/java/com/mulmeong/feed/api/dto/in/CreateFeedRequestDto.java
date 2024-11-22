@@ -1,8 +1,8 @@
 package com.mulmeong.feed.api.dto.in;
 
-import com.mulmeong.feed.api.domain.Feed;
-import com.mulmeong.feed.api.domain.FeedHashtag;
-import com.mulmeong.feed.api.domain.FeedMedia;
+import com.mulmeong.feed.api.domain.entity.Feed;
+import com.mulmeong.feed.api.domain.entity.FeedHashtag;
+import com.mulmeong.feed.api.domain.entity.FeedMedia;
 import com.mulmeong.feed.api.domain.event.CreateFeedEvent;
 import com.mulmeong.feed.api.domain.model.Hashtag;
 import com.mulmeong.feed.api.domain.model.Media;
@@ -54,25 +54,23 @@ public class CreateFeedRequestDto {
 
         return mediaList.stream()
             .map(media -> FeedMedia.builder()
+                .mediaUuid(media.getMediaUuid())
                 .feedUuid(feedUuid)
-                .mediaUrl(media.getMediaUrl())
                 .mediaType(media.getMediaType())
-                .description(media.getDescription())
+                .assets(media.getAssets())
                 .build())
             .toList();
     }
 
-    public List<FeedHashtag> toFeedHashtagEntities() {
+    public FeedHashtag toFeedHashtagEntity() {
         if (hashtags == null) {
-            return List.of();
+            return null;
         }
 
-        return hashtags.stream()
-            .map(hashtag -> FeedHashtag.builder()
-                .feedUuid(feedUuid)
-                .name(hashtag.getName())
-                .build())
-            .toList();
+        return FeedHashtag.builder()
+            .feedUuid(feedUuid)
+            .hashtags(hashtags)
+            .build();
     }
 
     public CreateFeedEvent toEventEntity() {    // to Kafka EventEntity
@@ -91,6 +89,7 @@ public class CreateFeedRequestDto {
     @Builder
     public CreateFeedRequestDto(String memberUuid, String title, String content, Long categoryId,
         List<Hashtag> hashtags, List<Media> mediaList) {
+
         this.memberUuid = memberUuid;
         this.title = title;
         this.content = content;

@@ -1,6 +1,6 @@
 package com.mulmeong.feed.api.infrastructure;
 
-import com.mulmeong.feed.api.domain.Feed;
+import com.mulmeong.feed.api.domain.entity.Feed;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

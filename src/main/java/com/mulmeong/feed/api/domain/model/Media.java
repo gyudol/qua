@@ -1,20 +1,21 @@
 package com.mulmeong.feed.api.domain.model;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class Media {
 
-    private String mediaUrl;
+    private String mediaUuid;
     private MediaType mediaType;
-    private String description;
+    private List<MediaInfo> assets;
 
     @Builder
-    public Media(String mediaUrl, MediaType mediaType, String description) {
-        this.mediaUrl = mediaUrl;
+    public Media(String mediaUuid, MediaType mediaType, List<MediaInfo> assets) {
+        this.mediaUuid = mediaUuid;
         this.mediaType = mediaType;
-        this.description = description;
+        this.assets = assets;
     }
 
 }

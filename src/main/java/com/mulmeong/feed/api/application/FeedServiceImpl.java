@@ -3,6 +3,7 @@ package com.mulmeong.feed.api.application;
 import static com.mulmeong.feed.common.response.BaseResponseStatus.FEED_FORBIDDEN;
 import static com.mulmeong.feed.common.response.BaseResponseStatus.FEED_NOT_FOUND;
 
+import com.mulmeong.feed.api.domain.entity.FeedHashtag;
 import com.mulmeong.feed.api.domain.event.DeleteFeedEvent;
 import com.mulmeong.feed.api.dto.in.CreateFeedRequestDto;
 import com.mulmeong.feed.api.dto.in.UpdateFeedRequestDto;
@@ -32,7 +33,7 @@ public class FeedServiceImpl implements FeedService {
 
         feedRepository.save(requestDto.toFeedEntity());
         feedMediaRepository.saveAll(requestDto.toFeedMediaEntities());
-        feedHashtagRepository.saveAll(requestDto.toFeedHashtagEntities());
+        feedHashtagRepository.save(requestDto.toFeedHashtagEntity());
         feedKafkaProducer.send("feed-created", requestDto.toEventEntity());
     }
 
@@ -42,7 +43,7 @@ public class FeedServiceImpl implements FeedService {
 
         return FeedResponseDto.fromEntity(feedRepository.findByFeedUuid(feedUuid)
                 .orElseThrow(() -> new BaseException(FEED_NOT_FOUND)),
-            feedHashtagRepository.findByFeedUuid(feedUuid),
+            feedHashtagRepository.findByFeedUuid(feedUuid).orElse(new FeedHashtag()),
             feedMediaRepository.findByFeedUuid(feedUuid));
     }
 
@@ -54,11 +55,6 @@ public class FeedServiceImpl implements FeedService {
         feedRepository.save(
             requestDto.toFeedEntity(feedRepository.findByFeedUuid(requestDto.getFeedUuid())
                 .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
-
-        // TODO: Hashtag NoSQL로 재작업
-        // FeedHashtag 전체 삭제 후 재삽입
-        feedHashtagRepository.deleteAllByFeedUuid(requestDto.getFeedUuid());
-        feedHashtagRepository.saveAll(requestDto.toFeedHashtagEntities());
 
         feedKafkaProducer.send("feed-updated", requestDto.toEventEntity());
     }

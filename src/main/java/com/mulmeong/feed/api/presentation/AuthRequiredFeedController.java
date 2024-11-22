@@ -27,7 +27,8 @@ public class AuthRequiredFeedController {
 
     private final FeedService feedService;
 
-    @Operation(summary = "Feed 생성 API", description = "MediaType: `IMAGE / VIDEO`")
+    @Operation(summary = "Feed 생성 API", description = "MediaType: `IMAGE / VIDEO`, "
+        + "MediaSubType: `IMAGE / VIDEO_THUMBNAIL / VIDEO_360 / VIDEO_540 / VIDEO_720 / VIDEO_MP4`")
     @PostMapping
     public BaseResponse<Void> createFeed(@RequestBody CreateFeedRequestVo requestVo) {
 

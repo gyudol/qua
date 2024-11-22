@@ -1,6 +1,6 @@
 package com.mulmeong.feed.api.dto.in;
 
-import com.mulmeong.feed.api.domain.Feed;
+import com.mulmeong.feed.api.domain.entity.Feed;
 import com.mulmeong.feed.api.domain.event.UpdateFeedStatusEvent;
 import com.mulmeong.feed.api.domain.model.Visibility;
 import com.mulmeong.feed.api.vo.in.UpdateFeedStatusRequestVo;

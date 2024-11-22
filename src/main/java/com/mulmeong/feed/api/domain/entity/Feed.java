@@ -1,4 +1,4 @@
-package com.mulmeong.feed.api.domain;
+package com.mulmeong.feed.api.domain.entity;
 
 import com.mulmeong.feed.api.domain.model.Visibility;
 import com.mulmeong.feed.common.entity.BaseEntity;
