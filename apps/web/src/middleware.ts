@@ -18,11 +18,6 @@ const withOutAuthList = [
   routes.testAccountSignIn,
 ];
 
-const isValidTokenFormat = (token: string): boolean => {
-  const jwtPattern = /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/;
-  return jwtPattern.test(token);
-};
-
 const withAuth = (req: NextRequest, token: boolean) => {
   const url = req.nextUrl.clone();
   const { pathname } = req.nextUrl;
@@ -45,14 +40,6 @@ const withOutAuth = (req: NextRequest, token: boolean, to: string | null) => {
 };
 
 export default async function middleware(request: NextRequest) {
-  // ** 쿠키에서 토큰 가져오기 **
-  const cookieToken = request.cookies.get("accessToken")?.value;
-
-  // ** 쿠키 기반 유효성 검사 **
-  if (!cookieToken || !isValidTokenFormat(cookieToken)) {
-    return NextResponse.redirect(new URL(routes.signIn, request.url));
-  }
-
   // ** NextAuth 기반 토큰 가져오기 **
   const authToken = await getToken({
     req: request,

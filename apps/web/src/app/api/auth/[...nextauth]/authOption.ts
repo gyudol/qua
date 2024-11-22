@@ -106,7 +106,7 @@ export const options: NextAuthOptions = {
 
           if (newTokenData.accessToken) {
             token.accessToken = newTokenData.accessToken;
-            token.accessTokenExpiry = Math.floor(Date.now() / 1000) + 60 * 60; // 갱신된 토큰 만료 시간 (예: 1시간 후)
+            token.accessTokenExpiry = Math.floor(Date.now() / 1000) + 60 * 60;
           }
         } catch (error) {
           // console.error("Error refreshing access token:", error);
