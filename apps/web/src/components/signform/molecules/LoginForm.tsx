@@ -33,7 +33,7 @@ function SignInForm() {
 
         <div className="relative z-10">
           <div className="absolute top-[-30px] left-1/2 transform -translate-x-1/2">
-            <Kitty />
+            <Kitty width={70} height={70} />
           </div>
         </div>
 

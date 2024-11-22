@@ -1,6 +1,6 @@
 import type { IconProps } from "./@type";
 
-export default function Kitty({ width = 70, height = 70 }: IconProps) {
+export default function Kitty({ width = 30, height = 38 }: IconProps) {
   return (
     <svg
       width={width}
