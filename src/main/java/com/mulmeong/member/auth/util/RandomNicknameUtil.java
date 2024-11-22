@@ -1,24 +1,27 @@
 package com.mulmeong.member.auth.util;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Random;
 
+@Component
 public class RandomNicknameUtil {
     private static final Random random = new Random();
 
     public String generateNickname() {
-        Random random = new Random();
-
         String adjective = adjectives[random.nextInt(adjectives.length)];
         String fish = fishes[random.nextInt(fishes.length)];
-
-        String randomCode = generateRandomCode(4);
+        String randomCode = generateRandomCode();
 
         return adjective + fish + "#" + randomCode;
     }
 
-    private String generateRandomCode(int length) {
+    private String generateRandomCode() {
+
         StringBuilder code = new StringBuilder();
-        for (int i = 0; i < length; i++) {
+
+        // 4자리 랜덤 코드 생성
+        for (int i = 0; i < 4; i++) {
             if (random.nextBoolean()) {
                 // 랜덤 소문자 (a-z)
                 char randomChar = (char) ('a' + random.nextInt(26));
@@ -105,46 +108,32 @@ public class RandomNicknameUtil {
     private static final String[] fishes = {
         // 난태생송사리과
         "구피", "몰리", "플래티", "소드",
-
         // 시클리드과
         "디스커스", "엔젤", "오스카", "아프리칸",
-
         // 카라신과
         "네온", "카디날", "블랙", "글로우",
-
         // 잉어과
         "금붕어", "잉어", "비단", "붕어",
-
         // 난두스기수어
         "아처", "모노",
-
         // 메기과
         "코리", "플레코", "파이어", "글래스",
-
         // 아나반티드과
         "베타", "구라미", "드워프", "파라다이스",
-
         // 고대어 & 대형어
         "피라루쿠", "가아", "바이처", "아로와나", "나이프",
-
         // 해수어
         "니모", "도리", "만다린", "옐로", "복어", "블랙", "카우", "라이언",
-
         // 산호
         "말미잘", "버섯", "엘크혼", "브레인", "스타", "핑크팁",
-
         // 파충류
         "비어디", "그린", "크레스티", "리프", "레오파드", "리본게코", "팬더게코", "샌드게코",
-
         // 갑각류
         "체리", "아마노", "로브스터", "고스트", "체리크랩",
-
         // 수초
         "아누비", "모스", "자바", "엘로", "루드", "펄",
-
         // 캐릭터 및 독특한 이름
         "니모", "도리", "샤크", "피라냐", "루피", "스펀지밥", "패트릭", "플랑크톤",
-
         //먹는 물고기
         "고등어", "참치", "연어", "광어", "우럭", "삼치", "갈치", "조기",
         "전갱이", "방어", "참돔", "숭어", "메기", "장어", "붕장어", "도다리",

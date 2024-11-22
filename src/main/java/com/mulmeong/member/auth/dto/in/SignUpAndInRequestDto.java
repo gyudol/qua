@@ -12,8 +12,8 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @ToString
+@NoArgsConstructor
 public class SignUpAndInRequestDto {
 
     private String oauthId;
@@ -34,14 +34,13 @@ public class SignUpAndInRequestDto {
                 .build();
     }
 
-    public Member toEntity() {
+    public Member toEntity(RandomNicknameUtil randomNicknameUtil) {
         return Member.builder()
                 .memberUuid(UUID.randomUUID().toString())
                 .oauthId(oauthId)
                 .oauthProvider(oauthProvider)
                 .email(email)
-                .nickname(new RandomNicknameUtil().generateNickname()) // 랜덤 닉네임(경우의수 840억)
-                .profileImageUrl("image/198af19d-bbc6-4252-a632-d1a1ccd5c659.webp") // 기본 이미지
+                .nickname(randomNicknameUtil.generateNickname()) // 랜덤 닉네임(경우의수 840억)
                 .build();
     }
 
