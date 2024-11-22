@@ -73,7 +73,6 @@ export const options: NextAuthOptions = {
       token.accessToken = (user as ExtendedUser).accessToken;
       token.refreshToken = (user as ExtendedUser).refreshToken;
 
-      // 이후 로직 유지
       const currentTime = Math.floor(Date.now() / 1000); // 현재 시간 (초 단위)
       const accessTokenExpiry = token.accessTokenExpiry as number | undefined;
 
