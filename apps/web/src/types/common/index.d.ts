@@ -3,7 +3,7 @@ export interface CommonRes<T> {
   isSuccess: boolean;
   message: string;
   code: number;
-  result: T;
+  result: T | string;
 }
 
 export interface Pagination<T> {
@@ -14,6 +14,15 @@ export interface Pagination<T> {
   pageNo: number;
 }
 
-export type Datetime = `${string}-${string}-${string} ${string}:${string}:${string}`;
+type ResponseType<T, IsPagination extends boolean> = IsPagination extends true
+  ? CommonPaginationRes<T>
+  : CommonRes<T>;
+
+type ResultType<T, IsPagination extends boolean> = IsPagination extends true
+  ? Pagination<T>
+  : T;
+
+export type Datetime =
+  `${string}-${string}-${string} ${string}:${string}:${string}`;
 
 export type CommonPaginationRes<T> = CommonRes<Pagination<T>>;
