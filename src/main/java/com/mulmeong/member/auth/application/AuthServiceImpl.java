@@ -7,6 +7,7 @@ import com.mulmeong.member.auth.dto.in.SignUpAndInRequestDto;
 import com.mulmeong.member.auth.dto.out.NewAccessTokenResponseDto;
 import com.mulmeong.member.auth.dto.out.SignUpAndInResponseDto;
 import com.mulmeong.member.auth.infrastructure.MemberRepository;
+import com.mulmeong.member.auth.util.RandomNicknameUtil;
 import com.mulmeong.member.common.config.kafka.EventPublisher;
 import com.mulmeong.member.common.exception.BaseException;
 import com.mulmeong.member.common.jwt.properties.JwtProperties;
@@ -33,6 +34,7 @@ public class AuthServiceImpl implements AuthService {
     private final RedisTemplate<String, Object> redisTemplate;
     private static final String TOKEN_PREFIX = "refreshToken";
 
+    private final RandomNicknameUtil randomNicknameUtil;
     private final EventPublisher eventPublisher;
 
     /**
@@ -55,8 +57,9 @@ public class AuthServiceImpl implements AuthService {
             return respondSignIn(existMember);
         }
 
-        // 회원이 아닌 경우 => 회원가입, Read-DB 반영 Kafka 이벤트 발행
-        Member signUpMember = memberRepository.save(requestDto.toEntity()); //entity 변환시 uuid, 랜덤 닉네임, 기본이미지 설정
+        /* 회원이 아닌 경우 => 회원가입, Read-DB 반영 Kafka 이벤트 발행 */
+        // entity로 변환하며 uuid, 랜덤 닉네임 할당
+        Member signUpMember = memberRepository.save(requestDto.toEntity(randomNicknameUtil));
         eventPublisher.send("member-created", MemberCreateEvent.from(signUpMember));
 
         return respondSignIn(signUpMember);
