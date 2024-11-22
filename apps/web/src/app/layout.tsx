@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "@/app/globals.css";
 import { CommonLayout } from "@/components/common/molecules";
-import "@repo/ui/styles.css";
 import QueryClientProvider from "@/components/common/molecules/QueryClientProvider";
+import "@/app/globals.css";
+import "@repo/ui/styles.css";
+import "swiper/css";
 
 const inter = Inter({ subsets: ["latin"] });
 

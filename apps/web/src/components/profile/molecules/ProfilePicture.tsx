@@ -1,6 +1,6 @@
 import { Fig, Skeleton, withLink } from "@/components/common/atoms";
 
-const className = "w-[48px] h-[48px] rounded-full";
+const className = "w-[48px] h-[48px] rounded-full overflow-hidden";
 
 interface ProfilePictureProp
   extends Omit<React.ComponentProps<typeof Fig>, "className"> {
