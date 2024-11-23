@@ -1,11 +1,11 @@
 package com.mulmeong.feed.api.domain.entity;
 
 import com.mulmeong.feed.api.domain.model.Hashtag;
-import jakarta.persistence.Id;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter

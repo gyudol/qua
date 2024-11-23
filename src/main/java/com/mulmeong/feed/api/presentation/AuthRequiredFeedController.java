@@ -10,6 +10,7 @@ import com.mulmeong.feed.api.vo.in.UpdateFeedStatusRequestVo;
 import com.mulmeong.feed.common.response.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,9 +29,10 @@ public class AuthRequiredFeedController {
     private final FeedService feedService;
 
     @Operation(summary = "Feed 생성 API", description = "MediaType: `IMAGE / VIDEO`, "
-        + "MediaSubType: `IMAGE / VIDEO_THUMBNAIL / VIDEO_360 / VIDEO_540 / VIDEO_720 / VIDEO_MP4`")
+        + "MediaSubType: `IMAGE / VIDEO_THUMBNAIL / VIDEO_360 / VIDEO_540 / VIDEO_720 / VIDEO_MP4`,"
+        + " Visibility: `VISIBLE / HIDDEN / REPORTED`")
     @PostMapping
-    public BaseResponse<Void> createFeed(@RequestBody CreateFeedRequestVo requestVo) {
+    public BaseResponse<Void> createFeed(@RequestBody @Valid CreateFeedRequestVo requestVo) {
 
         feedService.createFeed(CreateFeedRequestDto.toDto(requestVo));
         return new BaseResponse<>();

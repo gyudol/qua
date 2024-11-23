@@ -27,29 +27,31 @@ public class CreateFeedRequestDto {
 
     public static CreateFeedRequestDto toDto(CreateFeedRequestVo requestVo) {
         return CreateFeedRequestDto.builder()
+            .feedUuid(UUID.randomUUID().toString())     // create feedUuid
             .memberUuid(requestVo.getMemberUuid())
             .title(requestVo.getTitle())
             .content(requestVo.getContent())
             .categoryId(requestVo.getCategoryId())
+            .visibility(requestVo.getVisibility())
             .hashtags(requestVo.getHashtags())
             .mediaList(requestVo.getMediaList())
             .build();
     }
 
-    public Feed toFeedEntity() {    // Default visibility: VISIBLE
+    public Feed toFeedEntity() {
         return Feed.builder()
-            .feedUuid(feedUuid = UUID.randomUUID().toString())
+            .feedUuid(feedUuid)
             .memberUuid(memberUuid)
             .title(title)
             .content(content)
             .categoryId(categoryId)
-            .visibility(visibility = Visibility.VISIBLE)
+            .visibility(visibility)
             .build();
     }
 
     public List<FeedMedia> toFeedMediaEntities() {
         if (mediaList == null) {
-            return List.of();
+            mediaList = List.of();
         }
 
         return mediaList.stream()
@@ -64,7 +66,7 @@ public class CreateFeedRequestDto {
 
     public FeedHashtag toFeedHashtagEntity() {
         if (hashtags == null) {
-            return null;
+            hashtags = List.of();
         }
 
         return FeedHashtag.builder()
@@ -73,7 +75,7 @@ public class CreateFeedRequestDto {
             .build();
     }
 
-    public CreateFeedEvent toEventEntity() {    // to Kafka EventEntity
+    public CreateFeedEvent toEventEntity(Feed createdFeed) {    // to Kafka EventEntity
         return CreateFeedEvent.builder()
             .feedUuid(feedUuid)
             .memberUuid(memberUuid)
@@ -83,17 +85,21 @@ public class CreateFeedRequestDto {
             .visibility(visibility)
             .hashtags(hashtags)
             .mediaList(mediaList)
+            .createdAt(createdFeed.getCreatedAt())
+            .updatedAt(createdFeed.getUpdatedAt())
             .build();
     }
 
     @Builder
-    public CreateFeedRequestDto(String memberUuid, String title, String content, Long categoryId,
-        List<Hashtag> hashtags, List<Media> mediaList) {
+    public CreateFeedRequestDto(String feedUuid, String memberUuid, String title, String content,
+        Long categoryId, Visibility visibility, List<Hashtag> hashtags, List<Media> mediaList) {
 
+        this.feedUuid = feedUuid;
         this.memberUuid = memberUuid;
         this.title = title;
         this.content = content;
         this.categoryId = categoryId;
+        this.visibility = visibility;
         this.hashtags = hashtags;
         this.mediaList = mediaList;
     }

@@ -42,11 +42,10 @@ public record BaseResponse<T>(HttpStatusCode httpStatus, Boolean isSuccess, Stri
      * 4. 요청에 실패한 경우
      *
      * @param status 응답 상태
-     * @param e      예외 객체  ->  errorMessage 추가로 반환
+     * @param message 에러 메시지
      */
-
-    public BaseResponse(BaseResponseStatus status, RuntimeException e) {
-        this(status.getHttpStatusCode(), false, e.getMessage(), status.getCode(),
+    public BaseResponse(BaseResponseStatus status, String message) {
+        this(status.getHttpStatusCode(), false, message, status.getCode(),
             TypeCaster.castMessage(status.getMessage()));
     }
 
