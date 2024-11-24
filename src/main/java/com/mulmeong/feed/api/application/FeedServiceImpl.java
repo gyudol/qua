@@ -7,6 +7,7 @@ import com.mulmeong.feed.api.domain.entity.Feed;
 import com.mulmeong.feed.api.domain.entity.FeedHashtag;
 import com.mulmeong.feed.api.domain.event.DeleteFeedEvent;
 import com.mulmeong.feed.api.dto.in.CreateFeedRequestDto;
+import com.mulmeong.feed.api.dto.in.UpdateFeedHashtagRequestDto;
 import com.mulmeong.feed.api.dto.in.UpdateFeedRequestDto;
 import com.mulmeong.feed.api.dto.in.UpdateFeedStatusRequestDto;
 import com.mulmeong.feed.api.dto.out.FeedResponseDto;
@@ -15,6 +16,7 @@ import com.mulmeong.feed.api.infrastructure.FeedKafkaProducer;
 import com.mulmeong.feed.api.infrastructure.FeedMediaRepository;
 import com.mulmeong.feed.api.infrastructure.FeedRepository;
 import com.mulmeong.feed.common.exception.BaseException;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,10 +34,10 @@ public class FeedServiceImpl implements FeedService {
     @Override
     public void createFeed(CreateFeedRequestDto requestDto) {
 
-        Feed createdFeed = feedRepository.save(requestDto.toFeedEntity());
+        feedRepository.save(requestDto.toFeedEntity());
         feedMediaRepository.saveAll(requestDto.toFeedMediaEntities());
         feedHashtagRepository.save(requestDto.toFeedHashtagEntity());
-        feedKafkaProducer.send("feed-created", requestDto.toEventEntity(createdFeed));
+        feedKafkaProducer.send("feed-created", requestDto.toEventEntity());
     }
 
     @Transactional(readOnly = true)
@@ -62,11 +64,21 @@ public class FeedServiceImpl implements FeedService {
     @Override
     public void updateFeedStatus(UpdateFeedStatusRequestDto requestDto) {
 
-        // only update visibility
-        feedRepository.save(requestDto.toFeedEntity(
-            feedRepository.findByFeedUuid(requestDto.getFeedUuid())
+        feedRepository.save(
+            requestDto.toFeedEntity(feedRepository.findByFeedUuid(requestDto.getFeedUuid())
                 .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
         feedKafkaProducer.send("feed-status-updated", requestDto.toEventEntity());
+    }
+
+    @Transactional
+    @Override
+    public void updateFeedHashtag(UpdateFeedHashtagRequestDto requestDto) {
+
+        feedRepository.save(
+            requestDto.toFeedEntity(feedRepository.findByFeedUuid(requestDto.getFeedUuid())
+                .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
+        feedHashtagRepository.save(requestDto.toFeedHashtagEntity());
+        feedKafkaProducer.send("feed-hashtag-updated", requestDto.toEventEntity());
     }
 
     @Transactional
@@ -76,10 +88,8 @@ public class FeedServiceImpl implements FeedService {
         feedRepository.delete(feedRepository.findByFeedUuid(feedUuid)
             .orElseThrow(() -> new BaseException(FEED_FORBIDDEN)));
         feedHashtagRepository.deleteAllByFeedUuid(feedUuid);
-        feedMediaRepository.deleteAllByFeedUuid(feedUuid);
+        feedMediaRepository.deleteByFeedUuid(feedUuid);
         feedKafkaProducer.send("feed-deleted", new DeleteFeedEvent(feedUuid));
     }
-
-
 
 }

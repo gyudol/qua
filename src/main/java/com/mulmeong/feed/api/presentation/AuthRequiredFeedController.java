@@ -2,9 +2,11 @@ package com.mulmeong.feed.api.presentation;
 
 import com.mulmeong.feed.api.application.FeedService;
 import com.mulmeong.feed.api.dto.in.CreateFeedRequestDto;
+import com.mulmeong.feed.api.dto.in.UpdateFeedHashtagRequestDto;
 import com.mulmeong.feed.api.dto.in.UpdateFeedRequestDto;
 import com.mulmeong.feed.api.dto.in.UpdateFeedStatusRequestDto;
 import com.mulmeong.feed.api.vo.in.CreateFeedRequestVo;
+import com.mulmeong.feed.api.vo.in.UpdateFeedHashtagRequestVo;
 import com.mulmeong.feed.api.vo.in.UpdateFeedRequestVo;
 import com.mulmeong.feed.api.vo.in.UpdateFeedStatusRequestVo;
 import com.mulmeong.feed.common.response.BaseResponse;
@@ -48,11 +50,20 @@ public class AuthRequiredFeedController {
     }
 
     @Operation(summary = "Feed Visibility 상태 수정 API", description = "Visibility: `VISIBLE / HIDDEN / REPORTED`")
-    @PutMapping("/{feedUuid}/feed-status")
+    @PutMapping("/{feedUuid}/status")
     public BaseResponse<Void> updateFeedStatus(
         @PathVariable String feedUuid, @RequestBody UpdateFeedStatusRequestVo requestVo) {
 
         feedService.updateFeedStatus(UpdateFeedStatusRequestDto.toDto(requestVo, feedUuid));
+        return new BaseResponse<>();
+    }
+
+    @Operation(summary = "Feed Hashtag 수정 API")
+    @PutMapping("/{feedUuid}/hashtags")
+    public BaseResponse<Void> updateFeedHashtag(
+        @PathVariable String feedUuid, @RequestBody @Valid UpdateFeedHashtagRequestVo requestVo) {
+
+        feedService.updateFeedHashtag(UpdateFeedHashtagRequestDto.toDto(requestVo, feedUuid));
         return new BaseResponse<>();
     }
 

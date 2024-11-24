@@ -8,6 +8,6 @@ public interface FeedMediaRepository extends MongoRepository<FeedMedia, Long> {
 
     List<FeedMedia> findByFeedUuid(String feedUuid);
 
-    void deleteAllByFeedUuid(String feedUuid);
+    void deleteByFeedUuid(String feedUuid);
 
 }

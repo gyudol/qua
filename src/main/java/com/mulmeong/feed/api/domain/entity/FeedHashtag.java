@@ -14,13 +14,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class FeedHashtag {
 
     @Id
-    private String id;
     private String feedUuid;
     private List<Hashtag> hashtags;
 
     @Builder
-    public FeedHashtag(String id, String feedUuid, List<Hashtag> hashtags) {
-        this.id = id;
+    public FeedHashtag(String feedUuid, List<Hashtag> hashtags) {
         this.feedUuid = feedUuid;
         this.hashtags = hashtags;
     }

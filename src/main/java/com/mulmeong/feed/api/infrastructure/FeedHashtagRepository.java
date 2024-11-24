@@ -8,6 +8,8 @@ public interface FeedHashtagRepository extends MongoRepository<FeedHashtag, Long
 
     Optional<FeedHashtag> findByFeedUuid(String feedUuid);
 
+    boolean existsByFeedUuid(String feedUuid);
+
     void deleteAllByFeedUuid(String feedUuid);
 
 }

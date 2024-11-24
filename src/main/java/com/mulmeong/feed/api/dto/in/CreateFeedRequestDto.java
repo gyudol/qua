@@ -8,6 +8,7 @@ import com.mulmeong.feed.api.domain.model.Hashtag;
 import com.mulmeong.feed.api.domain.model.Media;
 import com.mulmeong.feed.api.domain.model.Visibility;
 import com.mulmeong.feed.api.vo.in.CreateFeedRequestVo;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.Builder;
@@ -24,8 +25,12 @@ public class CreateFeedRequestDto {
     private Visibility visibility;
     private List<Hashtag> hashtags;
     private List<Media> mediaList;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public static CreateFeedRequestDto toDto(CreateFeedRequestVo requestVo) {
+        LocalDateTime now = LocalDateTime.now();
+
         return CreateFeedRequestDto.builder()
             .feedUuid(UUID.randomUUID().toString())     // create feedUuid
             .memberUuid(requestVo.getMemberUuid())
@@ -35,6 +40,8 @@ public class CreateFeedRequestDto {
             .visibility(requestVo.getVisibility())
             .hashtags(requestVo.getHashtags())
             .mediaList(requestVo.getMediaList())
+            .createdAt(now)
+            .updatedAt(now)
             .build();
     }
 
@@ -46,6 +53,8 @@ public class CreateFeedRequestDto {
             .content(content)
             .categoryId(categoryId)
             .visibility(visibility)
+            .createdAt(createdAt)
+            .updatedAt(updatedAt)
             .build();
     }
 
@@ -75,7 +84,7 @@ public class CreateFeedRequestDto {
             .build();
     }
 
-    public CreateFeedEvent toEventEntity(Feed createdFeed) {    // to Kafka EventEntity
+    public CreateFeedEvent toEventEntity() {    // to Kafka EventEntity
         return CreateFeedEvent.builder()
             .feedUuid(feedUuid)
             .memberUuid(memberUuid)
@@ -85,14 +94,15 @@ public class CreateFeedRequestDto {
             .visibility(visibility)
             .hashtags(hashtags)
             .mediaList(mediaList)
-            .createdAt(createdFeed.getCreatedAt())
-            .updatedAt(createdFeed.getUpdatedAt())
+            .createdAt(createdAt)
+            .updatedAt(updatedAt)
             .build();
     }
 
     @Builder
     public CreateFeedRequestDto(String feedUuid, String memberUuid, String title, String content,
-        Long categoryId, Visibility visibility, List<Hashtag> hashtags, List<Media> mediaList) {
+        Long categoryId, Visibility visibility, List<Hashtag> hashtags, List<Media> mediaList,
+        LocalDateTime createdAt, LocalDateTime updatedAt) {
 
         this.feedUuid = feedUuid;
         this.memberUuid = memberUuid;
@@ -102,6 +112,8 @@ public class CreateFeedRequestDto {
         this.visibility = visibility;
         this.hashtags = hashtags;
         this.mediaList = mediaList;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
 }

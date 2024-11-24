@@ -3,6 +3,7 @@ package com.mulmeong.feed.api.dto.in;
 import com.mulmeong.feed.api.domain.entity.Feed;
 import com.mulmeong.feed.api.domain.event.UpdateFeedEvent;
 import com.mulmeong.feed.api.vo.in.UpdateFeedRequestVo;
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,6 +14,7 @@ public class UpdateFeedRequestDto {
     private String title;
     private String content;
     private Long categoryId;
+    private LocalDateTime updatedAt;
 
     public static UpdateFeedRequestDto toDto(UpdateFeedRequestVo requestVo, String feedUuid) {
         return UpdateFeedRequestDto.builder()
@@ -20,6 +22,7 @@ public class UpdateFeedRequestDto {
             .title(requestVo.getTitle())
             .content(requestVo.getContent())
             .categoryId(requestVo.getCategoryId())
+            .updatedAt(LocalDateTime.now())
             .build();
     }
 
@@ -32,6 +35,7 @@ public class UpdateFeedRequestDto {
             .content(content)
             .categoryId(categoryId)
             .visibility(existingFeed.getVisibility())
+            .updatedAt(updatedAt)
             .build();
     }
 
@@ -41,16 +45,19 @@ public class UpdateFeedRequestDto {
             .title(title)
             .content(content)
             .categoryId(categoryId)
+            .updatedAt(updatedAt)
             .build();
     }
 
     @Builder
-    public UpdateFeedRequestDto(String feedUuid, String title, String content, Long categoryId) {
+    public UpdateFeedRequestDto(String feedUuid, String title, String content, Long categoryId,
+        LocalDateTime updatedAt) {
 
         this.feedUuid = feedUuid;
         this.title = title;
         this.content = content;
         this.categoryId = categoryId;
+        this.updatedAt = updatedAt;
     }
 
 }

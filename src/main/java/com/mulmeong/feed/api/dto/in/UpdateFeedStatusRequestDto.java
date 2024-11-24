@@ -4,6 +4,7 @@ import com.mulmeong.feed.api.domain.entity.Feed;
 import com.mulmeong.feed.api.domain.event.UpdateFeedStatusEvent;
 import com.mulmeong.feed.api.domain.model.Visibility;
 import com.mulmeong.feed.api.vo.in.UpdateFeedStatusRequestVo;
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,6 +13,7 @@ public class UpdateFeedStatusRequestDto {
 
     private String feedUuid;
     private Visibility visibility;
+    private LocalDateTime updatedAt;
 
     public static UpdateFeedStatusRequestDto toDto(UpdateFeedStatusRequestVo requestVo,
         String feedUuid) {
@@ -19,6 +21,7 @@ public class UpdateFeedStatusRequestDto {
         return UpdateFeedStatusRequestDto.builder()
             .feedUuid(feedUuid)
             .visibility(requestVo.getVisibility())
+            .updatedAt(LocalDateTime.now())
             .build();
     }
 
@@ -31,6 +34,7 @@ public class UpdateFeedStatusRequestDto {
             .content(existingFeed.getContent())
             .categoryId(existingFeed.getCategoryId())
             .visibility(visibility)
+            .updatedAt(updatedAt)
             .build();
     }
 
@@ -38,13 +42,17 @@ public class UpdateFeedStatusRequestDto {
         return UpdateFeedStatusEvent.builder()
             .feedUuid(feedUuid)
             .visibility(visibility)
+            .updatedAt(updatedAt)
             .build();
     }
 
     @Builder
-    public UpdateFeedStatusRequestDto(String feedUuid, Visibility visibility) {
+    public UpdateFeedStatusRequestDto(String feedUuid, Visibility visibility,
+        LocalDateTime updatedAt) {
+
         this.feedUuid = feedUuid;
         this.visibility = visibility;
+        this.updatedAt = updatedAt;
     }
 
 }
