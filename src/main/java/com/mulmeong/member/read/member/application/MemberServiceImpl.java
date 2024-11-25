@@ -53,7 +53,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public void updateProfileImage(MemberProfileImgUpdateEvent event) {
-        updateMemberField(event.getMemberUuid(), "nickname", event.getProfileImgUrl());
+        updateMemberField(event.getMemberUuid(), "profileImageUrl", event.getProfileImgUrl());
     }
 
     /**
