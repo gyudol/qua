@@ -4,9 +4,6 @@ import com.mulmeong.comment.read.entity.FeedComment;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 
 import java.time.LocalDateTime;
 
@@ -18,12 +15,6 @@ public class FeedCommentUpdateEvent {
     private String commentUuid;
     private String content;
     private LocalDateTime updatedAt;
-
-    public FeedCommentUpdateEvent(FeedCommentUpdateEvent message) {
-        this.commentUuid = message.getCommentUuid();
-        this.content = message.getContent();
-        this.updatedAt = message.getUpdatedAt();
-    }
 
     public FeedComment toEntity(FeedComment feedComment) {
         return FeedComment.builder()

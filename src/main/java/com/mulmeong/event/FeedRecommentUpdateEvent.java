@@ -16,12 +16,6 @@ public class FeedRecommentUpdateEvent {
     private String content;
     private LocalDateTime updatedAt;
 
-    public FeedRecommentUpdateEvent(FeedRecommentUpdateEvent message) {
-        this.recommentUuid = message.getRecommentUuid();
-        this.content = message.getContent();
-        this.updatedAt = message.getUpdatedAt();
-    }
-
     public FeedRecomment toEntity(FeedRecomment feedRecomment) {
         return FeedRecomment.builder()
                 .id(feedRecomment.getId())

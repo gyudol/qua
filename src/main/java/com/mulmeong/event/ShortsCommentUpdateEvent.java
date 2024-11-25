@@ -1,6 +1,5 @@
 package com.mulmeong.event;
 
-import com.mulmeong.comment.read.entity.FeedComment;
 import com.mulmeong.comment.read.entity.ShortsComment;
 import lombok.Data;
 import lombok.Getter;
@@ -16,12 +15,6 @@ public class ShortsCommentUpdateEvent {
     private String commentUuid;
     private String content;
     private LocalDateTime updatedAt;
-
-    public ShortsCommentUpdateEvent(ShortsCommentUpdateEvent message) {
-        this.commentUuid = message.getCommentUuid();
-        this.content = message.getContent();
-        this.updatedAt = message.getUpdatedAt();
-    }
 
     public ShortsComment toEntity(ShortsComment shortsComment) {
         return ShortsComment.builder()

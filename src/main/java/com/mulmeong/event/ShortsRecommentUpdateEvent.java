@@ -16,12 +16,6 @@ public class ShortsRecommentUpdateEvent {
     private String content;
     private LocalDateTime updatedAt;
 
-    public ShortsRecommentUpdateEvent(ShortsRecommentUpdateEvent message) {
-        this.recommentUuid = message.getRecommentUuid();
-        this.content = message.getContent();
-        this.updatedAt = message.getUpdatedAt();
-    }
-
     public ShortsRecomment toEntity(ShortsRecomment shortsRecomment) {
         return ShortsRecomment.builder()
                 .id(shortsRecomment.getId())

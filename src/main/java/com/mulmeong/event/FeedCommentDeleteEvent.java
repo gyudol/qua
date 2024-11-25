@@ -13,11 +13,6 @@ public class FeedCommentDeleteEvent {
     private String commentUuid;
     private boolean status;
 
-    public FeedCommentDeleteEvent(FeedCommentDeleteEvent message) {
-        this.commentUuid = message.getCommentUuid();
-        this.status = message.isStatus();
-    }
-
     public FeedComment toEntity(FeedComment feedComment) {
         return FeedComment.builder()
                 .id(feedComment.getId())

@@ -13,11 +13,6 @@ public class ShortsCommentDeleteEvent {
     private String commentUuid;
     private boolean status;
 
-    public ShortsCommentDeleteEvent(ShortsCommentDeleteEvent message) {
-        this.commentUuid = message.getCommentUuid();
-        this.status = message.isStatus();
-    }
-
     public ShortsComment toEntity(ShortsComment shortsComment) {
         return ShortsComment.builder()
                 .id(shortsComment.getId())

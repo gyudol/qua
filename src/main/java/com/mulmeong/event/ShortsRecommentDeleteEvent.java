@@ -11,7 +11,4 @@ public class ShortsRecommentDeleteEvent {
 
     private String recommentUuid;
 
-    public ShortsRecommentDeleteEvent(ShortsRecommentDeleteEvent dto) {
-        this.recommentUuid = dto.getRecommentUuid();
-    }
 }

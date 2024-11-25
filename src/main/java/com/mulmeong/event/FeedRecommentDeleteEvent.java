@@ -11,7 +11,4 @@ public class FeedRecommentDeleteEvent {
 
     private String recommentUuid;
 
-    public FeedRecommentDeleteEvent(FeedRecommentDeleteEvent dto) {
-        this.recommentUuid = dto.getRecommentUuid();
-    }
 }

@@ -1,7 +1,6 @@
 package com.mulmeong.event;
 
 
-import com.mulmeong.comment.read.entity.FeedRecomment;
 import com.mulmeong.comment.read.entity.ShortsRecomment;
 import lombok.Data;
 import lombok.Getter;
@@ -22,17 +21,6 @@ public class ShortsRecommentCreateEvent {
     private LocalDateTime updatedAt;
     private Integer likeCount;
     private Integer dislikeCount;
-
-    public ShortsRecommentCreateEvent(ShortsRecommentCreateEvent message) {
-        this.memberUuid = message.getMemberUuid();
-        this.commentUuid = message.getCommentUuid();
-        this.recommentUuid = message.getRecommentUuid();
-        this.content = message.getContent();
-        this.createdAt = message.getCreatedAt();
-        this.updatedAt = message.getUpdatedAt();
-        this.likeCount = message.getLikeCount();
-        this.dislikeCount = message.getDislikeCount();
-    }
 
     public ShortsRecomment toEntity() {
         return ShortsRecomment.builder()
