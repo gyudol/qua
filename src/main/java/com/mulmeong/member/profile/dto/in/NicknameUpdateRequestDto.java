@@ -1,4 +1,4 @@
-package com.mulmeong.member.nickname.dto.in;
+package com.mulmeong.member.profile.dto.in;
 
 import com.mulmeong.member.auth.domain.Member;
 import lombok.Builder;
@@ -7,21 +7,20 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class UpdateNicknameRequestDto {
+public class NicknameUpdateRequestDto {
 
     private String memberUuid;
-
     private String nickname;
 
-    public static UpdateNicknameRequestDto toDto(String memberUuid, String nickname) {
-        return UpdateNicknameRequestDto.builder()
+    public static NicknameUpdateRequestDto toDto(String memberUuid, String nickname) {
+        return NicknameUpdateRequestDto.builder()
                 .memberUuid(memberUuid)
                 .nickname(nickname)
                 .build();
     }
 
     @Builder
-    public UpdateNicknameRequestDto(String memberUuid, String nickname) {
+    public NicknameUpdateRequestDto(String memberUuid, String nickname) {
         this.memberUuid = memberUuid;
         this.nickname = nickname;
     }
