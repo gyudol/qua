@@ -12,8 +12,7 @@
         "NAVER_CLIENT_ID",
         "NAVER_CLIENT_SECRET",
         "NEXTAUTH_SECRET",
-        "BASE_API_URL",
-        "API_SERVER"
+        "BASE_API_URL"
       ]
     },
     "lint": {},

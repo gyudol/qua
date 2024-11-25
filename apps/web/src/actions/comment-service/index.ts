@@ -10,7 +10,7 @@ import type {
 } from "@/types/comment-service";
 import processResponse from "../common";
 
-const API_SERVER = process.env.API_SERVER;
+const API_SERVER = process.env.BASE_API_URL;
 const Prefix = "comment-service";
 
 function uri4Single<T extends TargetType, U extends boolean>({
