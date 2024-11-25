@@ -1,12 +1,12 @@
 package com.mulmeong.feed.api.infrastructure;
 
-import com.mulmeong.feed.api.domain.FeedHashtag;
-import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.mulmeong.feed.api.domain.entity.FeedHashtag;
+import java.util.Optional;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface FeedHashtagRepository extends JpaRepository<FeedHashtag, Long> {
+public interface FeedHashtagRepository extends MongoRepository<FeedHashtag, String> {
 
-    List<FeedHashtag> findByFeedUuid(String feedUuid);
+    Optional<FeedHashtag> findByFeedUuid(String feedUuid);
 
     void deleteAllByFeedUuid(String feedUuid);
 

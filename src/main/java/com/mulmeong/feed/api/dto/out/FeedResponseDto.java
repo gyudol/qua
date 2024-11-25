@@ -1,8 +1,8 @@
 package com.mulmeong.feed.api.dto.out;
 
-import com.mulmeong.feed.api.domain.Feed;
-import com.mulmeong.feed.api.domain.FeedHashtag;
-import com.mulmeong.feed.api.domain.FeedMedia;
+import com.mulmeong.feed.api.domain.entity.Feed;
+import com.mulmeong.feed.api.domain.entity.FeedHashtag;
+import com.mulmeong.feed.api.domain.entity.FeedMedia;
 import com.mulmeong.feed.api.domain.model.Hashtag;
 import com.mulmeong.feed.api.domain.model.Media;
 import java.time.LocalDateTime;
@@ -21,21 +21,19 @@ public class FeedResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public static FeedResponseDto fromEntity(Feed feed, List<FeedHashtag> hashtags,
+    public static FeedResponseDto fromEntity(Feed feed, FeedHashtag feedHashtag,
         List<FeedMedia> mediaList) {
 
         return FeedResponseDto.builder()
             .feedUuid(feed.getFeedUuid())
             .title(feed.getTitle())
             .content(feed.getContent())
-            .hashtags(hashtags.stream()
-                .map(feedHashtag -> Hashtag.builder()
-                    .name(feedHashtag.getName()).build()).toList())
+            .hashtags(feedHashtag.getHashtags())
             .mediaList(mediaList.stream()
                 .map(feedMedia -> Media.builder()
-                    .mediaUrl(feedMedia.getMediaUrl())
+                    .mediaUuid(feedMedia.getMediaUuid())
                     .mediaType(feedMedia.getMediaType())
-                    .description(feedMedia.getDescription()).build()).toList())
+                    .assets(feedMedia.getAssets()).build()).toList())
             .createdAt(feed.getCreatedAt())
             .updatedAt(feed.getUpdatedAt())
             .build();
