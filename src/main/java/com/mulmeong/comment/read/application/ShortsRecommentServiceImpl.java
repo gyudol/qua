@@ -39,8 +39,8 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
 
     @Override
     public void updateShortsRecomment(ShortsRecommentUpdateEvent message) {
-        ShortsRecomment recomment = shortsRecommentRepository.findByRecommentUuid(message.getRecommentUuid()).orElseThrow(
-                () -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT)
+        ShortsRecomment recomment = shortsRecommentRepository.findByRecommentUuid(message.getRecommentUuid())
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT)
         );
         ShortsRecomment updated = message.toEntity(recomment);
         shortsRecommentRepository.save(updated);
@@ -48,8 +48,8 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
 
     @Override
     public void deleteShortsRecomment(ShortsRecommentDeleteEvent message) {
-        ShortsRecomment recomment = shortsRecommentRepository.findByRecommentUuid(message.getRecommentUuid()).orElseThrow(
-                () -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT)
+        ShortsRecomment recomment = shortsRecommentRepository.findByRecommentUuid(message.getRecommentUuid())
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT)
         );
         decrementRecommentCount(recomment.getCommentUuid());
         shortsRecommentRepository.deleteByRecommentUuid(recomment.getRecommentUuid());
