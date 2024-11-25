@@ -7,9 +7,6 @@ on:
     types: [ closed ]
     branches: [ develop, release ]
 
-permissions:
-  contents: read
-
 jobs:
   build:
     runs-on: ubuntu-latest

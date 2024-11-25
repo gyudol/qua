@@ -1,20 +1,28 @@
 package com.mulmeong.feed.api.domain.model;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import java.util.Map;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class Media {
 
-    private String mediaUrl;
+    @NotBlank(message = "mediaUUID는 필수 입력 항목입니다.")
+    private String mediaUuid;
+    @NotNull(message = "mediaType은 필수 입력 항목입니다.")
     private MediaType mediaType;
-    private String description;
+    @NotEmpty(message = "assets는 필수 입력 항목입니다.")
+    private Map<@Valid MediaSubtype, @Valid MediaInfo> assets;
 
     @Builder
-    public Media(String mediaUrl, MediaType mediaType, String description) {
-        this.mediaUrl = mediaUrl;
+    public Media(String mediaUuid, MediaType mediaType, Map<MediaSubtype, MediaInfo> assets) {
+        this.mediaUuid = mediaUuid;
         this.mediaType = mediaType;
-        this.description = description;
+        this.assets = assets;
     }
 
 }

@@ -15,6 +15,12 @@ public enum BaseResponseStatus {
     SUCCESS(HttpStatus.OK, true, 200, "요청에 성공하였습니다."),
 
     /**
+     * 400: 사용자 요청 에러.
+     */
+    ILLEGAL_ARGUMENT(HttpStatus.BAD_REQUEST, false, 400, "잘못된 요청입니다."),
+    INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, false, 401, "적절하지 않은 요청값입니다."),
+
+    /**
      * 900: 기타 에러.
      */
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "서버에서 예기치 않은 오류가 발생했습니다."),

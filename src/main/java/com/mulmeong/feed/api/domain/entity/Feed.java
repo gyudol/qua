@@ -1,7 +1,6 @@
-package com.mulmeong.feed.api.domain;
+package com.mulmeong.feed.api.domain.entity;
 
 import com.mulmeong.feed.api.domain.model.Visibility;
-import com.mulmeong.feed.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,6 +8,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Feed extends BaseEntity {
+public class Feed {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,9 +41,16 @@ public class Feed extends BaseEntity {
     @Column(nullable = false)
     private Visibility visibility;
 
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
+
     @Builder
     public Feed(Long id, String feedUuid, String memberUuid, String title, String content,
-        Long categoryId, Visibility visibility) {
+        Long categoryId, Visibility visibility, LocalDateTime createdAt, LocalDateTime updatedAt) {
+
         this.id = id;
         this.feedUuid = feedUuid;
         this.memberUuid = memberUuid;
@@ -51,6 +58,8 @@ public class Feed extends BaseEntity {
         this.content = content;
         this.categoryId = categoryId;
         this.visibility = visibility;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
 }
