@@ -33,36 +33,42 @@ public class ShortsCommentServiceImpl implements ShortsCommentService {
 
     @Override
     public void createShortsComment(ShortsCommentCreateEvent message) {
-        ShortsComment shortsComment = new ShortsCommentCreateEvent(message).toEntity();
+        ShortsComment shortsComment = message.toEntity();
         shortsCommentRepository.save(shortsComment);
     }
 
     @Override
     public void updateShortsComment(ShortsCommentUpdateEvent message) {
-        ShortsCommentUpdateEvent dto = new ShortsCommentUpdateEvent(message);
-        ShortsComment comment = shortsCommentRepository.findByCommentUuid(dto.getCommentUuid()).orElseThrow(
+        ShortsComment comment = shortsCommentRepository.findByCommentUuid(message.getCommentUuid()).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT)
         );
-        System.out.println(comment);
-        ShortsComment updated = dto.toEntity(comment);
+        ShortsComment updated = message.toEntity(comment);
         shortsCommentRepository.save(updated);
     }
 
     @Override
     public void deleteShortsComment(ShortsCommentDeleteEvent message) {
-        ShortsCommentDeleteEvent dto = new ShortsCommentDeleteEvent(message);
-        ShortsComment comment = shortsCommentRepository.findByCommentUuid(dto.getCommentUuid()).orElseThrow(
+        ShortsComment comment = shortsCommentRepository.findByCommentUuid(message.getCommentUuid()).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT)
         );
-        ShortsComment deleted = dto.toEntity(comment);
+        ShortsComment deleted = message.toEntity(comment);
         shortsCommentRepository.save(deleted);
     }
 
     @Override
     public CursorPage<ShortsCommentResponseDto> getShortsCommentsByPage(
-            String shortsUuid, String sortBy, String lastId, Integer pageSize, Integer pageNo) {
+            String shortsUuid,
+            String sortBy,
+            String lastId,
+            Integer pageSize,
+            Integer pageNo) {
+
         List<String> cursors = shortsCommentRepository.findByShortsUuid(shortsUuid).stream()
-                .map(this::buildCursor).toList();
+                .map(this::buildCursor)
+                .toList();
+        for (String cursor : cursors) {
+            System.out.println(cursor);
+        }
         CursorPage<ShortsComment> cursorPage = shortsCommentRepositoryCustom.getShortsComments(
                 shortsUuid, sortBy, lastId, pageSize, pageNo);
 
@@ -79,7 +85,7 @@ public class ShortsCommentServiceImpl implements ShortsCommentService {
 
         Query query = new Query(Criteria.where("commentUuid").is(comment.getCommentUuid()));
         Update update = new Update().set("customCursor", cursor);
-        mongoTemplate.updateFirst(query, update, FeedComment.class);
+        mongoTemplate.updateFirst(query, update, ShortsComment.class);
         return cursor;
     }
 }

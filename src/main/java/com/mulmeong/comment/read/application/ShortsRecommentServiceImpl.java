@@ -32,25 +32,23 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
 
     @Override
     public void createShortsRecomment(ShortsRecommentCreateEvent message) {
-        ShortsRecomment shortsRecomment = new ShortsRecommentCreateEvent(message).toEntity();
+        ShortsRecomment shortsRecomment = message.toEntity();
         shortsRecommentRepository.save(shortsRecomment);
         incrementRecommentCount(shortsRecomment.getCommentUuid());
     }
 
     @Override
     public void updateShortsRecomment(ShortsRecommentUpdateEvent message) {
-        ShortsRecommentUpdateEvent dto = new ShortsRecommentUpdateEvent(message);
-        ShortsRecomment recomment = shortsRecommentRepository.findByRecommentUuid(dto.getRecommentUuid()).orElseThrow(
+        ShortsRecomment recomment = shortsRecommentRepository.findByRecommentUuid(message.getRecommentUuid()).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT)
         );
-        ShortsRecomment updated = dto.toEntity(recomment);
+        ShortsRecomment updated = message.toEntity(recomment);
         shortsRecommentRepository.save(updated);
     }
 
     @Override
     public void deleteShortsRecomment(ShortsRecommentDeleteEvent message) {
-        ShortsRecommentDeleteEvent dto = new ShortsRecommentDeleteEvent(message);
-        ShortsRecomment recomment = shortsRecommentRepository.findByRecommentUuid(dto.getRecommentUuid()).orElseThrow(
+        ShortsRecomment recomment = shortsRecommentRepository.findByRecommentUuid(message.getRecommentUuid()).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT)
         );
         decrementRecommentCount(recomment.getCommentUuid());

@@ -33,28 +33,25 @@ public class FeedCommentServiceImpl implements FeedCommentService {
 
     @Override
     public void createFeedComment(FeedCommentCreateEvent message) {
-        FeedComment feedComment = new FeedCommentCreateEvent(message).toEntity();
+        FeedComment feedComment = message.toEntity();
         feedCommentRepository.save(feedComment);
     }
 
     @Override
     public void updateFeedComment(FeedCommentUpdateEvent message) {
-        System.out.println(message.getUpdatedAt());
-        FeedCommentUpdateEvent dto = new FeedCommentUpdateEvent(message);
-        FeedComment comment = feedCommentRepository.findByCommentUuid(dto.getCommentUuid()).orElseThrow(
+        FeedComment comment = feedCommentRepository.findByCommentUuid(message.getCommentUuid()).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT)
         );
-        FeedComment updated = dto.toEntity(comment);
+        FeedComment updated = message.toEntity(comment);
         feedCommentRepository.save(updated);
     }
 
     @Override
     public void deleteFeedComment(FeedCommentDeleteEvent message) {
-        FeedCommentDeleteEvent dto = new FeedCommentDeleteEvent(message);
-        FeedComment comment = feedCommentRepository.findByCommentUuid(dto.getCommentUuid()).orElseThrow(
+        FeedComment comment = feedCommentRepository.findByCommentUuid(message.getCommentUuid()).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT)
         );
-        FeedComment deleted = dto.toEntity(comment);
+        FeedComment deleted = message.toEntity(comment);
         feedCommentRepository.save(deleted);
     }
 

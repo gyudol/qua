@@ -30,25 +30,23 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
 
     @Override
     public void createFeedRecomment(FeedRecommentCreateEvent message) {
-        FeedRecomment feedRecomment = new FeedRecommentCreateEvent(message).toEntity();
+        FeedRecomment feedRecomment = message.toEntity();
         feedRecommentRepository.save(feedRecomment);
         incrementRecommentCount(feedRecomment.getCommentUuid());
     }
 
     @Override
     public void updateFeedRecomment(FeedRecommentUpdateEvent message) {
-        FeedRecommentUpdateEvent dto = new FeedRecommentUpdateEvent(message);
-        FeedRecomment recomment = feedRecommentRepository.findByRecommentUuid(dto.getRecommentUuid()).orElseThrow(
+        FeedRecomment recomment = feedRecommentRepository.findByRecommentUuid(message.getRecommentUuid()).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT)
         );
-        FeedRecomment updated = dto.toEntity(recomment);
+        FeedRecomment updated = message.toEntity(recomment);
         feedRecommentRepository.save(updated);
     }
 
     @Override
     public void deleteFeedRecomment(FeedRecommentDeleteEvent message) {
-        FeedRecommentDeleteEvent dto = new FeedRecommentDeleteEvent(message);
-        FeedRecomment recomment = feedRecommentRepository.findByRecommentUuid(dto.getRecommentUuid()).orElseThrow(
+        FeedRecomment recomment = feedRecommentRepository.findByRecommentUuid(message.getRecommentUuid()).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT)
         );
         decrementRecommentCount(recomment.getCommentUuid());
