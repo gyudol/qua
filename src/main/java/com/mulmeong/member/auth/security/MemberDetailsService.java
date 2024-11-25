@@ -15,9 +15,17 @@ public class MemberDetailsService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
 
+    /**
+     * Spring Security에서 사용자 정보를 가져오는 메서드.
+     * .getPrincipal()로 가져올 수 있음.
+     *
+     * @param memberUuid 회원의 uuid
+     * @return 사용자 정보를 담은 UserDetails 객체
+     * @throws UsernameNotFoundException 사용자를 찾을 수 없을 때 발생하는 예외
+     */
     @Override
-    public UserDetails loadUserByUsername(String uuid) throws UsernameNotFoundException {
-        return new MemberDetails(memberRepository.findByMemberUuid(uuid).orElseThrow(
+    public UserDetails loadUserByUsername(String memberUuid) throws UsernameNotFoundException {
+        return new MemberDetails(memberRepository.findByMemberUuid(memberUuid).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_USER)
         ));
     }

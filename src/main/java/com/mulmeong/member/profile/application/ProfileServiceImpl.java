@@ -3,8 +3,8 @@ package com.mulmeong.member.profile.application;
 import com.mulmeong.event.member.MemberNicknameUpdateEvent;
 import com.mulmeong.event.member.MemberProfileImgUpdateEvent;
 import com.mulmeong.member.auth.domain.Member;
-import com.mulmeong.member.common.config.kafka.EventPublisher;
 import com.mulmeong.member.auth.infrastructure.MemberRepository;
+import com.mulmeong.member.common.config.kafka.EventPublisher;
 import com.mulmeong.member.common.exception.BaseException;
 import com.mulmeong.member.common.response.BaseResponseStatus;
 import com.mulmeong.member.profile.dto.in.NicknameUpdateRequestDto;
@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProfileServiceImpl implements ProfileService {
 
     private final MemberRepository memberRepository;
-    //    private final MemberEventPublisher memberEventPublisher;
     private final EventPublisher eventPublisher;
 
     /**
@@ -49,7 +48,7 @@ public class ProfileServiceImpl implements ProfileService {
         memberRepository.save(requestDto.toEntity(member));
 
         // Kafka 이벤트 발행
-        eventPublisher.send("nickname-updated", MemberNicknameUpdateEvent.toEvent(requestDto));
+        eventPublisher.send(MemberNicknameUpdateEvent.toEvent(requestDto));
     }
 
     /**
@@ -64,6 +63,11 @@ public class ProfileServiceImpl implements ProfileService {
         return !memberRepository.existsMemberByNickname(nickname);
     }
 
+    /**
+     * 프로필 이미지 수정.
+     *
+     * @param requestDto uuid, 프로필 이미지url.
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateProfileImage(ProfileImgUpdateRequestDto requestDto) {
@@ -74,6 +78,6 @@ public class ProfileServiceImpl implements ProfileService {
         memberRepository.save(requestDto.toEntity(member));
 
         // Kafka 이벤트 발행
-        eventPublisher.send("profile-img-updated", MemberProfileImgUpdateEvent.toEvent(requestDto));
+        eventPublisher.send(MemberProfileImgUpdateEvent.toEvent(requestDto));
     }
 }

@@ -31,7 +31,7 @@ public record BaseResponse<T>(HttpStatusCode httpStatus, Boolean isSuccess, Stri
      * @param status 요청 상태
      */
     public BaseResponse(BaseResponseStatus status) {
-        this(status.getHttpStatusCode(), false, status.getMessage(), status.getCode(), null);
+        this(status.getHttpStatusCode(), false, status.getMessage(), status.getCode(), (T) status.getMessage());
     }
 
     /**
@@ -52,7 +52,7 @@ public record BaseResponse<T>(HttpStatusCode httpStatus, Boolean isSuccess, Stri
      * 5. 요청에 실패한 경우 + 에러 메시지 추가.
      * Validation 실패 시 사용.
      *
-     * @param status  요청 상태
+     * @param status       요청 상태
      * @param errorMessage 에러 메시지
      */
     public BaseResponse(BaseResponseStatus status, String errorMessage) {

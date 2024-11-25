@@ -4,12 +4,15 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+@DynamicInsert
 @Getter
 @NoArgsConstructor
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"oauthId", "oauthProvider"})})
@@ -38,7 +41,7 @@ public class Member {
     private String email;
 
     @Comment("회원 닉네임")
-    @Column(nullable = false, length = 15)
+    @Column(nullable = false, length = 15, unique = true)
     private String nickname;
 
     @Comment("가입 일시")
@@ -47,7 +50,8 @@ public class Member {
     private LocalDateTime createdAt;
 
     @Comment("프로필 이미지 URL")
-    @Column(length = 255)
+    @ColumnDefault("'image/198af19d-bbc6-4252-a632-d1a1ccd5c659.webp'")
+    @Column(length = 2083)
     private String profileImageUrl;
 
     @Builder
