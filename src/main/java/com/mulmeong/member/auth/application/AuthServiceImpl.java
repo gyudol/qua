@@ -37,6 +37,7 @@ public class AuthServiceImpl implements AuthService {
     private final RandomNicknameUtil randomNicknameUtil;
     private final EventPublisher eventPublisher;
 
+
     /**
      * 회원가입 및 로그인 겸용(oAtuh only)
      * 이미 회원가입된 경우 바로 토큰 발급, 아닌 경우 회원가입 후 토큰 발급
@@ -60,7 +61,7 @@ public class AuthServiceImpl implements AuthService {
         /* 회원이 아닌 경우 => 회원가입, Read-DB 반영 Kafka 이벤트 발행 */
         // entity로 변환하며 uuid, 랜덤 닉네임 할당
         Member signUpMember = memberRepository.save(requestDto.toEntity(randomNicknameUtil));
-        eventPublisher.send("member-created", MemberCreateEvent.from(signUpMember));
+        eventPublisher.send(MemberCreateEvent.from(signUpMember));
 
         return respondSignIn(signUpMember);
     }
@@ -74,6 +75,7 @@ public class AuthServiceImpl implements AuthService {
      */
     @Override
     public NewAccessTokenResponseDto createNewAccessToken(NewAccessTokenRequestDto requestDto) {
+
         String memberUuid = requestDto.getMemberUuid();
 
         // Refresh Token 조회해 요청값과 비교 => 일치하지 않으면 예외
@@ -96,6 +98,7 @@ public class AuthServiceImpl implements AuthService {
      * @return 조회된 Refresh Token
      */
     private String findRefreshTokenByMemberUuid(String memberUuid) {
+
         String key = TOKEN_PREFIX + memberUuid;
 
         String refreshToken = (String) redisTemplate.opsForValue().get(key);
