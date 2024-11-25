@@ -1,3 +1,5 @@
+import type { Datetime } from "../common";
+
 export interface Member {
   memberUuid: string;
   nickname: string;
@@ -10,4 +12,23 @@ export interface MemberSignInResType {
   member: Member;
   accessToken: string;
   refreshToken: string;
+}
+
+export interface MemberProfile {
+  memberUuid: string;
+  nickname: string;
+  profileImageUrl: string;
+  createdAt: Datetime;
+  point: number;
+  grade: string;
+  equippedBadge: {
+    badgeId: number;
+    badgeName: string;
+    badgeImageUrl: string;
+    badgeDescription: string;
+  };
+  followerCount: number;
+  followingCount: number;
+  feedCount: number;
+  shortsCount: number;
 }
