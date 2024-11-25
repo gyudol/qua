@@ -1,19 +1,15 @@
-import { cn } from "@repo/ui/lib/utils";
+import { cn } from '@repo/ui/lib/utils';
 
 interface CommonLayoutProps {
   className?: string;
   children: React.ReactNode;
 }
 
-const commonStyle = cn("w-full min-w-[320px] max-w-[600px]");
+const commonStyle = cn('w-full min-w-[320px] max-w-[640px]');
 
 //
 function Container({ className, children }: CommonLayoutProps) {
-  return (
-    <div className={cn(commonStyle, "flex flex-col items-center", className)}>
-      {children}
-    </div>
-  );
+  return <div className={cn(commonStyle, className)}>{children}</div>;
 }
 
 //
@@ -44,7 +40,7 @@ function Footer({ className, children }: CommonLayoutProps) {
 // Bnb Navigation Bar
 function Bnb({ className, children }: CommonLayoutProps) {
   return (
-    <nav className={cn(commonStyle, "fixed bottom-0", className)}>
+    <nav className={cn(commonStyle, 'fixed bottom-0', className)}>
       {children}
     </nav>
   );
