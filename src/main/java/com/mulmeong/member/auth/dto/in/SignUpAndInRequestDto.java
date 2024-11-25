@@ -41,6 +41,7 @@ public class SignUpAndInRequestDto {
                 .oauthProvider(oauthProvider)
                 .email(email)
                 .nickname(randomNicknameUtil.generateNickname()) // 랜덤 닉네임(경우의수 840억)
+                .profileImageUrl("image/198af19d-bbc6-4252-a632-d1a1ccd5c659.webp")
                 .build();
     }
 
