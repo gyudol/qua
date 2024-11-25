@@ -77,8 +77,7 @@ public class AuthServiceImpl implements AuthService {
     public NewAccessTokenResponseDto createNewAccessToken(NewAccessTokenRequestDto requestDto) {
 
         String memberUuid = requestDto.getMemberUuid();
-
-        // Refresh Token 조회해 요청값과 비교 => 일치하지 않으면 예외
+        // Refresh Token 조회해 요청 값과 비교 => 일치하지 않으면 예외
         if (!findRefreshTokenByMemberUuid(memberUuid).equals(requestDto.getRefreshToken())) {
             throw new BaseException(BaseResponseStatus.NO_SIGN_IN);
         }
@@ -86,9 +85,9 @@ public class AuthServiceImpl implements AuthService {
         // 발급 -> 저장(리프레쉬 토큰) -> 응답
         String newAccessToken = jwtProvider.generateToken(memberUuid, jwtProperties.getAccessExpireTime());
         String newRefreshToken = jwtProvider.generateToken(memberUuid, jwtProperties.getRefreshExpireTime());
-        saveOrUpdateRefreshToken(memberUuid, requestDto.getRefreshToken());
+        saveOrUpdateRefreshToken(memberUuid, newRefreshToken);
 
-        return new NewAccessTokenResponseDto(requestDto.getMemberUuid(), newAccessToken, newRefreshToken);
+        return new NewAccessTokenResponseDto(memberUuid, newAccessToken, newRefreshToken);
     }
 
     /**
