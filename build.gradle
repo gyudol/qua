@@ -41,7 +41,6 @@ ext {
 dependencies {
 	// Spring Boot Starter
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
 	// Spring Cloud Config
@@ -52,7 +51,6 @@ dependencies {
 	implementation 'org.springframework.kafka:spring-kafka'
 
 	// Database
-	runtimeOnly 'com.mysql:mysql-connector-j'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
 	// Lombok
