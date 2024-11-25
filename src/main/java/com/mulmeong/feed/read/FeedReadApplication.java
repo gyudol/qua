@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class FeedReadApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FeedReadApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(FeedReadApplication.class, args);
+    }
 
 }
