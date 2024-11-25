@@ -35,14 +35,9 @@ public class ShortsCommentRepositoryCustomImpl implements ShortsCommentRepositor
 
         BooleanBuilder builder = new BooleanBuilder();
 
-        Optional.ofNullable(shortsUuid)
-                .ifPresent(code -> builder.and(shortsComment.shortsUuid.eq(shortsUuid)));
-        //삭제된 댓글은 조회X
-        Optional.of(true)
-                .ifPresent(code -> builder.and(shortsComment.status.eq(true)));
-        // 마지막 ID 커서 적용
-        Optional.ofNullable(lastId)
-                .ifPresent(id -> builder.and(shortsComment.id.lt(id)));
+        builder.and(shortsComment.shortsUuid.eq(shortsUuid));
+
+        builder.and(shortsComment.status.eq(true));
 
         if (lastId != null) {
             if (sortBy.equals("latest")) {
