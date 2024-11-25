@@ -19,12 +19,14 @@ public class KafkaConsumer {
     @KafkaListener(topics = "${event.member.pub.topics.member-create.name}",
             containerFactory = "memberCreateEventListener")
     public void handleMemberCreatedEvent(MemberCreateEvent event) {
+        log.info("Consumed 회원 생성 이벤트 : {}", event);
         memberService.createMember(event);
     }
 
     @KafkaListener(topics = "${event.member.pub.topics.nickname-update.name}",
             containerFactory = "nicknameUpdateEventListener")
     public void handleNicknameUpdatedEvent(MemberNicknameUpdateEvent event) {
+        log.info("Consumed 회원 닉네임 변경 이벤트 : {}", event);
         memberService.updateNickname(event);
     }
 
