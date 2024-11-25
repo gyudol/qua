@@ -1,8 +1,9 @@
 package com.mulmeong.feed.api.domain.entity;
 
 import com.mulmeong.feed.api.domain.model.MediaInfo;
+import com.mulmeong.feed.api.domain.model.MediaSubtype;
 import com.mulmeong.feed.api.domain.model.MediaType;
-import java.util.List;
+import java.util.Map;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,11 +19,11 @@ public class FeedMedia {
     private String mediaUuid;
     private String feedUuid;
     private MediaType mediaType;
-    private List<MediaInfo> assets;
+    private Map<MediaSubtype, MediaInfo> assets;
 
     @Builder
     public FeedMedia(String mediaUuid, String feedUuid, MediaType mediaType,
-        List<MediaInfo> assets) {
+        Map<MediaSubtype, MediaInfo> assets) {
 
         this.mediaUuid = mediaUuid;
         this.feedUuid = feedUuid;

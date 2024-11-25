@@ -30,9 +30,11 @@ public class AuthRequiredFeedController {
 
     private final FeedService feedService;
 
-    @Operation(summary = "Feed 생성 API", description = "MediaType: `IMAGE / VIDEO`, "
-        + "MediaSubType: `IMAGE / VIDEO_THUMBNAIL / VIDEO_360 / VIDEO_540 / VIDEO_720 / VIDEO_MP4`,"
-        + " Visibility: `VISIBLE / HIDDEN / REPORTED`")
+    @Operation(summary = "Feed 생성 API", description = """
+        - Visibility: `VISIBLE` / `HIDDEN` / `REPORTED`<br>
+        - MediaType: `IMAGE` / `VIDEO`<br>
+        - MediaSubType: `IMAGE` / `VIDEO_THUMBNAIL` / `VIDEO_360` / `VIDEO_540` / `VIDEO_720` / `VIDEO_MP4`<br><br>
+        - FeedMedia 테이블은 **FE에서 생성한 MediaUUID를 기본키로 설정**하는 것에 주의""")
     @PostMapping
     public BaseResponse<Void> createFeed(@RequestBody @Valid CreateFeedRequestVo requestVo) {
 
@@ -40,7 +42,7 @@ public class AuthRequiredFeedController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "Feed 수정 API", description = "Visibility 상태 수정은 **Feed Visibility 상태 수정 API**에 요청 필요")
+    @Operation(summary = "Feed 수정 API")
     @PutMapping("/{feedUuid}")
     public BaseResponse<Void> updateFeed(
         @PathVariable String feedUuid, @RequestBody UpdateFeedRequestVo requestVo) {
@@ -49,7 +51,7 @@ public class AuthRequiredFeedController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "Feed Visibility 상태 수정 API", description = "Visibility: `VISIBLE / HIDDEN / REPORTED`")
+    @Operation(summary = "Feed Visibility 상태 수정 API", description = "Visibility: `VISIBLE` / `HIDDEN` / `REPORTED`")
     @PutMapping("/{feedUuid}/status")
     public BaseResponse<Void> updateFeedStatus(
         @PathVariable String feedUuid, @RequestBody UpdateFeedStatusRequestVo requestVo) {
