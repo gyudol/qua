@@ -33,7 +33,7 @@ public class ContestServiceImpl implements ContestService {
     private final ContestVoteRepository contestVoteRepository;
 
     private static final String VOTER_SET_KEY = "contest:%d:post:%s:voters";
-    private static final String VOTE_COUNT_KEY = "contest:%d:post:%s:votes";
+    private static final String VOTE_COUNT_KEY = "contest:%d:post:votes";
     private static final int TOP_WINNERS_COUNT = 3;
 
     @Override
@@ -54,20 +54,18 @@ public class ContestServiceImpl implements ContestService {
         String voterSetKey = String.format(VOTER_SET_KEY,
                 voteRequestDto.getContestId(),
                 voteRequestDto.getPostUuid());
-        String voteCountKey = String.format(VOTE_COUNT_KEY,
-                voteRequestDto.getContestId(),
-                voteRequestDto.getPostUuid());
 
-        // 0일 경우 ContestPost 중복 투표
+        String voteCountKey = String.format(VOTE_COUNT_KEY,
+                voteRequestDto.getContestId());
+
+        // 중복 투표 체크: 이미 투표한 유저가 있으면 중복으로 투표할 수 없도록 처리
         Long isNewVote = redisTemplate.opsForSet().add(voterSetKey, memberUuid);
         if (isNewVote == 0) {
             throw new BaseException(BaseResponseStatus.DUPLICATE_VOTE);
         }
 
-        // ZINCRBY 사용하여 Sorted Set에 득표수 증가
         redisTemplate.opsForZSet().incrementScore(voteCountKey, voteRequestDto.getPostUuid(), 1);
 
-        // redis TTL 7일
         redisTemplate.expire(voterSetKey, 7, TimeUnit.DAYS);
         redisTemplate.expire(voteCountKey, 7, TimeUnit.DAYS);
     }
