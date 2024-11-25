@@ -1,3 +1,3 @@
-import FeedTabHeader from "./FeedTabHeader";
+import FeedTabHeader from '../../layouts/FeedTabHeader';
 
 export { FeedTabHeader };

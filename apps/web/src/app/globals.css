@@ -27,11 +27,23 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb)); */
-  background-image: url("/background.png");
+  background-image: url('/background.png');
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
 }
 ::-webkit-scrollbar {
   display: none;
+}
+
+@keyframes gradient-bg {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
