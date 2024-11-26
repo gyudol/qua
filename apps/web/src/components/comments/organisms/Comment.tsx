@@ -85,7 +85,8 @@ export default function Comment<
   if (isCommentLoading || isMemberProfileLoading) return <p>불러오는 중</p>;
   if (commentError || memberProfileError) return <p>Something went wrong!</p>;
 
-  let { profileImageUrl, nickname } = memberProfile!;
+  const { nickname } = memberProfile!;
+  let { profileImageUrl } = memberProfile!;
   const profileUrl = `/profile/${nickname}`;
   const { createdAt } = comment!;
   profileImageUrl = "/dummies/members/member-001.png";

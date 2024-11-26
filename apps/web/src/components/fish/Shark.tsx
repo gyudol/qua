@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function Shark({ size }: { size: number }) {
   return (
@@ -10,7 +10,7 @@ function Shark({ size }: { size: number }) {
       xmlns="http://www.w3.org/2000/svg"
       className="transform scale-x-[-1]"
     >
-      <g clip-path="url(#clip0_2_43893)">
+      <g clipPath="url(#clip0_2_43893)">
         <path
           d="M102.1 88.9663L83.152 85.3603C66.9255 72.2036 70.163 43.2753 83.2315 34.1099C84.7744 34.9048 85.9451 36.4477 86.068 38.4747C87.3796 60.3022 92.832 78.2096 102.1 88.9663Z"
           fill="#59C2E8"

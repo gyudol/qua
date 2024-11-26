@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function OcellarisClownfish({ size }: { size: number }) {
   return (
@@ -10,7 +10,7 @@ function OcellarisClownfish({ size }: { size: number }) {
       xmlns="http://www.w3.org/2000/svg"
       className="transform scale-x-[-1]"
     >
-      <g clip-path="url(#clip0_2_43860)">
+      <g clipPath="url(#clip0_2_43860)">
         <path
           d="M133.536 63.3662C133.359 64.6164 132.936 66.1123 132.304 67.7563C124.358 63.3481 114.555 61.2054 104.706 59.8143C101.515 53.6092 102.474 45.419 108.416 43.5256C109.652 43.5654 110.906 43.6738 112.174 43.8544C125.236 45.7008 134.801 54.4377 133.536 63.3662Z"
           fill="#546370"

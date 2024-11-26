@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function Pufferfish({ size }: { size: number }) {
   return (
@@ -10,7 +10,7 @@ function Pufferfish({ size }: { size: number }) {
       xmlns="http://www.w3.org/2000/svg"
       // className="transform scale-x-[-1]"
     >
-      <g clip-path="url(#clip0_2_42053)">
+      <g clipPath="url(#clip0_2_42053)">
         <path
           d="M13.7177 77.1782C11.4571 75.9251 8.91591 75.257 6.32831 75.257C1.47585 86.2345 1.47585 98.7655 6.32831 109.743C8.91627 109.743 11.4571 109.075 13.7177 107.815C13.7177 107.818 16.003 106.546 18.5457 105.131L18.5461 79.8688L13.7177 77.1782Z"
           fill="#FFB464"

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function Reedfish({ size }: { size: number }) {
   return (
@@ -10,7 +10,7 @@ function Reedfish({ size }: { size: number }) {
       xmlns="http://www.w3.org/2000/svg"
       // className="transform scale-x-[-1] rotate-90"
     >
-      <g clip-path="url(#clip0_2_42892)">
+      <g clipPath="url(#clip0_2_42892)">
         <path
           d="M25.4324 127.851C19.5081 128.868 13.7164 130.84 8.31163 133.78C6.99748 134.495 5.91928 135.42 5.06763 136.475L20.0125 142.912L25.4324 137.521V127.851Z"
           fill="#98B6D1"

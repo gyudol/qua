@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function Hagfish({ size }: { size: number }) {
   return (
@@ -10,7 +10,7 @@ function Hagfish({ size }: { size: number }) {
       xmlns="http://www.w3.org/2000/svg"
       // className="transform scale-x-[-1]"
     >
-      <g clip-path="url(#clip0_2_42210)">
+      <g clipPath="url(#clip0_2_42210)">
         <path
           d="M131.277 73.5454L131.138 78.9653C152.984 79.5221 170.523 97.5029 170.523 119.603C170.523 142.054 152.422 160.254 130.094 160.254L37.7344 154.829L2.69531 114.18C2.69531 148.603 30.4502 176.509 64.6875 176.509H130.094C158.377 176.509 181.305 153.456 181.305 125.019C181.305 96.9804 159.013 74.1777 131.277 73.5454Z"
           fill="#FEF1D4"

@@ -1,5 +1,4 @@
-import * as React from 'react';
-
+import * as React from "react";
 import {
   Select,
   SelectContent,
@@ -8,7 +7,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@repo/ui/shadcn/select';
+} from "@repo/ui/shadcn/select";
 
 export default function SortSelector() {
   return (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function Tilapia({ size }: { size: number }) {
   return (
@@ -10,7 +10,7 @@ function Tilapia({ size }: { size: number }) {
       xmlns="http://www.w3.org/2000/svg"
       className="transform scale-x-[-1]"
     >
-      <g clip-path="url(#clip0_2_43969)">
+      <g clipPath="url(#clip0_2_43969)">
         <path
           d="M54.7356 119.628L64.4264 147.561C64.7809 148.582 64.0857 149.669 63.0093 149.774C41.6595 151.848 25.6278 129.963 29.7292 109.716L54.7356 119.628Z"
           fill="#495560"

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function Eel({ size }: { size: number }) {
   return (
@@ -10,7 +10,7 @@ function Eel({ size }: { size: number }) {
       xmlns="http://www.w3.org/2000/svg"
       // className="transform scale-x-[-1]"
     >
-      <g clip-path="url(#clip0_2_42425)">
+      <g clipPath="url(#clip0_2_42425)">
         <path
           d="M56.6016 94.6972C35.7614 94.6972 18.8672 77.8029 18.8672 56.9628C18.8672 36.4486 35.2374 19.7578 55.6273 19.2406L55.3488 8.46118C26.156 9.1271 2.69531 32.9989 2.69531 62.3516C2.69531 92.1233 26.8299 116.258 56.6016 116.258H67.3828L56.6016 94.6972Z"
           fill="#87A1C1"

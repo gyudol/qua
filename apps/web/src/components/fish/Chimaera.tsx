@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function Chimaera({ size }: { size: number }) {
   return (
@@ -10,7 +10,7 @@ function Chimaera({ size }: { size: number }) {
       xmlns="http://www.w3.org/2000/svg"
       // className="transform scale-x-[-1]"
     >
-      <g clip-path="url(#clip0_2_42939)">
+      <g clipPath="url(#clip0_2_42939)">
         <path
           d="M116.617 67.9297L84.2734 122.129C108.091 122.129 127.398 102.716 127.398 78.7695V67.9297H116.617Z"
           fill="#7587B3"

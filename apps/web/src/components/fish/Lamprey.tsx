@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function Lamprey({ size }: { size: number }) {
   return (
@@ -10,7 +10,7 @@ function Lamprey({ size }: { size: number }) {
       xmlns="http://www.w3.org/2000/svg"
       // className="transform scale-x-[-1]"
     >
-      <g clip-path="url(#clip0_2_42444)">
+      <g clipPath="url(#clip0_2_42444)">
         <path
           d="M131.277 78.5386L131.138 83.9292C152.984 84.483 170.523 102.367 170.523 124.347C170.523 146.677 152.422 164.779 130.094 164.779L108.531 180.945H130.094C158.377 180.945 181.305 158.018 181.305 129.734C181.305 101.847 159.013 79.1675 131.277 78.5386Z"
           fill="#98B6D1"

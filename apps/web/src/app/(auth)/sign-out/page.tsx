@@ -1,7 +1,7 @@
 "use client";
 
-import { CommonLayout } from "@/components/common/atoms";
 import { signOut } from "next-auth/react";
+import { CommonLayout } from "@/components/common/atoms";
 
 export default function LogoutButton() {
   return (

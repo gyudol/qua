@@ -1,16 +1,15 @@
-'use client';
+"use client";
 
-import { ButtonWithAuth, withLink } from '@/components/common/atoms';
-import { alertNotImplemented } from '@/functions/utils';
-import type { BaseFeed, FeedStatistics } from '@/types/contents';
 import {
   BookmarkIcon,
   EllipsisVerticalIcon,
   HeartIcon,
   LucideMessageSquareMore,
-  MessageSquareReply,
   SendIcon,
-} from 'lucide-react';
+} from "lucide-react";
+import { ButtonWithAuth, withLink } from "@/components/common/atoms";
+import { alertNotImplemented } from "@/functions/utils";
+import type { BaseFeed, FeedStatistics } from "@/types/contents";
 
 interface FeedLikeButtonProp extends BaseFeed {
   likeCount: number;
@@ -26,7 +25,7 @@ function FeedLikeButton({ feedUuid, likeCount }: FeedLikeButtonProp) {
       className="flex items-center gap-[8px]"
       onClick={handleClick}
     >
-      <HeartIcon size={'1rem'} color="#B1B1B1" />
+      <HeartIcon size="1rem" color="#B1B1B1" />
       <span className="text-sm text-gray-500">{likeCount}</span>
     </ButtonWithAuth>
   );
@@ -39,7 +38,7 @@ interface FeedCommentButtonProp {
 function FeedCommentButton({ commentCount }: FeedCommentButtonProp) {
   return (
     <div className="flex items-center gap-[8px]">
-      <LucideMessageSquareMore size={'1rem'} color="#B1B1B1" />{' '}
+      <LucideMessageSquareMore size="1rem" color="#B1B1B1" />{" "}
       <span className="text-sm text-gray-500">{commentCount}</span>
     </div>
   );
@@ -54,7 +53,7 @@ function FeedShareButton({ feedUuid }: FeedShareButtonProp) {
 
   return (
     <button type="button" className="flex items-center" onClick={handleClick}>
-      <SendIcon size={'0.95rem'} color="#B1B1B1" />
+      <SendIcon size="0.95rem" color="#B1B1B1" />
     </button>
   );
 }
@@ -68,14 +67,14 @@ function FeedSaveButton({ feedUuid }: FeedSaveButtonProp) {
 
   return (
     <ButtonWithAuth className="flex items-center" onClick={handleClick}>
-      <BookmarkIcon size={'1rem'} color="#B1B1B1" />
+      <BookmarkIcon size="1rem" color="#B1B1B1" />
     </ButtonWithAuth>
   );
 }
 
 type FeedDropdownButtonProp = BaseFeed;
 
-function FeedDropdownButton({ feedUuid }: FeedDropdownButtonProp) {
+function FeedDropdownButton({ feedUuid: _ }: FeedDropdownButtonProp) {
   return <EllipsisVerticalIcon size={16} color="#B1B1B1" />;
 }
 

@@ -1,85 +1,80 @@
-import Anabas from '@/components/fish/Anabas';
-import Butterflyfish from '@/components/fish/Butterflyfish';
-import Chimaera from '@/components/fish/Chimaera';
-import Eel from '@/components/fish/Eel';
-import Hagfish from '@/components/fish/Hagfish';
-import Lamprey from '@/components/fish/Lamprey';
-import OceanSunfish from '@/components/fish/OceanSunfish';
-import OcellarisClownfish from '@/components/fish/OcellarisClownfish';
-import Pufferfish from '@/components/fish/Pufferfish';
-import Ray from '@/components/fish/Ray';
-import Redfish from '@/components/fish/Redfish';
-import Reedfish from '@/components/fish/Reedfish';
-import Shark from '@/components/fish/Shark';
-import Skatefish from '@/components/fish/Skatefish';
-import Snapper from '@/components/fish/Snapper';
-import Tilapia from '@/components/fish/Tilapia';
+import Anabas from "@/components/fish/Anabas";
+import Butterflyfish from "@/components/fish/Butterflyfish";
+import OceanSunfish from "@/components/fish/OceanSunfish";
+import OcellarisClownfish from "@/components/fish/OcellarisClownfish";
+import Pufferfish from "@/components/fish/Pufferfish";
+import Ray from "@/components/fish/Ray";
+import Redfish from "@/components/fish/Redfish";
+import Shark from "@/components/fish/Shark";
+import Skatefish from "@/components/fish/Skatefish";
+import Snapper from "@/components/fish/Snapper";
+import Tilapia from "@/components/fish/Tilapia";
 
 export const fishCategoryData = [
   {
     id: 1,
-    name: 'ocean sunfish',
+    name: "ocean sunfish",
     image: OceanSunfish,
-    url: '/fish/ocean-sunfish',
+    url: "/fish/ocean-sunfish",
   },
   {
     id: 2,
-    name: 'redfish',
+    name: "redfish",
     image: Redfish,
-    url: '/fish/redfish',
+    url: "/fish/redfish",
   },
   {
     id: 3,
-    name: 'shark',
+    name: "shark",
     image: Shark,
-    url: '/fish/shark',
+    url: "/fish/shark",
   },
   {
     id: 4,
-    name: 'tilapia',
+    name: "tilapia",
     image: Tilapia,
-    url: '/fish/tilapia',
+    url: "/fish/tilapia",
   },
   {
     id: 5,
-    name: 'butterflyfish',
+    name: "butterflyfish",
     image: Butterflyfish,
-    url: '/fish/butterflyfish',
+    url: "/fish/butterflyfish",
   },
   {
     id: 6,
-    name: 'skatefish',
+    name: "skatefish",
     image: Skatefish,
-    url: '/fish/skatefish',
+    url: "/fish/skatefish",
   },
   {
     id: 7,
-    name: 'ray',
+    name: "ray",
     image: Ray,
-    url: '/fish/ray',
+    url: "/fish/ray",
   },
   {
     id: 8,
-    name: 'snapper',
+    name: "snapper",
     image: Snapper,
-    url: '/fish/snapper',
+    url: "/fish/snapper",
   },
   {
     id: 9,
-    name: 'anabas',
+    name: "anabas",
     image: Anabas,
-    url: '/fish/anabas',
+    url: "/fish/anabas",
   },
   {
     id: 10,
-    name: 'OcellarisClownfish',
+    name: "OcellarisClownfish",
     image: OcellarisClownfish,
-    url: '/fish/OcellarisClownfish',
+    url: "/fish/OcellarisClownfish",
   },
   {
     id: 11,
-    name: 'pufferfish',
+    name: "pufferfish",
     image: Pufferfish,
-    url: '/fish/pufferfish',
+    url: "/fish/pufferfish",
   },
 ];
