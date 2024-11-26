@@ -68,7 +68,9 @@ interface CommentsReqParam<T extends TargetType, IsRecomment extends boolean>
 type PostCommentParam<
   T extends TargetType,
   IsRecomment extends boolean,
-> = CommentsReqParam<T, IsRecomment> & { body: PostCommentReqBody };
+> = CommentsReqParam<T, IsRecomment> & {
+  body: Omit<PostCommentReqBody, "memberUuid">;
+};
 
 type PutCommentParam<
   T extends TargetType,

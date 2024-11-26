@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion -- must exist */
 "use client";
 
 import {
@@ -19,9 +20,9 @@ import { useState } from "react";
 import { PostedAt } from "@/components/common/atoms";
 import { Profile } from "@/components/profile/molecules";
 import { alertNotImplemented } from "@/functions/utils";
-import type { Member } from "@/types/member";
 import type { CommentReqParam, TargetType } from "@/types/comment-service";
 import { DeleteComment, GetComment } from "@/actions/comment-service";
+import { getMemberProfile } from "@/actions/member-read-service";
 
 type CommentProp<
   T extends TargetType,
@@ -37,6 +38,8 @@ export default function Comment<
   commentUuid,
   recommentUuid,
 }: CommentProp<T, IsRecomment>) {
+  const [isDeleted, setIsDeleted] = useState(false);
+
   const deleteComment = useMutation({
     mutationFn: () =>
       DeleteComment<T, IsRecomment>({
@@ -46,12 +49,20 @@ export default function Comment<
       }),
   });
 
-  const [isDeleted, setIsDeleted] = useState(false);
+  function handleDelete() {
+    deleteComment.mutate();
+    setIsDeleted(true);
+  }
 
-  const commentUuidKey = `${targetType}__${isRecomment ? "recomment" : "comment"}--${commentUuid || recommentUuid}`;
-
-  const { data: comment, isLoading } = useQuery({
-    queryKey: ["comment", commentUuidKey],
+  const {
+    data: comment,
+    isLoading: isCommentLoading,
+    error: commentError,
+  } = useQuery({
+    queryKey: [
+      `${targetType}__${isRecomment ? "recomment" : "comment"}`,
+      commentUuid || recommentUuid,
+    ],
     queryFn: async () =>
       GetComment<T, IsRecomment>({
         targetType,
@@ -61,42 +72,23 @@ export default function Comment<
       }),
   });
 
-  // const { data: memberDetails, isLoading: isDetailsLoading, isError: isDetailsError } = useQuery(
-  //   ['memberDetails', memberUuid],
-  //   () => fetchMemberDetails(memberUuid),
-  //   {
-  //     enabled: !!memberUuid,  // memberUuid가 있을 때만 요청
-  //   }
-  // );
+  const {
+    data: memberProfile,
+    isLoading: isMemberProfileLoading,
+    error: memberProfileError,
+  } = useQuery({
+    queryKey: ["memberProfile", comment?.memberUuid],
+    queryFn: async () => getMemberProfile({ memberUuid: comment?.memberUuid }),
+    enabled: Boolean(comment?.memberUuid),
+  });
 
-  // const comment: Omit<CommentType<T, IsRecomment>, "commentUuid"> =
-  //   {
-  //     memberUuid: "member-001",
-  //     content: "물코기는 사랑데스",
-  //     createdAt: "2024-01-01 00:00:00",
-  //     updatedAt: "2024-01-01 00:00:00",
-  //   };
+  if (isCommentLoading || isMemberProfileLoading) return <p>불러오는 중</p>;
+  if (commentError || memberProfileError) return <p>Something went wrong!</p>;
 
-  const memberUuid = comment?.memberUuid || "member-001";
-
-  const { profileImageUrl, nickname }: Member = {
-    memberUuid,
-    profileImageUrl: `/dummies/members/${comment?.memberUuid}.png`,
-    nickname: "나만없어_fish",
-    grade: "",
-  };
-
-  const profileUrl = `/profile/${memberUuid}`;
-
-  if (isLoading) return <div>불러오는 중</div>;
-
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- must exist
+  let { profileImageUrl, nickname } = memberProfile!;
+  const profileUrl = `/profile/${nickname}`;
   const { createdAt } = comment!;
-
-  function handleDelete() {
-    deleteComment.mutate();
-    setIsDeleted(true);
-  }
+  profileImageUrl = "/dummies/members/member-001.png";
 
   if (isDeleted) return <div>삭제되었습니다</div>;
 

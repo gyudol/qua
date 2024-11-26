@@ -33,6 +33,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         onClick={onClose}
         aria-hidden="true"
       />
+      
       <aside
         className={`fixed inset-y-0 left-0 z-50 w-full transform overflow-hidden p-4 transition-transform duration-300 ease-in-out ${
           open ? 'translate-x-0' : '-translate-x-full'
