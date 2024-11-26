@@ -61,6 +61,9 @@ dependencies {
     implementation('com.querydsl:querydsl-mongodb') {
         exclude group: 'org.mongodb', module: 'mongo-java-driver'
     }
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 
 dependencyManagement {

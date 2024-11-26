@@ -17,88 +17,76 @@ public class KafkaConsumer {
     private final ShortsRecommentService shortsRecommentService;
 
     //feed comment
-    @KafkaListener(topics = "feed-comment-created",
-                   groupId = "comment-read",
+    @KafkaListener(topics = "${event.comment.pub.topics.feed-comment-create.name}",
                    containerFactory = "feedCommentCreateListener")
     public void createFeedComment(FeedCommentCreateEvent message) {
         feedCommentService.createFeedComment(message);
     }
 
-    @KafkaListener(topics = "feed-comment-updated",
-                   groupId = "comment-read",
+    @KafkaListener(topics = "${event.comment.pub.topics.feed-comment-update.name}",
                    containerFactory = "feedCommentUpdateListener")
     public void updateFeedComment(FeedCommentUpdateEvent message) {
         feedCommentService.updateFeedComment(message);
     }
 
-    @KafkaListener(topics = "feed-comment-deleted",
-                   groupId = "comment-read",
+    @KafkaListener(topics = "${event.comment.pub.topics.feed-comment-delete.name}",
                    containerFactory = "feedCommentDeleteListener")
     public void deleteFeedComment(FeedCommentDeleteEvent message) {
         feedCommentService.deleteFeedComment(message);
     }
 
     //feed recomment
-    @KafkaListener(topics = "feed-recomment-created",
-                   groupId = "comment-read",
+    @KafkaListener(topics = "${event.comment.pub.topics.feed-recomment-create.name}",
                    containerFactory = "feedRecommentCreateListener")
     public void createFeedRecomment(FeedRecommentCreateEvent message) {
         feedRecommentService.createFeedRecomment(message);
     }
 
-    @KafkaListener(topics = "feed-recomment-updated",
-                   groupId = "comment-read",
+    @KafkaListener(topics = "${event.comment.pub.topics.feed-recomment-update.name}",
                    containerFactory = "feedRecommentUpdateListener")
     public void updateFeedRecomment(FeedRecommentUpdateEvent message) {
         feedRecommentService.updateFeedRecomment(message);
     }
 
-    @KafkaListener(topics = "feed-recomment-deleted",
-                   groupId = "comment-read",
+    @KafkaListener(topics = "${event.comment.pub.topics.feed-recomment-delete.name}",
                    containerFactory = "feedRecommentDeleteListener")
     public void deleteFeedRecomment(FeedRecommentDeleteEvent message) {
         feedRecommentService.deleteFeedRecomment(message);
     }
 
     //shorts comment
-    @KafkaListener(topics = "shorts-comment-created",
-                   groupId = "comment-read",
+    @KafkaListener(topics = "${event.comment.pub.topics.shorts-comment-create.name}",
                    containerFactory = "shortsCommentCreateListener")
     public void createShortsComment(ShortsCommentCreateEvent message) {
         shortsCommentService.createShortsComment(message);
     }
 
-    @KafkaListener(topics = "shorts-comment-updated",
-                   groupId = "comment-read",
+    @KafkaListener(topics = "${event.comment.pub.topics.shorts-comment-update.name}",
                    containerFactory = "shortsCommentUpdateListener")
     public void updateShortsComment(ShortsCommentUpdateEvent message) {
         shortsCommentService.updateShortsComment(message);
     }
 
-    @KafkaListener(topics = "shorts-comment-deleted",
-                   groupId = "comment-read",
+    @KafkaListener(topics = "${event.comment.pub.topics.shorts-comment-delete.name}",
                    containerFactory = "shortsCommentDeleteListener")
     public void deleteShortsComment(ShortsCommentDeleteEvent message) {
         shortsCommentService.deleteShortsComment(message);
     }
 
     //shorts recomment
-    @KafkaListener(topics = "shorts-recomment-created",
-                   groupId = "comment-read",
+    @KafkaListener(topics = "${event.comment.pub.topics.shorts-recomment-create.name}",
                    containerFactory = "shortsRecommentCreateListener")
     public void createShortsRecomment(ShortsRecommentCreateEvent message) {
         shortsRecommentService.createShortsRecomment(message);
     }
 
-    @KafkaListener(topics = "shorts-recomment-updated",
-                   groupId = "comment-read",
+    @KafkaListener(topics = "${event.comment.pub.topics.shorts-recomment-update.name}",
                    containerFactory = "shortsRecommentUpdateListener")
     public void updateShortsRecomment(ShortsRecommentUpdateEvent message) {
         shortsRecommentService.updateShortsRecomment(message);
     }
 
-    @KafkaListener(topics = "shorts-recomment-deleted",
-                   groupId = "comment-read",
+    @KafkaListener(topics = "${event.comment.pub.topics.shorts-recomment-delete.name}",
                    containerFactory = "feedRecommentDeleteListener")
     public void deleteShortsRecomment(ShortsRecommentDeleteEvent message) {
         shortsRecommentService.deleteShortsRecomment(message);
