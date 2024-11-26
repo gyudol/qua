@@ -19,7 +19,7 @@ public class ContestResult {
     @Column(nullable = false, length = 36)
     private String postUuid;
     private Long voteCount;
-    private Byte ranking;
+    private Integer ranking;
 
 
     @Builder
@@ -27,7 +27,7 @@ public class ContestResult {
             Long contestId,
             String postUuid,
             Long voteCount,
-            Byte ranking
+            Integer ranking
     ) {
         this.contestId = contestId;
         this.postUuid = postUuid;

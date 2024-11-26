@@ -114,7 +114,7 @@ public class BatchConfig {
             }
 
             List<ContestResult> results = new ArrayList<>();
-            byte rank = 1;
+            int rank = 1;
             // Redis에서 조회한 데이터로 순위 부여
             for (ZSetOperations.TypedTuple<String> entry : voteData) {
                 String postUuid = entry.getValue();
