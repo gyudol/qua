@@ -1,5 +1,11 @@
 import type { Datetime } from "../common";
 
+export type MemberUuid = string;
+
+export interface MemberReq {
+  memberUuid: string;
+}
+
 export interface Member {
   memberUuid: string;
   nickname: string;
