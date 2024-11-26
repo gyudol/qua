@@ -1,14 +1,17 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
+import { getServerSession } from "next-auth";
 import type { ResponseType, ResultType } from "@/types/common";
+import { options } from "@/app/api/auth/[...nextauth]/authOption";
+import type { MemberSignInResType } from "@/types/member";
 
 interface ProcessResponseParam {
   res: Response;
   revalidatedTags?: string | string[];
 }
 
-export default async function processResponse<T, IsPagination extends boolean>({
+export async function processResponse<T, IsPagination extends boolean>({
   res,
   revalidatedTags,
 }: ProcessResponseParam) {
@@ -30,4 +33,21 @@ export default async function processResponse<T, IsPagination extends boolean>({
   }
 
   return result as ResultType<T, IsPagination>;
+}
+
+export async function getSessionMemberUuid() {
+  const session = await getServerSession(options);
+  if (session?.user) {
+    const { memberUuid } = session.user as MemberSignInResType;
+    return memberUuid;
+  }
+  return "";
+}
+
+export async function getHeaders() {
+  const headers = { "Content-Type": "application/json" };
+  return {
+    ...headers,
+    "Member-Uuid": await getSessionMemberUuid(),
+  };
 }

@@ -25,8 +25,6 @@ export default function CommentInput<
   const [isFocused, setIsFocused] = useState(false);
   const [content, setContent] = useState("");
 
-  const memberUuid = "member-001";
-
   const addComment = useMutation({
     mutationFn: (newContent: string) =>
       PostComment<T, IsRecomment>({
@@ -35,7 +33,7 @@ export default function CommentInput<
         feedUuid,
         shortsUuid,
         commentUuid,
-        body: { memberUuid, content: newContent },
+        body: { content: newContent },
       }),
   });
 

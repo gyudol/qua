@@ -1,13 +1,13 @@
 "use client";
 
-import { ButtonWithAuth, withLink } from "@/components/common/atoms";
 import {
-  Comment,
-  Ellipsis,
-  Heart,
-  Save,
-  Share,
-} from "@/components/common/icons";
+  BookmarkIcon,
+  EllipsisVerticalIcon,
+  HeartIcon,
+  LucideMessageSquareMore,
+  SendIcon,
+} from "lucide-react";
+import { ButtonWithAuth, withLink } from "@/components/common/atoms";
 import { alertNotImplemented } from "@/functions/utils";
 import type { BaseFeed, FeedStatistics } from "@/types/contents";
 
@@ -25,8 +25,8 @@ function FeedLikeButton({ feedUuid, likeCount }: FeedLikeButtonProp) {
       className="flex items-center gap-[8px]"
       onClick={handleClick}
     >
-      <Heart fill="none" />
-      <span>{likeCount}</span>
+      <HeartIcon size="1rem" color="#B1B1B1" />
+      <span className="text-sm text-gray-500">{likeCount}</span>
     </ButtonWithAuth>
   );
 }
@@ -38,7 +38,8 @@ interface FeedCommentButtonProp {
 function FeedCommentButton({ commentCount }: FeedCommentButtonProp) {
   return (
     <div className="flex items-center gap-[8px]">
-      <Comment /> <span>{commentCount}</span>
+      <LucideMessageSquareMore size="1rem" color="#B1B1B1" />{" "}
+      <span className="text-sm text-gray-500">{commentCount}</span>
     </div>
   );
 }
@@ -52,7 +53,7 @@ function FeedShareButton({ feedUuid }: FeedShareButtonProp) {
 
   return (
     <button type="button" className="flex items-center" onClick={handleClick}>
-      <Share />
+      <SendIcon size="0.95rem" color="#B1B1B1" />
     </button>
   );
 }
@@ -66,23 +67,15 @@ function FeedSaveButton({ feedUuid }: FeedSaveButtonProp) {
 
   return (
     <ButtonWithAuth className="flex items-center" onClick={handleClick}>
-      <Save />
+      <BookmarkIcon size="1rem" color="#B1B1B1" />
     </ButtonWithAuth>
   );
 }
 
 type FeedDropdownButtonProp = BaseFeed;
 
-function FeedDropdownButton({ feedUuid }: FeedDropdownButtonProp) {
-  function handleClick() {
-    alertNotImplemented({ tag: `${feedUuid}-dropdown: ` });
-  }
-
-  return (
-    <button type="button" className="flex items-center" onClick={handleClick}>
-      <Ellipsis />
-    </button>
-  );
+function FeedDropdownButton({ feedUuid: _ }: FeedDropdownButtonProp) {
+  return <EllipsisVerticalIcon size={16} color="#B1B1B1" />;
 }
 
 export const FeedButton = {
@@ -99,21 +92,25 @@ export default function FeedButtonGroup({
   commentCount,
 }: FeedStatistics) {
   return (
-    <div className="flex justify-between">
-      <div className="flex gap-[24px]">
-        <div className="flex gap-[8px]">
-          <FeedButton.Like {...{ feedUuid, likeCount }} />
-        </div>
-        <div className="flex gap-[8px]">
-          <FeedButton.Comment
-            {...{ href: `/feeds/${feedUuid}#comments`, commentCount }}
-          />
-        </div>
-        <FeedButton.Share {...{ feedUuid }} />
-      </div>
-      <div>
-        <FeedButton.Save {...{ feedUuid }} />
-      </div>
-    </div>
+    <nav>
+      <ul className="flex justify-between">
+        <ul className="flex items-center gap-[1.2rem]">
+          <li className="flex items-center gap-[4px]">
+            <FeedButton.Like {...{ feedUuid, likeCount }} />
+          </li>
+          <li className="flex items-center gap-[4px]">
+            <FeedButton.Comment
+              {...{ href: `/feeds/${feedUuid}#comments`, commentCount }}
+            />
+          </li>
+          <li>
+            <FeedButton.Share {...{ feedUuid }} />
+          </li>
+        </ul>
+        <li>
+          <FeedButton.Save {...{ feedUuid }} />
+        </li>
+      </ul>
+    </nav>
   );
 }

@@ -26,3 +26,11 @@ export type Datetime =
   `${string}-${string}-${string} ${string}:${string}:${string}`;
 
 export type CommonPaginationRes<T> = CommonRes<Pagination<T>>;
+
+export interface CommonPaginationReq {
+  nextCursor?: string;
+  pageSize?: number;
+  pageNo?: number;
+}
+
+export type EmptyObject = Record<string, never>;
