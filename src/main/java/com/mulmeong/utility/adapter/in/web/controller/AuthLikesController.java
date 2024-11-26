@@ -41,7 +41,7 @@ public class AuthLikesController {
     public BaseResponse<CursorPage<String>> getLikes(
             @RequestHeader("Member-Uuid") String memberUuid,
             @PathVariable("kind") String kind,
-            @RequestParam(value = "lastId", required = false) String lastId,
+            @RequestParam(value = "nextCursor", required = false) String lastId,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
             @RequestParam(value = "pageNo", defaultValue = "0") int pageNo) {
 
