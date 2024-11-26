@@ -9,5 +9,5 @@ public interface ContestPostRepository extends JpaRepository<ContestPost, Long> 
 
     boolean existsByContestIdAndMemberUuid(Long contestId, String memberUuid);
 
-    List<ContestPost> findAllByContestId(Long contestId);
+    List<ContestPost> getAllByContestId(Long contestId);
 }
