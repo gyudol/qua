@@ -1,12 +1,10 @@
 package com.mulmeong.comment.read.application;
 
 import com.mulmeong.comment.read.common.utils.CursorPage;
-import com.mulmeong.comment.read.dto.out.FeedCommentResponseDto;
 import com.mulmeong.comment.read.dto.out.ShortsCommentResponseDto;
-import com.mulmeong.event.ShortsCommentCreateEvent;
-import com.mulmeong.event.ShortsCommentDeleteEvent;
-import com.mulmeong.event.ShortsCommentUpdateEvent;
-import org.bouncycastle.util.Shorts;
+import com.mulmeong.event.comment.ShortsCommentCreateEvent;
+import com.mulmeong.event.comment.ShortsCommentDeleteEvent;
+import com.mulmeong.event.comment.ShortsCommentUpdateEvent;
 
 public interface ShortsCommentService {
 

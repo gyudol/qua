@@ -2,9 +2,9 @@ package com.mulmeong.comment.read.application;
 
 import com.mulmeong.comment.read.common.utils.CursorPage;
 import com.mulmeong.comment.read.dto.out.FeedRecommentResponseDto;
-import com.mulmeong.event.FeedRecommentCreateEvent;
-import com.mulmeong.event.FeedRecommentDeleteEvent;
-import com.mulmeong.event.FeedRecommentUpdateEvent;
+import com.mulmeong.event.comment.FeedRecommentCreateEvent;
+import com.mulmeong.event.comment.FeedRecommentDeleteEvent;
+import com.mulmeong.event.comment.FeedRecommentUpdateEvent;
 
 public interface FeedRecommentService {
 

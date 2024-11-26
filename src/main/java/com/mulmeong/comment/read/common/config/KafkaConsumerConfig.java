@@ -3,7 +3,7 @@ package com.mulmeong.comment.read.common.config;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mulmeong.event.*;
+import com.mulmeong.event.comment.*;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -88,7 +88,7 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-        props.put(JsonDeserializer.TRUSTED_PACKAGES, "com.mulmeong.event");
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "com.mulmeong.event.comment");
         props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, messageType);
         return new DefaultKafkaConsumerFactory<>(props);
     }

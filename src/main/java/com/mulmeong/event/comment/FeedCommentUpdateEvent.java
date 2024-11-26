@@ -1,17 +1,20 @@
-package com.mulmeong.event;
+package com.mulmeong.event.comment;
 
 import com.mulmeong.comment.read.entity.FeedComment;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Getter
 @NoArgsConstructor
-public class FeedCommentDeleteEvent {
+public class FeedCommentUpdateEvent {
 
     private String commentUuid;
-    private boolean status;
+    private String content;
+    private LocalDateTime updatedAt;
 
     public FeedComment toEntity(FeedComment feedComment) {
         return FeedComment.builder()
@@ -19,13 +22,14 @@ public class FeedCommentDeleteEvent {
                 .feedUuid(feedComment.getFeedUuid())
                 .memberUuid(feedComment.getMemberUuid())
                 .commentUuid(commentUuid)
-                .content(feedComment.getContent())
-                .status(status)
+                .content(content)
+                .status(feedComment.isStatus())
                 .createdAt(feedComment.getCreatedAt())
-                .updatedAt(feedComment.getUpdatedAt())
+                .updatedAt(updatedAt)
                 .likeCount(feedComment.getLikeCount())
                 .dislikeCount(feedComment.getDislikeCount())
                 .recommentCount(feedComment.getRecommentCount())
                 .build();
     }
+
 }

@@ -1,6 +1,7 @@
-package com.mulmeong.event;
+package com.mulmeong.event.comment;
 
-import com.mulmeong.comment.read.entity.ShortsComment;
+
+import com.mulmeong.comment.read.entity.FeedRecomment;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,30 +11,27 @@ import java.time.LocalDateTime;
 @Data
 @Getter
 @NoArgsConstructor
-public class ShortsCommentCreateEvent {
+public class FeedRecommentCreateEvent {
 
-    private String shortsUuid;
     private String memberUuid;
     private String commentUuid;
-    private boolean status;
+    private String recommentUuid;
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Integer likeCount;
     private Integer dislikeCount;
 
-    public ShortsComment toEntity() {
-        return ShortsComment.builder()
-                .shortsUuid(shortsUuid)
+    public FeedRecomment toEntity() {
+        return FeedRecomment.builder()
                 .memberUuid(memberUuid)
                 .commentUuid(commentUuid)
+                .recommentUuid(recommentUuid)
                 .content(content)
-                .status(status)
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)
                 .likeCount(likeCount)
                 .dislikeCount(dislikeCount)
-                .recommentCount(0)
                 .build();
     }
 

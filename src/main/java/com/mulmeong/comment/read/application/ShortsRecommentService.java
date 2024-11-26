@@ -2,7 +2,9 @@ package com.mulmeong.comment.read.application;
 
 import com.mulmeong.comment.read.common.utils.CursorPage;
 import com.mulmeong.comment.read.dto.out.ShortsRecommentResponseDto;
-import com.mulmeong.event.*;
+import com.mulmeong.event.comment.ShortsRecommentCreateEvent;
+import com.mulmeong.event.comment.ShortsRecommentDeleteEvent;
+import com.mulmeong.event.comment.ShortsRecommentUpdateEvent;
 
 public interface ShortsRecommentService {
 
