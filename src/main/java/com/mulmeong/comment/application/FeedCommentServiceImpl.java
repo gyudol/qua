@@ -2,14 +2,15 @@ package com.mulmeong.comment.application;
 
 import com.mulmeong.comment.common.exception.BaseException;
 import com.mulmeong.comment.common.response.BaseResponseStatus;
-import com.mulmeong.comment.common.utils.CursorPage;
 import com.mulmeong.comment.dto.in.FeedCommentDeleteDto;
 import com.mulmeong.comment.dto.in.FeedCommentRequestDto;
 import com.mulmeong.comment.dto.in.FeedCommentUpdateDto;
-import com.mulmeong.event.*;
 import com.mulmeong.comment.dto.out.FeedCommentResponseDto;
 import com.mulmeong.comment.entity.FeedComment;
 import com.mulmeong.comment.infrastructure.FeedCommentRepository;
+import com.mulmeong.event.comment.FeedCommentCreateEvent;
+import com.mulmeong.event.comment.FeedCommentDeleteEvent;
+import com.mulmeong.event.comment.FeedCommentUpdateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class FeedCommentServiceImpl implements FeedCommentService {
     @Transactional
     public void createFeedComment(FeedCommentRequestDto requestDto) {
         FeedComment feedComment = feedCommentRepository.save(requestDto.toEntity());
-        eventPublisher.send("feed-comment-create", FeedCommentCreateEvent.toDto(feedComment));
+        eventPublisher.send(FeedCommentCreateEvent.toDto(feedComment));
     }
 
     @Override
@@ -42,7 +43,7 @@ public class FeedCommentServiceImpl implements FeedCommentService {
         }
         LocalDateTime updatedAt = feedComment.getUpdatedAt();
         feedCommentRepository.save(updateDto.toEntity(feedComment));
-        eventPublisher.send("feed-comment-update", FeedCommentUpdateEvent.toDto(feedComment, updatedAt));
+        eventPublisher.send(FeedCommentUpdateEvent.toDto(feedComment, updatedAt));
     }
 
     @Override
@@ -54,7 +55,7 @@ public class FeedCommentServiceImpl implements FeedCommentService {
             throw new BaseException(BaseResponseStatus.NO_DELETE_COMMENT_AUTHORITY);
         }
         FeedComment deletedComment = feedCommentRepository.save(FeedCommentDeleteDto.toEntity(feedComment));
-        eventPublisher.send("feed-comment-delete", FeedCommentDeleteEvent.toDto(deletedComment));
+        eventPublisher.send(FeedCommentDeleteEvent.toDto(deletedComment));
     }
 
     @Override

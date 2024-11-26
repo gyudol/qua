@@ -2,16 +2,15 @@ package com.mulmeong.comment.application;
 
 import com.mulmeong.comment.common.exception.BaseException;
 import com.mulmeong.comment.common.response.BaseResponseStatus;
-import com.mulmeong.comment.common.utils.CursorPage;
 import com.mulmeong.comment.dto.in.FeedRecommentRequestDto;
 import com.mulmeong.comment.dto.in.FeedRecommentUpdateDto;
 import com.mulmeong.comment.dto.out.FeedRecommentResponseDto;
 import com.mulmeong.comment.entity.FeedRecomment;
 import com.mulmeong.comment.infrastructure.FeedCommentRepository;
 import com.mulmeong.comment.infrastructure.FeedRecommentRepository;
-import com.mulmeong.event.FeedRecommentCreateEvent;
-import com.mulmeong.event.FeedRecommentDeleteEvent;
-import com.mulmeong.event.FeedRecommentUpdateEvent;
+import com.mulmeong.event.comment.FeedRecommentCreateEvent;
+import com.mulmeong.event.comment.FeedRecommentDeleteEvent;
+import com.mulmeong.event.comment.FeedRecommentUpdateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
             throw new BaseException(BaseResponseStatus.NO_EXIST_COMMENT);
         }
         FeedRecomment feedRecomment = feedRecommentRepository.save(requestDto.toEntity());
-        eventPublisher.send("feed-recomment-create", FeedRecommentCreateEvent.toDto(feedRecomment));
+        eventPublisher.send(FeedRecommentCreateEvent.toDto(feedRecomment));
     }
 
     @Override
@@ -48,7 +47,7 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
         }
         LocalDateTime updatedAt = feedRecomment.getUpdatedAt();
         feedRecommentRepository.save(updateDto.toEntity(feedRecomment));
-        eventPublisher.send("feed-recomment-update", FeedRecommentUpdateEvent.toDto(feedRecomment, updatedAt));
+        eventPublisher.send(FeedRecommentUpdateEvent.toDto(feedRecomment, updatedAt));
     }
 
     @Override
@@ -61,7 +60,7 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
         }
 
         feedRecommentRepository.delete(feedRecomment);
-        eventPublisher.send("feed-recomment-delete", FeedRecommentDeleteEvent.toDto(recommentUuid));
+        eventPublisher.send(FeedRecommentDeleteEvent.toDto(recommentUuid));
 
     }
 
