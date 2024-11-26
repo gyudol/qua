@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/v1/members")
@@ -18,26 +16,6 @@ import java.util.List;
 public class FollowController {
 
     private final FollowUseCase followUseCase;
-
-    @Operation(summary = "source -> target 팔로우", tags = {"follow Service"})
-    @PostMapping("/{sourceUuid}/following/{targetUuid}")
-    public BaseResponse<Void> follow(@PathVariable String sourceUuid, @PathVariable String targetUuid) {
-        followUseCase.follow(new FollowRequestDto(sourceUuid, targetUuid));
-        return new BaseResponse<>();
-    }
-
-    @Operation(summary = "source -> target 팔로우 삭제", tags = {"follow Service"})
-    @DeleteMapping("/{sourceUuid}/following/{targetUuid}")
-    public BaseResponse<Void> unfollow(@PathVariable String sourceUuid, @PathVariable String targetUuid) {
-        followUseCase.unfollow(new FollowRequestDto(sourceUuid, targetUuid));
-        return new BaseResponse<>();
-    }
-
-    @Operation(summary = "source -> target 팔로우 상태 조회", tags = {"follow Service"})
-    @GetMapping("/{sourceUuid}/follow-status/{targetUuid}")
-    public BaseResponse<Boolean> getFollowStatus(@PathVariable String sourceUuid, @PathVariable String targetUuid) {
-        return new BaseResponse<>(followUseCase.followStatus(new FollowRequestDto(sourceUuid, targetUuid)));
-    }
 
     @Operation(summary = "해당 member의 팔로워 조회", tags = {"follow Service"})
     @GetMapping("/{memberUuid}/followers")

@@ -4,7 +4,7 @@ import com.mulmeong.utility.adapter.in.web.vo.FeedBookmarkRequestVo;
 import com.mulmeong.utility.adapter.in.web.vo.ShortsBookmarkRequestVo;
 import com.mulmeong.utility.application.port.in.BookmarkUseCase;
 import com.mulmeong.utility.application.port.in.dto.BookmarkRequestDto;
-import com.mulmeong.utility.application.port.out.dto.FeedBookmarkResponseDto;
+import com.mulmeong.utility.application.port.in.dto.LikesRequestDto;
 import com.mulmeong.utility.common.response.BaseResponse;
 import com.mulmeong.utility.common.utils.CursorPage;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,13 +12,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/v1/members")
+@RequestMapping("/auth/v1/members")
 @RestController
-public class BookmarkController {
+public class AuthBookmarkController {
 
     private final BookmarkUseCase bookmarkUseCase;
 
@@ -50,6 +48,15 @@ public class BookmarkController {
         return new BaseResponse<>(bookmarkUseCase.getFeedBookmarks(memberUuid, lastId, pageSize, pageNo));
     }
 
+    @Operation(summary = "피드 북마크 상태 조회", tags = {"Bookmark Service"})
+    @GetMapping("/feeds/{feedUuid}/bookmarks")
+    public BaseResponse<Boolean> feedBookmarkStatus(
+            @RequestHeader("Member-Uuid") String memberUuid, @PathVariable String feedUuid) {
+
+        return new BaseResponse<>(bookmarkUseCase.feedBookmarkChecked(new BookmarkRequestDto(memberUuid, feedUuid)));
+
+    }
+
     @Operation(summary = "쇼츠 북마크 추가", tags = {"Bookmark Service"})
     @PostMapping("/shorts/bookmarks")
     public BaseResponse<Void> addShortsBookmark(
@@ -77,4 +84,16 @@ public class BookmarkController {
 
         return new BaseResponse<>(bookmarkUseCase.getShortsBookmarks(memberUuid, lastId, pageSize, pageNo));
     }
+
+    @Operation(summary = "쇼츠 북마크 상태 조회", tags = {"Bookmark Service"})
+    @GetMapping("/shorts/{shortsUuid}/bookmarks")
+    public BaseResponse<Boolean> shortsBookmarkStatus(
+            @RequestHeader("Member-Uuid") String memberUuid, @PathVariable String shortsUuid) {
+
+        return new BaseResponse<>(
+                bookmarkUseCase.shortsBookmarkChecked(new BookmarkRequestDto(memberUuid, shortsUuid)));
+
+    }
+
+
 }

@@ -1,7 +1,6 @@
 package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository.bookmarkRepository;
 
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.FeedBookmarkEntity;
-import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.QFeedBookmarkEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.ShortsBookmarkEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.mapper.BookmarkEntityMapper;
 import com.mulmeong.utility.application.port.in.dto.BookmarkRequestDto;
@@ -11,20 +10,15 @@ import com.mulmeong.utility.application.port.out.dto.ShortsBookmarkResponseDto;
 import com.mulmeong.utility.common.exception.BaseException;
 import com.mulmeong.utility.common.response.BaseResponseStatus;
 import com.mulmeong.utility.common.utils.CursorPage;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Repository
@@ -85,6 +79,13 @@ public class BookmarkRepository implements BookmarkPort {
     }
 
     @Override
+    public boolean feedBookmarkExists(BookmarkRequestDto requestDto) {
+        return feedBookmarkMongoRepository
+                .existsByMemberUuidAndFeedUuid(requestDto.getMemberUuid(), requestDto.getBookmarkUuid());
+
+    }
+
+    @Override
     public void addShortsBookmark(ShortsBookmarkResponseDto responseDto) {
         if (shortsBookmarkMongoRepository.existsByMemberUuidAndShortsUuid(
                 responseDto.getMemberUuid(), responseDto.getShortsUuid())) {
@@ -131,4 +132,11 @@ public class BookmarkRepository implements BookmarkPort {
                 .pageNo(pageNo)
                 .build();
     }
+
+    @Override
+    public boolean shortsBookmarkExists(BookmarkRequestDto requestDto) {
+        return shortsBookmarkMongoRepository
+                .existsByMemberUuidAndShortsUuid(requestDto.getMemberUuid(), requestDto.getBookmarkUuid());
+    }
+
 }

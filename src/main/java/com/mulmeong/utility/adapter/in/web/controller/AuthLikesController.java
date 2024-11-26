@@ -2,22 +2,19 @@ package com.mulmeong.utility.adapter.in.web.controller;
 
 import com.mulmeong.utility.adapter.in.web.vo.LikesRequestVo;
 import com.mulmeong.utility.application.port.in.LikesUseCase;
-import com.mulmeong.utility.application.port.in.dto.LikesListRequestDto;
 import com.mulmeong.utility.application.port.in.dto.LikesRequestDto;
 import com.mulmeong.utility.common.response.BaseResponse;
-import com.mulmeong.utility.common.response.BaseResponseStatus;
 import com.mulmeong.utility.common.utils.CursorPage;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/v1/members")
+@RequestMapping("/auth/v1/members")
 @RestController
-public class LikesController {
+public class AuthLikesController {
 
     private final LikesUseCase likesUseCase;
 
@@ -44,7 +41,7 @@ public class LikesController {
     public BaseResponse<CursorPage<String>> getLikes(
             @RequestHeader("Member-Uuid") String memberUuid,
             @PathVariable("kind") String kind,
-            @RequestParam(value = "lastId", required = false) String lastId,
+            @RequestParam(value = "nextCursor", required = false) String lastId,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
             @RequestParam(value = "pageNo", defaultValue = "0") int pageNo) {
 

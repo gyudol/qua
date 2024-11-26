@@ -15,9 +15,13 @@ public interface BookmarkPort {
 
     CursorPage<String> getFeedBookmarks(String memberUuid, String lastId, int pageSize, int pageNo);
 
+    boolean feedBookmarkExists(BookmarkRequestDto requestDto);
+
     void addShortsBookmark(ShortsBookmarkResponseDto responseDto);
 
     void deleteShortsBookmark(BookmarkRequestDto bookmarkRequestDto);
 
     CursorPage<String> getShortsBookmarks(String memberUuid, String lastId, int pageSize, int pageNo);
+
+    boolean shortsBookmarkExists(BookmarkRequestDto bookmarkRequestDto);
 }
