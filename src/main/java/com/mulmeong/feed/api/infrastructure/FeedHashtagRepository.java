@@ -1,6 +1,6 @@
 package com.mulmeong.feed.api.infrastructure;
 
-import com.mulmeong.feed.api.domain.entity.FeedHashtag;
+import com.mulmeong.feed.api.domain.document.FeedHashtag;
 import java.util.Optional;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

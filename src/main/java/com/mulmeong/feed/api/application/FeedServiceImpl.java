@@ -3,7 +3,7 @@ package com.mulmeong.feed.api.application;
 import static com.mulmeong.feed.common.response.BaseResponseStatus.FEED_FORBIDDEN;
 import static com.mulmeong.feed.common.response.BaseResponseStatus.FEED_NOT_FOUND;
 
-import com.mulmeong.feed.api.domain.entity.FeedHashtag;
+import com.mulmeong.feed.api.domain.document.FeedHashtag;
 import com.mulmeong.feed.api.domain.event.FeedDeleteEvent;
 import com.mulmeong.feed.api.dto.in.FeedCreateDto;
 import com.mulmeong.feed.api.dto.in.FeedHashtagUpdateDto;

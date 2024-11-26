@@ -1,8 +1,8 @@
 package com.mulmeong.feed.api.dto.out;
 
 import com.mulmeong.feed.api.domain.entity.Feed;
-import com.mulmeong.feed.api.domain.entity.FeedHashtag;
-import com.mulmeong.feed.api.domain.entity.FeedMedia;
+import com.mulmeong.feed.api.domain.document.FeedHashtag;
+import com.mulmeong.feed.api.domain.document.FeedMedia;
 import com.mulmeong.feed.api.domain.model.Hashtag;
 import com.mulmeong.feed.api.domain.model.Media;
 import java.time.LocalDateTime;

@@ -1,6 +1,6 @@
 package com.mulmeong.feed.api.infrastructure;
 
-import com.mulmeong.feed.api.domain.entity.FeedMedia;
+import com.mulmeong.feed.api.domain.document.FeedMedia;
 import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
