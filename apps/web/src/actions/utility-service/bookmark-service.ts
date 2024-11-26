@@ -6,7 +6,7 @@ import type {
   GetShortsBookmarksReq,
   PostFeedBookmarkReq,
   PostShortsBookmarkReq,
-} from "@/types/utility-service/bookmarkService";
+} from "@/types/utility-service/bookmark-service";
 import type { ShortsUuid } from "@/types/shorts-service";
 import type { EmptyObject } from "@/types/common";
 import type { FeedUuid } from "@/types/feed-service";
