@@ -9,7 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class CreateFeedEvent {
+public class FeedCreateEvent {
 
     private String feedUuid;
     private String memberUuid;
@@ -23,7 +23,7 @@ public class CreateFeedEvent {
     private LocalDateTime updatedAt;
 
     @Builder
-    public CreateFeedEvent(String feedUuid, String memberUuid, String title, String content,
+    public FeedCreateEvent(String feedUuid, String memberUuid, String title, String content,
         Long categoryId, Visibility visibility, List<Hashtag> hashtags, List<Media> mediaList,
         LocalDateTime createdAt, LocalDateTime updatedAt) {
 

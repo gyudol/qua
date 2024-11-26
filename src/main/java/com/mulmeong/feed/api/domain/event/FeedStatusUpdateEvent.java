@@ -6,14 +6,14 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class UpdateFeedStatusEvent {
+public class FeedStatusUpdateEvent {
 
     private String feedUuid;
     private Visibility visibility;
     private LocalDateTime updatedAt;
 
     @Builder
-    public UpdateFeedStatusEvent(String feedUuid, Visibility visibility, LocalDateTime updatedAt) {
+    public FeedStatusUpdateEvent(String feedUuid, Visibility visibility, LocalDateTime updatedAt) {
         this.feedUuid = feedUuid;
         this.visibility = visibility;
         this.updatedAt = updatedAt;

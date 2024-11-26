@@ -9,7 +9,7 @@ import java.util.List;
 import lombok.Getter;
 
 @Getter
-public class CreateFeedRequestVo {
+public class FeedCreateVo {
 
     private String memberUuid;
     private String title;

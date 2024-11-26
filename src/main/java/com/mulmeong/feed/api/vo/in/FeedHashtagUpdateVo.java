@@ -6,7 +6,7 @@ import java.util.List;
 import lombok.Getter;
 
 @Getter
-public class UpdateFeedHashtagRequestVo {
+public class FeedHashtagUpdateVo {
 
     private List<@Valid Hashtag> hashtags;
 
