@@ -27,7 +27,7 @@ export async function postLike({ ...body }: PostLikeReq) {
   return processResponse<EmptyObject, false>({ res });
 }
 
-export async function PostDislike({ ...body }: PostDislikeReq) {
+export async function postDislike({ ...body }: PostDislikeReq) {
   const URI = `${API_SERVER}/${PREFIX}/v1/members/dislike`;
 
   const res: Response = await fetch(URI, {
@@ -40,7 +40,7 @@ export async function PostDislike({ ...body }: PostDislikeReq) {
   return processResponse<EmptyObject, false>({ res });
 }
 
-export async function GetLikeStatus({ kind, kindUuid }: GetLikeStatusReq) {
+export async function getLikeStatus({ kind, kindUuid }: GetLikeStatusReq) {
   const URI = `${API_SERVER}/${PREFIX}/v1/members/${kind}/${kindUuid}/like-status`;
 
   const res: Response = await fetch(URI, {
@@ -52,7 +52,7 @@ export async function GetLikeStatus({ kind, kindUuid }: GetLikeStatusReq) {
   return processResponse<LikeStatus, false>({ res });
 }
 
-export async function GetDislikeStatus({
+export async function getDislikeStatus({
   kind,
   kindUuid,
 }: GetDislikeStatusReq) {
@@ -67,7 +67,7 @@ export async function GetDislikeStatus({
   return processResponse<DislikeStatus, false>({ res });
 }
 
-export async function GetLikes({ kind, ...query }: GetLikesReq) {
+export async function getLikes({ kind, ...query }: GetLikesReq) {
   const URI = `${API_SERVER}/${PREFIX}/v1/members/${kind}/likes?${toURLSearchParams(query)}`;
 
   const res: Response = await fetch(URI, {
