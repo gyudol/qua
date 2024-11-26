@@ -45,28 +45,5 @@ public class AuthContestController {
         return new BaseResponse<>();
     }
 
-//    @PostMapping("/calculateContestRank")
-//    public ResponseEntity<String> runCalculateContestRankJob() {
-//        try {
-//            // 배치 작업 실행
-//            JobParameters jobParameters = new JobParametersBuilder()
-//                    .toJobParameters();
-//
-//            JobExecution jobExecution = jobLauncher.run(rank6, jobParameters);
-//
-//            // 배치 작업이 성공적으로 실행된 경우
-//            if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
-//                return ResponseEntity.ok("Batch job completed successfully.");
-//            } else {
-//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                        .body("Batch job failed with status: " + jobExecution.getStatus());
-//            }
-//        } catch (Exception e) {
-//            // 예외가 발생한 경우
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body("Error occurred while running batch job: " + e.getMessage());
-//        }
-//    }
-
 
 }

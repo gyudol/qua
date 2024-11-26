@@ -29,7 +29,6 @@ import java.time.LocalDate;
 import java.util.*;
 
 
-
 @Configuration
 @EnableBatchProcessing
 @RequiredArgsConstructor
@@ -79,7 +78,8 @@ public class BatchConfig {
     @Bean
     public ItemReader<Contest> contestReader() {
         return new ItemReader<>() {
-            private final Iterator<Contest> iterator = contestRepository.findByEndDate(LocalDate.now().minusDays(1)).iterator();
+            private final Iterator<Contest> iterator = contestRepository
+                    .findByEndDate(LocalDate.now().minusDays(1)).iterator();
 
             @Override
             public Contest read() {
@@ -91,7 +91,8 @@ public class BatchConfig {
     @Bean
     public ItemReader<Contest> contestPostReader() {
         return new ItemReader<>() {
-            private final Iterator<Contest> iterator = contestRepository.findByEndDate(LocalDate.now().minusDays(1)).iterator();
+            private final Iterator<Contest> iterator = contestRepository
+                    .findByEndDate(LocalDate.now().minusDays(1)).iterator();
 
             @Override
             public Contest read() {
@@ -138,7 +139,7 @@ public class BatchConfig {
             List<ContestVote> contestVotes = new ArrayList<>();
 
             // 각 포스트에 대해 투표자 정보 저장
-            List<ContestPost> posts = contestPostRepository.getAllByContestId(contestId);  // 데이터베이스에서 해당 콘테스트의 포스트들 불러오기
+            List<ContestPost> posts = contestPostRepository.getAllByContestId(contestId);
             for (ContestPost post : posts) {
                 String postUuid = post.getPostUuid();  // ContestPost에서 postUuid 가져오기
 

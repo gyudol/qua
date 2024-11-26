@@ -17,6 +17,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -69,12 +70,16 @@ public class ContestServiceImpl implements ContestService {
 
     @Transactional
     @Scheduled(cron = "0 0 0 * * ?")    // 매일 정각 배치 작업 실행
-    public void selectWinners() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
+    public void selectWinners()
+            throws JobInstanceAlreadyCompleteException,
+            JobExecutionAlreadyRunningException,
+            JobParametersInvalidException,
+            JobRestartException {
 
-            JobParameters jobParameters = new JobParametersBuilder()
-                    .toJobParameters();
+        JobParameters jobParameters = new JobParametersBuilder()
+                .toJobParameters();
 
-            jobLauncher.run(rankingJob, jobParameters);
+        jobLauncher.run(rankingJob, jobParameters);
 
     }
 }
