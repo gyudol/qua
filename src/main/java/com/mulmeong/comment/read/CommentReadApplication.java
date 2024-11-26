@@ -2,12 +2,14 @@ package com.mulmeong.comment.read;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
-public class ContentReadApplication {
+@EnableDiscoveryClient
+public class CommentReadApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ContentReadApplication.class, args);
+        SpringApplication.run(CommentReadApplication.class, args);
     }
 
 }

@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @OpenAPIDefinition(
-        info = @Info(title = "content read API", version = "v1",
-                description = "content read 서비스",
+        info = @Info(title = "comment read API", version = "v1",
+                description = "comment read 서비스",
                 termsOfService = "http://swagger.io/terms/")
 
 )
@@ -39,7 +39,7 @@ public class SwaggerConfig {
                 .addSecurityItem(securityRequirement)
                 .components(components)
                 // Swagger에서 요청보낼때 API에 추가되는 문자열
-                .addServersItem(new Server().url("/comment-service"));
+                .addServersItem(new Server().url("/comment-read-service"));
 
                 //test
                 //.addServersItem(new Server().url("/"));
