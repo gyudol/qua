@@ -11,23 +11,36 @@ interface HeaderProps {
 export default function FeedTabHeader({ onMenuClick }: HeaderProps) {
   const [isView, setIsView] = useState(true);
   const prevScrollY = useRef(0);
+  const ticking = useRef(false);
 
   const handleScroll = () => {
-    const currentScrollY = window.scrollY;
-    if (currentScrollY > prevScrollY.current) {
-      // 아래로 스크롤 중
-      setIsView(false);
-    } else if (currentScrollY < prevScrollY.current) {
-      // 위로 스크롤 중
-      setIsView(true);
+    if (!ticking.current) {
+      ticking.current = true;
+
+      window.requestAnimationFrame(() => {
+        const currentScrollY = Math.max(0, window.scrollY);
+        const maxScrollY =
+          document.documentElement.scrollHeight - window.innerHeight;
+
+        if (currentScrollY === 0 || currentScrollY >= maxScrollY) {
+          ticking.current = false;
+          return;
+        }
+
+        if (currentScrollY > prevScrollY.current) {
+          setIsView(false);
+        } else if (currentScrollY < prevScrollY.current) {
+          setIsView(true);
+        }
+
+        prevScrollY.current = currentScrollY;
+        ticking.current = false;
+      });
     }
-    prevScrollY.current = currentScrollY;
   };
 
   useEffect(() => {
-    // 스크롤 이벤트 리스너 등록
     window.addEventListener('scroll', handleScroll);
-    // 컴포넌트 언마운트 시 이벤트 리스너 제거
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };

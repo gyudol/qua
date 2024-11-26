@@ -1,5 +1,5 @@
-import type { Hashtag as HashtagType } from "@/types/contents";
-import withLink from "./withLink";
+import type { Hashtag as HashtagType } from '@/types/contents';
+import withLink from './withLink';
 
 interface HashtagProp {
   className?: string;
@@ -7,7 +7,7 @@ interface HashtagProp {
 }
 
 export function Hashtag({ className, hashtag }: HashtagProp) {
-  return <span {...{ className }}>#{hashtag.name} </span>;
+  return <li {...{ className }}># {hashtag.name} </li>;
 }
 
 export const HashtagWithLink = withLink(Hashtag);

@@ -1,4 +1,4 @@
-"use server";
+'use server';
 
 import type {
   Comment,
@@ -23,8 +23,8 @@ function uri4Single<T extends TargetType, U extends boolean>({
   isAuthRequired?: boolean;
 }) {
   if (isRecomment)
-    return `${API_SERVER}/${Prefix}${isAuthRequired ? "/auth" : ""}/v1/${targetType}/comments/recomments/${recommentUuid}`;
-  return `${API_SERVER}/${Prefix}${isAuthRequired ? "/auth" : ""}/v1/${targetType}/comments/${commentUuid}`;
+    return `${API_SERVER}/${Prefix}${isAuthRequired ? '/auth' : ''}/v1/${targetType}/comments/recomments/${recommentUuid}`;
+  return `${API_SERVER}/${Prefix}${isAuthRequired ? '/auth' : ''}/v1/${targetType}/comments/${commentUuid}`;
 }
 
 function uri4Many<T extends TargetType, U extends boolean>({
@@ -38,11 +38,11 @@ function uri4Many<T extends TargetType, U extends boolean>({
   isAuthRequired?: boolean;
 }) {
   if (isRecomment)
-    return `${API_SERVER}/${Prefix}${isAuthRequired ? "/auth" : ""}/v1/${targetType}/comments/${commentUuid}/recomments`;
-  if (targetType === "feeds")
-    return `${API_SERVER}/${Prefix}${isAuthRequired ? "/auth" : ""}/v1/${targetType}/${feedUuid}/comments`;
+    return `${API_SERVER}/${Prefix}${isAuthRequired ? '/auth' : ''}/v1/${targetType}/comments/${commentUuid}/recomments`;
+  if (targetType === 'feeds')
+    return `${API_SERVER}/${Prefix}${isAuthRequired ? '/auth' : ''}/v1/${targetType}/${feedUuid}/comments`;
   // if (targetType === "shorts")
-  return `${API_SERVER}/${Prefix}${isAuthRequired ? "/auth" : ""}/v1/${targetType}/${shortsUuid}/comments`;
+  return `${API_SERVER}/${Prefix}${isAuthRequired ? '/auth' : ''}/v1/${targetType}/${shortsUuid}/comments`;
 }
 
 export async function GetComment<
@@ -64,7 +64,7 @@ export async function GetComments<
   T extends TargetType,
   IsRecomment extends boolean,
 >({
-  searchParams = "",
+  searchParams = '',
   ...param
 }: CommentsReqParam<T, IsRecomment> & {
   searchParams?: string;
@@ -76,7 +76,7 @@ export async function GetComments<
     headers: await getHeaders(),
     method: "GET",
     next: {
-      tags: ["postComment"],
+      tags: ['postComment'],
     },
   });
 
@@ -87,7 +87,7 @@ export async function PostComment<
   T extends TargetType,
   IsRecomment extends boolean,
 >({ body, ...param }: PostCommentParam<T, IsRecomment>) {
-  "use server";
+  'use server';
 
   const URI = uri4Many<T, IsRecomment>({ ...param, isAuthRequired: true });
 
@@ -100,7 +100,7 @@ export async function PostComment<
 
   return processResponse<Record<string, never>, false>({
     res,
-    revalidatedTags: "postComment",
+    revalidatedTags: 'postComment',
   });
 }
 
@@ -114,7 +114,7 @@ export async function PutComment<
     headers: await getHeaders(),
     method: "PUT",
     body: JSON.stringify(body),
-    cache: "no-cache",
+    cache: 'no-cache',
   });
 
   return processResponse<Record<string, never>, false>({ res });

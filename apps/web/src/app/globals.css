@@ -27,11 +27,63 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb)); */
-  background-image: url("/background.png");
+  background-image: url('/background.png');
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
 }
 ::-webkit-scrollbar {
   display: none;
+}
+
+@keyframes gradient-bg {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes swim {
+  0% {
+    transform: translateX(-60%) scaleX(1); /* 화면 왼쪽 밖 시작, 정방향 */
+  }
+  50% {
+    transform: translateX(180%) scaleX(1); /* 화면 오른쪽 밖, 정방향 */
+  }
+  51% {
+    transform: translateX(180%) scaleX(-1); /* 뒤집기 시작 */
+  }
+  100% {
+    transform: translateX(-60%) scaleX(-1); /* 다시 화면 왼쪽 밖으로, 뒤집힌 방향 */
+  }
+}
+
+.animate-swim {
+  animation: swim 30s linear infinite; /* 15초 동안 양방향 이동 반복 */
+}
+
+@keyframes bubble {
+  0% {
+    transform: translateY(0) scale(0.2); /* 물고기 근처에서 시작 */
+    opacity: 0; /* 시작 시 반투명 */
+  }
+  50% {
+    opacity: 1; /* 중간에서 선명해짐 */
+  }
+  100% {
+    transform: translateY(-100px) scale(0.7); /* 위로 떠오르며 커짐 */
+    opacity: 0; /* 사라짐 */
+  }
+}
+
+.bubble {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.7); /* 반투명 흰색 */
+  border-radius: 50%; /* 동그란 모양 */
+  animation: bubble 2s linear infinite; /* 2초 동안 반복 */
 }
