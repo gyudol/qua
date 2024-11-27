@@ -19,8 +19,6 @@ public class ShortsRecommentCreateEvent {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Integer likeCount;
-    private Integer dislikeCount;
 
     public ShortsRecomment toEntity() {
         return ShortsRecomment.builder()
@@ -30,8 +28,8 @@ public class ShortsRecommentCreateEvent {
                 .content(content)
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)
-                .likeCount(likeCount)
-                .dislikeCount(dislikeCount)
+                .likeCount(0)
+                .dislikeCount(0)
                 .build();
     }
 

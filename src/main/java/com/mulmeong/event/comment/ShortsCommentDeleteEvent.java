@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class ShortsCommentDeleteEvent {
 
     private String commentUuid;
-    private boolean status;
+    private boolean isDeleted;
 
     public ShortsComment toEntity(ShortsComment shortsComment) {
         return ShortsComment.builder()
@@ -20,7 +20,7 @@ public class ShortsCommentDeleteEvent {
                 .memberUuid(shortsComment.getMemberUuid())
                 .commentUuid(commentUuid)
                 .content(shortsComment.getContent())
-                .status(status)
+                .isDeleted(isDeleted)
                 .createdAt(shortsComment.getCreatedAt())
                 .updatedAt(shortsComment.getUpdatedAt())
                 .likeCount(shortsComment.getLikeCount())
