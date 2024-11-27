@@ -1,6 +1,7 @@
 package com.mulmeong.feed.read.common.config;
 
 import com.mulmeong.feed.read.api.domain.event.FeedCreateEvent;
+import com.mulmeong.feed.read.api.domain.event.FeedDeleteEvent;
 import java.util.Map;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -28,6 +29,11 @@ public class KafkaConsumerConfig {
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, FeedCreateEvent> feedCreateEventListener() {
         return kafkaListenerContainerFactory(FeedCreateEvent.class);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, FeedDeleteEvent> feedDeleteEventListener() {
+        return kafkaListenerContainerFactory(FeedDeleteEvent.class);
     }
 
     /**
