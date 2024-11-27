@@ -1,5 +1,6 @@
 package com.mulmeong.feed.read.common.config;
 
+import com.mulmeong.feed.read.api.domain.event.FeedCreateEvent;
 import java.util.Map;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -19,10 +20,18 @@ public class KafkaConsumerConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
-    // TODO: 이벤트 리스너 정의
+    /**
+     * 특정 이벤트의 메시지를 소비하는 Kafka Listener 컨테이너 팩토리를 생성.
+     *
+     * @return KafkaListenerContainerFactory, KafkaListener가 사용하는 기본 ConsumerFactory
+     */
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, FeedCreateEvent> feedCreateEventListener() {
+        return kafkaListenerContainerFactory(FeedCreateEvent.class);
+    }
 
     /**
-     * 특정 메시지 타입에 맞게 ConsumerFactory를 생성합니다.
+     * 특정 메시지 타입에 맞게 ConsumerFactory 생성.
      *
      * @param messageType 제네릭으로 선언한 Event 객체
      * @return DefaultKafkaConsumerFactory, Kafka Listener가 사용하는 기본 Consumer Factory
@@ -33,21 +42,21 @@ public class KafkaConsumerConfig {
             ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
             ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class,
             ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class,
-            JsonDeserializer.TRUSTED_PACKAGES, "com.mulmeong.event",
-            JsonDeserializer.VALUE_DEFAULT_TYPE, messageType
+            JsonDeserializer.VALUE_DEFAULT_TYPE, messageType.getName(),
+            JsonDeserializer.TRUSTED_PACKAGES, "com.mulmeong.feed.read.api.domain.event"
         ));
     }
 
     /**
-     * 컨테이너 팩토리는 다중 스레드에서 Kafka 메시지를 처리하며, 이 설정을 통해 KafkaListener가 메시지를 소비합니다.
+     * 컨테이너 팩토리는 다중 스레드에서 Kafka 메시지를 처리하며, 이 설정을 통해 KafkaListener가 메시지를 소비.
      *
      * @param messageType 제네릭으로 선언한 Event 객체
      * @return ConcurrentKafkaListenerContainerFactory, 다중 스레드에서 Kafka 메시지를 처리하는 컨테이너 팩토리
      */
     @Bean
-    public <T> ConcurrentKafkaListenerContainerFactory<String, T> kafkaListenerContainerFactory(Class<T> messageType) {
-        ConcurrentKafkaListenerContainerFactory<String, T> factory =
-            new ConcurrentKafkaListenerContainerFactory<>();
+    public <T> ConcurrentKafkaListenerContainerFactory<String, T> kafkaListenerContainerFactory(
+        Class<T> messageType) {
+        ConcurrentKafkaListenerContainerFactory<String, T> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory(messageType));
         return factory;
     }
