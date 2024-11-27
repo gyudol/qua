@@ -1,9 +1,10 @@
-package com.mulmeong.contestread.common.response;
+package com.mulmeong.contest.read.common.response;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 
-import static com.mulmeong.test.common.response.BaseResponseStatus.SUCCESS;
+import static com.mulmeong.contest.read.common.response.BaseResponseStatus.SUCCESS;
+
 
 public record BaseResponse<T>(HttpStatusCode httpStatus, Boolean isSuccess, String message, int code, T result) {
 

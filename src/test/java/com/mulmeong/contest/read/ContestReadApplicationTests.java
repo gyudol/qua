@@ -1,4 +1,4 @@
-package com.mulmeong.contestread;
+package com.mulmeong.contest.read;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

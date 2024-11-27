@@ -1,4 +1,4 @@
-package com.mulmeong.contestread.common.response;
+package com.mulmeong.contest.read.common.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
