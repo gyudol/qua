@@ -13,10 +13,10 @@ public class FeedCommentResponseVo {
     private String memberUuid;
     private String commentUuid;
     private String content;
-    private boolean status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Integer likeCount;
     private Integer dislikeCount;
     private Integer recommentCount;
+    private boolean isDeleted;
 }

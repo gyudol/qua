@@ -20,6 +20,7 @@ public class ShortsCommentResponseDto {
     private Integer likeCount;
     private Integer dislikeCount;
     private Integer recommentCount;
+    private boolean isDeleted;
 
     public static ShortsCommentResponseDto toDto(ShortsComment shortsComment) {
         return ShortsCommentResponseDto.builder()
@@ -32,6 +33,7 @@ public class ShortsCommentResponseDto {
                 .likeCount(shortsComment.getLikeCount())
                 .dislikeCount(shortsComment.getDislikeCount())
                 .recommentCount(shortsComment.getRecommentCount())
+                .isDeleted(shortsComment.isDeleted())
                 .build();
     }
 
@@ -46,6 +48,7 @@ public class ShortsCommentResponseDto {
                 .likeCount(likeCount)
                 .dislikeCount(dislikeCount)
                 .recommentCount(recommentCount)
+                .isDeleted(isDeleted)
                 .build();
     }
 }

@@ -23,7 +23,7 @@ public class FeedCommentUpdateEvent {
                 .memberUuid(feedComment.getMemberUuid())
                 .commentUuid(commentUuid)
                 .content(content)
-                .status(feedComment.isStatus())
+                .isDeleted(feedComment.isDeleted())
                 .createdAt(feedComment.getCreatedAt())
                 .updatedAt(updatedAt)
                 .likeCount(feedComment.getLikeCount())

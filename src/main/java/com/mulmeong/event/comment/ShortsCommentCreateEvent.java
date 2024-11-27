@@ -15,12 +15,10 @@ public class ShortsCommentCreateEvent {
     private String shortsUuid;
     private String memberUuid;
     private String commentUuid;
-    private boolean status;
+    private boolean isDeleted;
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Integer likeCount;
-    private Integer dislikeCount;
 
     public ShortsComment toEntity() {
         return ShortsComment.builder()
@@ -28,11 +26,11 @@ public class ShortsCommentCreateEvent {
                 .memberUuid(memberUuid)
                 .commentUuid(commentUuid)
                 .content(content)
-                .status(status)
+                .isDeleted(isDeleted)
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)
-                .likeCount(likeCount)
-                .dislikeCount(dislikeCount)
+                .likeCount(0)
+                .dislikeCount(0)
                 .recommentCount(0)
                 .build();
     }

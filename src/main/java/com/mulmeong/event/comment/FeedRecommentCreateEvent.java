@@ -19,8 +19,6 @@ public class FeedRecommentCreateEvent {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Integer likeCount;
-    private Integer dislikeCount;
 
     public FeedRecomment toEntity() {
         return FeedRecomment.builder()
@@ -30,8 +28,8 @@ public class FeedRecommentCreateEvent {
                 .content(content)
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)
-                .likeCount(likeCount)
-                .dislikeCount(dislikeCount)
+                .likeCount(0)
+                .dislikeCount(0)
                 .build();
     }
 

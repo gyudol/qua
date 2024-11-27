@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class FeedCommentDeleteEvent {
 
     private String commentUuid;
-    private boolean status;
+    private boolean isDeleted;
 
     public FeedComment toEntity(FeedComment feedComment) {
         return FeedComment.builder()
@@ -20,7 +20,7 @@ public class FeedCommentDeleteEvent {
                 .memberUuid(feedComment.getMemberUuid())
                 .commentUuid(commentUuid)
                 .content(feedComment.getContent())
-                .status(status)
+                .isDeleted(isDeleted)
                 .createdAt(feedComment.getCreatedAt())
                 .updatedAt(feedComment.getUpdatedAt())
                 .likeCount(feedComment.getLikeCount())

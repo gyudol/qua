@@ -21,7 +21,7 @@ public class ShortsComment {
     private String memberUuid;
     private String commentUuid;
     private String content;
-    private boolean status;
+    private boolean isDeleted;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Integer likeCount;

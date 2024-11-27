@@ -18,4 +18,5 @@ public class ShortsCommentResponseVo {
     private Integer likeCount;
     private Integer dislikeCount;
     private Integer recommentCount;
+    private boolean isDeleted;
 }

@@ -21,6 +21,7 @@ public class FeedCommentResponseDto {
     private Integer likeCount;
     private Integer dislikeCount;
     private Integer recommentCount;
+    private boolean isDeleted;
 
     public static FeedCommentResponseDto toDto(FeedComment feedComment) {
         return FeedCommentResponseDto.builder()
@@ -33,6 +34,7 @@ public class FeedCommentResponseDto {
                 .likeCount(feedComment.getLikeCount())
                 .dislikeCount(feedComment.getDislikeCount())
                 .recommentCount(feedComment.getRecommentCount())
+                .isDeleted(feedComment.isDeleted())
                 .build();
     }
 
@@ -47,6 +49,7 @@ public class FeedCommentResponseDto {
                 .likeCount(likeCount)
                 .dislikeCount(dislikeCount)
                 .recommentCount(recommentCount)
+                .isDeleted(isDeleted)
                 .build();
     }
 }
