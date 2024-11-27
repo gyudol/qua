@@ -1,26 +1,26 @@
 package com.mulmeong.feed.api.dto.in;
 
 import com.mulmeong.feed.api.domain.entity.Feed;
-import com.mulmeong.feed.api.domain.entity.FeedHashtag;
-import com.mulmeong.feed.api.domain.event.UpdateFeedHashtagEvent;
+import com.mulmeong.feed.api.domain.document.FeedHashtag;
+import com.mulmeong.feed.api.domain.event.FeedHashtagUpdateEvent;
 import com.mulmeong.feed.api.domain.model.Hashtag;
-import com.mulmeong.feed.api.vo.in.UpdateFeedHashtagRequestVo;
+import com.mulmeong.feed.api.vo.in.FeedHashtagUpdateVo;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class UpdateFeedHashtagRequestDto {
+public class FeedHashtagUpdateDto {
 
     private String feedUuid;
     private List<Hashtag> hashtags;
     private LocalDateTime updatedAt;
 
-    public static UpdateFeedHashtagRequestDto toDto(UpdateFeedHashtagRequestVo requestVo,
+    public static FeedHashtagUpdateDto toDto(FeedHashtagUpdateVo requestVo,
         String feedUuid) {
 
-        return UpdateFeedHashtagRequestDto.builder()
+        return FeedHashtagUpdateDto.builder()
             .feedUuid(feedUuid)
             .hashtags(requestVo.getHashtags())
             .updatedAt(LocalDateTime.now())
@@ -51,8 +51,8 @@ public class UpdateFeedHashtagRequestDto {
             .build();
     }
 
-    public UpdateFeedHashtagEvent toEventEntity() {  // to Kafka EventEntity
-        return UpdateFeedHashtagEvent.builder()
+    public FeedHashtagUpdateEvent toEventEntity() {  // to Kafka EventEntity
+        return FeedHashtagUpdateEvent.builder()
             .feedUuid(feedUuid)
             .hashtags(hashtags)
             .updatedAt(updatedAt)
@@ -60,7 +60,7 @@ public class UpdateFeedHashtagRequestDto {
     }
 
     @Builder
-    public UpdateFeedHashtagRequestDto(String feedUuid, List<Hashtag> hashtags,
+    public FeedHashtagUpdateDto(String feedUuid, List<Hashtag> hashtags,
         LocalDateTime updatedAt) {
 
         this.feedUuid = feedUuid;

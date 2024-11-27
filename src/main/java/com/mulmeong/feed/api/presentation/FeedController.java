@@ -21,7 +21,7 @@ public class FeedController {
 
     @Operation(summary = "Feed 단건 정보 조회 API", description = "feedUuid 기준 **Feed Detail 조회**")
     @GetMapping("/{feedUuid}")
-    public BaseResponse<FeedResponseDto> getFeedDetail(@PathVariable("feedUuid") String feedUuid) {
+    public BaseResponse<FeedResponseDto> getFeedDetail(@PathVariable String feedUuid) {
 
         return new BaseResponse<>(feedService.getFeedDetail(feedUuid));
     }

@@ -1,4 +1,4 @@
-package com.mulmeong.feed.api.domain.entity;
+package com.mulmeong.feed.api.domain.document;
 
 import com.mulmeong.feed.api.domain.model.MediaInfo;
 import com.mulmeong.feed.api.domain.model.MediaSubtype;
