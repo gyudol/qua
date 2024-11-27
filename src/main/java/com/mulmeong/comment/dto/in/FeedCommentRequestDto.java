@@ -16,7 +16,7 @@ public class FeedCommentRequestDto {
     private String feedUuid;
     private String content;
     private String contentUuid;
-    private boolean status;
+    private boolean isDeleted;
 
     public static FeedCommentRequestDto toDto(FeedCommentRequestVo requestVo, String feedUuid) {
         return FeedCommentRequestDto.builder()
@@ -32,7 +32,7 @@ public class FeedCommentRequestDto {
                 .feedUuid(feedUuid)
                 .commentUuid(UUID.randomUUID().toString())
                 .content(content)
-                .status(true)
+                .isDeleted(false)
                 .build();
     }
 }

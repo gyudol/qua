@@ -62,9 +62,6 @@ public class FeedCommentServiceImpl implements FeedCommentService {
     public FeedCommentResponseDto getFeedComment(String commentUuid) {
         FeedComment feedComment = feedCommentRepository.findByCommentUuid(commentUuid).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT));
-        if (!feedComment.isStatus()) {
-            throw new BaseException(BaseResponseStatus.NO_EXIST_COMMENT);
-        }
         return FeedCommentResponseDto.toDto(feedComment);
     }
 

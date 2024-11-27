@@ -15,5 +15,5 @@ public class FeedCommentResponseVo {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private boolean status;
+    private boolean isDeleted;
 }
