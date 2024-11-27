@@ -36,7 +36,6 @@ public class KafkaConsumerConfig {
      * @param messageType 제네릭으로 선언한 Event 객체
      * @return DefaultKafkaConsumerFactory, Kafka Listener가 사용하는 기본 Consumer Factory
      */
-    @Bean
     public <T> ConsumerFactory<String, T> consumerFactory(Class<T> messageType) {
         return new DefaultKafkaConsumerFactory<>(Map.of(
             ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
@@ -53,7 +52,6 @@ public class KafkaConsumerConfig {
      * @param messageType 제네릭으로 선언한 Event 객체
      * @return ConcurrentKafkaListenerContainerFactory, 다중 스레드에서 Kafka 메시지를 처리하는 컨테이너 팩토리
      */
-    @Bean
     public <T> ConcurrentKafkaListenerContainerFactory<String, T> kafkaListenerContainerFactory(
         Class<T> messageType) {
         ConcurrentKafkaListenerContainerFactory<String, T> factory = new ConcurrentKafkaListenerContainerFactory<>();
