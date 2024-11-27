@@ -9,19 +9,19 @@ import type {
 } from "@/types/utility-service";
 import type { EmptyObject } from "@/types/common";
 import { toURLSearchParams } from "@/functions/utils";
-import { getHeaders, processResponse } from "../common";
+import { getHeaders, getSessionMemberUuid, processResponse } from "../common";
 
 const API_SERVER = process.env.BASE_API_URL;
 const PREFIX = "utility-service";
 
-export async function postLike({ ...body }: PostLikeReq) {
+export async function postLike({ ...body }: Omit<PostLikeReq, "memberUuid">) {
   const URI = `${API_SERVER}/${PREFIX}/v1/members/likes`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "POST",
     cache: "no-cache",
-    body: JSON.stringify(body),
+    body: JSON.stringify({ ...body, memberUuid: await getSessionMemberUuid() }),
   });
 
   return processResponse<EmptyObject, false>({ res });

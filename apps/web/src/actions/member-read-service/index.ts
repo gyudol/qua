@@ -1,6 +1,6 @@
 "use server";
 
-import type { MemberProfile } from "@/types/member";
+import type { MemberProfile } from "@/types/member/member-read-service";
 import { getHeaders, processResponse } from "../common";
 import { getMemberNickname } from "../member-service";
 

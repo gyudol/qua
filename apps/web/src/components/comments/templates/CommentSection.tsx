@@ -1,12 +1,12 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { GetComments } from "@/actions/comment-service";
+import { GetComments } from "@/actions/@legacy-comment-service";
 import type {
   CommentsReqParam,
   GetCommentsSearchParams,
   TargetType,
-} from "@/types/comment-service";
+} from "@/types/comment/@legacy-comment-service";
 import { CommentInput } from "../molecules";
 import { Comment } from "../organisms";
 
