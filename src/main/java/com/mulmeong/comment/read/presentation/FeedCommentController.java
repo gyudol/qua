@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/v1/comment")
-@CrossOrigin(origins = "*")
+@RequestMapping("/v1/feeds")
 public class FeedCommentController {
 
     private final FeedCommentService feedCommentService;

@@ -36,15 +36,19 @@ public class FeedCommentRepositoryCustomImpl implements FeedCommentRepositoryCus
         BooleanBuilder builder = new BooleanBuilder();
 
         builder.and(feedComment.feedUuid.eq(feedUuid));
-
-        builder.and(feedComment.status.eq(true));
-
-        if (lastId != null) {
-            if (sortBy.equals("latest")) {
+        if (sortBy.equals("latest")) {
+            if (lastId != null) {
                 builder.and(feedComment.id.lt(lastId));
-            } else {
+            }
+            builder.and(feedComment.isDeleted.eq(false)
+                    .or(feedComment.isDeleted.eq(true)
+                            .and(feedComment.recommentCount.goe(1))));
+
+        } else {
+            if (lastId != null) {
                 builder.and(feedComment.customCursor.lt(lastId));
             }
+            builder.and(feedComment.isDeleted.eq(false));
         }
 
         int currentPage = pageNo != null ? pageNo : DEFAULT_PAGE_NUMBER;

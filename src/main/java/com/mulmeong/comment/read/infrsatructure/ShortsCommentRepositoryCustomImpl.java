@@ -2,6 +2,7 @@ package com.mulmeong.comment.read.infrsatructure;
 
 import com.mulmeong.comment.read.common.utils.CursorPage;
 import com.mulmeong.comment.read.entity.FeedComment;
+import com.mulmeong.comment.read.entity.QFeedComment;
 import com.mulmeong.comment.read.entity.QShortsComment;
 import com.mulmeong.comment.read.entity.ShortsComment;
 import com.querydsl.core.BooleanBuilder;
@@ -36,15 +37,19 @@ public class ShortsCommentRepositoryCustomImpl implements ShortsCommentRepositor
         BooleanBuilder builder = new BooleanBuilder();
 
         builder.and(shortsComment.shortsUuid.eq(shortsUuid));
-
-        builder.and(shortsComment.status.eq(true));
-
-        if (lastId != null) {
-            if (sortBy.equals("latest")) {
+        if (sortBy.equals("latest")) {
+            if (lastId != null) {
                 builder.and(shortsComment.id.lt(lastId));
-            } else {
+            }
+            builder.and(shortsComment.isDeleted.eq(false)
+                    .or(shortsComment.isDeleted.eq(true)
+                            .and(shortsComment.recommentCount.goe(1))));
+
+        } else {
+            if (lastId != null) {
                 builder.and(shortsComment.customCursor.lt(lastId));
             }
+            builder.and(shortsComment.isDeleted.eq(false));
         }
 
         int currentPage = pageNo != null ? pageNo : DEFAULT_PAGE_NUMBER;

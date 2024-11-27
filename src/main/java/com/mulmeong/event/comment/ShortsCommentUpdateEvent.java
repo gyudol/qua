@@ -23,7 +23,7 @@ public class ShortsCommentUpdateEvent {
                 .memberUuid(shortsComment.getMemberUuid())
                 .commentUuid(commentUuid)
                 .content(content)
-                .status(shortsComment.isStatus())
+                .isDeleted(shortsComment.isDeleted())
                 .createdAt(shortsComment.getCreatedAt())
                 .updatedAt(updatedAt)
                 .likeCount(shortsComment.getLikeCount())

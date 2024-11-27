@@ -3,7 +3,11 @@ package com.mulmeong.comment.read.application;
 import com.mulmeong.comment.read.common.exception.BaseException;
 import com.mulmeong.comment.read.common.response.BaseResponseStatus;
 import com.mulmeong.comment.read.common.utils.CursorPage;
+import com.mulmeong.comment.read.dto.out.FeedCommentResponseDto;
+import com.mulmeong.comment.read.dto.out.FeedRecommentResponseDto;
 import com.mulmeong.comment.read.dto.out.ShortsCommentResponseDto;
+import com.mulmeong.comment.read.entity.FeedComment;
+import com.mulmeong.comment.read.entity.FeedRecomment;
 import com.mulmeong.comment.read.entity.ShortsComment;
 import com.mulmeong.comment.read.infrsatructure.ShortsCommentRepository;
 import com.mulmeong.comment.read.infrsatructure.ShortsCommentRepositoryCustom;
@@ -64,9 +68,6 @@ public class ShortsCommentServiceImpl implements ShortsCommentService {
         List<String> cursors = shortsCommentRepository.findByShortsUuid(shortsUuid).stream()
                 .map(this::buildCursor)
                 .toList();
-        for (String cursor : cursors) {
-            System.out.println(cursor);
-        }
         CursorPage<ShortsComment> cursorPage = shortsCommentRepositoryCustom.getShortsComments(
                 shortsUuid, sortBy, lastId, pageSize, pageNo);
 
