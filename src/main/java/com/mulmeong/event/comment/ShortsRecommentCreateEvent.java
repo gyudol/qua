@@ -16,8 +16,6 @@ public class ShortsRecommentCreateEvent {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Integer likeCount;
-    private Integer dislikeCount;
 
     public static ShortsRecommentCreateEvent toDto(ShortsRecomment shortsRecomment) {
         return ShortsRecommentCreateEvent.builder()
@@ -27,8 +25,6 @@ public class ShortsRecommentCreateEvent {
                 .content(shortsRecomment.getContent())
                 .createdAt(shortsRecomment.getCreatedAt())
                 .updatedAt(shortsRecomment.getUpdatedAt())
-                .likeCount(0)
-                .dislikeCount(0)
                 .build();
     }
 

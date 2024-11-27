@@ -16,8 +16,6 @@ public class FeedRecommentCreateEvent {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Integer likeCount;
-    private Integer dislikeCount;
 
     public static FeedRecommentCreateEvent toDto(FeedRecomment feedRecomment) {
         return FeedRecommentCreateEvent.builder()
@@ -27,8 +25,6 @@ public class FeedRecommentCreateEvent {
                 .content(feedRecomment.getContent())
                 .createdAt(feedRecomment.getCreatedAt())
                 .updatedAt(feedRecomment.getUpdatedAt())
-                .likeCount(0)
-                .dislikeCount(0)
                 .build();
     }
 
