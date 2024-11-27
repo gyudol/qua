@@ -33,12 +33,11 @@ public class FeedCommentController {
             @RequestParam(value = "pageNo", required = false) Integer pageNo
     ) {
         CursorPage<FeedCommentResponseDto> cursorPage = feedCommentService.getFeedCommentsByPage(
-                    feedUuid, sortBy, lastId, pageSize, pageNo);
+                feedUuid, sortBy, lastId, pageSize, pageNo);
 
         return new BaseResponse<>(
                 CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
                         .map(FeedCommentResponseDto::toVo).toList())
         );
-
     }
 }
