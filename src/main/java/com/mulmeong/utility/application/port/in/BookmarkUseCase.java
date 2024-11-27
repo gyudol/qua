@@ -20,4 +20,7 @@ public interface BookmarkUseCase {
 
     CursorPage<String> getShortsBookmarks(String memberUuid, String lastId, int pageSize, int pageNo);
 
+    boolean feedBookmarkChecked(BookmarkRequestDto bookmarkRequestDto);
+
+    boolean shortsBookmarkChecked(BookmarkRequestDto bookmarkRequestDto);
 }
