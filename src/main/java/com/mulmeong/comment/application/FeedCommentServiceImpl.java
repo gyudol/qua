@@ -28,9 +28,10 @@ public class FeedCommentServiceImpl implements FeedCommentService {
 
     @Override
     @Transactional
-    public void createFeedComment(FeedCommentRequestDto requestDto) {
+    public FeedCommentResponseDto createFeedComment(FeedCommentRequestDto requestDto) {
         FeedComment feedComment = feedCommentRepository.save(requestDto.toEntity());
         eventPublisher.send(FeedCommentCreateEvent.toDto(feedComment));
+        return FeedCommentResponseDto.toDto(feedComment);
     }
 
     @Override
@@ -62,9 +63,6 @@ public class FeedCommentServiceImpl implements FeedCommentService {
     public FeedCommentResponseDto getFeedComment(String commentUuid) {
         FeedComment feedComment = feedCommentRepository.findByCommentUuid(commentUuid).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT));
-        if (!feedComment.isStatus()) {
-            throw new BaseException(BaseResponseStatus.NO_EXIST_COMMENT);
-        }
         return FeedCommentResponseDto.toDto(feedComment);
     }
 

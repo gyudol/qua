@@ -31,7 +31,7 @@ public class ShortsCommentUpdateDto {
                 .memberUuid(memberUuid)
                 .commentUuid(commentUuid)
                 .content(content)
-                .status(shortsComment.isStatus())
+                .isDeleted(shortsComment.isDeleted())
                 .build();
     }
 

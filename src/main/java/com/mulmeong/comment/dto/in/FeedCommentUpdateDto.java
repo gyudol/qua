@@ -29,7 +29,7 @@ public class FeedCommentUpdateDto {
                 .feedUuid(feedComment.getFeedUuid())
                 .commentUuid(commentUuid)
                 .content(content)
-                .status(feedComment.isStatus())
+                .isDeleted(feedComment.isDeleted())
                 .build();
     }
 

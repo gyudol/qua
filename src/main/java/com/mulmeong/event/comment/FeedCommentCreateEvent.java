@@ -13,24 +13,20 @@ public class FeedCommentCreateEvent {
     private String feedUuid;
     private String memberUuid;
     private String commentUuid;
-    private boolean status;
+    private boolean isDeleted;
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Integer likeCount;
-    private Integer dislikeCount;
 
     public static FeedCommentCreateEvent toDto(FeedComment feedcomment) {
         return FeedCommentCreateEvent.builder()
                 .feedUuid(feedcomment.getFeedUuid())
                 .commentUuid(feedcomment.getCommentUuid())
                 .memberUuid(feedcomment.getMemberUuid())
-                .status(feedcomment.isStatus())
+                .isDeleted(feedcomment.isDeleted())
                 .content(feedcomment.getContent())
                 .createdAt(feedcomment.getCreatedAt())
                 .updatedAt(feedcomment.getUpdatedAt())
-                .likeCount(0)
-                .dislikeCount(0)
                 .build();
     }
 

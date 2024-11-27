@@ -22,7 +22,7 @@ public class FeedComment extends BaseEntity {
     private String commentUuid;
     @Column(length = 1000)
     private String content;
-    private boolean status;
+    private boolean isDeleted;
 
     @Builder
     public FeedComment(
@@ -31,7 +31,7 @@ public class FeedComment extends BaseEntity {
             String memberUuid,
             String commentUuid,
             String content,
-            boolean status
+            boolean isDeleted
     ) {
 
         this.id = id;
@@ -39,6 +39,6 @@ public class FeedComment extends BaseEntity {
         this.memberUuid = memberUuid;
         this.commentUuid = commentUuid;
         this.content = content;
-        this.status = status;
+        this.isDeleted = isDeleted;
     }
 }

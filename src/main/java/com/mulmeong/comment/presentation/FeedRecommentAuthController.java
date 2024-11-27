@@ -22,11 +22,12 @@ public class FeedRecommentAuthController {
 
     @PostMapping("/comments/{commentUuid}/recomments")
     @Operation(summary = "피드 대댓글 생성", tags = {"Feed Recomment Service"})
-    public BaseResponse<Void> addFeedRecomment(
+    public BaseResponse<FeedRecommentResponseVo> addFeedRecomment(
             @RequestBody FeedRecommentRequestVo requestVo,
             @PathVariable String commentUuid) {
-        feedRecommentService.createFeedRecomment(FeedRecommentRequestDto.toDto(requestVo, commentUuid));
-        return new BaseResponse<>();
+        return new BaseResponse<>(
+                feedRecommentService.createFeedRecomment(FeedRecommentRequestDto.toDto(requestVo, commentUuid)).toVo()
+        );
     }
 
     @PutMapping("/comments/recomments/{recommentUuid}")

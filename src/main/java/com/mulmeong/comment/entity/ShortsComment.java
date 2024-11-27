@@ -21,7 +21,7 @@ public class ShortsComment extends BaseEntity {
     private String commentUuid;
     @Column(length = 1000)
     private String content;
-    private boolean status;
+    private boolean isDeleted;
 
     @Builder
     public ShortsComment(
@@ -30,13 +30,13 @@ public class ShortsComment extends BaseEntity {
             String memberUuid,
             String commentUuid,
             String content,
-            boolean status
+            boolean isDeleted
     ) {
         this.id = id;
         this.shortsUuid = shortsUuid;
         this.memberUuid = memberUuid;
         this.commentUuid = commentUuid;
         this.content = content;
-        this.status = status;
+        this.isDeleted = isDeleted;
     }
 }

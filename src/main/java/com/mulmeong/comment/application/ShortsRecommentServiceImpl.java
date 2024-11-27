@@ -28,12 +28,13 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
     private final EventPublisher eventPublisher;
 
     @Override
-    public void createShortsRecomment(ShortsRecommentRequestDto requestDto) {
+    public ShortsRecommentResponseDto createShortsRecomment(ShortsRecommentRequestDto requestDto) {
         if (!shortsCommentRepository.existsByCommentUuid(requestDto.getCommentUuid())) {
             throw new BaseException(BaseResponseStatus.NO_EXIST_COMMENT);
         }
         ShortsRecomment shortsRecomment = shortsRecommentRepository.save(requestDto.toEntity());
         eventPublisher.send(ShortsRecommentCreateEvent.toDto(shortsRecomment));
+        return ShortsRecommentResponseDto.toDto(shortsRecomment);
     }
 
     @Override

@@ -9,12 +9,12 @@ import lombok.Getter;
 public class ShortsCommentDeleteEvent {
 
     private String commentUuid;
-    private boolean status;
+    private boolean isDeleted;
 
     public static ShortsCommentDeleteEvent toDto(ShortsComment shortsComment) {
         return ShortsCommentDeleteEvent.builder()
                 .commentUuid(shortsComment.getCommentUuid())
-                .status(shortsComment.isStatus())
+                .isDeleted(shortsComment.isDeleted())
                 .build();
     }
 }

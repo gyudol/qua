@@ -9,12 +9,12 @@ import lombok.Getter;
 public class FeedCommentDeleteEvent {
 
     private String commentUuid;
-    private boolean status;
+    private boolean isDeleted;
 
     public static FeedCommentDeleteEvent toDto(FeedComment feedcomment) {
         return FeedCommentDeleteEvent.builder()
                 .commentUuid(feedcomment.getCommentUuid())
-                .status(feedcomment.isStatus())
+                .isDeleted(feedcomment.isDeleted())
                 .build();
     }
 }

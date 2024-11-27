@@ -28,9 +28,10 @@ public class ShortsCommentServiceImpl implements ShortsCommentService {
 
     @Override
     @Transactional
-    public void createShortsComment(ShortsCommentRequestDto requestDto) {
+    public ShortsCommentResponseDto createShortsComment(ShortsCommentRequestDto requestDto) {
         ShortsComment shortsComment = shortsCommentRepository.save(requestDto.toEntity());
         eventPublisher.send(ShortsCommentCreateEvent.toDto(shortsComment));
+        return ShortsCommentResponseDto.toDto(shortsComment);
     }
 
     @Override
@@ -64,9 +65,6 @@ public class ShortsCommentServiceImpl implements ShortsCommentService {
         ShortsComment shortsComment = shortsCommentRepository.findByCommentUuid(commentUuid).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT)
         );
-        if (!shortsComment.isStatus()) {
-            throw new BaseException(BaseResponseStatus.NO_EXIST_COMMENT);
-        }
         return ShortsCommentResponseDto.toDto(shortsComment);
     }
 
