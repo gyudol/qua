@@ -26,18 +26,4 @@ public class FeedRecommentController {
         return new BaseResponse<>(feedRecommentService.getFeedRecomment(recommentUuid).toVo());
     }
 
-    @GetMapping("/comments/{commentUuid}/recomments")
-    @Operation(summary = "피드 대댓글 페이지 조회", tags = {"Feed Recomment Service"})
-    public BaseResponse<CursorPage<FeedRecommentResponseVo>> findFeedRecomments(
-            @PathVariable String commentUuid,
-            @RequestParam(value = "nextCursor", required = false) Long lastId,
-            @RequestParam(value = "pageSize", required = false) Integer pageSize,
-            @RequestParam(value = "pageNo", required = false) Integer pageNo) {
-
-        CursorPage<FeedRecommentResponseDto> cursorPage = feedRecommentService
-                .getFeedRecomments(commentUuid, lastId, pageSize, pageNo);
-
-        return new BaseResponse<>(CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
-                .map(FeedRecommentResponseDto::toVo).toList()));
-    }
 }

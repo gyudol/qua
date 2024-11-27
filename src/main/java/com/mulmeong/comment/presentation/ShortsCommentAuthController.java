@@ -9,6 +9,7 @@ import com.mulmeong.comment.dto.out.ShortsCommentResponseDto;
 import com.mulmeong.comment.vo.in.ShortsCommentRequestVo;
 import com.mulmeong.comment.vo.in.ShortsCommentUpdateVo;
 import com.mulmeong.comment.vo.out.ShortsCommentResponseVo;
+import com.mulmeong.comment.vo.out.ShortsRecommentResponseVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -24,11 +25,13 @@ public class ShortsCommentAuthController {
 
     @PostMapping("/{shortsUuid}/comments")
     @Operation(summary = "쇼츠 댓글 생성", tags = {"Shorts Comment Service"})
-    public BaseResponse<Void> addShortsComment(
+    public BaseResponse<ShortsCommentResponseVo> addShortsComment(
             @RequestBody ShortsCommentRequestVo requestVo,
             @PathVariable String shortsUuid) {
-        shortsCommentService.createFeedComment(ShortsCommentRequestDto.toDto(requestVo, shortsUuid));
-        return new BaseResponse<>();
+        return new BaseResponse<>(
+                shortsCommentService.createShortsComment(ShortsCommentRequestDto.toDto(requestVo, shortsUuid)).toVo()
+
+        );
     }
 
     @PutMapping("/comments/{commentUuid}")
@@ -37,7 +40,7 @@ public class ShortsCommentAuthController {
             @RequestHeader("Member-Uuid") String memberUuid,
             @RequestBody ShortsCommentUpdateVo updateVo,
             @PathVariable String commentUuid) {
-        shortsCommentService.updateFeedComment(ShortsCommentUpdateDto.toDto(updateVo, commentUuid, memberUuid));
+        shortsCommentService.updateShortsComment(ShortsCommentUpdateDto.toDto(updateVo, commentUuid, memberUuid));
         return new BaseResponse<>();
     }
 

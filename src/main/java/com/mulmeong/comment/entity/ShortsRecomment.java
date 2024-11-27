@@ -1,6 +1,5 @@
 package com.mulmeong.comment.entity;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.mulmeong.comment.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;

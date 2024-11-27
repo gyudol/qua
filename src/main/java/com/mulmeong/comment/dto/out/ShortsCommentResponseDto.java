@@ -17,6 +17,7 @@ public class ShortsCommentResponseDto {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private boolean isDeleted;
 
     public static ShortsCommentResponseDto toDto(ShortsComment shortsComment) {
         return ShortsCommentResponseDto.builder()
@@ -26,6 +27,7 @@ public class ShortsCommentResponseDto {
                 .content(shortsComment.getContent())
                 .createdAt(shortsComment.getCreatedAt())
                 .updatedAt(shortsComment.getUpdatedAt())
+                .isDeleted(shortsComment.isDeleted())
                 .build();
     }
 
@@ -37,6 +39,7 @@ public class ShortsCommentResponseDto {
                 .content(content)
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)
+                .isDeleted(isDeleted)
                 .build();
     }
 }

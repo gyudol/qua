@@ -26,11 +26,12 @@ public class FeedCommentAuthController {
 
     @PostMapping("{feedUuid}/comments")
     @Operation(summary = "피드 댓글 생성", tags = {"Feed Comment Service"})
-    public BaseResponse<Void> addFeedComment(
+    public BaseResponse<FeedCommentResponseVo> addFeedComment(
             @RequestBody FeedCommentRequestVo requestVo,
             @PathVariable String feedUuid) {
-        feedCommentService.createFeedComment(FeedCommentRequestDto.toDto(requestVo, feedUuid));
-        return new BaseResponse<>();
+        return new BaseResponse<>(
+                feedCommentService.createFeedComment(FeedCommentRequestDto.toDto(requestVo, feedUuid)).toVo()
+        );
     }
 
     @PutMapping("/comments/{commentUuid}")

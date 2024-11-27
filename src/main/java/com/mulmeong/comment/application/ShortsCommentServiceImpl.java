@@ -2,20 +2,21 @@ package com.mulmeong.comment.application;
 
 import com.mulmeong.comment.common.exception.BaseException;
 import com.mulmeong.comment.common.response.BaseResponseStatus;
-import com.mulmeong.comment.common.utils.CursorPage;
 import com.mulmeong.comment.dto.in.ShortsCommentDeleteDto;
 import com.mulmeong.comment.dto.in.ShortsCommentRequestDto;
 import com.mulmeong.comment.dto.in.ShortsCommentUpdateDto;
 import com.mulmeong.comment.dto.out.ShortsCommentResponseDto;
 import com.mulmeong.comment.entity.ShortsComment;
 import com.mulmeong.comment.infrastructure.ShortsCommentRepository;
-import com.mulmeong.comment.infrastructure.ShortsCommentRepositoryCustom;
+import com.mulmeong.event.comment.ShortsCommentCreateEvent;
+import com.mulmeong.event.comment.ShortsCommentDeleteEvent;
+import com.mulmeong.event.comment.ShortsCommentUpdateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -23,35 +24,40 @@ import java.util.List;
 public class ShortsCommentServiceImpl implements ShortsCommentService {
 
     private final ShortsCommentRepository shortsCommentRepository;
-    private final ShortsCommentRepositoryCustom shortsCommentRepositoryCustom;
+    private final EventPublisher eventPublisher;
 
     @Override
-    public void createFeedComment(ShortsCommentRequestDto requestDto) {
-        shortsCommentRepository.save(requestDto.toEntity());
+    @Transactional
+    public ShortsCommentResponseDto createShortsComment(ShortsCommentRequestDto requestDto) {
+        ShortsComment shortsComment = shortsCommentRepository.save(requestDto.toEntity());
+        eventPublisher.send(ShortsCommentCreateEvent.toDto(shortsComment));
+        return ShortsCommentResponseDto.toDto(shortsComment);
     }
 
     @Override
     @Transactional
-    public void updateFeedComment(ShortsCommentUpdateDto updateDto) {
+    public void updateShortsComment(ShortsCommentUpdateDto updateDto) {
         ShortsComment shortsComment = shortsCommentRepository.findByCommentUuid(updateDto.getCommentUuid()).orElseThrow(
-                () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT)
-        );
+                () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT));
         if (!shortsComment.getMemberUuid().equals(updateDto.getMemberUuid())) {
             throw new BaseException(BaseResponseStatus.NO_UPDATE_COMMENT_AUTHORITY);
         }
+        LocalDateTime updatedAt = shortsComment.getUpdatedAt();
         shortsCommentRepository.save(updateDto.toEntity(shortsComment));
+        eventPublisher.send(ShortsCommentUpdateEvent.toDto(shortsComment, updatedAt));
     }
 
     @Override
     @Transactional
     public void deleteShortsComment(String memberUuid, String commentUuid) {
         ShortsComment shortsComment = shortsCommentRepository.findByCommentUuid(commentUuid).orElseThrow(
-                () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT)
-        );
+                () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT));
         if (!shortsComment.getMemberUuid().equals(memberUuid)) {
             throw new BaseException(BaseResponseStatus.NO_DELETE_COMMENT_AUTHORITY);
         }
-        shortsCommentRepository.save(ShortsCommentDeleteDto.toEntity(shortsComment));
+        ShortsComment deletedComment = shortsCommentRepository.save(ShortsCommentDeleteDto.toEntity(shortsComment));
+        eventPublisher.send(ShortsCommentDeleteEvent.toDto(deletedComment));
+
     }
 
     @Override
@@ -59,24 +65,7 @@ public class ShortsCommentServiceImpl implements ShortsCommentService {
         ShortsComment shortsComment = shortsCommentRepository.findByCommentUuid(commentUuid).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT)
         );
-        if (!shortsComment.isStatus()) {
-            throw new BaseException(BaseResponseStatus.NO_EXIST_COMMENT);
-        }
         return ShortsCommentResponseDto.toDto(shortsComment);
     }
 
-    @Override
-    public CursorPage<ShortsCommentResponseDto> getShortsCommentsByPage(
-            String shortsUuid,
-            String sortBy,
-            Long lastId,
-            Integer pageSize,
-            Integer pageNo) {
-
-        CursorPage<ShortsComment> cursorPage = shortsCommentRepositoryCustom
-                .getShortsComments(shortsUuid, sortBy, lastId, pageSize, pageNo);
-
-        return CursorPage.toCursorPage(cursorPage, cursorPage.getContent().stream()
-                .map(ShortsCommentResponseDto::toDto).toList());
-    }
 }

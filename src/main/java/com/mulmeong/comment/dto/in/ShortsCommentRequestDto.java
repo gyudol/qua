@@ -16,7 +16,7 @@ public class ShortsCommentRequestDto {
     private String memberUuid;
     private String commentUuid;
     private String content;
-    private Boolean status;
+    private Boolean isDeleted;
 
     public static ShortsCommentRequestDto toDto(ShortsCommentRequestVo requestVo, String shortsUuid) {
         return ShortsCommentRequestDto.builder()
@@ -32,7 +32,7 @@ public class ShortsCommentRequestDto {
                 .memberUuid(memberUuid)
                 .commentUuid(UUID.randomUUID().toString())
                 .content(content)
-                .status(true)
+                .isDeleted(false)
                 .build();
     }
 }
