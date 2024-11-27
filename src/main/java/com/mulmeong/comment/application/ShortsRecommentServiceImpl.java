@@ -2,14 +2,15 @@ package com.mulmeong.comment.application;
 
 import com.mulmeong.comment.common.exception.BaseException;
 import com.mulmeong.comment.common.response.BaseResponseStatus;
-import com.mulmeong.comment.common.utils.CursorPage;
 import com.mulmeong.comment.dto.in.ShortsRecommentRequestDto;
 import com.mulmeong.comment.dto.in.ShortsRecommentUpdateDto;
 import com.mulmeong.comment.dto.out.ShortsRecommentResponseDto;
 import com.mulmeong.comment.entity.ShortsRecomment;
 import com.mulmeong.comment.infrastructure.ShortsCommentRepository;
 import com.mulmeong.comment.infrastructure.ShortsRecommentRepository;
-import com.mulmeong.event.*;
+import com.mulmeong.event.comment.ShortsRecommentCreateEvent;
+import com.mulmeong.event.comment.ShortsRecommentDeleteEvent;
+import com.mulmeong.event.comment.ShortsRecommentUpdateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
             throw new BaseException(BaseResponseStatus.NO_EXIST_COMMENT);
         }
         ShortsRecomment shortsRecomment = shortsRecommentRepository.save(requestDto.toEntity());
-        eventPublisher.send("shorts-recomment-create", ShortsRecommentCreateEvent.toDto(shortsRecomment));
+        eventPublisher.send(ShortsRecommentCreateEvent.toDto(shortsRecomment));
     }
 
     @Override
@@ -45,7 +46,7 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
         }
         LocalDateTime updatedAt = shortsRecomment.getUpdatedAt();
         shortsRecommentRepository.save(updateDto.toEntity(shortsRecomment));
-        eventPublisher.send("shorts-recomment-update", ShortsRecommentUpdateEvent.toDto(shortsRecomment, updatedAt));
+        eventPublisher.send(ShortsRecommentUpdateEvent.toDto(shortsRecomment, updatedAt));
     }
 
     @Override
@@ -58,7 +59,7 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
         }
 
         shortsRecommentRepository.delete(shortsRecomment);
-        eventPublisher.send("shorts-recomment-delete", ShortsRecommentDeleteEvent.toDto(recommentUuid));
+        eventPublisher.send(ShortsRecommentDeleteEvent.toDto(recommentUuid));
     }
 
     @Override

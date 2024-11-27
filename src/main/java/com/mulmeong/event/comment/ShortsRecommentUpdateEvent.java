@@ -1,4 +1,4 @@
-package com.mulmeong.event;
+package com.mulmeong.event.comment;
 
 import com.mulmeong.comment.entity.ShortsRecomment;
 import lombok.Builder;
