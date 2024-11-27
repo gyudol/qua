@@ -5,7 +5,9 @@ import com.mulmeong.contest.common.response.BaseResponseStatus;
 import com.mulmeong.contest.dto.in.ContestRequestDto;
 import com.mulmeong.contest.dto.in.PostRequestDto;
 import com.mulmeong.contest.dto.in.PostVoteRequestDto;
+import com.mulmeong.contest.entity.ContestPost;
 import com.mulmeong.contest.infrastructure.*;
+import com.mulmeong.event.contest.ContestPostCreateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.*;
@@ -25,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class ContestServiceImpl implements ContestService {
 
+    private final EventPublisher eventPublisher;
     private final ContestRepository contestRepository;
     private final ContestPostRepository contestPostRepository;
     private final RedisTemplate<String, String> redisTemplate;
@@ -44,7 +47,8 @@ public class ContestServiceImpl implements ContestService {
         if (contestPostRepository.existsByContestIdAndMemberUuid(dto.getContestId(), dto.getMemberUuid())) {
             throw new BaseException(BaseResponseStatus.DUPLICATE_POST);
         }
-        contestPostRepository.save(dto.toEntity());
+        ContestPost contestPost = contestPostRepository.save(dto.toEntity());
+        eventPublisher.send(ContestPostCreateEvent.toDto(contestPost));
     }
 
     @Override
