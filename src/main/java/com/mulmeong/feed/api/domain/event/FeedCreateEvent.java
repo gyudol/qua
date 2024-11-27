@@ -11,11 +11,11 @@ import lombok.Getter;
 @Getter
 public class FeedCreateEvent {
 
-    private String feedUuid;
+    private  String feedUuid;
     private String memberUuid;
     private String title;
     private String content;
-    private Long categoryId;
+    private String categoryName;
     private Visibility visibility;
     private List<Hashtag> hashtags;
     private List<Media> mediaList;
@@ -24,14 +24,14 @@ public class FeedCreateEvent {
 
     @Builder
     public FeedCreateEvent(String feedUuid, String memberUuid, String title, String content,
-        Long categoryId, Visibility visibility, List<Hashtag> hashtags, List<Media> mediaList,
+        String categoryName, Visibility visibility, List<Hashtag> hashtags, List<Media> mediaList,
         LocalDateTime createdAt, LocalDateTime updatedAt) {
 
         this.feedUuid = feedUuid;
         this.memberUuid = memberUuid;
         this.title = title;
         this.content = content;
-        this.categoryId = categoryId;
+        this.categoryName = categoryName;
         this.visibility = visibility;
         this.hashtags = hashtags;
         this.mediaList = mediaList;

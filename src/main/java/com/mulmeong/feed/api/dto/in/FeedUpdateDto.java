@@ -13,7 +13,7 @@ public class FeedUpdateDto {
     private String feedUuid;
     private String title;
     private String content;
-    private Long categoryId;
+    private String categoryName;
     private LocalDateTime updatedAt;
 
     public static FeedUpdateDto toDto(FeedUpdateVo requestVo, String feedUuid) {
@@ -21,7 +21,7 @@ public class FeedUpdateDto {
             .feedUuid(feedUuid)
             .title(requestVo.getTitle())
             .content(requestVo.getContent())
-            .categoryId(requestVo.getCategoryId())
+            .categoryName(requestVo.getCategoryName())
             .updatedAt(LocalDateTime.now())
             .build();
     }
@@ -33,7 +33,7 @@ public class FeedUpdateDto {
             .memberUuid(existingFeed.getMemberUuid())
             .title(title)
             .content(content)
-            .categoryId(categoryId)
+            .categoryName(categoryName)
             .visibility(existingFeed.getVisibility())
             .updatedAt(updatedAt)
             .build();
@@ -44,19 +44,19 @@ public class FeedUpdateDto {
             .feedUuid(feedUuid)
             .title(title)
             .content(content)
-            .categoryId(categoryId)
+            .categoryName(categoryName)
             .updatedAt(updatedAt)
             .build();
     }
 
     @Builder
-    public FeedUpdateDto(String feedUuid, String title, String content, Long categoryId,
+    public FeedUpdateDto(String feedUuid, String title, String content, String categoryName,
         LocalDateTime updatedAt) {
 
         this.feedUuid = feedUuid;
         this.title = title;
         this.content = content;
-        this.categoryId = categoryId;
+        this.categoryName = categoryName;
         this.updatedAt = updatedAt;
     }
 
