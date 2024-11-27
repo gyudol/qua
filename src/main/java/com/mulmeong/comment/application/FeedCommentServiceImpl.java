@@ -28,9 +28,10 @@ public class FeedCommentServiceImpl implements FeedCommentService {
 
     @Override
     @Transactional
-    public void createFeedComment(FeedCommentRequestDto requestDto) {
+    public FeedCommentResponseDto createFeedComment(FeedCommentRequestDto requestDto) {
         FeedComment feedComment = feedCommentRepository.save(requestDto.toEntity());
         eventPublisher.send(FeedCommentCreateEvent.toDto(feedComment));
+        return FeedCommentResponseDto.toDto(feedComment);
     }
 
     @Override

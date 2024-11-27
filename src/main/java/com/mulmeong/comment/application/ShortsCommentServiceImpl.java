@@ -28,9 +28,10 @@ public class ShortsCommentServiceImpl implements ShortsCommentService {
 
     @Override
     @Transactional
-    public void createShortsComment(ShortsCommentRequestDto requestDto) {
+    public ShortsCommentResponseDto createShortsComment(ShortsCommentRequestDto requestDto) {
         ShortsComment shortsComment = shortsCommentRepository.save(requestDto.toEntity());
         eventPublisher.send(ShortsCommentCreateEvent.toDto(shortsComment));
+        return ShortsCommentResponseDto.toDto(shortsComment);
     }
 
     @Override

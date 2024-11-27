@@ -5,7 +5,7 @@ import com.mulmeong.comment.dto.in.FeedRecommentUpdateDto;
 import com.mulmeong.comment.dto.out.FeedRecommentResponseDto;
 
 public interface FeedRecommentService {
-    void createFeedRecomment(FeedRecommentRequestDto requestDto);
+    FeedRecommentResponseDto createFeedRecomment(FeedRecommentRequestDto requestDto);
 
     void updateFeedRecomment(FeedRecommentUpdateDto updateDto);
 

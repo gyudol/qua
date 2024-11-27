@@ -29,12 +29,13 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
 
     @Override
     @Transactional
-    public void createFeedRecomment(FeedRecommentRequestDto requestDto) {
+    public FeedRecommentResponseDto createFeedRecomment(FeedRecommentRequestDto requestDto) {
         if (!feedCommentRepository.existsByCommentUuid(requestDto.getCommentUuid())) {
             throw new BaseException(BaseResponseStatus.NO_EXIST_COMMENT);
         }
         FeedRecomment feedRecomment = feedRecommentRepository.save(requestDto.toEntity());
         eventPublisher.send(FeedRecommentCreateEvent.toDto(feedRecomment));
+        return FeedRecommentResponseDto.toDto(feedRecomment);
     }
 
     @Override

@@ -5,7 +5,7 @@ import com.mulmeong.comment.dto.in.ShortsRecommentUpdateDto;
 import com.mulmeong.comment.dto.out.ShortsRecommentResponseDto;
 
 public interface ShortsRecommentService {
-    void createShortsRecomment(ShortsRecommentRequestDto requestDto);
+    ShortsRecommentResponseDto createShortsRecomment(ShortsRecommentRequestDto requestDto);
 
     void updateShortsRecomment(ShortsRecommentUpdateDto updateDto);
 

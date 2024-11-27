@@ -21,11 +21,14 @@ public class ShortsRecommentAuthController {
 
     @PostMapping("/comments/{commentUuid}/recomments")
     @Operation(summary = "쇼츠 대댓글 생성", tags = {"Shorts Recomment Service"})
-    public BaseResponse<Void> addShortsRecomment(
+    public BaseResponse<ShortsRecommentResponseVo> addShortsRecomment(
             @RequestBody ShortsRecommentRequestVo requestVo,
             @PathVariable String commentUuid) {
-        shortsRecommentService.createShortsRecomment(ShortsRecommentRequestDto.toDto(requestVo, commentUuid));
-        return new BaseResponse<>();
+
+        return new BaseResponse<>(
+                shortsRecommentService.createShortsRecomment(
+                        ShortsRecommentRequestDto.toDto(requestVo, commentUuid)).toVo()
+        );
     }
 
     @PutMapping("/comments/recomments/{recommentUuid}")

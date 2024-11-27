@@ -5,7 +5,7 @@ import com.mulmeong.comment.dto.in.ShortsCommentUpdateDto;
 import com.mulmeong.comment.dto.out.ShortsCommentResponseDto;
 
 public interface ShortsCommentService {
-    void createShortsComment(ShortsCommentRequestDto requestDto);
+    ShortsCommentResponseDto createShortsComment(ShortsCommentRequestDto requestDto);
 
     void updateShortsComment(ShortsCommentUpdateDto updateDto);
 
