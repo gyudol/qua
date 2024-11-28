@@ -8,6 +8,7 @@ import com.mulmeong.contest.dto.in.PostVoteRequestDto;
 import com.mulmeong.contest.entity.ContestPost;
 import com.mulmeong.contest.infrastructure.*;
 import com.mulmeong.event.contest.ContestPostCreateEvent;
+import com.mulmeong.event.contest.ContestPostUpdateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.*;
@@ -67,6 +68,8 @@ public class ContestServiceImpl implements ContestService {
         }
 
         redisTemplate.opsForZSet().incrementScore(voteCountKey, voteRequestDto.getPostUuid(), 1);
+
+        eventPublisher.send(ContestPostUpdateEvent.toDto(voteRequestDto.getPostUuid()));
 
         redisTemplate.expire(voterSetKey, 7, TimeUnit.DAYS);
         redisTemplate.expire(voteCountKey, 7, TimeUnit.DAYS);

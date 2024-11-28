@@ -24,7 +24,7 @@ public class KafkaConfig {
                 ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
                 ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class,
                 ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class,
-                JsonSerializer.ADD_TYPE_INFO_HEADERS, false  // 여기 추가
+                JsonSerializer.ADD_TYPE_INFO_HEADERS, false
         ));
     }
 

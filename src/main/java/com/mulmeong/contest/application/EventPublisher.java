@@ -1,6 +1,7 @@
 package com.mulmeong.contest.application;
 
 import com.mulmeong.event.contest.ContestPostCreateEvent;
+import com.mulmeong.event.contest.ContestPostUpdateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,8 @@ public class EventPublisher {
 
     @Value("${event.contest.pub.topics.contest-post-create.name}")
     private String contestPostCreateEventTopic;
+    @Value("${event.contest.pub.topics.contest-post-update.name}")
+    private String contestPostUpdateEventTopic;
 
     public void send(String topic, Object event) {
         log.info("Publishing event: {}", event);
@@ -25,6 +28,11 @@ public class EventPublisher {
     public void send(ContestPostCreateEvent event) {
         kafkaTemplate.send(contestPostCreateEventTopic, event);
         log.info("topic: {}", contestPostCreateEventTopic);
+    }
+
+    public void send(ContestPostUpdateEvent event) {
+        kafkaTemplate.send(contestPostUpdateEventTopic, event);
+        log.info("update topic: {}", contestPostUpdateEventTopic);
     }
 
 }
