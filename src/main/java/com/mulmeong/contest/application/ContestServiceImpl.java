@@ -5,11 +5,11 @@ import com.mulmeong.contest.common.response.BaseResponseStatus;
 import com.mulmeong.contest.dto.in.ContestRequestDto;
 import com.mulmeong.contest.dto.in.PostRequestDto;
 import com.mulmeong.contest.dto.in.PostVoteRequestDto;
+import com.mulmeong.contest.entity.Contest;
 import com.mulmeong.contest.entity.ContestPost;
 import com.mulmeong.contest.infrastructure.*;
-import com.mulmeong.event.contest.ContestPostCreateEvent;
-import com.mulmeong.event.contest.ContestPostUpdateEvent;
-import com.mulmeong.event.contest.ContestVoteRenewEvent;
+import com.mulmeong.event.contest.produce.ContestPostCreateEvent;
+import com.mulmeong.event.contest.produce.ContestPostUpdateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.*;
@@ -23,6 +23,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -77,26 +79,33 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    public void voteRenew(ContestVoteRenewEvent message) {
-        Set<String> voteCountKeys = redisTemplate.keys(String.format(VOTE_COUNT_KEY, message.getContestId()));
+    public void voteRenew() {
+        LocalDate currentDate = LocalDate.now();
+        List<Contest> activeContests = contestRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(currentDate, currentDate);
+        log.info("contest = {}", activeContests);
 
-        if (voteCountKeys != null) {
-            for (String voteCountKey : voteCountKeys) {
-                // Sorted Set의 모든 값과 점수를 가져옴
-                Set<ZSetOperations.TypedTuple<String>> voteData = redisTemplate.opsForZSet().rangeWithScores(voteCountKey, 0, -1);
+        for (Contest contest : activeContests) {
+            Long contestId = contest.getId();
+            Set<String> voteCountKeys = redisTemplate.keys(String.format(VOTE_COUNT_KEY, contestId));
 
-                if (voteData != null) {
-                    for (ZSetOperations.TypedTuple<String> entry : voteData) {
-                        String postUuid = entry.getValue();
-                        Integer score = Objects.requireNonNull(entry.getScore()).intValue();
+            if (voteCountKeys != null) {
+                for (String voteCountKey : voteCountKeys) {
+                    // Sorted Set의 모든 값과 점수를 가져옴
+                    Set<ZSetOperations.TypedTuple<String>> voteData = redisTemplate.opsForZSet().rangeWithScores(voteCountKey, 0, -1);
 
-                        // 이벤트 발행
-                        eventPublisher.send(ContestPostUpdateEvent.toDto(postUuid, score));
+                    if (voteData != null) {
+                        for (ZSetOperations.TypedTuple<String> entry : voteData) {
+                            String postUuid = entry.getValue();
+                            Integer score = Objects.requireNonNull(entry.getScore()).intValue();
+
+                            // 이벤트 발행
+                            eventPublisher.send(ContestPostUpdateEvent.toDto(postUuid, score));
+                        }
                     }
-                }
 
-                // 키 삭제
-                redisTemplate.delete(voteCountKey);
+                    // 키 삭제
+                    redisTemplate.delete(voteCountKey);
+                }
             }
         }
     }

@@ -1,8 +1,7 @@
-package com.mulmeong.event.contest;
+package com.mulmeong.event.contest.produce;
 
 import com.mulmeong.contest.entity.ContestPost;
 import com.mulmeong.contest.entity.MediaType;
-import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 

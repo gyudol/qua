@@ -1,7 +1,7 @@
 package com.mulmeong.contest.application;
 
-import com.mulmeong.event.contest.ContestPostCreateEvent;
-import com.mulmeong.event.contest.ContestPostUpdateEvent;
+import com.mulmeong.event.contest.produce.ContestPostCreateEvent;
+import com.mulmeong.event.contest.produce.ContestPostUpdateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

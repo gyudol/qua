@@ -1,6 +1,5 @@
 package com.mulmeong.contest.common.config;
 
-import com.mulmeong.event.contest.ContestVoteRenewEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,8 +23,8 @@ public class KafkaConsumerConfig {
     private String groupId;
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ContestVoteRenewEvent> contestVoteRenewListener() {
-        return kafkaListenerContainerFactory(ContestVoteRenewEvent.class);
+    public ConcurrentKafkaListenerContainerFactory<String, String> contestVoteRenewListener() {
+        return kafkaListenerContainerFactory(String.class);
     }
 
 

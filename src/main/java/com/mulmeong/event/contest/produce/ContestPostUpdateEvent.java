@@ -1,4 +1,4 @@
-package com.mulmeong.event.contest;
+package com.mulmeong.event.contest.produce;
 
 import lombok.Builder;
 import lombok.Getter;
