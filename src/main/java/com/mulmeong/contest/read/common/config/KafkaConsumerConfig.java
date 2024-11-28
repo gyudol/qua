@@ -28,20 +28,22 @@ public class KafkaConsumerConfig {
     public ConcurrentKafkaListenerContainerFactory<String, ContestPostCreateEvent> contestPostCreateListener() {
         return kafkaListenerContainerFactory(ContestPostCreateEvent.class);
     }
-
-
     @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ContestPostUpdateEvent> contestPostUpdateListener() {
+        return kafkaListenerContainerFactory(ContestPostUpdateEvent.class);
+    }
+
+
     public <T> ConsumerFactory<String, T> consumerFactory(Class<T> messageType) {
         return new DefaultKafkaConsumerFactory<>(Map.of(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class,
                 ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class,
-                JsonDeserializer.VALUE_DEFAULT_TYPE, messageType,
+                JsonDeserializer.VALUE_DEFAULT_TYPE, messageType.getName(),
                 JsonDeserializer.TRUSTED_PACKAGES, "com.mulmeong.event.contest"
         ));
     }
 
-    @Bean
     public <T> ConcurrentKafkaListenerContainerFactory<String, T> kafkaListenerContainerFactory(Class<T> messageType) {
         ConcurrentKafkaListenerContainerFactory<String, T> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();

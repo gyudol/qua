@@ -22,7 +22,9 @@ public enum BaseResponseStatus {
     NO_SIGN_IN(HttpStatus.UNAUTHORIZED, false, 402, "로그인을 먼저 진행해주세요"),
 
     // 900 : 기타 에러
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "요청 처리 중 에러가 발생하였습니다.");
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "요청 처리 중 에러가 발생하였습니다."),
+
+    NOT_EXIST_POST(HttpStatus.NOT_FOUND, false, 3001, "존재하지 않는 포스트입니다");
 
 
     private final HttpStatusCode httpStatusCode;

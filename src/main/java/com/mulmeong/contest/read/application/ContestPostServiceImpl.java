@@ -1,7 +1,11 @@
 package com.mulmeong.contest.read.application;
 
+import com.mulmeong.contest.read.common.exception.BaseException;
+import com.mulmeong.contest.read.common.response.BaseResponseStatus;
+import com.mulmeong.contest.read.entity.ContestPost;
 import com.mulmeong.contest.read.infrastructure.ContestPostRepository;
 import com.mulmeong.event.contest.ContestPostCreateEvent;
+import com.mulmeong.event.contest.ContestPostUpdateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,5 +21,15 @@ public class ContestPostServiceImpl implements ContestPostService{
     public void createContestPost(ContestPostCreateEvent message) {
         log.info("this is ContestPost: {}", message);
         contestPostRepository.save(message.toEntity());
+    }
+
+    @Override
+    public void updateContestPost(ContestPostUpdateEvent message) {
+
+        ContestPost post = contestPostRepository.findByPostUuid(message.getPostUuid()).orElseThrow(
+                () -> new BaseException(BaseResponseStatus.NOT_EXIST_POST)
+        );
+
+        contestPostRepository.save(message.toEntity(post, message.getCount()));
     }
 }
