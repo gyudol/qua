@@ -10,7 +10,6 @@ import com.mulmeong.feed.read.api.domain.event.FeedUpdateEvent;
 import com.mulmeong.feed.read.api.infrastructure.FeedEventRepository;
 import com.mulmeong.feed.read.common.exception.BaseException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 public class FeedEventHandlerServiceImpl implements FeedEventHandlerService {
 
     private final FeedEventRepository feedEventRepository;
-    private final MongoTemplate mongoTemplate;
 
     @Override
     public void createFeedFromEvent(FeedCreateEvent event) {
@@ -50,7 +48,7 @@ public class FeedEventHandlerServiceImpl implements FeedEventHandlerService {
     @Override
     public void deleteFeedFromEvent(FeedDeleteEvent event) {
 
-        feedEventRepository.deleteByFeedUuid(event.getFeedUuid());
+        feedEventRepository.deleteById(event.getFeedUuid());
     }
 
 }
