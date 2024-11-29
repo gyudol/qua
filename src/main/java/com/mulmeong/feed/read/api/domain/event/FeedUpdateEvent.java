@@ -27,6 +27,7 @@ public class FeedUpdateEvent {
             .mediaList(existingFeed.getMediaList())
             .likeCount(existingFeed.getLikeCount())
             .dislikeCount(existingFeed.getDislikeCount())
+            .netLikes(existingFeed.getNetLikes())
             .commentCount(existingFeed.getCommentCount())
             .createdAt(existingFeed.getCreatedAt())
             .updatedAt(updatedAt)

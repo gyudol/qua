@@ -1,4 +1,4 @@
-package com.mulmeong.feed.read.api.dto;
+package com.mulmeong.feed.read.api.dto.out;
 
 import com.mulmeong.feed.read.api.domain.document.Feed;
 import com.mulmeong.feed.read.api.domain.model.Hashtag;

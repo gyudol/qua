@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Feed {
 
     @Id
+    private String id;
     private String feedUuid;
     private String memberUuid;
     private String title;
@@ -27,6 +28,7 @@ public class Feed {
     private List<Media> mediaList;
     private Long likeCount;
     private Long dislikeCount;
+    private Long netLikes;  // likesCount - dislikeCount
     private Long commentCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -34,8 +36,8 @@ public class Feed {
     @Builder
     public Feed(String feedUuid, String memberUuid, String title, String content,
         String categoryName, Visibility visibility, List<Hashtag> hashtags, List<Media> mediaList,
-        Long likeCount, Long dislikeCount, Long commentCount, LocalDateTime createdAt,
-        LocalDateTime updatedAt) {
+        Long likeCount, Long dislikeCount, Long netLikes, Long commentCount,
+        LocalDateTime createdAt, LocalDateTime updatedAt) {
 
         this.feedUuid = feedUuid;
         this.memberUuid = memberUuid;
@@ -47,6 +49,7 @@ public class Feed {
         this.mediaList = mediaList;
         this.likeCount = likeCount;
         this.dislikeCount = dislikeCount;
+        this.netLikes = netLikes;
         this.commentCount = commentCount;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;

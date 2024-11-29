@@ -36,6 +36,7 @@ public class FeedCreateEvent {
             .mediaList(mediaList)
             .likeCount(0L)
             .dislikeCount(0L)
+            .netLikes(0L)
             .commentCount(0L)
             .createdAt(createdAt)
             .updatedAt(updatedAt)

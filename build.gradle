@@ -53,6 +53,14 @@ dependencies {
 	// Database
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
+	// QueryDSL
+	implementation 'com.querydsl:querydsl-core:5.0.0'
+	implementation('com.querydsl:querydsl-mongodb') {
+		exclude group: 'org.mongodb', module: 'mongo-java-driver'
+	}
+	annotationProcessor 'com.querydsl:querydsl-apt:5.0.0'
+	annotationProcessor 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
 	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -74,4 +82,10 @@ dependencyManagement {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+compileJava {
+	options.compilerArgs += [
+			"-processor", 'lombok.launch.AnnotationProcessorHider$AnnotationProcessor,org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor'
+	]
 }

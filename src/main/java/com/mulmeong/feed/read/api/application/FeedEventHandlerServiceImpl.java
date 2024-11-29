@@ -27,28 +27,31 @@ public class FeedEventHandlerServiceImpl implements FeedEventHandlerService {
     @Override
     public void updateFeedHashtagFromEvent(FeedHashtagUpdateEvent event) {
 
-        feedEventRepository.save(event.toDocument(feedEventRepository.findById(event.getFeedUuid())
+        feedEventRepository.save(
+            event.toDocument(feedEventRepository.findByFeedUuid(event.getFeedUuid())
                 .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
     }
 
     @Override
     public void updateFeedStatusFromEvent(FeedStatusUpdateEvent event) {
 
-        feedEventRepository.save(event.toDocument(feedEventRepository.findById(event.getFeedUuid())
-            .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
+        feedEventRepository.save(
+            event.toDocument(feedEventRepository.findByFeedUuid(event.getFeedUuid())
+                .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
     }
 
     @Override
     public void updateFeedFromEvent(FeedUpdateEvent event) {
 
-        feedEventRepository.save(event.toDocument(feedEventRepository.findById(event.getFeedUuid())
-            .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
+        feedEventRepository.save(
+            event.toDocument(feedEventRepository.findByFeedUuid(event.getFeedUuid())
+                .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
     }
 
     @Override
     public void deleteFeedFromEvent(FeedDeleteEvent event) {
 
-        feedEventRepository.deleteById(event.getFeedUuid());
+        feedEventRepository.deleteByFeedUuid(event.getFeedUuid());
     }
 
 }
