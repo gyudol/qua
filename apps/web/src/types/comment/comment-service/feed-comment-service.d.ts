@@ -11,7 +11,7 @@ import type {
 export type GetFeedCommentReq = GetCommentReq;
 export interface GetFeedCommentsReq extends GetCommentsReq, FeedReq {}
 export interface PostFeedCommentReq extends PostCommentReq, FeedReq {}
-export interface PutFeedCommentReq extends PutCommentReq, FeedReq {}
+export type PutFeedCommentReq = PutCommentReq;
 export type DeleteFeedCommentReq = DeleteCommentReq;
 
 export interface FeedComment extends BaseComment {
