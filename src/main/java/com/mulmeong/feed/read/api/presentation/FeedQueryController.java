@@ -24,7 +24,11 @@ public class FeedQueryController {
 
     private final FeedQueryService feedQueryService;
 
-    @Operation(summary = "Feed 단건 정보 조회 API", description = "feedUuid 기준 **Feed Detail 조회**")
+    @Operation(summary = "Feed 단건 정보 조회 API", description = """
+        - Visibility: `VISIBLE` / `HIDDEN` / `REPORTED`<br>
+        - MediaType: `IMAGE` / `VIDEO`<br>
+        - MediaSubType: `IMAGE` / `VIDEO_THUMBNAIL` / `VIDEO_360` / `VIDEO_540` / `VIDEO_720` / `VIDEO_MP4`<br><br>
+        - FeedMedia 테이블은 **FE에서 생성한 MediaUUID를 기본키로 설정**하는 것에 주의""")
     @GetMapping("/{feedUuid}")
     public BaseResponse<FeedResponseDto> getSingleFeed(@PathVariable String feedUuid) {
 
@@ -32,8 +36,10 @@ public class FeedQueryController {
     }
 
     @Operation(summary = "(특정 카테고리 / 특정 해시태그)의 (최신순 / 좋아요순) 피드 목록 조회 API",
-        description = "sortBy: `LATEST` / `LIKES` (대·소문자 구분하지 않음)<br><br>"
-                      + "LATEST: **최신순**, LIKES: **netLikes 내림차순** (likesCount - dislikeCount)")
+        description = """
+            - sortBy: `LATEST` / `LIKES` (대·소문자 구분하지 않음)<br><br>
+            - LATEST: **최신순**, LIKES: **netLikes 내림차순** (likesCount - dislikeCount)<br><br>
+            - Visibility: `VISIBLE`인 피드 목록만 조회""")
     @GetMapping
     public BaseResponse<CursorPage<FeedResponseDto>> getFeedsByCategoryOrTag(
         @RequestParam(required = false) String categoryName,

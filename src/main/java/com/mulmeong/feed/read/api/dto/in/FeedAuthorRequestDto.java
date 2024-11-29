@@ -6,17 +6,17 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class FeedFilterRequestDto extends BasePaginationRequestDto {
+public class FeedAuthorRequestDto extends BasePaginationRequestDto {
 
-    private String categoryName;
-    private String hashtagName;
+    private String authorUuid;
+    private String requesterUuid;
 
-    public static FeedFilterRequestDto toDto(String categoryName, String hashtagName, String sortBy,
+    public static FeedAuthorRequestDto toDto(String authorUuid, String requesterUuid, String sortBy,
         String lastId, Integer pageSize, Integer pageNo) {
 
-        return FeedFilterRequestDto.builder()
-            .categoryName(categoryName)
-            .hashtagName(hashtagName)
+        return FeedAuthorRequestDto.builder()
+            .authorUuid(authorUuid)
+            .requesterUuid(requesterUuid)
             .sortType(SortType.valueOf(sortBy.toUpperCase()))
             .lastId(lastId)
             .pageSize(pageSize)
@@ -25,12 +25,12 @@ public class FeedFilterRequestDto extends BasePaginationRequestDto {
     }
 
     @Builder
-    public FeedFilterRequestDto(String hashtagName, SortType sortType, String categoryName,
+    public FeedAuthorRequestDto(String authorUuid, String requesterUuid, SortType sortType,
         String lastId, Integer pageSize, Integer pageNo) {
 
         super(sortType, lastId, pageSize, pageNo);
-        this.hashtagName = hashtagName;
-        this.categoryName = categoryName;
+        this.authorUuid = authorUuid;
+        this.requesterUuid = requesterUuid;
     }
 
 }

@@ -4,7 +4,9 @@ import com.mulmeong.feed.read.api.domain.document.Feed;
 import com.mulmeong.feed.read.api.domain.document.QFeed;
 import com.mulmeong.feed.read.api.domain.model.SortType;
 import com.mulmeong.feed.read.api.domain.model.Visibility;
+import com.mulmeong.feed.read.api.dto.in.FeedAuthorRequestDto;
 import com.mulmeong.feed.read.api.dto.in.FeedFilterRequestDto;
+import com.mulmeong.feed.read.api.dto.model.BasePaginationRequestDto;
 import com.mulmeong.feed.read.api.dto.out.FeedResponseDto;
 import com.mulmeong.feed.read.common.utils.CursorPage;
 import com.querydsl.core.BooleanBuilder;
@@ -37,7 +39,25 @@ public class FeedCustomRepository {     // QueryDSL Repository
         Optional.ofNullable(requestDto.getHashtagName()).ifPresent(hashtag ->
             builder.and(feed.hashtags.any().name.eq(hashtag)));
 
-        // 마지막 ID 커서 적용
+        return getFeedsWithPagination(requestDto, builder);
+    }
+
+    public CursorPage<FeedResponseDto> getFeedsByAuthor(FeedAuthorRequestDto requestDto) {
+
+        BooleanBuilder builder = new BooleanBuilder();
+
+        if (!requestDto.getRequesterUuid().equals(requestDto.getAuthorUuid())) {
+            builder.and(feed.visibility.eq(Visibility.VISIBLE));
+        }
+        Optional.ofNullable(requestDto.getAuthorUuid()).ifPresent(author ->
+            builder.and(feed.memberUuid.eq(author)));
+
+        return getFeedsWithPagination(requestDto, builder);
+    }
+
+    private CursorPage<FeedResponseDto> getFeedsWithPagination(BasePaginationRequestDto requestDto,
+        BooleanBuilder builder) {
+
         Optional.ofNullable(requestDto.getLastId()).ifPresent(id -> builder.and(feed.id.lt(id)));
 
         int curPageNo = Optional.ofNullable(requestDto.getPageNo()).orElse(DEFAULT_PAGE_NUMBER);
@@ -58,8 +78,8 @@ public class FeedCustomRepository {     // QueryDSL Repository
 
         if (content.size() > curPageSize) {
             hasNext = true;
-            nextCursor = content.get(curPageSize).getId();  // 마지막 항목의 ID를 커서로 설정
-            content = content.subList(0, curPageSize);      // 실제 페이지 사이즈 만큼 자르기
+            nextCursor = content.get(curPageSize).getId();
+            content = content.subList(0, curPageSize);
         }
 
         return new CursorPage<>(content.stream().map(FeedResponseDto::fromDocument).toList(),

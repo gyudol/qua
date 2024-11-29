@@ -2,6 +2,7 @@ package com.mulmeong.feed.read.api.application;
 
 import static com.mulmeong.feed.read.common.response.BaseResponseStatus.FEED_NOT_FOUND;
 
+import com.mulmeong.feed.read.api.dto.in.FeedAuthorRequestDto;
 import com.mulmeong.feed.read.api.dto.in.FeedFilterRequestDto;
 import com.mulmeong.feed.read.api.dto.out.FeedResponseDto;
 import com.mulmeong.feed.read.api.infrastructure.FeedCustomRepository;
@@ -32,6 +33,13 @@ public class FeedQueryServiceImpl implements FeedQueryService {
     public CursorPage<FeedResponseDto> getFeedsByCategoryOrTag(FeedFilterRequestDto requestDto) {
 
         return feedCustomRepository.getFeedsByCategoryOrTag(requestDto);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public CursorPage<FeedResponseDto> getFeedsByAuthor(FeedAuthorRequestDto requestDto) {
+
+        return feedCustomRepository.getFeedsByAuthor(requestDto);
     }
 
 }
