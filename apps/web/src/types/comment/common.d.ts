@@ -29,6 +29,7 @@ export type DeleteCommentReq = CommentReq;
 
 export interface BaseComment extends Base {
   commentUuid: CommentUuid;
+  deleted: boolean;
 }
 
 // Recomment
