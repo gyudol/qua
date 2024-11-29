@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import { useEffect } from "react";
-import Bubbles from "@/components/fish/\bBubbles";
+import Bubbles from "@/components/fish/Bubbles";
 import { fishCategoryData } from "@/store/InitialData";
 
 interface SidebarProps {

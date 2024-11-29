@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function Bubble() {
   // 거품의 랜덤한 크기와 위치
