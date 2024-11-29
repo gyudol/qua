@@ -10,8 +10,6 @@ public interface FeedService {
 
     void createFeed(FeedCreateDto requestDto);
 
-    FeedResponseDto getFeedDetail(String feedUuid);
-
     void updateFeed(FeedUpdateDto requestDto);
 
     void updateFeedStatus(FeedStatusUpdateDto requestDto);

@@ -37,7 +37,7 @@ public class SwaggerConfig {
         return new Info()
             .title("Qua - FEED SERVICE API")
             .version("v1")
-            .description("Feed Service API Docs: <strong>Read & Write Operations</strong>");
+            .description("Feed Command Service API Docs");
     }
 
 }
