@@ -1,12 +1,12 @@
 "use client";
 
 import type { Dispatch, SetStateAction } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import type {
   FeedComment,
   FeedRecomment,
 } from "@/types/comment/comment-read-service";
-import type { MemberProfile } from "@/types/member/member-read-service";
 import { getMemberProfile } from "@/actions/member-read-service";
 import { Profile } from "@/components/profile/molecules";
 import { PostedAt } from "@/components/common/atoms";
@@ -21,27 +21,23 @@ interface CommentViewProps extends FeedComment {
 export function CommentView({
   setCommentList,
   setRecommentList,
-  ...comment
+  ...commentData
 }: CommentViewProps) {
-  const [
-    {
-      commentUuid,
-      memberUuid,
-      createdAt,
-      updatedAt: _,
-      content,
-      likeCount,
-      dislikeCount,
-    },
-    setComment,
-  ] = useState<FeedComment>(comment);
-  const [memberProfile, setMemberProfile] = useState<MemberProfile | null>(
-    null,
-  );
+  const [comment, setComment] = useState<FeedComment>(commentData);
+  const {
+    commentUuid,
+    memberUuid,
+    createdAt,
+    updatedAt: _,
+    content,
+    likeCount,
+    dislikeCount,
+  } = comment;
 
-  useEffect(() => {
-    void getMemberProfile({ memberUuid }).then((res) => setMemberProfile(res));
-  }, [memberUuid]);
+  const { data: memberProfile } = useQuery({
+    queryKey: ["member-profile", memberUuid],
+    queryFn: () => getMemberProfile({ memberUuid }),
+  });
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
 

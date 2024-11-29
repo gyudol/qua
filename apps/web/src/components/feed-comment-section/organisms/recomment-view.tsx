@@ -1,12 +1,12 @@
 "use client";
 
 import type { Dispatch, SetStateAction } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getMemberProfile } from "@/actions/member-read-service";
 import { PostedAt } from "@/components/common/atoms";
 import { Profile } from "@/components/profile/molecules";
 import type { FeedRecomment } from "@/types/comment/comment-read-service";
-import type { MemberProfile } from "@/types/member";
 import { RecommentButtonGroup } from "../molecules";
 import { RecommentEditInput, RecommentMoreButton } from "../atoms";
 
@@ -16,29 +16,25 @@ interface RecommentViewProps extends FeedRecomment {
 
 export function RecommentView({
   setRecommentList,
-  ...recomment
+  ...recommentData
 }: RecommentViewProps) {
-  const [memberProfile, setMemberProfile] = useState<MemberProfile | null>(
-    null,
-  );
-  const [
-    {
-      commentUuid,
-      recommentUuid,
-      memberUuid,
-      createdAt,
-      updatedAt: _,
-      content,
-      likeCount,
-      dislikeCount,
-    },
-    setRecomment,
-  ] = useState<FeedRecomment>(recomment);
+  const [recomment, setRecomment] = useState<FeedRecomment>(recommentData);
+  const {
+    commentUuid,
+    recommentUuid,
+    memberUuid,
+    createdAt,
+    updatedAt: _,
+    content,
+    likeCount,
+    dislikeCount,
+  } = recomment;
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  useEffect(() => {
-    void getMemberProfile({ memberUuid }).then((res) => setMemberProfile(res));
-  }, [memberUuid]);
+  const { data: memberProfile } = useQuery({
+    queryKey: ["member-profile", memberUuid],
+    queryFn: () => getMemberProfile({ memberUuid }),
+  });
 
   return (
     <div className="flex">
