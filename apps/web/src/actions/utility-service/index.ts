@@ -1,3 +1,3 @@
-export * from "./bookmarkService";
-export * from "./followService";
-export * from "./likeService";
+export * from "./bookmark-service";
+export * from "./follow-service";
+export * from "./like-service";

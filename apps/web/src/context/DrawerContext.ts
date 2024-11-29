@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useContext } from "react";
-import type { TargetType } from "@/types/comment-service";
+import type { TargetType } from "@/types/comment/@legacy-comment-service";
 
 export interface CommentTargetType {
   targetType?: TargetType;

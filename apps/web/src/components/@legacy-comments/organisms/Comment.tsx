@@ -20,8 +20,11 @@ import { useState } from "react";
 import { PostedAt } from "@/components/common/atoms";
 import { Profile } from "@/components/profile/molecules";
 import { alertNotImplemented } from "@/functions/utils";
-import type { CommentReqParam, TargetType } from "@/types/comment-service";
-import { DeleteComment, GetComment } from "@/actions/comment-service";
+import type {
+  CommentReqParam,
+  TargetType,
+} from "@/types/comment/@legacy-comment-service";
+import { DeleteComment, GetComment } from "@/actions/@legacy-comment-service";
 import { getMemberProfile } from "@/actions/member-read-service";
 
 type CommentProp<
@@ -85,8 +88,7 @@ export default function Comment<
   if (isCommentLoading || isMemberProfileLoading) return <p>불러오는 중</p>;
   if (commentError || memberProfileError) return <p>Something went wrong!</p>;
 
-  const { nickname } = memberProfile!;
-  let { profileImageUrl } = memberProfile!;
+  let { profileImageUrl, nickname } = memberProfile!;
   const profileUrl = `/profile/${nickname}`;
   const { createdAt } = comment!;
   profileImageUrl = "/dummies/members/member-001.png";

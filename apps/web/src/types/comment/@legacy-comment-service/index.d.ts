@@ -1,5 +1,5 @@
-import type { Datetime } from "../common";
-import type { Uuid } from "../contents";
+import type { Datetime } from "../../common";
+import type { Uuid } from "../../contents";
 
 type TargetType = "feeds" | "shorts";
 
