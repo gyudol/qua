@@ -1,4 +1,4 @@
-package com.mulmeong.test.common.response;
+package com.mulmeong.notification.common.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
