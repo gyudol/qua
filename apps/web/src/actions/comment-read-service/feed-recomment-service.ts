@@ -1,3 +1,5 @@
+"use server";
+
 import { toURLSearchParams } from "@/functions/utils";
 import type {
   FeedRecomment,

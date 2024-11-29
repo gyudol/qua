@@ -1,3 +1,5 @@
+"use server";
+
 import type {
   DislikeStatus,
   GetDislikeStatusReq,
@@ -9,39 +11,39 @@ import type {
 } from "@/types/utility-service";
 import type { EmptyObject } from "@/types/common";
 import { toURLSearchParams } from "@/functions/utils";
-import { getHeaders, getSessionMemberUuid, processResponse } from "../common";
+import { getHeaders, processResponse } from "../common";
 
 const API_SERVER = process.env.BASE_API_URL;
 const PREFIX = "utility-service";
 
-export async function postLike({ ...body }: Omit<PostLikeReq, "memberUuid">) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/members/likes`;
+export async function postLike({ ...body }: PostLikeReq) {
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/likes`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "POST",
     cache: "no-cache",
-    body: JSON.stringify({ ...body, memberUuid: await getSessionMemberUuid() }),
+    body: JSON.stringify({ ...body }),
   });
 
   return processResponse<EmptyObject, false>({ res });
 }
 
 export async function postDislike({ ...body }: PostDislikeReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/members/dislike`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/dislike`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "POST",
     cache: "no-cache",
-    body: JSON.stringify(body),
+    body: JSON.stringify({ ...body }),
   });
 
   return processResponse<EmptyObject, false>({ res });
 }
 
 export async function getLikeStatus({ kind, kindUuid }: GetLikeStatusReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/members/${kind}/${kindUuid}/like-status`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/${kind}/${kindUuid}/like-status`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
@@ -56,7 +58,7 @@ export async function getDislikeStatus({
   kind,
   kindUuid,
 }: GetDislikeStatusReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/members/${kind}/${kindUuid}/dislike-status`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/${kind}/${kindUuid}/dislike-status`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
@@ -68,7 +70,7 @@ export async function getDislikeStatus({
 }
 
 export async function getLikes({ kind, ...query }: GetLikesReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/members/${kind}/likes?${toURLSearchParams(query)}`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/${kind}/likes?${toURLSearchParams(query)}`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),

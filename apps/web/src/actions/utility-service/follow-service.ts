@@ -19,7 +19,7 @@ export async function postFollowing({
   sourceUuid,
   targetUuid,
 }: PostFollowingReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/members/${sourceUuid}/following/${targetUuid}`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/${sourceUuid}/following/${targetUuid}`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
@@ -34,7 +34,7 @@ export async function deleteFollowing({
   sourceUuid,
   targetUuid,
 }: DeleteFollowingReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/members/${sourceUuid}/following/${targetUuid}`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/${sourceUuid}/following/${targetUuid}`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
@@ -52,7 +52,7 @@ export async function getFollowStatus({
   sourceUuid?: string;
   targetUuid: string;
 }) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/members/${sourceUuid}/follow-status/${targetUuid}`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/${sourceUuid}/follow-status/${targetUuid}`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),

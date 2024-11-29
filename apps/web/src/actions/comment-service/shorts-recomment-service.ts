@@ -1,3 +1,5 @@
+"use server";
+
 import type {
   DeleteShortsRecommentReq,
   GetShortsRecommentReq,
@@ -17,7 +19,7 @@ export async function putShortsRecomment({
   recommentUuid,
   content,
 }: PutShortsRecommentReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/shorts/comments/recomments/${recommentUuid}`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/shorts/comments/recomments/${recommentUuid}`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
@@ -32,7 +34,7 @@ export async function putShortsRecomment({
 export async function deleteShortsRecomment({
   recommentUuid,
 }: DeleteShortsRecommentReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/shorts/comments/recomments/${recommentUuid}`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/shorts/comments/recomments/${recommentUuid}`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
@@ -47,7 +49,7 @@ export async function postShortsRecomment({
   commentUuid,
   ...body
 }: PostShortsRecommentReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/shorts/comments/${commentUuid}/recomments`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/shorts/comments/${commentUuid}/recomments`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
@@ -56,7 +58,7 @@ export async function postShortsRecomment({
     body: JSON.stringify(body),
   });
 
-  return processResponse<EmptyObject, false>({ res });
+  return processResponse<ShortsRecomment, false>({ res });
 }
 
 export async function getShortsRecomments({

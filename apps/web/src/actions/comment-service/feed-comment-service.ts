@@ -1,3 +1,5 @@
+"use server";
+
 import type {
   GetFeedCommentReq,
   GetFeedCommentsReq,
@@ -17,7 +19,7 @@ export async function putFeedComment({
   commentUuid,
   content,
 }: PutFeedCommentReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/feeds/comments/${commentUuid}`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/feeds/comments/${commentUuid}`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
@@ -30,7 +32,7 @@ export async function putFeedComment({
 }
 
 export async function deleteFeedComment({ commentUuid }: DeleteCommentReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/feeds/comments/${commentUuid}`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/feeds/comments/${commentUuid}`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
@@ -45,7 +47,7 @@ export async function postFeedComment({
   feedUuid,
   ...body
 }: PostFeedCommentReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/feeds/${feedUuid}/comments`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/feeds/${feedUuid}/comments`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
@@ -54,7 +56,7 @@ export async function postFeedComment({
     body: JSON.stringify(body),
   });
 
-  return processResponse<EmptyObject, false>({ res });
+  return processResponse<FeedComment, false>({ res });
 }
 
 export async function getFeedComments({

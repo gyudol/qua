@@ -1,3 +1,5 @@
+"use server";
+
 import type {
   DeleteFeedRecommentReq,
   GetFeedRecommentReq,
@@ -17,7 +19,7 @@ export async function putFeedRecomment({
   recommentUuid,
   content,
 }: PutFeedRecommentReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/feeds/comments/recomments/${recommentUuid}`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/feeds/comments/recomments/${recommentUuid}`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
@@ -32,7 +34,7 @@ export async function putFeedRecomment({
 export async function deleteFeedRecomment({
   recommentUuid,
 }: DeleteFeedRecommentReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/feeds/comments/recomments/${recommentUuid}`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/feeds/comments/recomments/${recommentUuid}`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
@@ -47,7 +49,7 @@ export async function postFeedRecomment({
   commentUuid,
   ...body
 }: PostFeedRecommentReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/feeds/comments/${commentUuid}/recomments`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/feeds/comments/${commentUuid}/recomments`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
@@ -56,7 +58,7 @@ export async function postFeedRecomment({
     body: JSON.stringify(body),
   });
 
-  return processResponse<EmptyObject, false>({ res });
+  return processResponse<FeedRecomment, false>({ res });
 }
 
 export async function getFeedRecomments({

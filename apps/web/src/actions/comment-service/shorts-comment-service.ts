@@ -1,3 +1,5 @@
+"use server";
+
 import type {
   GetShortsCommentReq,
   GetShortsCommentsReq,
@@ -17,7 +19,7 @@ export async function putShortsComment({
   commentUuid,
   content,
 }: PutShortsCommentReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/shorts/comments/${commentUuid}`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/shorts/comments/${commentUuid}`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
@@ -30,7 +32,7 @@ export async function putShortsComment({
 }
 
 export async function deleteShortsComment({ commentUuid }: DeleteCommentReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/shorts/comments/${commentUuid}`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/shorts/comments/${commentUuid}`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
@@ -45,7 +47,7 @@ export async function postShortsComment({
   shortsUuid,
   ...body
 }: PostShortsCommentReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/shorts/${shortsUuid}/comments`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/shorts/${shortsUuid}/comments`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
@@ -54,7 +56,7 @@ export async function postShortsComment({
     body: JSON.stringify(body),
   });
 
-  return processResponse<EmptyObject, false>({ res });
+  return processResponse<ShortsComment, false>({ res });
 }
 
 export async function getShortsComments({
