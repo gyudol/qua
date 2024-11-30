@@ -22,7 +22,7 @@ export function CommentView({
   commentUuid,
   memberUuid,
   createdAt,
-  updatedAt: _,
+  updatedAt,
   content,
   likeCount,
   dislikeCount,
@@ -47,7 +47,7 @@ export function CommentView({
             <div className="flex items-center">
               <span>{memberProfile?.nickname}</span>
               <span>
-                <PostedAt postedAt={createdAt} />
+                <PostedAt {...{ createdAt, updatedAt }} />
               </span>
             </div>
             <div>{content}</div>

@@ -90,7 +90,7 @@ export default function Comment<
 
   let { profileImageUrl, nickname } = memberProfile!;
   const profileUrl = `/profile/${nickname}`;
-  const { createdAt } = comment!;
+  const { createdAt, updatedAt } = comment!;
   profileImageUrl = "/dummies/members/member-001.png";
 
   if (isDeleted) return <div>삭제되었습니다</div>;
@@ -107,7 +107,7 @@ export default function Comment<
           <div className="flex items-center gap-2">
             <Profile.NameWithLink href={profileUrl} nickname={nickname} />
             &#183;
-            <PostedAt postedAt={createdAt} />
+            <PostedAt {...{ createdAt, updatedAt }} />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger>
