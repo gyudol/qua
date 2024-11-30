@@ -5,6 +5,7 @@ import {
   useGetFeedCommentsInfiniteQuery,
   usePostFeedCommentQuery,
 } from "@/hooks/comment-service";
+import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { CommentThread } from "../organisms";
 import { CommentInput } from "../atoms";
 
@@ -13,14 +14,14 @@ interface CommentSectionProps {
 }
 
 export function CommentSection({ feedUuid }: CommentSectionProps) {
-  const {
-    data,
-    hasNextPage: _1,
-    fetchNextPage: _2,
-    status: _3,
-  } = useGetFeedCommentsInfiniteQuery({ feedUuid });
-
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useGetFeedCommentsInfiniteQuery({ feedUuid });
   const { data: newCommentList } = usePostFeedCommentQuery({ feedUuid });
+  const observerRef = useInfiniteScroll({
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  });
 
   return (
     <section>
@@ -35,6 +36,9 @@ export function CommentSection({ feedUuid }: CommentSectionProps) {
           ))}
         </React.Fragment>
       ))}
+      <div ref={observerRef}>
+        {isFetchingNextPage ? <p>loading more...</p> : null}
+      </div>
     </section>
   );
 }

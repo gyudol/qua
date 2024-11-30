@@ -26,14 +26,13 @@ export function useGetFeedCommentsInfiniteQuery({ feedUuid }: FeedReq) {
     ],
     queryFn: ({ pageParam }) => getFeedComments({ feedUuid, ...pageParam }),
     getNextPageParam: ({
-      pageNo,
       hasNext,
       ...query
     }: {
       pageNo: number;
       pageSize: number;
       hasNext: boolean;
-    }) => (hasNext ? { pageNo: pageNo + 1, ...query } : null),
+    }) => (hasNext ? { ...query } : null),
     initialPageParam: { pageNo: 1, pageSize: 10 },
   });
 }
