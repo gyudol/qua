@@ -1,3 +1,4 @@
+export * from "./comment-service";
+export * from "./utility-service";
 export * from "./useInfiniteScroll";
-export * from "./useLikeService";
 export * from "./useMediaQuery";
