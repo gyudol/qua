@@ -1,30 +1,42 @@
 "use client";
 
-import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import type {
   FeedComment,
   FeedRecomment,
 } from "@/types/comment/comment-read-service";
+import { useGetFeedCommentQuery } from "@/hooks/comment-service";
 import { CommentView } from "./comment-view";
 import { RecommentViewList } from "./recomment-view-list";
 
-interface CommentThreadProps extends FeedComment {
-  setCommentList: Dispatch<SetStateAction<FeedComment[]>>;
-}
+type CommentThreadProps = FeedComment;
 
 export function CommentThread({
-  setCommentList,
-  ...comment
+  commentUuid,
+  likeCount,
+  dislikeCount,
+  recommentCount,
 }: CommentThreadProps) {
   const [recommentList, setRecommentList] = useState<FeedRecomment[]>([]);
 
+  const { data: comment } = useGetFeedCommentQuery({ commentUuid });
+
+  if (!comment) return null;
+
   return (
     <div>
-      <CommentView {...{ ...comment, setCommentList, setRecommentList }} />
+      <CommentView
+        {...{
+          ...comment,
+          likeCount,
+          dislikeCount,
+          recommentCount,
+          setRecommentList,
+        }}
+      />
       <RecommentViewList
         {...{
-          commentUuid: comment.commentUuid,
+          commentUuid,
           recommentList,
           setRecommentList,
         }}

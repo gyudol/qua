@@ -14,26 +14,19 @@ import { CommentEditInput, CommentMoreButton } from "../atoms";
 import { CommentButtonGroup } from "../molecules";
 
 interface CommentViewProps extends FeedComment {
-  setCommentList: Dispatch<SetStateAction<FeedComment[]>>;
   setRecommentList: Dispatch<SetStateAction<FeedRecomment[]>>;
 }
 
 export function CommentView({
-  setCommentList,
   setRecommentList,
-  ...commentData
+  commentUuid,
+  memberUuid,
+  createdAt,
+  updatedAt: _,
+  content,
+  likeCount,
+  dislikeCount,
 }: CommentViewProps) {
-  const [comment, setComment] = useState<FeedComment>(commentData);
-  const {
-    commentUuid,
-    memberUuid,
-    createdAt,
-    updatedAt: _,
-    content,
-    likeCount,
-    dislikeCount,
-  } = comment;
-
   const { data: memberProfile } = useQuery({
     queryKey: ["member-profile", memberUuid],
     queryFn: () => getMemberProfile({ memberUuid }),
@@ -44,9 +37,7 @@ export function CommentView({
   return (
     <div className="flex">
       {isEditing ? (
-        <CommentEditInput
-          {...{ commentUuid, content, setIsEditing, setComment }}
-        />
+        <CommentEditInput {...{ commentUuid, content, setIsEditing }} />
       ) : (
         <>
           <div className="w-[2.5rem] mr-[1rem]">
@@ -65,9 +56,7 @@ export function CommentView({
             />
           </div>
           <div className="w-[2.5rem]">
-            <CommentMoreButton
-              {...{ commentUuid, memberUuid, setCommentList, setIsEditing }}
-            />
+            <CommentMoreButton {...{ commentUuid, memberUuid, setIsEditing }} />
           </div>
         </>
       )}
