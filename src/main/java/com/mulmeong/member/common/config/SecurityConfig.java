@@ -45,6 +45,7 @@ public class SecurityConfig {
                                         "/v1/members/{memberUuid}/interests/**" // 관심 카테고리,해시태그 조회
                                 ).permitAll()
                                 .requestMatchers(
+                                        "/v1/members/check-nickname", // 닉네임 중복 검사
                                         "/actuator/**", // actuator
                                         "/v1/auth/**", // 회원가입/로그인, 토큰 재발급
                                         "/v1/health-check/**", //헬스 체크
