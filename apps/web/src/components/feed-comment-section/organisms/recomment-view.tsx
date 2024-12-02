@@ -1,51 +1,40 @@
 "use client";
 
-import type { Dispatch, SetStateAction } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getMemberProfile } from "@/actions/member-read-service";
 import { PostedAt } from "@/components/common/atoms";
 import { Profile } from "@/components/profile/molecules";
 import type { FeedRecomment } from "@/types/comment/comment-read-service";
-import type { MemberProfile } from "@/types/member";
+import { useGetFeedRecommentQuery } from "@/hooks";
 import { RecommentButtonGroup } from "../molecules";
 import { RecommentEditInput, RecommentMoreButton } from "../atoms";
 
-interface RecommentViewProps extends FeedRecomment {
-  setRecommentList: Dispatch<SetStateAction<FeedRecomment[]>>;
-}
+type RecommentViewProps = FeedRecomment;
 
 export function RecommentView({
-  setRecommentList,
-  ...recomment
+  memberUuid,
+  commentUuid,
+  recommentUuid,
+  likeCount,
+  dislikeCount,
 }: RecommentViewProps) {
-  const [memberProfile, setMemberProfile] = useState<MemberProfile | null>(
-    null,
-  );
-  const [
-    {
-      commentUuid,
-      recommentUuid,
-      memberUuid,
-      createdAt,
-      updatedAt: _,
-      content,
-      likeCount,
-      dislikeCount,
-    },
-    setRecomment,
-  ] = useState<FeedRecomment>(recomment);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const { data: recomment } = useGetFeedRecommentQuery({ recommentUuid });
 
-  useEffect(() => {
-    void getMemberProfile({ memberUuid }).then((res) => setMemberProfile(res));
-  }, [memberUuid]);
+  const { data: memberProfile } = useQuery({
+    queryKey: ["member-profile", memberUuid],
+    queryFn: () => getMemberProfile({ memberUuid }),
+  });
+
+  if (!recomment) return null;
+
+  const { content, createdAt, updatedAt } = recomment;
 
   return (
     <div className="flex">
       {isEditing ? (
-        <RecommentEditInput
-          {...{ recommentUuid, content, setIsEditing, setRecomment }}
-        />
+        <RecommentEditInput {...{ recommentUuid, content, setIsEditing }} />
       ) : (
         <>
           <div className="w-[2.5rem] mr-[1rem]">
@@ -55,7 +44,7 @@ export function RecommentView({
             <div className="flex items-center">
               <span>{memberProfile?.nickname}</span>
               <span>
-                <PostedAt postedAt={createdAt} />
+                <PostedAt {...{ createdAt, updatedAt }} />
               </span>
             </div>
             <div>{content}</div>
@@ -65,13 +54,12 @@ export function RecommentView({
                 recommentUuid,
                 likeCount,
                 dislikeCount,
-                setRecommentList,
               }}
             />
           </div>
           <div className="w-[2.5rem]">
             <RecommentMoreButton
-              {...{ recommentUuid, memberUuid, setRecommentList, setIsEditing }}
+              {...{ recommentUuid, memberUuid, setIsEditing }}
             />
           </div>
         </>

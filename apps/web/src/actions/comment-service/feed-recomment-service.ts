@@ -3,13 +3,11 @@
 import type {
   DeleteFeedRecommentReq,
   GetFeedRecommentReq,
-  GetFeedRecommentsReq,
   PostFeedRecommentReq,
   PutFeedRecommentReq,
   FeedRecomment,
 } from "@/types/comment/comment-service";
 import type { EmptyObject } from "@/types/common";
-import { toURLSearchParams } from "@/functions/utils";
 import { getHeaders, processResponse } from "../common";
 
 const API_SERVER = process.env.BASE_API_URL;
@@ -59,21 +57,6 @@ export async function postFeedRecomment({
   });
 
   return processResponse<FeedRecomment, false>({ res });
-}
-
-export async function getFeedRecomments({
-  commentUuid,
-  ...query
-}: GetFeedRecommentsReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/feeds/comments/${commentUuid}/recomments?${toURLSearchParams(query)}`;
-
-  const res: Response = await fetch(URI, {
-    headers: await getHeaders(),
-    method: "GET",
-    cache: "no-cache",
-  });
-
-  return processResponse<FeedRecomment, true>({ res });
 }
 
 export async function getFeedRecomment({ recommentUuid }: GetFeedRecommentReq) {

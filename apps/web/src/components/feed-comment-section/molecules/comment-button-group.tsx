@@ -1,49 +1,37 @@
 "use client";
 
-import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
-import type { FeedRecomment } from "@/types/comment/comment-read-service";
-import {
-  CommentDislikeButton,
-  CommentLikeButton,
-  ReplyButton,
-  ReplyInput,
-} from "../atoms";
+import { useLikeService } from "@/hooks";
+import { DislikeButton, LikeButton, ReplyButton, ReplyInput } from "../atoms";
 
 interface CommentButtonGroupProps {
   commentUuid: string;
   likeCount: number;
   dislikeCount: number;
-  setRecommentList: Dispatch<SetStateAction<FeedRecomment[]>>;
 }
 
 export function CommentButtonGroup({
   commentUuid,
   likeCount,
   dislikeCount,
-  setRecommentList,
 }: CommentButtonGroupProps) {
   const [isReplyInputShowed, setIsReplyInputShowed] = useState<boolean>(false);
-
-  const [isLikeOrDislike, setIsLikeOrDislike] = useState<
-    "like" | "none" | "dislike"
-  >("none");
+  const { likeStatus, dislikeStatus } = useLikeService({
+    kind: "feed-comment",
+    kindUuid: commentUuid,
+  });
 
   return (
     <>
       <ul className="flex">
         <li>
-          <CommentLikeButton
-            {...{ commentUuid, likeCount, isLikeOrDislike, setIsLikeOrDislike }}
-          />
+          <LikeButton {...{ likeCount, likeStatus }} />
         </li>
         <li>
-          <CommentDislikeButton
+          <DislikeButton
             {...{
-              commentUuid,
               dislikeCount,
-              isLikeOrDislike,
-              setIsLikeOrDislike,
+              dislikeStatus,
             }}
           />
         </li>
@@ -53,9 +41,7 @@ export function CommentButtonGroup({
       </ul>
       {isReplyInputShowed ? (
         <div>
-          <ReplyInput
-            {...{ commentUuid, setRecommentList, setIsReplyInputShowed }}
-          />
+          <ReplyInput {...{ commentUuid, setIsReplyInputShowed }} />
         </div>
       ) : null}
     </>

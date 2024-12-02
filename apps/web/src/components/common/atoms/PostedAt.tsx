@@ -1,5 +1,6 @@
 interface PostedAtProps {
-  postedAt: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface PostedAtParam {
@@ -9,13 +10,13 @@ interface PostedAtParam {
 
 function _postedAt({ unit, num }: PostedAtParam) {
   const flooredNum = Math.floor(num);
-  const _unit = unit + (flooredNum === 1 ? '' : 's');
+  const _unit = unit + (flooredNum === 1 ? "" : "s");
 
   return `${flooredNum} ${_unit} ago`;
 }
 
-export default function PostedAt({ postedAt }: PostedAtProps) {
-  const updated = new Date(postedAt);
+export default function PostedAt({ createdAt, updatedAt }: PostedAtProps) {
+  const updated = new Date(createdAt);
   const now = new Date();
   const diff = now.getTime() - updated.getTime();
   const diffSec = diff / 1000;
@@ -25,27 +26,32 @@ export default function PostedAt({ postedAt }: PostedAtProps) {
   const diffMonth = diffDay / 30;
   const diffYear = diffMonth / 12;
 
-  let text = '';
+  let text = "";
 
   switch (true) {
     case diffYear >= 1:
-      text = _postedAt({ unit: 'year', num: diffYear });
+      text = _postedAt({ unit: "year", num: diffYear });
       break;
     case diffMonth >= 1:
-      text = _postedAt({ unit: 'month', num: diffMonth });
+      text = _postedAt({ unit: "month", num: diffMonth });
       break;
     case diffDay >= 1:
-      text = _postedAt({ unit: 'day', num: diffDay });
+      text = _postedAt({ unit: "day", num: diffDay });
       break;
     case diffHour >= 1:
-      text = _postedAt({ unit: 'hour', num: diffHour });
+      text = _postedAt({ unit: "hour", num: diffHour });
       break;
     case diffMin >= 1:
-      text = _postedAt({ unit: 'minute', num: diffMin });
+      text = _postedAt({ unit: "minute", num: diffMin });
       break;
     default:
-      text = 'Just now';
+      text = "Just now";
   }
 
-  return <p className="text-gray-400 text-xs">{text}</p>;
+  return (
+    <p className="text-gray-400 text-xs">
+      {text}
+      {createdAt !== updatedAt ? "(edited)" : ""}
+    </p>
+  );
 }

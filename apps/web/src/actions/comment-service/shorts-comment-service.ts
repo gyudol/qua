@@ -2,14 +2,12 @@
 
 import type {
   GetShortsCommentReq,
-  GetShortsCommentsReq,
   PostShortsCommentReq,
   PutShortsCommentReq,
   ShortsComment,
 } from "@/types/comment/comment-service";
 import type { EmptyObject } from "@/types/common";
 import type { DeleteCommentReq } from "@/types/comment/common";
-import { toURLSearchParams } from "@/functions/utils";
 import { getHeaders, processResponse } from "../common";
 
 const API_SERVER = process.env.BASE_API_URL;
@@ -57,21 +55,6 @@ export async function postShortsComment({
   });
 
   return processResponse<ShortsComment, false>({ res });
-}
-
-export async function getShortsComments({
-  shortsUuid,
-  ...query
-}: GetShortsCommentsReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/shorts/${shortsUuid}/comments?${toURLSearchParams(query)}`;
-
-  const res: Response = await fetch(URI, {
-    headers: await getHeaders(),
-    method: "GET",
-    cache: "no-cache",
-  });
-
-  return processResponse<ShortsComment, true>({ res });
 }
 
 export async function getShortsComment({ commentUuid }: GetShortsCommentReq) {

@@ -3,19 +3,16 @@
 import { useSession } from "next-auth/react";
 import type { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { useState } from "react";
-import { postFeedRecomment } from "@/actions/comment-service";
 import { alertNotImplemented } from "@/functions/utils";
-import type { FeedRecomment } from "@/types/comment/comment-read-service";
+import { usePostFeedRecommentMutation } from "@/hooks";
 
 interface ReplyInputProps {
   commentUuid: string;
-  setRecommentList: Dispatch<SetStateAction<FeedRecomment[]>>;
   setIsReplyInputShowed: Dispatch<SetStateAction<boolean>>;
 }
 
 export function ReplyInput({
   commentUuid,
-  setRecommentList,
   setIsReplyInputShowed,
 }: ReplyInputProps) {
   const { status, data } = useSession();
@@ -23,6 +20,7 @@ export function ReplyInput({
   const lengthLimit = 300;
   const [content, setContent] = useState("");
   const [isFocused, setIsFocused] = useState<boolean>(false);
+  const mutation = usePostFeedRecommentMutation({ commentUuid });
 
   function handleChange(e: ChangeEvent<HTMLTextAreaElement>) {
     setContent(e.target.value.slice(0, lengthLimit));
@@ -37,16 +35,7 @@ export function ReplyInput({
       setContent("");
       setIsReplyInputShowed(false);
       const session = data as { user: { memberUuid: string } };
-      void postFeedRecomment({
-        commentUuid,
-        content,
-        memberUuid: session.user.memberUuid,
-      }).then((recomment) =>
-        setRecommentList((prevRecommentList) => [
-          { ...recomment, likeCount: 0, dislikeCount: 0 },
-          ...prevRecommentList,
-        ]),
-      );
+      mutation.mutate({ content, memberUuid: session.user.memberUuid });
     } else if (status === "unauthenticated") {
       alertNotImplemented({ message: "로그인 하세요" });
     }

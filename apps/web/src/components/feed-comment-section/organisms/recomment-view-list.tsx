@@ -1,38 +1,75 @@
 "use client";
 
-import type { Dispatch, SetStateAction } from "react";
-import { useEffect } from "react";
-import { getFeedRecomments } from "@/actions/comment-read-service";
-import type { FeedRecomment } from "@/types/comment/comment-read-service";
+import React, { useState } from "react";
+import { ChevronDown, ChevronUp, CornerDownRight } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+  getFeedRecommentsQK,
+  getNewFeedRecommentsQK,
+  useGetFeedRecommentsInfiniteQuery,
+  usePostFeedRecommentQuery,
+} from "@/hooks";
 import { RecommentView } from "./recomment-view";
 
 interface RecommentViewListProps {
   commentUuid: string;
-  recommentList: FeedRecomment[];
-  setRecommentList: Dispatch<SetStateAction<FeedRecomment[]>>;
+  recommentCount: number;
 }
 
 export function RecommentViewList({
   commentUuid,
-  recommentList,
-  setRecommentList,
+  recommentCount,
 }: RecommentViewListProps) {
-  const _ = commentUuid;
+  const { data, hasNextPage, fetchNextPage } =
+    useGetFeedRecommentsInfiniteQuery({ commentUuid });
+  const { data: newRecommentList } = usePostFeedRecommentQuery({ commentUuid });
+  const [isRecommentListShowed, setIsRecommentListShowed] = useState(false);
+  const QC = useQueryClient();
+  const newFeedRecommentsQK = getNewFeedRecommentsQK({ commentUuid });
+  const feedRecommentsQK = getFeedRecommentsQK({ commentUuid });
 
-  useEffect(() => {
-    void getFeedRecomments({ commentUuid }).then((res) => {
-      setRecommentList(() => [...res.content]);
-    });
-  }, [commentUuid, setRecommentList]);
-
+  function handleShow() {
+    if (isRecommentListShowed) {
+      setIsRecommentListShowed(false);
+      QC.setQueryData(newFeedRecommentsQK, []);
+      void QC.invalidateQueries({ queryKey: feedRecommentsQK });
+    } else {
+      setIsRecommentListShowed(true);
+    }
+  }
   return (
     <div className="ml-[1.5rem]">
-      {recommentList.map((recomment) => (
-        <RecommentView
-          key={recomment.recommentUuid}
-          {...{ ...recomment, setRecommentList }}
-        />
+      {" "}
+      {data?.pages[0].content.length ? (
+        <button type="button" onClick={handleShow} className="flex">
+          {isRecommentListShowed ? <ChevronUp /> : <ChevronDown />}
+          <span>답글 {recommentCount + (newRecommentList?.length || 0)}개</span>
+        </button>
+      ) : null}
+      {newRecommentList?.map((recomment) => (
+        <RecommentView key={recomment.recommentUuid} {...recomment} />
       ))}
+      {isRecommentListShowed ? (
+        <>
+          {data?.pages.map((page) => (
+            <React.Fragment key={page.pageNo}>
+              {page.content.map((recomment) => (
+                <RecommentView key={recomment.recommentUuid} {...recomment} />
+              ))}
+            </React.Fragment>
+          ))}
+          {hasNextPage ? (
+            <button
+              type="button"
+              onClick={() => void fetchNextPage()}
+              className="flex"
+            >
+              <CornerDownRight />
+              <span>답글 더보기</span>
+            </button>
+          ) : null}
+        </>
+      ) : null}
     </div>
   );
 }

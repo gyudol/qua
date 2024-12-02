@@ -3,24 +3,22 @@
 import { useSession } from "next-auth/react";
 import type { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { useState } from "react";
-import { putFeedComment } from "@/actions/comment-service";
 import { alertNotImplemented } from "@/functions/utils";
-import type { FeedComment } from "@/types/comment/comment-read-service";
+import { usePutFeedCommentMutation } from "@/hooks/comment-service";
 
 interface CommentEditInputProps {
   commentUuid: string;
   content: string;
   setIsEditing: Dispatch<SetStateAction<boolean>>;
-  setComment: Dispatch<SetStateAction<FeedComment>>;
 }
 
 export function CommentEditInput({
   commentUuid,
   content,
   setIsEditing,
-  setComment,
 }: CommentEditInputProps) {
   const { status } = useSession();
+  const mutation = usePutFeedCommentMutation({ commentUuid });
 
   const lengthLimit = 300;
   const [newContent, setNewContent] = useState(content);
@@ -38,14 +36,9 @@ export function CommentEditInput({
     if (newContent === "") {
       alertNotImplemented({ message: "내용을 입력해주세요" });
     } else if (status === "authenticated") {
-      void putFeedComment({
-        commentUuid,
-        content: newContent,
-      }).then((_) => {
-        setComment((prevComment) => ({ ...prevComment, content: newContent }));
-        setNewContent("");
-        setIsEditing(false);
-      });
+      setNewContent("");
+      setIsEditing(false);
+      mutation.mutate(newContent);
     } else if (status === "unauthenticated") {
       alertNotImplemented({ message: "로그인 하세요" });
     }
