@@ -14,7 +14,7 @@ public class FeedCreateVo {
     private String memberUuid;
     private String title;
     private String content;
-    private Long categoryId;
+    private String categoryName;
     private Visibility visibility;
     private List<@Valid Hashtag> hashtags;
     @Schema(example = """

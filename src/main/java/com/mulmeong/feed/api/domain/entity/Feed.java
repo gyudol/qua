@@ -34,8 +34,8 @@ public class Feed {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @Column(nullable = false)
-    private Long categoryId;
+    @Column(nullable = false, length = 20)
+    private String categoryName;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -49,14 +49,14 @@ public class Feed {
 
     @Builder
     public Feed(Long id, String feedUuid, String memberUuid, String title, String content,
-        Long categoryId, Visibility visibility, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        String categoryName, Visibility visibility, LocalDateTime createdAt, LocalDateTime updatedAt) {
 
         this.id = id;
         this.feedUuid = feedUuid;
         this.memberUuid = memberUuid;
         this.title = title;
         this.content = content;
-        this.categoryId = categoryId;
+        this.categoryName = categoryName;
         this.visibility = visibility;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;

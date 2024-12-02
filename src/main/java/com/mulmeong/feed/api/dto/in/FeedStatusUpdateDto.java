@@ -32,7 +32,7 @@ public class FeedStatusUpdateDto {
             .memberUuid(existingFeed.getMemberUuid())
             .title(existingFeed.getTitle())
             .content(existingFeed.getContent())
-            .categoryId(existingFeed.getCategoryId())
+            .categoryName(existingFeed.getCategoryName())
             .visibility(visibility)
             .updatedAt(updatedAt)
             .build();

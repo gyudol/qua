@@ -45,7 +45,7 @@ public class FeedHashtagUpdateDto {
             .memberUuid(existingFeed.getMemberUuid())
             .title(existingFeed.getTitle())
             .content(existingFeed.getContent())
-            .categoryId(existingFeed.getCategoryId())
+            .categoryName(existingFeed.getCategoryName())
             .visibility(existingFeed.getVisibility())
             .updatedAt(updatedAt)
             .build();
