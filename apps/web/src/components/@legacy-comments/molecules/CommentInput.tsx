@@ -4,8 +4,11 @@ import { cn } from "@repo/ui/lib/utils";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { ButtonWithAuth } from "@/components/common/atoms";
-import type { PostCommentParam, TargetType } from "@/types/comment-service";
-import { PostComment } from "@/actions/comment-service";
+import type {
+  PostCommentParam,
+  TargetType,
+} from "@/types/comment/@legacy-comment-service";
+import { PostComment } from "@/actions/@legacy-comment-service";
 
 type CommentInputProp<T extends TargetType, IsRecomment extends boolean> = Omit<
   PostCommentParam<T, IsRecomment>,
