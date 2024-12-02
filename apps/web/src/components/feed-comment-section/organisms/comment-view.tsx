@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import type { FeedComment } from "@/types/comment/comment-read-service";
-import { getMemberProfile } from "@/actions/member-read-service";
 import { Profile } from "@/components/@legacy-profile/molecules";
 import { PostedAt } from "@/components/common/atoms";
 import { useGetFeedCommentQuery } from "@/hooks";
+import { useMemberCompactProfile } from "@/hooks/member-read-service";
 import { CommentEditInput, CommentMoreButton } from "../atoms";
 import { CommentButtonGroup } from "../molecules";
 import { RecommentViewList } from "./recomment-view-list";
@@ -20,12 +19,9 @@ export function CommentView({
   dislikeCount,
   recommentCount,
 }: CommentViewProps) {
-  const { data: comment } = useGetFeedCommentQuery({ commentUuid });
-  const { data: memberProfile } = useQuery({
-    queryKey: ["member-profile", memberUuid],
-    queryFn: () => getMemberProfile({ memberUuid }),
-  });
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const { data: comment } = useGetFeedCommentQuery({ commentUuid });
+  const { data: memberProfile } = useMemberCompactProfile({ memberUuid });
 
   if (!comment) return null;
 

@@ -4,6 +4,7 @@ import {
   CircleEllipsis,
   PlusCircle,
 } from "lucide-react";
+import { formatToNumAbbrs } from "@/functions/utils";
 
 function FollowButton() {
   return (
@@ -44,15 +45,15 @@ function ProfileStat() {
   return (
     <ul className="w-full flex py-[0.75rem]">
       <li className="flex-1 flex flex-col items-center">
-        <span>730</span>
+        <span>{formatToNumAbbrs(7354)}</span>
         <span>posts</span>
       </li>
       <li className="flex-1 flex flex-col items-center">
-        <span>32.8M</span>
+        <span>{formatToNumAbbrs(3245757)}</span>
         <span>followers</span>
       </li>
       <li className="flex-1 flex flex-col items-center">
-        <span>123</span>
+        <span>{formatToNumAbbrs(12344)}</span>
         <span>following</span>
       </li>
     </ul>
