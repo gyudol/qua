@@ -28,6 +28,7 @@ public class KafkaConsumerConfig {
     public ConcurrentKafkaListenerContainerFactory<String, ContestPostCreateEvent> contestPostCreateListener() {
         return kafkaListenerContainerFactory(ContestPostCreateEvent.class);
     }
+
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, ContestVoteUpdateEvent> contestVoteUpdateListener() {
         return kafkaListenerContainerFactory(ContestVoteUpdateEvent.class);
