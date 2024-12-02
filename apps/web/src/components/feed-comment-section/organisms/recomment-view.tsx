@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getMemberProfile } from "@/actions/member-read-service";
 import { PostedAt } from "@/components/common/atoms";
-import { Profile } from "@/components/profile/molecules";
+import { Profile } from "@/components/@legacy-profile/molecules";
 import type { FeedRecomment } from "@/types/comment/comment-read-service";
 import { useGetFeedRecommentQuery } from "@/hooks";
 import { RecommentButtonGroup } from "../molecules";

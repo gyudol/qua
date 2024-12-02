@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import type { FeedComment } from "@/types/comment/comment-read-service";
 import { getMemberProfile } from "@/actions/member-read-service";
-import { Profile } from "@/components/profile/molecules";
+import { Profile } from "@/components/@legacy-profile/molecules";
 import { PostedAt } from "@/components/common/atoms";
 import { useGetFeedCommentQuery } from "@/hooks";
 import { CommentEditInput, CommentMoreButton } from "../atoms";

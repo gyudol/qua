@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Profile } from "@/components/profile/molecules";
+import { Profile } from "@/components/@legacy-profile/molecules";
 import { Skeleton } from "@/components/common/atoms";
 
 interface ChatroomListItemProp {
