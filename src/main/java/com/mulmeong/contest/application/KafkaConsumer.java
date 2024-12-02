@@ -12,11 +12,5 @@ public class KafkaConsumer {
 
     private final ContestService contestService;
 
-    @KafkaListener(topics = "${event.contest.pub.topics.contest-vote-renew.name}",
-            containerFactory = "contestVoteRenewListener")
-    public void updateContestPost() {
-        contestService.voteRenew();
-    }
-
 
 }

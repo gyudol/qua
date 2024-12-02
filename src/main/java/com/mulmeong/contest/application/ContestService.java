@@ -12,6 +12,4 @@ public interface ContestService {
 
     void vote(PostVoteRequestDto dto, String memberUuid);
 
-    void voteRenew();
-
 }

@@ -9,7 +9,6 @@ import com.mulmeong.contest.entity.Contest;
 import com.mulmeong.contest.entity.ContestPost;
 import com.mulmeong.contest.infrastructure.*;
 import com.mulmeong.event.contest.produce.ContestPostCreateEvent;
-import com.mulmeong.event.contest.produce.ContestPostUpdateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.*;
@@ -37,8 +36,6 @@ public class ContestServiceImpl implements ContestService {
     private final ContestRepository contestRepository;
     private final ContestPostRepository contestPostRepository;
     private final RedisTemplate<String, String> redisTemplate;
-    private final JobLauncher jobLauncher;
-    private final Job rankingJob;
 
     private static final String VOTER_SET_KEY = "contest:%d:post:%s:voters";
     private static final String VOTE_COUNT_KEY = "contest:%d:post:votes";
@@ -74,54 +71,7 @@ public class ContestServiceImpl implements ContestService {
 
         redisTemplate.opsForZSet().incrementScore(voteCountKey, voteRequestDto.getPostUuid(), 1);
 
-//        eventPublisher.send(ContestPostUpdateEvent.toDto(voteRequestDto.getPostUuid()));
 
     }
 
-    @Override
-    public void voteRenew() {
-        LocalDate currentDate = LocalDate.now();
-        List<Contest> activeContests = contestRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(currentDate, currentDate);
-        log.info("contest = {}", activeContests);
-
-        for (Contest contest : activeContests) {
-            Long contestId = contest.getId();
-            Set<String> voteCountKeys = redisTemplate.keys(String.format(VOTE_COUNT_KEY, contestId));
-
-            if (voteCountKeys != null) {
-                for (String voteCountKey : voteCountKeys) {
-                    // Sorted Set의 모든 값과 점수를 가져옴
-                    Set<ZSetOperations.TypedTuple<String>> voteData = redisTemplate.opsForZSet().rangeWithScores(voteCountKey, 0, -1);
-
-                    if (voteData != null) {
-                        for (ZSetOperations.TypedTuple<String> entry : voteData) {
-                            String postUuid = entry.getValue();
-                            Integer score = Objects.requireNonNull(entry.getScore()).intValue();
-
-                            // 이벤트 발행
-                            eventPublisher.send(ContestPostUpdateEvent.toDto(postUuid, score));
-                        }
-                    }
-
-                    // 키 삭제
-                    redisTemplate.delete(voteCountKey);
-                }
-            }
-        }
-    }
-
-    @Transactional
-    @Scheduled(cron = "0 0 0 * * ?")    // 매일 정각 배치 작업 실행
-    public void selectWinners()
-            throws JobInstanceAlreadyCompleteException,
-            JobExecutionAlreadyRunningException,
-            JobParametersInvalidException,
-            JobRestartException {
-
-        JobParameters jobParameters = new JobParametersBuilder()
-                .toJobParameters();
-
-        jobLauncher.run(rankingJob, jobParameters);
-
-    }
 }
