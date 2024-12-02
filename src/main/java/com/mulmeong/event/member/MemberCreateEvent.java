@@ -23,7 +23,7 @@ public class MemberCreateEvent {
                 .profileImageUrl(profileImageUrl)
                 .createdAt(createdAt)
                 .point(0)
-                .grade("default") // 정책 결정 필요
+                .grade("default") //todo : RewardService에서 계산한 등급으로 변경
                 .followerCount(0)
                 .followingCount(0)
                 .feedCount(0)
