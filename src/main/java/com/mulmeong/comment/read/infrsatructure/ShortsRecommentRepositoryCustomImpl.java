@@ -46,7 +46,7 @@ public class ShortsRecommentRepositoryCustomImpl implements ShortsRecommentRepos
 
         // 마지막 ID 커서 적용
         Optional.ofNullable(lastId)
-                .ifPresent(id -> builder.and(shortsRecomment.id.goe(id)));
+                .ifPresent(id -> builder.and(shortsRecomment.id.gt(id)));
 
         // 페이지와 페이지 크기 기본값 설정
         int currentPage = Optional.ofNullable(pageNo).orElse(DEFAULT_PAGE_NUMBER);
