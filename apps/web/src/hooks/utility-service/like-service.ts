@@ -12,7 +12,8 @@ import type { KindReq } from "@/types/utility-service";
 
 export function useLikeService({ ...kindReq }: KindReq) {
   const { status: sessionStaus, data } = useSession();
-  const session = (data as { user?: { memberUuid?: string } }).user || {
+  const session = (data &&
+    (data as { user?: { memberUuid?: string } }).user) || {
     memberUuid: "",
   };
   const memberUuid = session.memberUuid || "";
