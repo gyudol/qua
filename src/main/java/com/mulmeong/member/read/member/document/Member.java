@@ -1,7 +1,6 @@
 package com.mulmeong.member.read.member.document;
 
 
-import com.mulmeong.member.read.member.vo.Badge;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +27,6 @@ public class Member {
     private Integer point;
     private String grade;
     private Badge equippedBadge;
-
     // todo : 화면에 따른 기타 집계 데이터 추가/수정 필요
     private Integer followerCount;
     private Integer followingCount;

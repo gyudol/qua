@@ -5,6 +5,7 @@ import com.mulmeong.event.member.MemberNicknameUpdateEvent;
 import com.mulmeong.event.member.MemberProfileImgUpdateEvent;
 import com.mulmeong.member.read.common.exception.BaseException;
 import com.mulmeong.member.read.member.document.Member;
+import com.mulmeong.member.read.member.dto.out.CompactProfileDto;
 import com.mulmeong.member.read.member.dto.out.MemberProfileDto;
 import com.mulmeong.member.read.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * 회원 Read DB 생성.
+     * Write DB에서 회원 생성 이벤트를 받아 처리.
      *
      * @param event 회원 생성 Event
      */
@@ -36,7 +38,7 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * 회원 Read DB의 닉네임 수정.
-     * {@link com.mulmeong.member.read.member.kafka.KafkaConsumer}로부터 Kafka 이벤트를 받아 처리.
+     * Write DB에서 닉네임 수정 이벤트를 받아 처리.
      *
      * @param event 닉네임 수정 Event
      */
@@ -47,34 +49,62 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * 회원 Read DB의 프로필 이미지 수정.
-     * {@link com.mulmeong.member.read.member.kafka.KafkaConsumer}로부터 Kafka 이벤트를 받아 처리.
+     * Write DB에서 프로필 이미지 수정 이벤트를 받아 처리.
      *
      * @param event 프로필 이미지 수정 Event.
      */
     @Override
     public void updateProfileImage(MemberProfileImgUpdateEvent event) {
-        updateMemberField(event.getMemberUuid(), "nickname", event.getProfileImgUrl());
+        updateMemberField(event.getMemberUuid(), "profileImageUrl", event.getProfileImgUrl());
     }
 
     /**
      * 회원 프로필 조회 API
-     * 등록/수정이 되지 않은 필드들은 null로 반환됩니다.
+     * 등록/수정이 되지 않은 필드들은 기본값으로 반환.(예: 집계데이터들).
      *
-     * @param nickname 회원 닉네임(MemberUuid 노출 최소화를 위해 API 정의서에 닉네임으로 정의)
-     * @return 회원 프로필DTO
+     * @param nickname 회원 닉네임
+     * @return 회원 프로필 DTO(Member Document와 같음)
      */
     @Override
-    public MemberProfileDto getMemberProfile(String nickname) {
+    public MemberProfileDto getProfileByNickname(String nickname) {
         return memberRepository.findByNickname(nickname)
-                .map(MemberProfileDto::fromEntity)
+                .map(MemberProfileDto::fromDocument)
                 .orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
     }
 
     /**
-     * 회원 필드 업데이트 메서드.
+     * 회원 프로필 조회 API
+     * 등록/수정이 되지 않은 필드들은 기본값으로 반환됩니다.(예: 집계데이터들).
+     *
+     * @param memberUuid 회원 닉네임
+     * @return 회원 프로필 DTO(Member Document와 같음)
+     */
+    @Override
+    public MemberProfileDto getProfileByMemberUuid(String memberUuid) {
+        return memberRepository.findByMemberUuid(memberUuid)
+                .map(MemberProfileDto::fromDocument)
+                .orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
+    }
+
+    /**
+     * 회원 Compact 프로필 조회 API
+     * 피드, 쇼츠 등에서 사용되는 간단한 회원 프로필 조회.
+     *
+     * @param memberUuid 회원 닉네임
+     * @return 회원 프로필 DTO중 일부
+     */
+    @Override
+    public CompactProfileDto getCompactProfile(String memberUuid) {
+        return memberRepository.findByMemberUuid(memberUuid)
+                .map(CompactProfileDto::fromDocument)
+                .orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
+    }
+
+    /**
+     * 회원 필드 업데이트하는 private 메서드.
      *
      * @param memberUuid 업데이트할 회원의 uuid
-     * @param field      업데이트할 필드
+     * @param field      업데이트할 필드(닉네임, 프로필 이미지 URL...)
      * @param value      업데이트할 값
      */
     private void updateMemberField(String memberUuid, String field, Object value) {

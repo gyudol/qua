@@ -1,4 +1,4 @@
-package com.mulmeong.member.read.member.vo;
+package com.mulmeong.member.read.member.document;
 
 import lombok.Getter;
 

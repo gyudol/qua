@@ -16,21 +16,24 @@ public class KafkaConsumer {
 
     private final MemberService memberService;
 
-    @KafkaListener(topics = "member-created", groupId = "member-read",
+    @KafkaListener(topics = "${event.member.pub.topics.member-create.name}",
             containerFactory = "memberCreateEventListener")
     public void handleMemberCreatedEvent(MemberCreateEvent event) {
+        log.info("Consumed 회원 생성 이벤트 : {}", event);
         memberService.createMember(event);
     }
 
-    @KafkaListener(topics = "nickname-updated", groupId = "member-read",
+    @KafkaListener(topics = "${event.member.pub.topics.nickname-update.name}",
             containerFactory = "nicknameUpdateEventListener")
     public void handleNicknameUpdatedEvent(MemberNicknameUpdateEvent event) {
+        log.info("Consumed 회원 닉네임 변경 이벤트 : {}", event);
         memberService.updateNickname(event);
     }
 
-    @KafkaListener(topics = "profile-img-updated", groupId = "member-read",
+    @KafkaListener(topics = "${event.member.pub.topics.profile-img-update.name}",
             containerFactory = "profileUpdateEventListener")
     public void handleProfileImgUpdatedEvent(MemberProfileImgUpdateEvent event) {
+        log.info("Consumed 프로필 이미지 변경 이벤트 : {}", event);
         memberService.updateProfileImage(event);
     }
 }
