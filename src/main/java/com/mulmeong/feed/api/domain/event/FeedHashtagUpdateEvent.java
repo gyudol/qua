@@ -7,14 +7,14 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class UpdateFeedHashtagEvent {
+public class FeedHashtagUpdateEvent {
 
     private String feedUuid;
     private List<Hashtag> hashtags;
     private LocalDateTime updatedAt;
 
     @Builder
-    public UpdateFeedHashtagEvent(String feedUuid, List<Hashtag> hashtags,
+    public FeedHashtagUpdateEvent(String feedUuid, List<Hashtag> hashtags,
         LocalDateTime updatedAt) {
 
         this.feedUuid = feedUuid;

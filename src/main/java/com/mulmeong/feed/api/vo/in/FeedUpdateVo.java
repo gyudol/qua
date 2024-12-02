@@ -3,10 +3,10 @@ package com.mulmeong.feed.api.vo.in;
 import lombok.Getter;
 
 @Getter
-public class UpdateFeedRequestVo {
+public class FeedUpdateVo {
 
     private String title;
     private String content;
-    private Long categoryId;
+    private String categoryName;
 
 }

@@ -1,22 +1,20 @@
 package com.mulmeong.feed.api.application;
 
-import com.mulmeong.feed.api.dto.in.CreateFeedRequestDto;
-import com.mulmeong.feed.api.dto.in.UpdateFeedHashtagRequestDto;
-import com.mulmeong.feed.api.dto.in.UpdateFeedRequestDto;
-import com.mulmeong.feed.api.dto.in.UpdateFeedStatusRequestDto;
+import com.mulmeong.feed.api.dto.in.FeedCreateDto;
+import com.mulmeong.feed.api.dto.in.FeedHashtagUpdateDto;
+import com.mulmeong.feed.api.dto.in.FeedUpdateDto;
+import com.mulmeong.feed.api.dto.in.FeedStatusUpdateDto;
 import com.mulmeong.feed.api.dto.out.FeedResponseDto;
 
 public interface FeedService {
 
-    void createFeed(CreateFeedRequestDto requestDto);
+    void createFeed(FeedCreateDto requestDto);
 
-    FeedResponseDto getFeedDetail(String feedUuid);
+    void updateFeed(FeedUpdateDto requestDto);
 
-    void updateFeed(UpdateFeedRequestDto requestDto);
+    void updateFeedStatus(FeedStatusUpdateDto requestDto);
 
-    void updateFeedStatus(UpdateFeedStatusRequestDto requestDto);
-
-    void updateFeedHashtag(UpdateFeedHashtagRequestDto requestDto);
+    void updateFeedHashtag(FeedHashtagUpdateDto requestDto);
 
     void deleteFeed(String feedUuid);
 

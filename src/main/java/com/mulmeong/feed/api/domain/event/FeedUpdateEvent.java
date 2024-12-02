@@ -5,22 +5,22 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class UpdateFeedEvent {
+public class FeedUpdateEvent {
 
     private String feedUuid;
     private String title;
     private String content;
-    private Long categoryId;
+    private String categoryName;
     private LocalDateTime updatedAt;
 
     @Builder
-    public UpdateFeedEvent(String feedUuid, String title, String content, Long categoryId,
+    public FeedUpdateEvent(String feedUuid, String title, String content, String categoryName,
         LocalDateTime updatedAt) {
 
         this.feedUuid = feedUuid;
         this.title = title;
         this.content = content;
-        this.categoryId = categoryId;
+        this.categoryName = categoryName;
         this.updatedAt = updatedAt;
 
     }

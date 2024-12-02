@@ -1,13 +1,13 @@
 package com.mulmeong.feed.api.dto.in;
 
 import com.mulmeong.feed.api.domain.entity.Feed;
-import com.mulmeong.feed.api.domain.entity.FeedHashtag;
-import com.mulmeong.feed.api.domain.entity.FeedMedia;
-import com.mulmeong.feed.api.domain.event.CreateFeedEvent;
+import com.mulmeong.feed.api.domain.document.FeedHashtag;
+import com.mulmeong.feed.api.domain.document.FeedMedia;
+import com.mulmeong.feed.api.domain.event.FeedCreateEvent;
 import com.mulmeong.feed.api.domain.model.Hashtag;
 import com.mulmeong.feed.api.domain.model.Media;
 import com.mulmeong.feed.api.domain.model.Visibility;
-import com.mulmeong.feed.api.vo.in.CreateFeedRequestVo;
+import com.mulmeong.feed.api.vo.in.FeedCreateVo;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -15,28 +15,28 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class CreateFeedRequestDto {
+public class FeedCreateDto {
 
     private String feedUuid;
     private String memberUuid;
     private String title;
     private String content;
-    private Long categoryId;
+    private String categoryName;
     private Visibility visibility;
     private List<Hashtag> hashtags;
     private List<Media> mediaList;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public static CreateFeedRequestDto toDto(CreateFeedRequestVo requestVo) {
+    public static FeedCreateDto toDto(FeedCreateVo requestVo) {
         LocalDateTime now = LocalDateTime.now();
 
-        return CreateFeedRequestDto.builder()
+        return FeedCreateDto.builder()
             .feedUuid(UUID.randomUUID().toString())     // create feedUuid
             .memberUuid(requestVo.getMemberUuid())
             .title(requestVo.getTitle())
             .content(requestVo.getContent())
-            .categoryId(requestVo.getCategoryId())
+            .categoryName(requestVo.getCategoryName())
             .visibility(requestVo.getVisibility())
             .hashtags(requestVo.getHashtags())
             .mediaList(requestVo.getMediaList())
@@ -51,7 +51,7 @@ public class CreateFeedRequestDto {
             .memberUuid(memberUuid)
             .title(title)
             .content(content)
-            .categoryId(categoryId)
+            .categoryName(categoryName)
             .visibility(visibility)
             .createdAt(createdAt)
             .updatedAt(updatedAt)
@@ -84,13 +84,13 @@ public class CreateFeedRequestDto {
             .build();
     }
 
-    public CreateFeedEvent toEventEntity() {    // to Kafka EventEntity
-        return CreateFeedEvent.builder()
+    public FeedCreateEvent toEventEntity() {    // to Kafka EventEntity
+        return FeedCreateEvent.builder()
             .feedUuid(feedUuid)
             .memberUuid(memberUuid)
             .title(title)
             .content(content)
-            .categoryId(categoryId)
+            .categoryName(categoryName)
             .visibility(visibility)
             .hashtags(hashtags)
             .mediaList(mediaList)
@@ -100,15 +100,15 @@ public class CreateFeedRequestDto {
     }
 
     @Builder
-    public CreateFeedRequestDto(String feedUuid, String memberUuid, String title, String content,
-        Long categoryId, Visibility visibility, List<Hashtag> hashtags, List<Media> mediaList,
+    public FeedCreateDto(String feedUuid, String memberUuid, String title, String content,
+        String categoryName, Visibility visibility, List<Hashtag> hashtags, List<Media> mediaList,
         LocalDateTime createdAt, LocalDateTime updatedAt) {
 
         this.feedUuid = feedUuid;
         this.memberUuid = memberUuid;
         this.title = title;
         this.content = content;
-        this.categoryId = categoryId;
+        this.categoryName = categoryName;
         this.visibility = visibility;
         this.hashtags = hashtags;
         this.mediaList = mediaList;

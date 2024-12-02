@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class DeleteFeedEvent {
+public class FeedDeleteEvent {
 
     private String feedUuid;
 

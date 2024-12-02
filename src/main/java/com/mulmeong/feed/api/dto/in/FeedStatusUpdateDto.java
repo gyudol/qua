@@ -1,24 +1,24 @@
 package com.mulmeong.feed.api.dto.in;
 
 import com.mulmeong.feed.api.domain.entity.Feed;
-import com.mulmeong.feed.api.domain.event.UpdateFeedStatusEvent;
+import com.mulmeong.feed.api.domain.event.FeedStatusUpdateEvent;
 import com.mulmeong.feed.api.domain.model.Visibility;
-import com.mulmeong.feed.api.vo.in.UpdateFeedStatusRequestVo;
+import com.mulmeong.feed.api.vo.in.FeedStatusUpdateVo;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class UpdateFeedStatusRequestDto {
+public class FeedStatusUpdateDto {
 
     private String feedUuid;
     private Visibility visibility;
     private LocalDateTime updatedAt;
 
-    public static UpdateFeedStatusRequestDto toDto(UpdateFeedStatusRequestVo requestVo,
+    public static FeedStatusUpdateDto toDto(FeedStatusUpdateVo requestVo,
         String feedUuid) {
 
-        return UpdateFeedStatusRequestDto.builder()
+        return FeedStatusUpdateDto.builder()
             .feedUuid(feedUuid)
             .visibility(requestVo.getVisibility())
             .updatedAt(LocalDateTime.now())
@@ -32,14 +32,14 @@ public class UpdateFeedStatusRequestDto {
             .memberUuid(existingFeed.getMemberUuid())
             .title(existingFeed.getTitle())
             .content(existingFeed.getContent())
-            .categoryId(existingFeed.getCategoryId())
+            .categoryName(existingFeed.getCategoryName())
             .visibility(visibility)
             .updatedAt(updatedAt)
             .build();
     }
 
-    public UpdateFeedStatusEvent toEventEntity() {  // to Kafka EventEntity
-        return UpdateFeedStatusEvent.builder()
+    public FeedStatusUpdateEvent toEventEntity() {  // to Kafka EventEntity
+        return FeedStatusUpdateEvent.builder()
             .feedUuid(feedUuid)
             .visibility(visibility)
             .updatedAt(updatedAt)
@@ -47,7 +47,7 @@ public class UpdateFeedStatusRequestDto {
     }
 
     @Builder
-    public UpdateFeedStatusRequestDto(String feedUuid, Visibility visibility,
+    public FeedStatusUpdateDto(String feedUuid, Visibility visibility,
         LocalDateTime updatedAt) {
 
         this.feedUuid = feedUuid;

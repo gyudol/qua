@@ -1,27 +1,27 @@
 package com.mulmeong.feed.api.dto.in;
 
 import com.mulmeong.feed.api.domain.entity.Feed;
-import com.mulmeong.feed.api.domain.event.UpdateFeedEvent;
-import com.mulmeong.feed.api.vo.in.UpdateFeedRequestVo;
+import com.mulmeong.feed.api.domain.event.FeedUpdateEvent;
+import com.mulmeong.feed.api.vo.in.FeedUpdateVo;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class UpdateFeedRequestDto {
+public class FeedUpdateDto {
 
     private String feedUuid;
     private String title;
     private String content;
-    private Long categoryId;
+    private String categoryName;
     private LocalDateTime updatedAt;
 
-    public static UpdateFeedRequestDto toDto(UpdateFeedRequestVo requestVo, String feedUuid) {
-        return UpdateFeedRequestDto.builder()
+    public static FeedUpdateDto toDto(FeedUpdateVo requestVo, String feedUuid) {
+        return FeedUpdateDto.builder()
             .feedUuid(feedUuid)
             .title(requestVo.getTitle())
             .content(requestVo.getContent())
-            .categoryId(requestVo.getCategoryId())
+            .categoryName(requestVo.getCategoryName())
             .updatedAt(LocalDateTime.now())
             .build();
     }
@@ -33,30 +33,30 @@ public class UpdateFeedRequestDto {
             .memberUuid(existingFeed.getMemberUuid())
             .title(title)
             .content(content)
-            .categoryId(categoryId)
+            .categoryName(categoryName)
             .visibility(existingFeed.getVisibility())
             .updatedAt(updatedAt)
             .build();
     }
 
-    public UpdateFeedEvent toEventEntity() {    // to Kafka EventEntity
-        return UpdateFeedEvent.builder()
+    public FeedUpdateEvent toEventEntity() {    // to Kafka EventEntity
+        return FeedUpdateEvent.builder()
             .feedUuid(feedUuid)
             .title(title)
             .content(content)
-            .categoryId(categoryId)
+            .categoryName(categoryName)
             .updatedAt(updatedAt)
             .build();
     }
 
     @Builder
-    public UpdateFeedRequestDto(String feedUuid, String title, String content, Long categoryId,
+    public FeedUpdateDto(String feedUuid, String title, String content, String categoryName,
         LocalDateTime updatedAt) {
 
         this.feedUuid = feedUuid;
         this.title = title;
         this.content = content;
-        this.categoryId = categoryId;
+        this.categoryName = categoryName;
         this.updatedAt = updatedAt;
     }
 

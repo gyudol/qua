@@ -12,7 +12,7 @@ import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 @Configuration
-public class KafkaConfig {
+public class KafkaProducerConfig {
 
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
@@ -22,7 +22,8 @@ public class KafkaConfig {
         return new DefaultKafkaProducerFactory<>(Map.of(
             ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
             ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class,
-            ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class
+            ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class,
+            JsonSerializer.ADD_TYPE_INFO_HEADERS, false
         ));
     }
 
