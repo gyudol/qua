@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -41,6 +43,13 @@ public class ContestPostServiceImpl implements ContestPostService {
     @Override
     public CursorPage<ContestPostResponseDto> getPosts(ContestPostRequestDto requestDto) {
         return contestPostCustomRepository.getContestPosts(requestDto);
+    }
+
+    @Override
+    public ContestPostResponseDto getContestPost(String postUuid) {
+        return ContestPostResponseDto.toDto(contestPostRepository.findByPostUuid(postUuid)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_EXIST_POST)
+                ));
     }
 
 }

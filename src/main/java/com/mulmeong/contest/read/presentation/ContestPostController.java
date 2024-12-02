@@ -30,4 +30,11 @@ public class ContestPostController {
         return new BaseResponse<>(contestPostService.getPosts(
                 ContestPostRequestDto.toDto(contestId, sortBy, lastId, pageSize, pageNo)));
     }
+
+    @GetMapping("/posts/{postUuid}")
+    public BaseResponse<ContestPostResponseDto> getContestPosts(
+            @PathVariable("postUuid") String postUuid
+    ) {
+        return new BaseResponse<>(contestPostService.getContestPost(postUuid));
+    }
 }

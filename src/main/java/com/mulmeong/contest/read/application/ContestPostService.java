@@ -12,4 +12,6 @@ public interface ContestPostService {
     void updateContestVote(ContestVoteUpdateEvent message);
 
     CursorPage<ContestPostResponseDto> getPosts(ContestPostRequestDto requestDto);
+
+    ContestPostResponseDto getContestPost(String postUuid);
 }
