@@ -1,10 +1,10 @@
 package com.mulmeong.contest.read.application;
 
-import com.mulmeong.event.contest.ContestPostCreateEvent;
-import com.mulmeong.event.contest.ContestPostUpdateEvent;
+import com.mulmeong.event.contest.consume.ContestPostCreateEvent;
+import com.mulmeong.event.contest.consume.ContestVoteUpdateEvent;
 
 public interface ContestPostService {
     void createContestPost(ContestPostCreateEvent message);
 
-    void updateContestPost(ContestPostUpdateEvent message);
+    void updateContestVote(ContestVoteUpdateEvent message);
 }

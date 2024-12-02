@@ -1,7 +1,7 @@
 package com.mulmeong.contest.read.application;
 
-import com.mulmeong.event.contest.ContestPostCreateEvent;
-import com.mulmeong.event.contest.ContestPostUpdateEvent;
+import com.mulmeong.event.contest.consume.ContestPostCreateEvent;
+import com.mulmeong.event.contest.consume.ContestVoteUpdateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -21,11 +21,11 @@ public class KafkaConsumer {
         contestPostService.createContestPost(message);
     }
 
-    @KafkaListener(topics = "${event.contest.pub.topics.contest-post-update.name}",
-            containerFactory = "contestPostUpdateListener")
-    public void updateContestPost(ContestPostUpdateEvent message) {
+    @KafkaListener(topics = "${event.contest.pub.topics.contest-vote-update.name}",
+            containerFactory = "contestVoteUpdateListener")
+    public void updateContestPost(ContestVoteUpdateEvent message) {
         log.info("vote message: {}", message.toString());
-        contestPostService.updateContestPost(message);
+        contestPostService.updateContestVote(message);
     }
 
 
