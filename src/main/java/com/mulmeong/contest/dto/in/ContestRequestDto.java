@@ -46,6 +46,7 @@ public class ContestRequestDto {
                 .name(name)
                 .description(description)
                 .imgUrl(imgUrl)
+                .status(true)
                 .startDate(startDate)
                 .endDate(endDate)
                 .build();

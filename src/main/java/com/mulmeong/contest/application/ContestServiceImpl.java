@@ -2,9 +2,12 @@ package com.mulmeong.contest.application;
 
 import com.mulmeong.contest.common.exception.BaseException;
 import com.mulmeong.contest.common.response.BaseResponseStatus;
+import com.mulmeong.contest.common.utils.CursorPage;
+import com.mulmeong.contest.dto.in.ContestQueryRequestDto;
 import com.mulmeong.contest.dto.in.ContestRequestDto;
 import com.mulmeong.contest.dto.in.PostRequestDto;
 import com.mulmeong.contest.dto.in.PostVoteRequestDto;
+import com.mulmeong.contest.dto.out.ContestResponseDto;
 import com.mulmeong.contest.entity.Contest;
 import com.mulmeong.contest.entity.ContestPost;
 import com.mulmeong.contest.infrastructure.*;
@@ -35,6 +38,7 @@ public class ContestServiceImpl implements ContestService {
     private final EventPublisher eventPublisher;
     private final ContestRepository contestRepository;
     private final ContestPostRepository contestPostRepository;
+    private final ContestCustomRepository contestCustomRepository;
     private final RedisTemplate<String, String> redisTemplate;
 
     private static final String VOTER_SET_KEY = "contest:%d:post:%s:voters";
@@ -73,5 +77,12 @@ public class ContestServiceImpl implements ContestService {
 
 
     }
+
+    @Override
+    public CursorPage<ContestResponseDto> getCurrentContest(ContestQueryRequestDto requestDto) {
+        return contestCustomRepository.getContests(requestDto);
+    }
+
+
 
 }

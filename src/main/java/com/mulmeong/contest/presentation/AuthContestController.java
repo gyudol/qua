@@ -2,8 +2,12 @@ package com.mulmeong.contest.presentation;
 
 import com.mulmeong.contest.application.ContestService;
 import com.mulmeong.contest.common.response.BaseResponse;
+import com.mulmeong.contest.common.utils.CursorPage;
+import com.mulmeong.contest.dto.in.ContestQueryRequestDto;
+import com.mulmeong.contest.dto.in.ContestRequestDto;
 import com.mulmeong.contest.dto.in.PostRequestDto;
 import com.mulmeong.contest.dto.in.PostVoteRequestDto;
+import com.mulmeong.contest.dto.out.ContestResponseDto;
 import com.mulmeong.contest.vo.in.PostRequestVo;
 import com.mulmeong.contest.vo.in.PostVoteRequestVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +18,8 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -44,6 +50,30 @@ public class AuthContestController {
         contestService.vote(PostVoteRequestDto.toDto(postVoteRequestVo), memberUuid);
         return new BaseResponse<>();
     }
+
+    @GetMapping("/view")
+    public BaseResponse<CursorPage<ContestResponseDto>> getCurrentContest(
+            @RequestParam(defaultValue = "latest", required = false) String sortBy,
+            @RequestParam(required = false, name = "nextCursor") String lastId,
+            @RequestParam(required = false) Integer pageSize,
+            @RequestParam(required = false) Integer pageNo
+    ) {
+
+        return new BaseResponse<>(contestService.getCurrentContest(ContestQueryRequestDto.toDto(true, sortBy, lastId, pageNo, pageSize)));
+    }
+
+    @GetMapping("/history")
+    public BaseResponse<CursorPage<ContestResponseDto>> getPastContest(
+            @RequestParam(defaultValue = "latest", required = false) String sortBy,
+            @RequestParam(required = false, name = "nextCursor") String lastId,
+            @RequestParam(required = false) Integer pageSize,
+            @RequestParam(required = false) Integer pageNo
+    ) {
+
+        return new BaseResponse<>(contestService.getCurrentContest(ContestQueryRequestDto.toDto(false, sortBy, lastId, pageNo, pageSize)));
+    }
+
+
 
 
 }

@@ -25,6 +25,7 @@ public class Contest {
     private String description;
     @Column(nullable = false, length = 2083)
     private String imgUrl;
+    private boolean status;
 
     private LocalDate startDate;
     private LocalDate endDate;
@@ -35,6 +36,7 @@ public class Contest {
             String name,
             String description,
             String imgUrl,
+            boolean status,
             LocalDate startDate,
             LocalDate endDate
     ) {
@@ -42,6 +44,7 @@ public class Contest {
         this.name = name;
         this.description = description;
         this.imgUrl = imgUrl;
+        this.status = status;
         this.startDate = startDate;
         this.endDate = endDate;
     }
