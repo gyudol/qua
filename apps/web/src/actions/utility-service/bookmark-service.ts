@@ -11,7 +11,7 @@ import type {
 } from "@/types/utility-service/bookmark-service";
 import type { ShortsUuid } from "@/types/shorts-service";
 import type { EmptyObject } from "@/types/common";
-import type { FeedUuid } from "@/types/feed-service";
+import type { FeedUuid } from "@/types/feed/common";
 import { getHeaders, processResponse } from "../common";
 
 const API_SERVER = process.env.BASE_API_URL;
