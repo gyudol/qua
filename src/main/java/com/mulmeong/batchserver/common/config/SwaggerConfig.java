@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Configuration;
 
 
 @OpenAPIDefinition(
-        info = @Info(title = "콘테스트 도메인 API", version = "v1",
-                description = "콘테스트 서비스",
+        info = @Info(title = "Batch-Server API", version = "v1",
+                description = "배치 서비스",
                 termsOfService = "http://swagger.io/terms/")
 
 )
@@ -37,7 +37,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .addSecurityItem(securityRequirement)
                 .components(components)
-                .addServersItem(new Server().url("/contest-service"));
+                .addServersItem(new Server().url("/batch-service"));
     }
 
 }
