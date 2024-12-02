@@ -1,8 +1,6 @@
 "use client";
 
-import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
-import type { FeedRecomment } from "@/types/comment/comment-read-service";
 import { useLikeService } from "@/hooks";
 import { DislikeButton, LikeButton, ReplyButton, ReplyInput } from "../atoms";
 
@@ -11,7 +9,6 @@ interface RecommentButtonGroupProps {
   recommentUuid: string;
   likeCount: number;
   dislikeCount: number;
-  setRecommentList: Dispatch<SetStateAction<FeedRecomment[]>>;
 }
 
 export function RecommentButtonGroup({
@@ -19,7 +16,6 @@ export function RecommentButtonGroup({
   recommentUuid,
   likeCount,
   dislikeCount,
-  setRecommentList,
 }: RecommentButtonGroupProps) {
   const [isReplyInputShowed, setIsReplyInputShowed] = useState<boolean>(false);
   const { likeStatus, dislikeStatus } = useLikeService({
@@ -52,9 +48,7 @@ export function RecommentButtonGroup({
       </ul>
       {isReplyInputShowed ? (
         <div>
-          <ReplyInput
-            {...{ commentUuid, setRecommentList, setIsReplyInputShowed }}
-          />
+          <ReplyInput {...{ commentUuid, setIsReplyInputShowed }} />
         </div>
       ) : null}
     </>

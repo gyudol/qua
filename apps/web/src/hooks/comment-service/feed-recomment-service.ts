@@ -17,12 +17,30 @@ import type { CommentReq, RecommentReq } from "@/types/comment/common";
 import type { FeedRecomment as RFeedRecomment } from "@/types/comment/comment-read-service";
 import type { FeedRecomment } from "@/types/comment/comment-service";
 
+export function getFeedRecommentsQK({ commentUuid }: CommentReq) {
+  return [
+    "comment-service",
+    { kind: "feed-recomments", kindUuid: commentUuid },
+  ];
+}
+
+export function getFeedRecommentQK({ recommentUuid }: RecommentReq) {
+  return [
+    "comment-service",
+    { kind: "feed-recomment", kindUuid: recommentUuid },
+  ];
+}
+
+export function getNewFeedRecommentsQK({ commentUuid }: CommentReq) {
+  return [
+    "comment-service",
+    { kind: "new-feed-recomment", kindUuid: commentUuid },
+  ];
+}
+
 export function useGetFeedRecommentsInfiniteQuery({ commentUuid }: CommentReq) {
   return useInfiniteQuery({
-    queryKey: [
-      "comment-service",
-      { kind: "feed-recomments", kindUuid: commentUuid },
-    ],
+    queryKey: getFeedRecommentsQK({ commentUuid }),
     queryFn: ({ pageParam }) =>
       getFeedRecomments({ commentUuid, ...pageParam }),
     getNextPageParam: ({
@@ -39,20 +57,14 @@ export function useGetFeedRecommentsInfiniteQuery({ commentUuid }: CommentReq) {
 
 export function useGetFeedRecommentQuery({ recommentUuid }: RecommentReq) {
   return useQuery({
-    queryKey: [
-      "comment-service",
-      { kind: "feed-recomment", kindUuid: recommentUuid },
-    ],
+    queryKey: getFeedRecommentQK({ recommentUuid }),
     queryFn: () => getFeedRecomment({ recommentUuid }),
   });
 }
 
 export function usePutFeedRecommentMutation({ recommentUuid }: RecommentReq) {
   const QC = useQueryClient();
-  const queryKey = [
-    "comment-service",
-    { kind: "feed-recomment", kindUuid: recommentUuid },
-  ];
+  const queryKey = getFeedRecommentQK({ recommentUuid });
   return useMutation({
     mutationFn: async (content: string) => {
       const prevComment = QC.getQueryData<FeedRecomment>(queryKey);
@@ -80,10 +92,7 @@ export function useDeleteFeedRecommentMutation({
   recommentUuid,
 }: RecommentReq) {
   const QC = useQueryClient();
-  const queryKey = [
-    "comment-service",
-    { kind: "feed-recomment", kindUuid: recommentUuid },
-  ];
+  const queryKey = getFeedRecommentQK({ recommentUuid });
   return useMutation({
     mutationFn: async () => {
       await deleteFeedRecomment({ recommentUuid });
@@ -102,16 +111,14 @@ export function useDeleteFeedRecommentMutation({
 
 export function usePostFeedRecommentQuery({ commentUuid }: CommentReq) {
   return useQuery<RFeedRecomment[]>({
-    queryKey: [
-      "comment-service",
-      { kind: "new-feed-recomment", kindUuid: commentUuid },
-    ],
+    queryKey: getNewFeedRecommentsQK({ commentUuid }),
     queryFn: () => [],
   });
 }
 
 export function usePostFeedRecommentMutation({ commentUuid }: CommentReq) {
   const QC = useQueryClient();
+  const QK = getNewFeedRecommentsQK({ commentUuid });
   return useMutation({
     mutationFn: ({
       content,
@@ -124,19 +131,12 @@ export function usePostFeedRecommentMutation({ commentUuid }: CommentReq) {
     },
     onSettled: (data) => {
       if (!data) return;
-      const prev =
-        QC.getQueryData<RFeedRecomment[]>([
-          "comment-service",
-          { kind: "new-feed-recomment", kindUuid: commentUuid },
-        ]) || [];
+      const prev = QC.getQueryData<RFeedRecomment[]>(QK) || [];
 
-      QC.setQueryData<RFeedRecomment[]>(
-        [
-          "comment-service",
-          { kind: "new-feed-recomment", kindUuid: commentUuid },
-        ],
-        [{ ...data, likeCount: 0, dislikeCount: 0 }, ...prev],
-      );
+      QC.setQueryData<RFeedRecomment[]>(QK, [
+        { ...data, likeCount: 0, dislikeCount: 0 },
+        ...prev,
+      ]);
     },
   });
 }

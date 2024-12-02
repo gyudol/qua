@@ -9,24 +9,22 @@ import {
 import { Flag, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import type { Dispatch, SetStateAction } from "react";
-import type { FeedRecomment } from "@/types/comment/comment-read-service";
 import { alertNotImplemented } from "@/functions/utils";
-import { deleteFeedRecomment } from "@/actions/comment-service";
+import { useDeleteFeedRecommentMutation } from "@/hooks";
 
 interface RecommentMoreButtonProps {
   recommentUuid: string;
   memberUuid: string;
   setIsEditing: Dispatch<SetStateAction<boolean>>;
-  setRecommentList: Dispatch<SetStateAction<FeedRecomment[]>>;
 }
 
 export function RecommentMoreButton({
   recommentUuid,
   memberUuid,
   setIsEditing,
-  setRecommentList,
 }: RecommentMoreButtonProps) {
   const { status, data } = useSession();
+  const deleteMutation = useDeleteFeedRecommentMutation({ recommentUuid });
 
   if (status !== "authenticated") {
     return (
@@ -49,12 +47,7 @@ export function RecommentMoreButton({
     setIsEditing(true);
   }
   function handleDelete() {
-    setRecommentList((prevRecommentList) =>
-      prevRecommentList.filter(
-        (Recomment) => Recomment.recommentUuid !== recommentUuid,
-      ),
-    );
-    void deleteFeedRecomment({ recommentUuid });
+    deleteMutation.mutate();
   }
 
   return (

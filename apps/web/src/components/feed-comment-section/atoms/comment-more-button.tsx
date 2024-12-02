@@ -50,7 +50,6 @@ export function CommentMoreButton({
     deleteMutation.mutate();
   }
 
-  const _ = commentUuid;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>

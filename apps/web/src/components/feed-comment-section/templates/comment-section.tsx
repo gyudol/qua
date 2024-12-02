@@ -6,8 +6,8 @@ import {
   usePostFeedCommentQuery,
 } from "@/hooks/comment-service";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
-import { CommentThread } from "../organisms";
 import { CommentInput } from "../atoms";
+import { CommentView } from "../organisms";
 
 interface CommentSectionProps {
   feedUuid: string;
@@ -27,12 +27,12 @@ export function CommentSection({ feedUuid }: CommentSectionProps) {
     <section>
       <CommentInput {...{ feedUuid }} />
       {newCommentList?.map((comment) => (
-        <CommentThread key={comment.commentUuid} {...comment} />
+        <CommentView key={comment.commentUuid} {...comment} />
       ))}
       {data?.pages.map((page) => (
         <React.Fragment key={page.pageNo}>
           {page.content.map((comment) => (
-            <CommentThread key={comment.commentUuid} {...comment} />
+            <CommentView key={comment.commentUuid} {...comment} />
           ))}
         </React.Fragment>
       ))}

@@ -3,24 +3,22 @@
 import { useSession } from "next-auth/react";
 import type { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { useState } from "react";
-import { putFeedRecomment } from "@/actions/comment-service";
 import { alertNotImplemented } from "@/functions/utils";
-import type { FeedRecomment } from "@/types/comment/comment-read-service";
+import { usePutFeedRecommentMutation } from "@/hooks";
 
 interface RecommentEditInputProps {
   recommentUuid: string;
   content: string;
   setIsEditing: Dispatch<SetStateAction<boolean>>;
-  setRecomment: Dispatch<SetStateAction<FeedRecomment>>;
 }
 
 export function RecommentEditInput({
   recommentUuid,
   content,
   setIsEditing,
-  setRecomment,
 }: RecommentEditInputProps) {
   const { status } = useSession();
+  const mutation = usePutFeedRecommentMutation({ recommentUuid });
 
   const lengthLimit = 300;
   const [newContent, setNewContent] = useState(content);
@@ -38,17 +36,9 @@ export function RecommentEditInput({
     if (newContent === "") {
       alertNotImplemented({ message: "내용을 입력해주세요" });
     } else if (status === "authenticated") {
-      void putFeedRecomment({
-        recommentUuid,
-        content: newContent,
-      }).then((_) => {
-        setRecomment((prevRecomment) => ({
-          ...prevRecomment,
-          content: newContent,
-        }));
-        setNewContent("");
-        setIsEditing(false);
-      });
+      setNewContent("");
+      setIsEditing(false);
+      mutation.mutate(newContent);
     } else if (status === "unauthenticated") {
       alertNotImplemented({ message: "로그인 하세요" });
     }
