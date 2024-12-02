@@ -18,7 +18,7 @@ public class KafkaConsumer {
 
     private final FeedEventHandlerService feedEventHandlerService;
 
-    @KafkaListener(topics = "feed-created", groupId = "feed-read-group",
+    @KafkaListener(topics = "${event.feed.pub.topics.feed-create.name}",
         containerFactory = "feedCreateEventListener")
     public void consumeFeedCreateEvent(FeedCreateEvent event) {
 
@@ -27,7 +27,7 @@ public class KafkaConsumer {
         log.info("Successfully processed feed-created event: {}", event);
     }
 
-    @KafkaListener(topics = "feed-deleted", groupId = "feed-read-group",
+    @KafkaListener(topics = "${event.feed.pub.topics.feed-delete.name}",
         containerFactory = "feedDeleteEventListener")
     public void consumeFeedDeleteEvent(FeedDeleteEvent event) {
 
@@ -36,7 +36,7 @@ public class KafkaConsumer {
         log.info("Successfully processed feed-deleted event: {}", event);
     }
 
-    @KafkaListener(topics = "feed-hashtag-updated", groupId = "feed-read-group",
+    @KafkaListener(topics = "${event.feed.pub.topics.feed-hashtag-update.name}",
         containerFactory = "feedHashtagUpdateEventListener")
     public void consumeFeedHashtagUpdateEvent(FeedHashtagUpdateEvent event) {
 
@@ -45,7 +45,7 @@ public class KafkaConsumer {
         log.info("Successfully processed feed-hashtag-updated event: {}", event);
     }
 
-    @KafkaListener(topics = "feed-status-updated", groupId = "feed-read-group",
+    @KafkaListener(topics = "${event.feed.pub.topics.feed-status-update.name}",
         containerFactory = "feedStatusUpdateEventListener")
     public void consumeFeedStatusUpdateEvent(FeedStatusUpdateEvent event) {
 
@@ -54,7 +54,7 @@ public class KafkaConsumer {
         log.info("Successfully processed feed-status-updated event: {}", event);
     }
 
-    @KafkaListener(topics = "feed-updated", groupId = "feed-read-group",
+    @KafkaListener(topics = "${event.feed.pub.topics.feed-update.name}",
         containerFactory = "feedUpdateEventListener")
     public void consumeFeedUpdateEvent(FeedUpdateEvent event) {
 

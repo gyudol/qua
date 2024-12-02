@@ -24,6 +24,9 @@ public class KafkaConsumerConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
+    @Value("${spring.kafka.consumer.group-id}")
+    private String groupId;
+
     /**
      * 특정 이벤트의 메시지를 소비하는 Kafka Listener 컨테이너 팩토리를 생성.
      *
@@ -63,6 +66,7 @@ public class KafkaConsumerConfig {
     public <T> ConsumerFactory<String, T> consumerFactory(Class<T> messageType) {
         return new DefaultKafkaConsumerFactory<>(Map.of(
             ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
+            ConsumerConfig.GROUP_ID_CONFIG, groupId,
             ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class,
             ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class,
             JsonDeserializer.VALUE_DEFAULT_TYPE, messageType.getName(),
@@ -80,6 +84,7 @@ public class KafkaConsumerConfig {
         Class<T> messageType) {
         ConcurrentKafkaListenerContainerFactory<String, T> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory(messageType));
+        factory.getContainerProperties().setGroupId(groupId);
         return factory;
     }
 
