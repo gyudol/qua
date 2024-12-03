@@ -87,3 +87,7 @@ body {
   border-radius: 50%; /* 동그란 모양 */
   animation: bubble 2s linear infinite; /* 2초 동안 반복 */
 }
+
+.uoDropShadow {
+  filter: drop-shadow(0 0 10px #47d0bf55);
+}

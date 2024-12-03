@@ -12,11 +12,13 @@ export default function Layout({
 
   return (
     <>
+      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <FeedTabHeader onMenuClick={() => setSidebarOpen(true)} />
-      <div className={`flex flex-1 ${sidebarOpen} ? : overflow-auto`}>
-        <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <div className="relative w-full md:max-w-md mx-auto md:h-[90%] md:absolute md:top-10 md:rounded-xl bg-white shadow-md overflow-hidden flex flex-col">
+        <div className="md:flex-1 md:overflow-auto overflow-visible">
+          {children}
+        </div>
       </div>
-      {children}
     </>
   );
 }

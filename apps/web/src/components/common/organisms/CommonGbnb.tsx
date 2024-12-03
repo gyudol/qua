@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { CommonLayout } from "@/components/common/atoms/CommonLayout";
-import type { IconProps } from "../icons/@type";
-import { Home, Mypage, Post, Search, Shorts } from "../icons";
+import Link from 'next/link';
+import { CommonLayout } from '@/components/common/atoms/CommonLayout';
+import type { IconProps } from '../icons/@type';
+import { Home, Mypage, Post, Search, Shorts } from '../icons';
 
 interface GbnbListItemProp {
   name: string;
@@ -23,17 +23,17 @@ function GbnbListItem({ href, Icon }: GbnbListItemProp) {
 }
 
 const GbnbListItemInfos: GbnbListItemProp[] = [
-  { name: "Feeds", href: "/", Icon: Home },
-  { name: "Search", href: "/search", Icon: Search },
-  { name: "CreatePost", href: "/post", Icon: Post },
-  { name: "Shorts", href: "/shorts", Icon: Shorts },
-  { name: "Mypage", href: "/me", Icon: Mypage },
+  { name: 'Feeds', href: '/', Icon: Home },
+  { name: 'Search', href: '/search', Icon: Search },
+  { name: 'CreatePost', href: '/post', Icon: Post },
+  { name: 'Shorts', href: '/shorts', Icon: Shorts },
+  { name: 'Mypage', href: '/me', Icon: Mypage },
 ];
 
 export default function CommonGbnb() {
   return (
     <CommonLayout.Bnb>
-      <ul className="flex flex-row justify-between items-center h-[64px] px-[16px] bg-white">
+      <ul className="flex flex-row justify-between items-center py-[20px] px-[18px] bg-white">
         {GbnbListItemInfos.map(({ name, href, Icon }) => (
           <GbnbListItem {...{ name, href, Icon }} key={name} />
         ))}
