@@ -1,6 +1,15 @@
 package com.mulmeong.notification.common.config;
 
-import com.mulmeong.event.*;
+import com.mulmeong.event.chat.ChattingCreateEvent;
+import com.mulmeong.event.contents.FeedCommentCreateEvent;
+import com.mulmeong.event.contents.FeedRecommentCreateEvent;
+import com.mulmeong.event.contents.ShortsCommentCreateEvent;
+import com.mulmeong.event.contents.ShortsRecommentCreateEvent;
+import com.mulmeong.event.contents.*;
+import com.mulmeong.event.contest.ContestVoteResultEvent;
+import com.mulmeong.event.member.FollowCreateEvent;
+import com.mulmeong.event.member.MemberGradeUpdateEvent;
+import com.mulmeong.event.report.ReportCreateEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +30,7 @@ public class KafkaConsumerConfig {
 
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
-    @Value("${spring.kafka.consumer.group-id}")
+    @Value("${event.notification.sub.group-id}")
     private String groupId;
 
     //피드 생성
@@ -34,6 +43,18 @@ public class KafkaConsumerConfig {
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, ShortsCreateEvent> shortsCreateListener() {
         return kafkaListenerContainerFactory(ShortsCreateEvent.class);
+    }
+
+    //피드 록성한 회원을 팔로우하는 사람들의 uuid 목록
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, FeedCreatedFollowersEvent> feedCreateFollowersListener() {
+        return kafkaListenerContainerFactory(FeedCreatedFollowersEvent.class);
+    }
+
+    //쇼츠 성한 회원을 팔로우하는 사람들의 uuid 목록
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ShortsCreatedFollowersEvent> shortCreateFollowersListener() {
+        return kafkaListenerContainerFactory(ShortsCreatedFollowersEvent.class);
     }
 
     //피드 댓글 생성
@@ -68,31 +89,26 @@ public class KafkaConsumerConfig {
 
     //좋아요
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, LikeEvent> likeListener() {
-        return kafkaListenerContainerFactory(LikeEvent.class);
+    public ConcurrentKafkaListenerContainerFactory<String, LikeCreateEvent> likeListener() {
+        return kafkaListenerContainerFactory(LikeCreateEvent.class);
     }
 
     //콘테스트 우승
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ContestWinnerEvent> contestWinnerListener() {
-        return kafkaListenerContainerFactory(ContestWinnerEvent.class);
+    public ConcurrentKafkaListenerContainerFactory<String, ContestVoteResultEvent> contestWinnerListener() {
+        return kafkaListenerContainerFactory(ContestVoteResultEvent.class);
     }
 
     //등급 변경
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, GradeChangeEvent> gradeChangeListener() {
-        return kafkaListenerContainerFactory(GradeChangeEvent.class);
+    public ConcurrentKafkaListenerContainerFactory<String, MemberGradeUpdateEvent> gradeChangeListener() {
+        return kafkaListenerContainerFactory(MemberGradeUpdateEvent.class);
     }
 
-    //챗봇 채팅 생성
+    //유저 채팅
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ChatBotChattingCreateEvent> chatbotChattingCreateListener() {
-        return kafkaListenerContainerFactory(ChatBotChattingCreateEvent.class);
-    }
-
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, UserChattingCreateEvent> userChattingCreateListener() {
-        return kafkaListenerContainerFactory(UserChattingCreateEvent.class);
+    public ConcurrentKafkaListenerContainerFactory<String, ChattingCreateEvent> chattingCreateListener() {
+        return kafkaListenerContainerFactory(ChattingCreateEvent.class);
     }
 
     //신고 생성
@@ -107,7 +123,7 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, messageType.getName());
-        props.put(JsonDeserializer.TRUSTED_PACKAGES, "com.mulmeong.event");
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
