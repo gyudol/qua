@@ -1,4 +1,4 @@
-package com.mulmeong.event;
+package com.mulmeong.event.chat;
 
 import lombok.Data;
 import lombok.Getter;
@@ -9,13 +9,10 @@ import java.time.LocalDateTime;
 @Data
 @Getter
 @NoArgsConstructor
-public class FeedRecommentCreateEvent {
-
+public class ChattingCreateEvent {
     private String memberUuid;
-    private String commentUuid;
-    private String recommentUuid;
-    private String content;
+    private String targetUuid;
+    private String chatRoomUuid;
+    private String message;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
 }

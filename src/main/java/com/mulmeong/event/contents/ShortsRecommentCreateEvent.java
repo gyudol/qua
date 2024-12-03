@@ -1,4 +1,4 @@
-package com.mulmeong.event;
+package com.mulmeong.event.contents;
 
 import lombok.Data;
 import lombok.Getter;
@@ -9,14 +9,10 @@ import java.time.LocalDateTime;
 @Data
 @Getter
 @NoArgsConstructor
-public class ShortsCommentCreateEvent {
-
-    private String shortsUuid;
+public class ShortsRecommentCreateEvent {
     private String memberUuid;
     private String commentUuid;
-    private boolean isDeleted;
+    private String recommentUuid;
     private String content;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
 }
