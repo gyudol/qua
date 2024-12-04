@@ -5,7 +5,7 @@ interface CommonLayoutProps {
   children: React.ReactNode;
 }
 
-const commonStyle = cn('w-full min-w-[320px] max-w-[640px]');
+const commonStyle = cn('w-full md:max-w-md mx-auto');
 
 //
 function Container({ className, children }: CommonLayoutProps) {
@@ -40,7 +40,13 @@ function Footer({ className, children }: CommonLayoutProps) {
 // Bnb Navigation Bar
 function Bnb({ className, children }: CommonLayoutProps) {
   return (
-    <nav className={cn(commonStyle, 'fixed bottom-0', className)}>
+    <nav
+      className={cn(
+        commonStyle,
+        'fixed bottom-0 w-full md:max-w-md md:absolute md:!bottom-[5%] md:left-1/2 md:translate-x-[-50%] md:rounded-b-2xl overflow-hidden uoDropShadow',
+        className
+      )}
+    >
       {children}
     </nav>
   );

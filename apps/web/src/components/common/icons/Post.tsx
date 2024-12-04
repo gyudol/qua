@@ -1,15 +1,15 @@
-import type { IconProps } from "./@type";
+import type { IconProps } from './@type';
 
 export default function Post({
-  width = 48,
+  width = 49,
   height = 49,
-  fill = "#47D0BF",
+  fill = '#47D0BF',
 }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
-      viewBox="0 0 48 49"
+      viewBox="0 0 49 49"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >

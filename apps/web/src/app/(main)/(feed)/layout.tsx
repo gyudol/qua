@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { FeedTabHeader } from '@/components/feed-tab/organisms';
 import { Sidebar } from '@/components/common/organisms/SideBar';
+import InnerMobileContainer from '@/components/layouts/InnerMobileContainer';
 
 export default function Layout({
   children,
@@ -12,11 +13,9 @@ export default function Layout({
 
   return (
     <>
+      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <FeedTabHeader onMenuClick={() => setSidebarOpen(true)} />
-      <div className={`flex flex-1 ${sidebarOpen} ? : overflow-auto`}>
-        <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      </div>
-      {children}
+      <InnerMobileContainer>{children}</InnerMobileContainer>
     </>
   );
 }
