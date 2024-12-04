@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class ContestWinner {
+public class ContestResult {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class ContestWinner {
 
 
     @Builder
-    public ContestWinner(
+    public ContestResult(
             Long contestId,
             String postUuid,
             Long voteCount,
