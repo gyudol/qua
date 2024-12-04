@@ -39,9 +39,8 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .addSecurityItem(securityRequirement)
                 .components(components)
-                // Swagger에서 요청보낼때 API에 추가되는 문자열
-//                .addServersItem(new Server().url("/contest-read-service"));
-        .addServersItem(new Server().url("/"));
+                .addServersItem(new Server().url("/contest-read-service"));
+        //.addServersItem(new Server().url("/"));
     }
 
 }
