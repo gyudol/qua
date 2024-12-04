@@ -1,5 +1,5 @@
-import { HashtagWithLink } from '@/components/common/atoms';
-import type { Hashtag as HashtagType } from '@/types/contents';
+import { HashtagWithLink } from "@/components/common/atoms";
+import type { Hashtag as HashtagType } from "@/types/contents";
 
 interface FeedHashtagListProp {
   hashtags: HashtagType[];

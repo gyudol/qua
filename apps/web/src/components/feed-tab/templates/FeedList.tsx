@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useQuery } from '@tanstack/react-query';
-import { getAllFeed } from '@/actions/feed';
-import Feed from '@/components/feed/organisms/Feed';
-import FeedSortTap from '../organisms/FeedSortTap';
+import { useQuery } from "@tanstack/react-query";
+import { getAllFeed } from "@/actions/feed";
+import Feed from "@/components/@legacy/feed/organisms/Feed";
+import FeedSortTap from "../organisms/FeedSortTap";
 
 export default function FeedList() {
   const { data } = useQuery({
-    queryKey: ['feeds'],
+    queryKey: ["feeds"],
     queryFn: async () => getAllFeed(),
   });
   return (

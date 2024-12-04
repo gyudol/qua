@@ -2,7 +2,7 @@ import { getFeed } from "@/actions/feed";
 // import { CommentList } from "@/components/@legacy-comments/templates";
 import { CommonLayout } from "@/components/common/molecules";
 import { CommentSection } from "@/components/feed-comment-section/templates";
-import Feed from "@/components/feed/organisms/Feed";
+import Feed from "@/components/@legacy/feed/organisms/Feed";
 
 interface PageProps {
   params: {

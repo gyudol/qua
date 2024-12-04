@@ -2,7 +2,7 @@ import { cn } from "@repo/ui/lib/utils";
 import { Jua } from "next/font/google";
 import { MoreHorizontal } from "lucide-react";
 import { CommonLayout, GoBackButton } from "@/components/common/atoms";
-import { Profile } from "@/components/@legacy-profile/molecules";
+import { Profile } from "@/components/@legacy/profile/molecules";
 
 const jua = Jua({ weight: "400", subsets: ["latin"] });
 
