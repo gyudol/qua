@@ -1,4 +1,4 @@
-import type { FeedReq, FeedUuid } from "../../feed-service";
+import type { FeedReq, FeedUuid } from "../../feed/common";
 import type {
   BaseComment,
   DeleteCommentReq,

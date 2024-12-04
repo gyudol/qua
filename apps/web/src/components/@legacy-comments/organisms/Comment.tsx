@@ -18,14 +18,14 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { PostedAt } from "@/components/common/atoms";
-import { Profile } from "@/components/profile/molecules";
+import { Profile } from "@/components/@legacy-profile/molecules";
 import { alertNotImplemented } from "@/functions/utils";
 import type {
   CommentReqParam,
   TargetType,
 } from "@/types/comment/@legacy-comment-service";
 import { DeleteComment, GetComment } from "@/actions/@legacy-comment-service";
-import { getMemberProfile } from "@/actions/member-read-service";
+import { getMemberProfileByUuid } from "@/actions/member-read-service";
 
 type CommentProp<
   T extends TargetType,
@@ -81,7 +81,10 @@ export default function Comment<
     error: memberProfileError,
   } = useQuery({
     queryKey: ["memberProfile", comment?.memberUuid],
-    queryFn: async () => getMemberProfile({ memberUuid: comment?.memberUuid }),
+    queryFn: async () => {
+      if (comment?.memberUuid)
+        return getMemberProfileByUuid({ memberUuid: comment.memberUuid });
+    },
     enabled: Boolean(comment?.memberUuid),
   });
 
