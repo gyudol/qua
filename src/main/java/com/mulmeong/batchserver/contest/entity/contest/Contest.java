@@ -26,7 +26,7 @@ public class Contest {
     private String description;
     private String imgUrl;
     private boolean status;
-
+    private Long badgeId;
     private LocalDate startDate;
     private LocalDate endDate;
 
@@ -37,6 +37,7 @@ public class Contest {
             String description,
             String imgUrl,
             boolean status,
+            Long badgeId,
             LocalDate startDate,
             LocalDate endDate
     ) {
@@ -45,6 +46,7 @@ public class Contest {
         this.description = description;
         this.imgUrl = imgUrl;
         this.status = status;
+        this.badgeId = badgeId;
         this.startDate = startDate;
         this.endDate = endDate;
     }

@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 @EnableBatchProcessing(dataSourceRef = "contestDataSource", transactionManagerRef = "contestTransactionManager")
 @RequiredArgsConstructor
 public class ContestBatchConfig {
-    private static final Logger log =LoggerFactory.getLogger(ContestBatchConfig .class);
+    private static final Logger log = LoggerFactory.getLogger(ContestBatchConfig.class);
     private final ContestRepository contestRepository;
     private final RedisTemplate<String, String> redisTemplate;
     private final PlatformTransactionManager transactionManager;
@@ -41,7 +41,6 @@ public class ContestBatchConfig {
     private static final String VOTE_COUNT_KEY = "contest:%d:post:votes";
     private final JobRepository jobRepository;
     private final JobLauncher jobLauncher;
-
 
 
     @Scheduled(fixedRate = 300000)
@@ -102,11 +101,13 @@ public class ContestBatchConfig {
             if (voteCountKeys != null) {
                 return voteCountKeys.stream()
                         .flatMap(voteCountKey -> {
-                            Set<ZSetOperations.TypedTuple<String>> voteData = redisTemplate.opsForZSet().rangeWithScores(voteCountKey, 0, -1);
+                            Set<ZSetOperations.TypedTuple<String>> voteData = redisTemplate
+                                    .opsForZSet().rangeWithScores(voteCountKey, 0, -1);
                             return voteData != null ? voteData.stream() : null;
                         })
                         .filter(Objects::nonNull)
-                        .map(entry -> ContestVoteUpdateEvent.toDto(contestId, entry.getValue(), Objects.requireNonNull(entry.getScore()).intValue()))
+                        .map(entry -> ContestVoteUpdateEvent.toDto(
+                                contestId, entry.getValue(), Objects.requireNonNull(entry.getScore()).intValue()))
                         .collect(Collectors.toList());
             }
             return null;

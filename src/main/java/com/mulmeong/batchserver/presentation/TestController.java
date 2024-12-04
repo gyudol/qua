@@ -32,10 +32,10 @@ public class TestController {
                 .toJobParameters();
         try {
             jobLauncher.run(voteRenewJob, jobParameters);
-        } catch (JobExecutionAlreadyRunningException |
-                 JobRestartException |
-                 JobInstanceAlreadyCompleteException |
-                 JobParametersInvalidException e) {
+        } catch (JobExecutionAlreadyRunningException
+                 | JobRestartException
+                 | JobInstanceAlreadyCompleteException
+                 | JobParametersInvalidException e) {
             throw new RuntimeException(e);
         }
         return new BaseResponse<>();
@@ -50,10 +50,10 @@ public class TestController {
                 .toJobParameters();
         try {
             jobLauncher.run(voteResultJob, jobParameters);
-        } catch (JobExecutionAlreadyRunningException |
-                 JobRestartException |
-                 JobInstanceAlreadyCompleteException |
-                 JobParametersInvalidException e) {
+        } catch (JobExecutionAlreadyRunningException
+                 | JobRestartException
+                 | JobInstanceAlreadyCompleteException
+                 | JobParametersInvalidException e) {
             throw new RuntimeException(e);
         }
         return new BaseResponse<>();

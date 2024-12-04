@@ -35,6 +35,7 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.PlatformTransactionManager;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -45,7 +46,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ContestResultBatchConfig {
 
-    private static final Logger log =LoggerFactory.getLogger(ContestBatchConfig .class);
+    private static final Logger log = LoggerFactory.getLogger(ContestBatchConfig.class);
     private final ContestRepository contestRepository;
     private final ContestPostRepository contestPostRepository;
     private final ContestPostReadRepository contestPostReadRepository;
@@ -120,11 +121,13 @@ public class ContestResultBatchConfig {
             if (voteCountKeys != null) {
                 return voteCountKeys.stream()
                         .flatMap(voteCountKey -> {
-                            Set<ZSetOperations.TypedTuple<String>> voteData = redisTemplate.opsForZSet().rangeWithScores(voteCountKey, 0, -1);
+                            Set<ZSetOperations.TypedTuple<String>> voteData = redisTemplate
+                                    .opsForZSet().rangeWithScores(voteCountKey, 0, -1);
                             return voteData != null ? voteData.stream() : null;
                         })
                         .filter(Objects::nonNull)
-                        .map(entry -> ContestVoteUpdateEvent.toDto(contestId, entry.getValue(), Objects.requireNonNull(entry.getScore()).intValue()))
+                        .map(entry -> ContestVoteUpdateEvent.toDto(
+                                contestId, entry.getValue(), Objects.requireNonNull(entry.getScore()).intValue()))
                         .collect(Collectors.toList());
             }
             return null;
@@ -233,7 +236,12 @@ public class ContestResultBatchConfig {
             Byte ranking = 1;
             List<ContestVoteResultEvent> resultEvents = new ArrayList<>();
             for (ContestPostRead post : topPosts) {
-                resultEvents.add(ContestVoteResultEvent.toDto(contestId, post.getMemberUuid(), post.getPostUuid(), null, post.getVoteCount(), ranking));
+                resultEvents.add(ContestVoteResultEvent.toDto(contestId,
+                        post.getMemberUuid(),
+                        post.getPostUuid(),
+                        contest.getBadgeId(),
+                        post.getVoteCount(),
+                        ranking));
                 ranking++;
             }
 

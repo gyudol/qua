@@ -45,13 +45,15 @@ public class ContestDatabaseConfig {
         return getLocalContainerEntityManagerFactoryBean(em);
     }
 
-    static LocalContainerEntityManagerFactoryBean getLocalContainerEntityManagerFactoryBean(LocalContainerEntityManagerFactoryBean em) {
+    static LocalContainerEntityManagerFactoryBean getLocalContainerEntityManagerFactoryBean(
+            LocalContainerEntityManagerFactoryBean em) {
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         HashMap<String, Object> prop = new HashMap<>();
         prop.put("hibernate.hbm2ddl.auto", "update");
         prop.put("hibernate.show_sql", "true");
         prop.put("hibernate.format_sql", true);
-        prop.put("hibernate.physical_naming_strategy", "org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy");
+        prop.put("hibernate.physical_naming_strategy",
+                "org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy");
         em.setJpaPropertyMap(prop);
         return em;
     }
