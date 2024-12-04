@@ -33,7 +33,7 @@ public class FeedServiceImpl implements FeedService {
         feedRepository.save(requestDto.toFeedEntity());
         feedMediaRepository.saveAll(requestDto.toFeedMediaEntities());
         feedHashtagRepository.save(requestDto.toFeedHashtagEntity());
-        kafkaProducer.send("feed-created", requestDto.toEventEntity());
+        kafkaProducer.send(requestDto.toEventEntity());
     }
 
     @Transactional
@@ -43,7 +43,7 @@ public class FeedServiceImpl implements FeedService {
         feedRepository.save(
             requestDto.toFeedEntity(feedRepository.findByFeedUuid(requestDto.getFeedUuid())
                 .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
-        kafkaProducer.send("feed-updated", requestDto.toEventEntity());
+        kafkaProducer.send(requestDto.toEventEntity());
     }
 
     @Transactional
@@ -53,7 +53,7 @@ public class FeedServiceImpl implements FeedService {
         feedRepository.save(
             requestDto.toFeedEntity(feedRepository.findByFeedUuid(requestDto.getFeedUuid())
                 .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
-        kafkaProducer.send("feed-status-updated", requestDto.toEventEntity());
+        kafkaProducer.send(requestDto.toEventEntity());
     }
 
     @Transactional
@@ -64,7 +64,7 @@ public class FeedServiceImpl implements FeedService {
             requestDto.toFeedEntity(feedRepository.findByFeedUuid(requestDto.getFeedUuid())
                 .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
         feedHashtagRepository.save(requestDto.toFeedHashtagEntity());
-        kafkaProducer.send("feed-hashtag-updated", requestDto.toEventEntity());
+        kafkaProducer.send(requestDto.toEventEntity());
     }
 
     @Transactional
@@ -75,7 +75,7 @@ public class FeedServiceImpl implements FeedService {
             .orElseThrow(() -> new BaseException(FEED_FORBIDDEN)));
         feedHashtagRepository.deleteAllByFeedUuid(feedUuid);
         feedMediaRepository.deleteByFeedUuid(feedUuid);
-        kafkaProducer.send("feed-deleted", new FeedDeleteEvent(feedUuid));
+        kafkaProducer.send(new FeedDeleteEvent(feedUuid));
     }
 
 }
