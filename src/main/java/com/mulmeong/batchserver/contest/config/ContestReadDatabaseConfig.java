@@ -17,7 +17,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 )
 public class ContestReadDatabaseConfig {
 
-    private static final String DB_NAME = "qua_util";
+    @Value("${spring.data.mongodb.contest.dbname}")
+    private String DB_NAME;
 
     @Value("${spring.data.mongodb.contest.uri}")
     private String contestMongoUri;

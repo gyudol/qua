@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.*;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
@@ -71,19 +72,19 @@ public class ContestBatchConfig {
     }
 
     @Bean
+    @StepScope
     public ItemReader<Contest> contestReader() {
         return new ItemReader<>() {
-            private Iterator<Contest> iterator = null;
+            private final Iterator<Contest> iterator = contestRepository
+                    .findByStatusTrue()
+                    .iterator();
+
 
             @Override
             public Contest read() {
-                if (iterator == null) {
-                    iterator = contestRepository.findByStatusTrue().iterator();
-                }
-
                 if (iterator.hasNext()) {
                     Contest contest = iterator.next();
-                    log.info("Read contest: {}", contest);
+                    log.info("Read contest: {}", contest.getName());
                     return contest;
                 } else {
                     return null;
