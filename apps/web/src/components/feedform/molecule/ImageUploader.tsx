@@ -85,10 +85,10 @@ function ImageUploader({
       {/* 업로드 라벨 */}
       <label
         htmlFor="feedImg"
-        className="items-center gap-2 w-full flex justify-center border-dotted border-2 border-gray-300 p-4 rounded-xl bg-[#F1F4F9] h-[110px] cursor-pointer"
+        className="items-center gap-2 w-full flex justify-center border-dotted border-2 border-gray-300 p-4 rounded-lg bg-[#F1F4F9] h-[110px] cursor-pointer"
       >
         <UploadCloud />
-        <span className="text-gray-600 text-[16px]">Upload attachment</span>
+        <span className="text-gray-600 text-sm">Upload attachment</span>
       </label>
 
       {/* 파일 입력 */}

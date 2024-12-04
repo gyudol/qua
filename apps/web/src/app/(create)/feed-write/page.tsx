@@ -3,7 +3,7 @@ import FeedWriteFrom from '@/components/feedform/organisms/FeedWriteFrom';
 
 function page() {
   return (
-    <CommonLayout.Contents>
+    <CommonLayout.Contents className="w-full h-auto px-[1rem] md:px-[2rem] py-[2rem] bg-[#FDFCFC]">
       <FeedWriteFrom />
     </CommonLayout.Contents>
   );

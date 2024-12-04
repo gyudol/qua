@@ -60,7 +60,7 @@ export async function getFeed(feedUuid: string) {
 }
 
 export async function createFeed(
-  payloade: CreateFeedType
+  payload: CreateFeedType
 ): Promise<CommonRes<null>> {
   // console.log(payloade);
   // console.log(BASE_API_URL);
@@ -71,7 +71,7 @@ export async function createFeed(
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(payloade),
+      body: JSON.stringify(payload),
     }
   );
 

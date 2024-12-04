@@ -28,20 +28,18 @@ function FeedWriteFrom() {
   return (
     <form
       ref={formRef}
-      className="w-full bg-[#FDFCFC] h-full px-[28px]"
+      className="w-full h-[90%] flex flex-col gap-2 relative"
       onSubmit={(event) => {
         void onSubmit(event);
       }}
     >
-      <div className="flex flex-col gap-2">
-        <FeedCreateFormFields payload={payload} setPayload={setPayload} />
-        <Button
-          type="submit"
-          className="text-[20px] bg-[#47D0BF] py-[25px] rounded-lg text-white text-center w-full mb-20"
-        >
-          Upload now
-        </Button>
-      </div>
+      <FeedCreateFormFields payload={payload} setPayload={setPayload} />
+      <Button
+        type="submit"
+        className="w-[90%] md:w-2/5 text-[1rem] bg-[#47D0BF] py-[25px] rounded-lg text-white text-center mb-20 fixed bottom-10 left-1/2 translate-x-[-50%]"
+      >
+        Upload now
+      </Button>
     </form>
   );
 }
