@@ -32,6 +32,7 @@ public class Contest {
 
     @Builder
     public Contest(
+            Long id,
             Kind kind,
             String name,
             String description,
@@ -40,6 +41,7 @@ public class Contest {
             LocalDate startDate,
             LocalDate endDate
     ) {
+        this.id = id;
         this.kind = kind;
         this.name = name;
         this.description = description;
@@ -48,4 +50,5 @@ public class Contest {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
 }

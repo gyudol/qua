@@ -51,28 +51,6 @@ public class AuthContestController {
         return new BaseResponse<>();
     }
 
-    @GetMapping("/view")
-    public BaseResponse<CursorPage<ContestResponseDto>> getCurrentContest(
-            @RequestParam(defaultValue = "latest", required = false) String sortBy,
-            @RequestParam(required = false, name = "nextCursor") String lastId,
-            @RequestParam(required = false) Integer pageSize,
-            @RequestParam(required = false) Integer pageNo
-    ) {
-
-        return new BaseResponse<>(contestService.getCurrentContest(ContestQueryRequestDto.toDto(true, sortBy, lastId, pageNo, pageSize)));
-    }
-
-    @GetMapping("/history")
-    public BaseResponse<CursorPage<ContestResponseDto>> getPastContest(
-            @RequestParam(defaultValue = "latest", required = false) String sortBy,
-            @RequestParam(required = false, name = "nextCursor") String lastId,
-            @RequestParam(required = false) Integer pageSize,
-            @RequestParam(required = false) Integer pageNo
-    ) {
-
-        return new BaseResponse<>(contestService.getCurrentContest(ContestQueryRequestDto.toDto(false, sortBy, lastId, pageNo, pageSize)));
-    }
-
 
 
 

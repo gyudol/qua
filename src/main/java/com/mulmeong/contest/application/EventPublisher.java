@@ -17,8 +17,6 @@ public class EventPublisher {
 
     @Value("${event.contest.pub.topics.contest-post-create.name}")
     private String contestPostCreateEventTopic;
-    @Value("${event.contest.pub.topics.contest-post-update.name}")
-    private String contestPostUpdateEventTopic;
 
     public void send(String topic, Object event) {
         log.info("Publishing event: {}", event);

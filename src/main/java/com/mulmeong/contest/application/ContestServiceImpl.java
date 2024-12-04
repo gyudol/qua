@@ -11,24 +11,13 @@ import com.mulmeong.contest.dto.out.ContestResponseDto;
 import com.mulmeong.contest.entity.Contest;
 import com.mulmeong.contest.entity.ContestPost;
 import com.mulmeong.contest.infrastructure.*;
+import com.mulmeong.event.contest.consume.ContestStatusEvent;
+import com.mulmeong.event.contest.consume.ContestVoteResultEvent;
 import com.mulmeong.event.contest.produce.ContestPostCreateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.batch.core.*;
-import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
-import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
-import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ZSetOperations;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -38,6 +27,7 @@ public class ContestServiceImpl implements ContestService {
     private final EventPublisher eventPublisher;
     private final ContestRepository contestRepository;
     private final ContestPostRepository contestPostRepository;
+    private final ContestResultRepository contestResultRepository;
     private final ContestCustomRepository contestCustomRepository;
     private final RedisTemplate<String, String> redisTemplate;
 
@@ -79,10 +69,30 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    public CursorPage<ContestResponseDto> getCurrentContest(ContestQueryRequestDto requestDto) {
+    public CursorPage<ContestResponseDto> getContests(ContestQueryRequestDto requestDto) {
         return contestCustomRepository.getContests(requestDto);
     }
 
+    @Override
+    public void createContestResult(ContestVoteResultEvent message) {
+        contestResultRepository.save(message.toEntity(
+                message.getContestId(),
+                message.getMemberUuid(),
+                message.getPostUuid(),
+                message.getBadgeId(),
+                message.getVoteCount(),
+                message.getRanking()
+        ));
+    }
+
+    @Override
+    public void altContestStatus(ContestStatusEvent message) {
+        Contest contest = contestRepository.findById(message.getContestId())
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_EXIST)
+        );
+        log.info("id: {}", contest.getId());
+        contestRepository.save(message.toEntity(contest));
+    }
 
 
 }
