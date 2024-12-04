@@ -1,5 +1,5 @@
 import { HashtagWithLink } from "@/components/common/atoms";
-import { Profile } from "@/components/profile/molecules";
+import { Profile } from "@/components/@legacy-profile/molecules";
 import type { Shorts } from "@/types/contents";
 
 type ShortsPannelProp = Shorts;

@@ -13,7 +13,7 @@ import {
   postFeedComment,
   putFeedComment,
 } from "@/actions/comment-service";
-import type { FeedReq } from "@/types/feed-service";
+import type { FeedReq } from "@/types/feed/common";
 import type { CommentReq } from "@/types/comment/common";
 import type { FeedComment as RFeedComment } from "@/types/comment/comment-read-service";
 import type { FeedComment } from "@/types/comment/comment-service";

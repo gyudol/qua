@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getMemberProfile } from "@/actions/member-read-service";
 import { PostedAt } from "@/components/common/atoms";
-import { Profile } from "@/components/profile/molecules";
+import { Profile } from "@/components/@legacy-profile/molecules";
 import type { FeedRecomment } from "@/types/comment/comment-read-service";
 import { useGetFeedRecommentQuery } from "@/hooks";
+import { useMemberCompactProfile } from "@/hooks/member-read-service";
 import { RecommentButtonGroup } from "../molecules";
 import { RecommentEditInput, RecommentMoreButton } from "../atoms";
 
@@ -21,11 +20,7 @@ export function RecommentView({
 }: RecommentViewProps) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const { data: recomment } = useGetFeedRecommentQuery({ recommentUuid });
-
-  const { data: memberProfile } = useQuery({
-    queryKey: ["member-profile", memberUuid],
-    queryFn: () => getMemberProfile({ memberUuid }),
-  });
+  const { data: memberProfile } = useMemberCompactProfile({ memberUuid });
 
   if (!recomment) return null;
 

@@ -5,13 +5,15 @@ import type {
   DeleteFeedBookmarkReq,
   DeleteShortsBookmarkReq,
   GetFeedBookmarksReq,
+  GetFeedBookmarkStatusReq,
   GetShortsBookmarksReq,
+  GetShortsBookmarkStatusReq,
   PostFeedBookmarkReq,
   PostShortsBookmarkReq,
 } from "@/types/utility-service/bookmark-service";
 import type { ShortsUuid } from "@/types/shorts-service";
 import type { EmptyObject } from "@/types/common";
-import type { FeedUuid } from "@/types/feed-service";
+import type { FeedUuid } from "@/types/feed/common";
 import { getHeaders, processResponse } from "../common";
 
 const API_SERVER = process.env.BASE_API_URL;
@@ -93,4 +95,32 @@ export async function deleteFeedBookmark({ feedUuid }: DeleteFeedBookmarkReq) {
   });
 
   return processResponse<EmptyObject, false>({ res });
+}
+
+export async function getShortsBookmarkStatus({
+  shortsUuid,
+}: GetShortsBookmarkStatusReq) {
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/shorts/${shortsUuid}/bookmarks`;
+
+  const res: Response = await fetch(URI, {
+    headers: await getHeaders(),
+    method: "GET",
+    cache: "no-cache",
+  });
+
+  return processResponse<boolean, false>({ res });
+}
+
+export async function getFeedBookmarkStatus({
+  feedUuid,
+}: GetFeedBookmarkStatusReq) {
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/feeds/${feedUuid}/bookmarks`;
+
+  const res: Response = await fetch(URI, {
+    headers: await getHeaders(),
+    method: "GET",
+    cache: "no-cache",
+  });
+
+  return processResponse<boolean, false>({ res });
 }

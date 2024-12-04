@@ -2,7 +2,7 @@
 import type { Member } from "@/types/member";
 import type { BaseFeed, CUAt } from "@/types/contents";
 import { PostedAt } from "@/components/common/atoms";
-import { Profile } from "@/components/profile/molecules";
+import { Profile } from "@/components/@legacy-profile/molecules";
 import { getProfileUrl } from "@/functions/utils";
 import { FeedButton } from "./FeedButtonGroup";
 

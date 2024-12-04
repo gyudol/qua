@@ -8,7 +8,7 @@ export interface CommonRes<T> {
 
 export interface Pagination<T> {
   content: T[];
-  nextCursor: number;
+  nextCursor: string;
   hasNext: boolean;
   pageSize: number;
   pageNo: number;
