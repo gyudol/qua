@@ -8,5 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public interface ContestRepository extends JpaRepository<Contest, Long> {
-    Iterable<Contest> findByStartDateLessThanEqualAndEndDateGreaterThanEqual(LocalDate currentDate, LocalDate currentDate1);
+
+    Iterable<Contest> findByStatusTrue();
 }

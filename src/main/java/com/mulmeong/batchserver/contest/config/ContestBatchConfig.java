@@ -23,7 +23,7 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.PlatformTransactionManager;
-import java.time.LocalDate;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -45,7 +45,7 @@ public class ContestBatchConfig {
 
 
     @Scheduled(fixedRate = 300000)
-    public void runJob() throws Exception {
+    public void runRenewJob() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("time", System.currentTimeMillis())
                 .toJobParameters();
@@ -74,11 +74,21 @@ public class ContestBatchConfig {
     @Bean
     public ItemReader<Contest> contestReader() {
         return new ItemReader<>() {
-            private final Iterator<Contest> iterator = contestRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(LocalDate.now(), LocalDate.now()).iterator();
+            private Iterator<Contest> iterator = null;
 
             @Override
             public Contest read() {
-                return iterator.hasNext() ? iterator.next() : null;
+                if (iterator == null) {
+                    iterator = contestRepository.findByStatusTrue().iterator();
+                }
+
+                if (iterator.hasNext()) {
+                    Contest contest = iterator.next();
+                    log.info("Read contest: {}", contest);
+                    return contest;
+                } else {
+                    return null;
+                }
             }
         };
     }

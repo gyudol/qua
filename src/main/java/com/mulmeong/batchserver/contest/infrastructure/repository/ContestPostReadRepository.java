@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ContestReadRepository extends MongoRepository<ContestPostRead, String> {
-    List<ContestPostRead> findAllByContestId(Long id);
+public interface ContestPostReadRepository extends MongoRepository<ContestPostRead, String> {
+
+    List<ContestPostRead> findByContestId(Long contestId);
 }

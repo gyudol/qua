@@ -25,7 +25,7 @@ public class ContestPostRead {
     private String mediaUrl;
     private MediaType mediaType;
     private LocalDateTime createdAt;
-    private Integer voteCount;
+    private Long voteCount;
 
 
 }

@@ -5,19 +5,17 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class ContestVoteUpdateEvent {
+public class ContestVoteRecordEvent {
 
     private Long contestId;
+    private String memberUuid;
     private String postUuid;
-    private Integer count;
 
-    public static ContestVoteUpdateEvent toDto(
-            Long contestId, String postUuid, Integer count) {
-        return ContestVoteUpdateEvent.builder()
+    public static ContestVoteRecordEvent toDto(Long contestId, String memberUuid, String postUuid) {
+        return ContestVoteRecordEvent.builder()
                 .contestId(contestId)
+                .memberUuid(memberUuid)
                 .postUuid(postUuid)
-                .count(count)
                 .build();
     }
-
 }
