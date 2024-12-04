@@ -1,6 +1,6 @@
-import React from 'react';
+import type { IconProps } from "./@type";
 
-function Butterflyfish({ size }: { size: number }) {
+function Butterflyfish({ size }: IconProps) {
   return (
     <svg
       width={size}

@@ -1,6 +1,6 @@
-import React from "react";
+import type { IconProps } from "./@type";
 
-function Snapper({ size }: { size: number }) {
+function Snapper({ size }: IconProps) {
   return (
     <svg
       width={size}

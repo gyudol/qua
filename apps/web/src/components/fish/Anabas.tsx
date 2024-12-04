@@ -1,6 +1,6 @@
-import React from 'react';
+import type { IconProps } from "./@type";
 
-function Anabas({ size }: { size: number }) {
+function Anabas({ size }: IconProps) {
   return (
     <svg
       width={size}

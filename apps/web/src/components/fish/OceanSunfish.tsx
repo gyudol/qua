@@ -1,6 +1,6 @@
-import React from 'react';
+import type { IconProps } from "./@type";
 
-function OceanSunfish({ size }: { size: number }) {
+function OceanSunfish({ size }: IconProps) {
   return (
     <svg
       width={size}

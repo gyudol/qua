@@ -1,6 +1,6 @@
-import React from "react";
+import type { IconProps } from "./@type";
 
-function Pufferfish({ size }: { size: number }) {
+function Pufferfish({ size }: IconProps) {
   return (
     <svg
       width={size}

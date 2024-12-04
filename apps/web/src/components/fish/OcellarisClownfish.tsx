@@ -1,6 +1,6 @@
-import React from "react";
+import type { IconProps } from "./@type";
 
-function OcellarisClownfish({ size }: { size: number }) {
+function OcellarisClownfish({ size }: IconProps) {
   return (
     <svg
       width={size}

@@ -1,6 +1,6 @@
-import React from 'react';
+import type { IconProps } from "./@type";
 
-function Redfish({ size }: { size: number }) {
+function Redfish({ size }: IconProps) {
   return (
     <svg
       width={size}
