@@ -23,6 +23,7 @@ public class ContestStatusEvent {
                 .name(contest.getName())
                 .description(contest.getDescription())
                 .imgUrl(contest.getImgUrl())
+                .badgeId(contest.getBadgeId())
                 .startDate(contest.getStartDate())
                 .endDate(contest.getEndDate())
                 .status(false)

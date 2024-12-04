@@ -30,7 +30,8 @@ public class ContestController {
             @RequestParam(required = false) Integer pageNo
     ) {
 
-        return new BaseResponse<>(contestService.getContests(ContestQueryRequestDto.toDto(true, sortBy, lastId, pageNo, pageSize)));
+        return new BaseResponse<>(contestService.getContests(
+                ContestQueryRequestDto.toDto(true, sortBy, lastId, pageNo, pageSize)));
     }
 
     @Operation(summary = "과거 콘테스트 조회", description = "마감 된 콘테스트 목록 조회(최신순(latest), 과거순(oldest))")
@@ -42,6 +43,7 @@ public class ContestController {
             @RequestParam(required = false) Integer pageNo
     ) {
 
-        return new BaseResponse<>(contestService.getContests(ContestQueryRequestDto.toDto(false, sortBy, lastId, pageNo, pageSize)));
+        return new BaseResponse<>(contestService.getContests(
+                ContestQueryRequestDto.toDto(false, sortBy, lastId, pageNo, pageSize)));
     }
 }

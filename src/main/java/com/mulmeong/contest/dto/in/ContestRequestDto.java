@@ -20,6 +20,7 @@ public class ContestRequestDto {
     private String name;
     private String description;
     private String imgUrl;
+    private Long badgeId;
     private LocalDate startDate;
     private LocalDate endDate;
 
@@ -29,6 +30,7 @@ public class ContestRequestDto {
             String name,
             String description,
             String imgUrl,
+            Long badgeId,
             LocalDate startDate,
             LocalDate endDate
     ) {
@@ -36,6 +38,7 @@ public class ContestRequestDto {
         this.name = name;
         this.description = description;
         this.imgUrl = imgUrl;
+        this.badgeId = badgeId;
         this.startDate = startDate;
         this.endDate = endDate;
     }
@@ -47,6 +50,7 @@ public class ContestRequestDto {
                 .description(description)
                 .imgUrl(imgUrl)
                 .status(true)
+                .badgeId(badgeId)
                 .startDate(startDate)
                 .endDate(endDate)
                 .build();
@@ -58,6 +62,7 @@ public class ContestRequestDto {
                 .name(contestRequestVo.getName())
                 .description(contestRequestVo.getDescription())
                 .imgUrl(contestRequestVo.getImgUrl())
+                .badgeId(contestRequestVo.getBadgeId())
                 .startDate(contestRequestVo.getStartDate())
                 .endDate(contestRequestVo.getEndDate())
                 .build();

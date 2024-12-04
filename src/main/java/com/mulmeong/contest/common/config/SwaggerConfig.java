@@ -34,11 +34,10 @@ public class SwaggerConfig {
                         .scheme(BEARER_TOKEN_PREFIX)
                         .bearerFormat(securityJwtName));
 
-        return new OpenAPI()
-                .addSecurityItem(securityRequirement)
+        return new OpenAPI().addSecurityItem(securityRequirement)
                 .components(components)
-//                .addServersItem(new Server().url("/contest-read-service"));
-                .addServersItem(new Server().url("/"));
+                .addServersItem(new Server().url("/contest-service"));
+        //.addServersItem(new Server().url("/"));
     }
 
 }

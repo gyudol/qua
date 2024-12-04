@@ -14,6 +14,7 @@ public class ContestRequestVo {
     private String name;
     private String description;
     private String imgUrl;
+    private Long badgeId;
     private LocalDate startDate;
     private LocalDate endDate;
 
