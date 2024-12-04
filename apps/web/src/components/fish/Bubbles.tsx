@@ -24,7 +24,11 @@ function Bubble() {
 function Bubbles() {
   const bubbles = Array.from({ length: 50 }, (_, i) => <Bubble key={i} />); // 50개의 거품 생성
 
-  return <div className="z-[150]">{bubbles}</div>;
+  return (
+    <div className="z-[150] w-full h-full fixed top-0 left-0 pointer-events-none">
+      {bubbles}
+    </div>
+  );
 }
 
 export default Bubbles;

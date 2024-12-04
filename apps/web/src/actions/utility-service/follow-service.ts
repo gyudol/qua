@@ -5,6 +5,7 @@ import type {
   FollowStatus,
   GetFollowersReq,
   GetFollowingsReq,
+  GetFollowStatusReq,
   PostFollowingReq,
 } from "@/types/utility-service";
 import type { EmptyObject } from "@/types/common";
@@ -48,10 +49,7 @@ export async function deleteFollowing({
 export async function getFollowStatus({
   sourceUuid,
   targetUuid,
-}: {
-  sourceUuid?: string;
-  targetUuid: string;
-}) {
+}: GetFollowStatusReq) {
   const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/${sourceUuid}/follow-status/${targetUuid}`;
 
   const res: Response = await fetch(URI, {

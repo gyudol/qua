@@ -18,14 +18,14 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { PostedAt } from "@/components/common/atoms";
-import { Profile } from "@/components/profile/molecules";
+import { Profile } from "@/components/@legacy-profile/molecules";
 import { alertNotImplemented } from "@/functions/utils";
 import type {
   CommentReqParam,
   TargetType,
 } from "@/types/comment/@legacy-comment-service";
 import { DeleteComment, GetComment } from "@/actions/@legacy-comment-service";
-import { getMemberProfile } from "@/actions/member-read-service";
+import { getMemberProfileByUuid } from "@/actions/member-read-service";
 
 type CommentProp<
   T extends TargetType,
@@ -81,7 +81,10 @@ export default function Comment<
     error: memberProfileError,
   } = useQuery({
     queryKey: ["memberProfile", comment?.memberUuid],
-    queryFn: async () => getMemberProfile({ memberUuid: comment?.memberUuid }),
+    queryFn: async () => {
+      if (comment?.memberUuid)
+        return getMemberProfileByUuid({ memberUuid: comment.memberUuid });
+    },
     enabled: Boolean(comment?.memberUuid),
   });
 
@@ -90,7 +93,7 @@ export default function Comment<
 
   let { profileImageUrl, nickname } = memberProfile!;
   const profileUrl = `/profile/${nickname}`;
-  const { createdAt } = comment!;
+  const { createdAt, updatedAt } = comment!;
   profileImageUrl = "/dummies/members/member-001.png";
 
   if (isDeleted) return <div>삭제되었습니다</div>;
@@ -107,7 +110,7 @@ export default function Comment<
           <div className="flex items-center gap-2">
             <Profile.NameWithLink href={profileUrl} nickname={nickname} />
             &#183;
-            <PostedAt postedAt={createdAt} />
+            <PostedAt {...{ createdAt, updatedAt }} />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger>

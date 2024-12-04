@@ -1,10 +1,10 @@
-'use client';
-import type { Member } from '@/types/member';
-import type { BaseFeed, CUAt } from '@/types/contents';
-import { PostedAt } from '@/components/common/atoms';
-import { Profile } from '@/components/profile/molecules';
-import { getProfileUrl } from '@/functions/utils';
-import { FeedButton } from './FeedButtonGroup';
+"use client";
+import type { Member } from "@/types/member";
+import type { BaseFeed, CUAt } from "@/types/contents";
+import { PostedAt } from "@/components/common/atoms";
+import { Profile } from "@/components/@legacy-profile/molecules";
+import { getProfileUrl } from "@/functions/utils";
+import { FeedButton } from "./FeedButtonGroup";
 
 export default function FeedHeader({
   nickname,
@@ -28,7 +28,7 @@ export default function FeedHeader({
             nickname={nickname}
             className="font-bold text-sm"
           />
-          <PostedAt postedAt={updatedAt || createdAt} />
+          <PostedAt {...{ createdAt, updatedAt }} />
         </div>
       </div>
       <FeedButton.Dropdown {...{ feedUuid }} />

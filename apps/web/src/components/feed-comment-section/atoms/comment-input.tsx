@@ -1,19 +1,18 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import type { ChangeEvent, Dispatch, SetStateAction } from "react";
+import type { ChangeEvent } from "react";
 import { useState } from "react";
-import { postFeedComment } from "@/actions/comment-service";
 import { alertNotImplemented } from "@/functions/utils";
-import type { FeedComment } from "@/types/comment/comment-read-service";
+import { usePostFeedCommentMutation } from "@/hooks/comment-service";
 
 interface CommentInputProps {
   feedUuid: string;
-  setCommentList: Dispatch<SetStateAction<FeedComment[]>>;
 }
 
-export function CommentInput({ feedUuid, setCommentList }: CommentInputProps) {
+export function CommentInput({ feedUuid }: CommentInputProps) {
   const { status, data } = useSession();
+  const mutation = usePostFeedCommentMutation({ feedUuid });
 
   const lengthLimit = 300;
   const [content, setContent] = useState<string>("");
@@ -28,16 +27,7 @@ export function CommentInput({ feedUuid, setCommentList }: CommentInputProps) {
       setContent("");
       setIsFocused(false);
       const session = data as { user: { memberUuid: string } };
-      void postFeedComment({
-        feedUuid,
-        content,
-        memberUuid: session.user.memberUuid,
-      }).then((comment) =>
-        setCommentList((prevCommentList) => [
-          { ...comment, likeCount: 0, dislikeCount: 0, recommentCount: 0 },
-          ...prevCommentList,
-        ]),
-      );
+      mutation.mutate({ content, memberUuid: session.user.memberUuid });
     } else if (status === "unauthenticated") {
       alertNotImplemented({ message: "로그인 하세요" });
     }

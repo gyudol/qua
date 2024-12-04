@@ -11,11 +11,11 @@ export default function FeedList() {
     queryFn: async () => getAllFeed(),
   });
   return (
-    <>
+    <div className="relative pt-[5rem]">
       <FeedSortTap />
-      <section className="flex flex-col gap-2 pb-16">
+      <section className="flex flex-col gap-2 pb-16 md:pb-16 md:pt-0">
         {data?.content.map((feed) => <Feed key={feed.feedUuid} {...feed} />)}
       </section>
-    </>
+    </div>
   );
 }

@@ -39,7 +39,7 @@ export interface RecommentReq {
 }
 
 export type GetRecommentReq = RecommentReq;
-export interface GetRecommentsReq extends CommonPaginationReq, SortBy {}
+export type GetRecommentsReq = CommonPaginationReq;
 export interface PostRecommentReq extends MemberReq, Content {}
 export interface PutRecommentReq extends RecommentReq, Content {}
 export type DeleteRecommentReq = RecommentReq;

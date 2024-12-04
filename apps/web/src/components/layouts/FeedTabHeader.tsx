@@ -49,7 +49,7 @@ export default function FeedTabHeader({ onMenuClick }: HeaderProps) {
   return (
     <CommonLayout.Header
       className={`flex justify-between items-center px-[0.8rem] py-[1.5rem] bg-white transition-transform duration-300 
-        fixed top-0 left-0 right-0 z-[20]
+        fixed top-0 left-0 right-0 z-[20] md:z-[5] md:top-[2.4rem] md:max-w-md md:rounded-t-xl
         drop-shadow-primary
         ${isView ? 'translate-y-0' : '-translate-y-full'}`}
     >

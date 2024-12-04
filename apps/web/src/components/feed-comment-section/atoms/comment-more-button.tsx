@@ -9,24 +9,22 @@ import {
 import { Flag, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import type { Dispatch, SetStateAction } from "react";
-import type { FeedComment } from "@/types/comment/comment-read-service";
 import { alertNotImplemented } from "@/functions/utils";
-import { deleteFeedComment } from "@/actions/comment-service";
+import { useDeleteFeedCommentMutation } from "@/hooks/comment-service";
 
 interface CommentMoreButtonProps {
   commentUuid: string;
   memberUuid: string;
   setIsEditing: Dispatch<SetStateAction<boolean>>;
-  setCommentList: Dispatch<SetStateAction<FeedComment[]>>;
 }
 
 export function CommentMoreButton({
   commentUuid,
   memberUuid,
   setIsEditing,
-  setCommentList,
 }: CommentMoreButtonProps) {
   const { status, data } = useSession();
+  const deleteMutation = useDeleteFeedCommentMutation({ commentUuid });
 
   if (status !== "authenticated") {
     return (
@@ -49,13 +47,9 @@ export function CommentMoreButton({
     setIsEditing(true);
   }
   function handleDelete() {
-    setCommentList((prevCommentList) =>
-      prevCommentList.filter((comment) => comment.commentUuid !== commentUuid),
-    );
-    void deleteFeedComment({ commentUuid });
+    deleteMutation.mutate();
   }
 
-  const _ = commentUuid;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>

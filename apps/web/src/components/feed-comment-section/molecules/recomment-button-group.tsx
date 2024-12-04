@@ -1,21 +1,14 @@
 "use client";
 
-import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
-import type { FeedRecomment } from "@/types/comment/comment-read-service";
-import {
-  RecommentDislikeButton,
-  RecommentLikeButton,
-  ReplyButton,
-  ReplyInput,
-} from "../atoms";
+import { useLikeService } from "@/hooks";
+import { DislikeButton, LikeButton, ReplyButton, ReplyInput } from "../atoms";
 
 interface RecommentButtonGroupProps {
   commentUuid: string;
   recommentUuid: string;
   likeCount: number;
   dislikeCount: number;
-  setRecommentList: Dispatch<SetStateAction<FeedRecomment[]>>;
 }
 
 export function RecommentButtonGroup({
@@ -23,33 +16,29 @@ export function RecommentButtonGroup({
   recommentUuid,
   likeCount,
   dislikeCount,
-  setRecommentList,
 }: RecommentButtonGroupProps) {
   const [isReplyInputShowed, setIsReplyInputShowed] = useState<boolean>(false);
-  const [isLikeOrDislike, setIsLikeOrDislike] = useState<
-    "like" | "none" | "dislike"
-  >("none");
+  const { likeStatus, dislikeStatus } = useLikeService({
+    kind: "feed-recomment",
+    kindUuid: recommentUuid,
+  });
 
   return (
     <>
       <ul className="flex">
         <li>
-          <RecommentLikeButton
+          <LikeButton
             {...{
-              recommentUuid,
               likeCount,
-              isLikeOrDislike,
-              setIsLikeOrDislike,
+              likeStatus,
             }}
           />
         </li>
         <li>
-          <RecommentDislikeButton
+          <DislikeButton
             {...{
-              recommentUuid,
               dislikeCount,
-              isLikeOrDislike,
-              setIsLikeOrDislike,
+              dislikeStatus,
             }}
           />
         </li>
@@ -59,9 +48,7 @@ export function RecommentButtonGroup({
       </ul>
       {isReplyInputShowed ? (
         <div>
-          <ReplyInput
-            {...{ commentUuid, setRecommentList, setIsReplyInputShowed }}
-          />
+          <ReplyInput {...{ commentUuid, setIsReplyInputShowed }} />
         </div>
       ) : null}
     </>

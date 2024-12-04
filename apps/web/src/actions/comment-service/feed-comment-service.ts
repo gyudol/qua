@@ -2,14 +2,12 @@
 
 import type {
   GetFeedCommentReq,
-  GetFeedCommentsReq,
   PostFeedCommentReq,
   PutFeedCommentReq,
   FeedComment,
 } from "@/types/comment/comment-service";
 import type { EmptyObject } from "@/types/common";
 import type { DeleteCommentReq } from "@/types/comment/common";
-import { toURLSearchParams } from "@/functions/utils";
 import { getHeaders, processResponse } from "../common";
 
 const API_SERVER = process.env.BASE_API_URL;
@@ -58,22 +56,6 @@ export async function postFeedComment({
 
   return processResponse<FeedComment, false>({ res });
 }
-
-export async function getFeedComments({
-  feedUuid,
-  ...query
-}: GetFeedCommentsReq) {
-  const URI = `${API_SERVER}/${PREFIX}/v1/feeds/${feedUuid}/comments?${toURLSearchParams(query)}`;
-
-  const res: Response = await fetch(URI, {
-    headers: await getHeaders(),
-    method: "GET",
-    cache: "no-cache",
-  });
-
-  return processResponse<FeedComment, true>({ res });
-}
-
 export async function getFeedComment({ commentUuid }: GetFeedCommentReq) {
   const URI = `${API_SERVER}/${PREFIX}/v1/feeds/comments/${commentUuid}`;
 
