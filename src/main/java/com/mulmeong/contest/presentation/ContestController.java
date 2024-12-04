@@ -6,6 +6,7 @@ import com.mulmeong.contest.common.utils.CursorPage;
 import com.mulmeong.contest.dto.in.ContestQueryRequestDto;
 import com.mulmeong.contest.dto.out.ContestResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
+@Tag(name = "contest" ,description = "콘테스트 공통")
 @RequestMapping("/auth/v1/contests")
 public class ContestController {
 

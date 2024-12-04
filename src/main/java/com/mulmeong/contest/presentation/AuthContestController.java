@@ -11,6 +11,7 @@ import com.mulmeong.contest.dto.out.ContestResponseDto;
 import com.mulmeong.contest.vo.in.PostRequestVo;
 import com.mulmeong.contest.vo.in.PostVoteRequestVo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.*;
@@ -24,6 +25,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
+@Tag(name = "auth-contest" ,description = "콘테스트 회원 기능")
 @RequestMapping("/auth/v1/contests")
 public class AuthContestController {
 
