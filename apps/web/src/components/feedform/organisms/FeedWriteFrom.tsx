@@ -22,7 +22,9 @@ function FeedWriteFrom() {
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault(); // 기본 form 제출 방지
     // console.log(payload);
-    await createFeed(payload); // 피드 생성 API 호출
+    const res = await createFeed(payload);
+    // eslint-disable-next-line no-alert -- alert 사용
+    if (res) alert('good'); // 피드 생성 API 호출
   };
 
   return (

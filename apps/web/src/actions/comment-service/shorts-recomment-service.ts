@@ -1,4 +1,4 @@
-"use server";
+'use server';
 
 import type {
   DeleteShortsRecommentReq,
@@ -6,12 +6,12 @@ import type {
   PostShortsRecommentReq,
   PutShortsRecommentReq,
   ShortsRecomment,
-} from "@/types/comment/comment-service";
-import type { EmptyObject } from "@/types/common";
-import { getHeaders, processResponse } from "../common";
+} from '@/types/comment/comment-service';
+import type { EmptyObject } from '@/types/common';
+import { getHeaders, processResponse } from '../common';
 
 const API_SERVER = process.env.BASE_API_URL;
-const PREFIX = "comment-service";
+const PREFIX = 'comment-service';
 
 export async function putShortsRecomment({
   recommentUuid,
@@ -21,8 +21,8 @@ export async function putShortsRecomment({
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: "PUT",
-    cache: "no-cache",
+    method: 'PUT',
+    cache: 'no-cache',
     body: JSON.stringify({ content }),
   });
 
@@ -36,8 +36,8 @@ export async function deleteShortsRecomment({
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: "DELETE",
-    cache: "no-cache",
+    method: 'DELETE',
+    cache: 'no-cache',
   });
 
   return processResponse<EmptyObject, false>({ res });
@@ -51,8 +51,8 @@ export async function postShortsRecomment({
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: "POST",
-    cache: "no-cache",
+    method: 'POST',
+    cache: 'no-cache',
     body: JSON.stringify(body),
   });
 
@@ -66,8 +66,8 @@ export async function getShortsRecomment({
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: "GET",
-    cache: "no-cache",
+    method: 'GET',
+    cache: 'no-cache',
   });
 
   return processResponse<ShortsRecomment, false>({ res });

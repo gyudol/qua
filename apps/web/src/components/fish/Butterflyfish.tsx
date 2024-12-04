@@ -1,14 +1,21 @@
+'use client';
 import React from 'react';
 
-function Butterflyfish({ size }: { size: number }) {
+function Butterflyfish({
+  size,
+  className = 'transform scale-x-[-1]',
+}: {
+  size: number;
+  className?: string;
+}) {
   return (
     <svg
+      className={className}
       width={size}
       height={size}
-      viewBox="0 0 185 185"
+      viewBox="0 0 184 185"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="transform scale-x-[-1]"
     >
       <path
         d="M181.305 73.4287V97.4679C181.305 97.887 181.28 98.2953 181.226 98.6928C172.633 104.633 154.176 97.3718 154.176 83.1015C154.506 78.3067 155.868 73.6275 158.24 69.8371L167.217 64.97C173.582 61.523 181.305 66.1588 181.305 73.4287Z"

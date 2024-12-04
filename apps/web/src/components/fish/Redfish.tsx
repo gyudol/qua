@@ -1,14 +1,21 @@
+'use client';
 import React from 'react';
 
-function Redfish({ size }: { size: number }) {
+function Redfish({
+  size,
+  className = 'transform scale-x-[-1]',
+}: {
+  size: number;
+  className?: string;
+}) {
   return (
     <svg
+      className={className}
       width={size}
       height={size}
-      viewBox="0 0 185 185"
+      viewBox="0 0 184 185"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="transform scale-x-[-1]"
     >
       <path
         d="M127.288 109.788L143.451 121.657C146.883 124.178 147.186 129.196 144.081 132.111L138.622 137.235C135.429 140.233 130.688 140.992 126.781 139.014C123.129 137.166 119.126 136.17 115.075 136.763C113.115 137.05 111.163 136.207 110.11 134.529L101.057 120.102L127.288 109.788Z"

@@ -1,14 +1,21 @@
-import React from "react";
+'use client';
+import React from 'react';
 
-function Skatefish({ size }: { size: number }) {
+function Skatefish({
+  size,
+  className = 'transform scale-x-[-1]',
+}: {
+  size: number;
+  className?: string;
+}) {
   return (
     <svg
+      className={className}
       width={size}
       height={size}
-      viewBox="0 0 185 185"
+      viewBox="0 0 184 185"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="transform scale-x-[-1]"
     >
       <g clipPath="url(#clip0_2_44137)">
         <path

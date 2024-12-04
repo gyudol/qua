@@ -4,9 +4,11 @@ import type { CommonRes, Pagination } from '@/types/common';
 import { commonPaginationRes, commonRes } from '@/types/common/dummy';
 import type { Feed } from '@/types/contents';
 import type { CreateFeedType } from '@/types/request/requestType';
+import { getHeaders, getSessionMemberUuid } from '../common';
 
 const API_SERVER = process.env.JSON_SERVER;
 const BASE_API_URL = process.env.BASE_API_URL;
+const PREFIX = 'feed-service';
 
 interface GetAllFeedParam {
   pageSize: number;
@@ -59,26 +61,21 @@ export async function getFeed(feedUuid: string) {
   return (result as Feed[])[0];
 }
 
-export async function createFeed(
-  payload: CreateFeedType
-): Promise<CommonRes<null>> {
-  // console.log(payloade);
+export async function createFeed(payload: CreateFeedType): Promise<boolean> {
+  const memberUuid = await getSessionMemberUuid();
+  payload.memberUuid = memberUuid;
+
+  // console.log(payload);
   // console.log(BASE_API_URL);
-  const res: Response = await fetch(
-    `${BASE_API_URL}/feed-service/auth/v1/feeds`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    }
-  );
 
-  const result = (await res.json()) as CommonRes<null>;
-  if (!result.isSuccess) {
-    throw Error('피드 생성에 실패했습니다');
-  }
+  const URI = `${BASE_API_URL}/${PREFIX}/auth/v1/feeds`;
+  const res: Response = await fetch(URI, {
+    headers: await getHeaders(),
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
 
-  return result;
+  const { isSuccess } = (await res.json()) as CommonRes<null>;
+
+  return isSuccess;
 }

@@ -2,10 +2,13 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '@/app/globals.css';
 import '@repo/ui/styles.css';
+// import { getServerSession } from 'next-auth';
 import QueryClientProvider from '@/components/common/molecules/QueryClientProvider';
 import SessionProvider from '@/provider/SessionProvider';
 import Bubbles from '@/components/fish/Bubbles';
 import Aquarium from '@/components/fish/Aquarium';
+// import AuthContextProvider from '@/provider/AuthContextProvider';
+// import { options } from './api/auth/[...nextauth]/authOption';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -29,10 +32,14 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-}): JSX.Element {
+}) {
+  // const session = await getServerSession(options);
+  // const isAuth = Boolean(session?.user);
+
   return (
     <html lang="en">
       <body className={inter.className}>
+        {/* <AuthContextProvider isAuth={isAuth}> */}
         <SessionProvider>
           <QueryClientProvider>
             <Bubbles />
@@ -40,6 +47,7 @@ export default function RootLayout({
             {children}
           </QueryClientProvider>
         </SessionProvider>
+        {/* </AuthContextProvider> */}
       </body>
     </html>
   );

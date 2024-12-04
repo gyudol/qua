@@ -1,14 +1,21 @@
+'use client';
 import React from 'react';
 
-function Anabas({ size }: { size: number }) {
+function Anabas({
+  size,
+  className = 'transform scale-x-[-1]',
+}: {
+  size: number;
+  className?: string;
+}) {
   return (
     <svg
+      className={className}
       width={size}
       height={size}
-      viewBox="0 0 185 185"
+      viewBox="0 0 184 185"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="transform scale-x-[-1]"
     >
       <path
         d="M35.5278 106.042L36.9728 142.891C37.0877 145.817 40.3028 147.564 42.805 146.043C46.2893 143.925 50.5844 140.331 53.1809 134.594C54.0184 132.743 53.7904 130.584 52.5782 128.955L35.5278 106.042Z"
