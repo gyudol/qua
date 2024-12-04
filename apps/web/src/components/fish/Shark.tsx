@@ -1,6 +1,6 @@
-import React from "react";
+import type { IconProps } from "./@type";
 
-function Shark({ size }: { size: number }) {
+function Shark({ size }: IconProps) {
   return (
     <svg
       width={size}

@@ -1,6 +1,6 @@
-import React from "react";
+import type { IconProps } from "./@type";
 
-function Ray({ size }: { size: number }) {
+function Ray({ size }: IconProps) {
   return (
     <svg
       width={size}

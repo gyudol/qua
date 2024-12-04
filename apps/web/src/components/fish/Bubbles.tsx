@@ -1,5 +1,3 @@
-import React from "react";
-
 function Bubble() {
   // 거품의 랜덤한 크기와 위치
   const size = Math.random() * 20 + 10;
