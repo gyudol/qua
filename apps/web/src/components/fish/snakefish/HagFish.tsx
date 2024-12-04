@@ -1,6 +1,6 @@
-import type { IconProps } from "./@type";
+import type { IconProps } from "../@type";
 
-function SnakeHagFish({ size }: IconProps) {
+function HagFish({ size }: IconProps) {
   return (
     <svg
       width={size}
@@ -57,4 +57,4 @@ function SnakeHagFish({ size }: IconProps) {
   );
 }
 
-export default SnakeHagFish;
+export default HagFish;

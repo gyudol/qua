@@ -1,6 +1,6 @@
-import type { IconProps } from "./@type";
+import type { IconProps } from "../@type";
 
-function Seahorse1({ size }: IconProps) {
+function Seahorse({ size }: IconProps) {
   return (
     <svg
       width={size}
@@ -96,4 +96,4 @@ function Seahorse1({ size }: IconProps) {
   );
 }
 
-export default Seahorse1;
+export default Seahorse;

@@ -1,6 +1,6 @@
-import type { IconProps } from "./@type";
+import type { IconProps } from "../@type";
 
-function SnakeChimaera({ size }: IconProps) {
+function Chimaera({ size }: IconProps) {
   return (
     <svg
       width={size}
@@ -81,4 +81,4 @@ function SnakeChimaera({ size }: IconProps) {
   );
 }
 
-export default SnakeChimaera;
+export default Chimaera;

@@ -1,6 +1,6 @@
-import type { IconProps } from "./@type";
+import type { IconProps } from "../@type";
 
-function SnakeReedFish({ size }: IconProps) {
+function ReedFish({ size }: IconProps) {
   return (
     <svg
       width={size}
@@ -117,4 +117,4 @@ function SnakeReedFish({ size }: IconProps) {
   );
 }
 
-export default SnakeReedFish;
+export default ReedFish;

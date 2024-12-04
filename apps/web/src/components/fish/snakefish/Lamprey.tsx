@@ -1,6 +1,6 @@
-import type { IconProps } from "./@type";
+import type { IconProps } from "../@type";
 
-function SnakeLamprey({ size }: IconProps) {
+function Lamprey({ size }: IconProps) {
   return (
     <svg
       width={size}
@@ -101,4 +101,4 @@ function SnakeLamprey({ size }: IconProps) {
   );
 }
 
-export default SnakeLamprey;
+export default Lamprey;

@@ -23,7 +23,6 @@ import Bream from "./Bream";
 import Butterflyfish from "./Butterflyfish";
 import Carp from "./Carp";
 import CatFish from "./CatFish";
-import SnakeChimaera from "./SnakeChimaera";
 import Cod from "./Cod";
 import CowFish from "./CowFish";
 import DoctorFish from "./DoctorFish";
@@ -38,10 +37,7 @@ import GoldFish from "./GoldFish";
 import GreyMullet from "./GreyMullet";
 import Grouper from "./Grouper";
 import Guppy from "./Guppy";
-import SnakeHagFish from "./SnakeHagFish";
 import KissingFish from "./KissingFish";
-import SnakeLamprey from "./SnakeLamprey";
-import SnakeLungFish from "./SnakeLungFish";
 import Mojarra from "./Mojarra";
 import MoorishIdol from "./MoorishIdol";
 import NeonTetra from "./NeonTetra";
@@ -59,7 +55,6 @@ import Ray from "./Ray";
 import RedDrumFish from "./RedDrumFish";
 import RedFireFishGoby from "./RedFireFishGoby";
 import Redfish from "./Redfish";
-import SnakeReedFish from "./SnakeReedFish";
 import RoyalDottyBack from "./RoyalDottyBack";
 import RoyalFlagFin from "./RoyalFlagFin";
 import Salmon from "./Salmon";
@@ -85,24 +80,29 @@ import UnicornFish from "./UnicornFish";
 import YellowTang from "./YellowTang";
 import Zander from "./Zander";
 import ZebraFish from "./ZebraFish";
-import SnakeEel from "./SnakeEel";
-import Seahorse1 from "./Seahorse1";
+import Seahorse from "./Seahorse/Seahorse";
+import Lamprey from "./snakefish/Lamprey";
+import ReedFish from "./snakefish/ReedFish";
+import HagFish from "./snakefish/HagFish";
+import Eel from "./snakefish/Eel";
+import Chimaera from "./snakefish/Chimaera";
+import LungFish from "./snakefish/LungFish";
 
 export {
   OcellarisClownfish,
   OceanSunfish,
-  SnakeLamprey,
+  Lamprey,
   Pufferfish,
   Ray,
   Redfish,
-  SnakeReedFish,
+  ReedFish,
   Shark,
   Skatefish,
   Snapper,
   Tilapia,
-  SnakeHagFish,
-  SnakeEel,
-  SnakeChimaera,
+  HagFish,
+  Eel,
+  Chimaera,
   Butterflyfish,
   Anabas,
   BloodfishTetras,
@@ -158,7 +158,7 @@ export {
   YellowTang,
   ScatFish,
   BlueGill,
-  Seahorse1,
+  Seahorse,
   BlueTang,
   SwordFish,
   Guppy,
@@ -171,7 +171,7 @@ export {
   PteroPhyliumSalare,
   CatFish,
   SunFish,
-  SnakeLungFish,
+  LungFish,
   GobyFish,
   DoctorFish,
   AtlanticMackerel,

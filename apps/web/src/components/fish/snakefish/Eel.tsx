@@ -1,6 +1,6 @@
-import type { IconProps } from "./@type";
+import type { IconProps } from "../@type";
 
-function SnakeEel({ size }: IconProps) {
+function Eel({ size }: IconProps) {
   return (
     <svg
       width={size}
@@ -89,4 +89,4 @@ function SnakeEel({ size }: IconProps) {
   );
 }
 
-export default SnakeEel;
+export default Eel;
