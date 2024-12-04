@@ -1,6 +1,7 @@
 package com.mulmeong.contest.read.common.config;
 
 import com.mulmeong.event.contest.consume.ContestPostCreateEvent;
+import com.mulmeong.event.contest.consume.ContestVoteRecordEvent;
 import com.mulmeong.event.contest.consume.ContestVoteUpdateEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -32,6 +33,11 @@ public class KafkaConsumerConfig {
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, ContestVoteUpdateEvent> contestVoteUpdateListener() {
         return kafkaListenerContainerFactory(ContestVoteUpdateEvent.class);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ContestVoteRecordEvent> contestVoteRecordListener() {
+        return kafkaListenerContainerFactory(ContestVoteRecordEvent.class);
     }
 
 

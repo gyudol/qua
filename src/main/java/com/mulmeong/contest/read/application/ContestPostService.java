@@ -4,6 +4,7 @@ import com.mulmeong.contest.read.common.utils.CursorPage;
 import com.mulmeong.contest.read.dto.in.ContestPostRequestDto;
 import com.mulmeong.contest.read.dto.out.ContestPostResponseDto;
 import com.mulmeong.event.contest.consume.ContestPostCreateEvent;
+import com.mulmeong.event.contest.consume.ContestVoteRecordEvent;
 import com.mulmeong.event.contest.consume.ContestVoteUpdateEvent;
 
 public interface ContestPostService {
@@ -14,4 +15,6 @@ public interface ContestPostService {
     CursorPage<ContestPostResponseDto> getPosts(ContestPostRequestDto requestDto);
 
     ContestPostResponseDto getContestPost(String postUuid);
+
+    void createContestVoteRecord(ContestVoteRecordEvent message);
 }

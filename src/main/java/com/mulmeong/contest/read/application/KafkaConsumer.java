@@ -1,6 +1,7 @@
 package com.mulmeong.contest.read.application;
 
 import com.mulmeong.event.contest.consume.ContestPostCreateEvent;
+import com.mulmeong.event.contest.consume.ContestVoteRecordEvent;
 import com.mulmeong.event.contest.consume.ContestVoteUpdateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,13 @@ public class KafkaConsumer {
     public void updateContestPost(ContestVoteUpdateEvent message) {
         log.info("vote message: {}", message.toString());
         contestPostService.updateContestVote(message);
+    }
+
+    @KafkaListener(topics = "${event.contest.pub.topics.contest-vote-record.name}",
+            containerFactory = "contestVoteRecordListener")
+    public void createContestVoteRecord(ContestVoteRecordEvent message) {
+        log.info("vote message: {}", message.toString());
+        contestPostService.createContestVoteRecord(message);
     }
 
 

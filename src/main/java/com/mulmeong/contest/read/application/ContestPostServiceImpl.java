@@ -8,7 +8,9 @@ import com.mulmeong.contest.read.dto.out.ContestPostResponseDto;
 import com.mulmeong.contest.read.entity.ContestPost;
 import com.mulmeong.contest.read.infrastructure.ContestPostCustomRepository;
 import com.mulmeong.contest.read.infrastructure.ContestPostRepository;
+import com.mulmeong.contest.read.infrastructure.ContestVoteRepository;
 import com.mulmeong.event.contest.consume.ContestPostCreateEvent;
+import com.mulmeong.event.contest.consume.ContestVoteRecordEvent;
 import com.mulmeong.event.contest.consume.ContestVoteUpdateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,7 @@ public class ContestPostServiceImpl implements ContestPostService {
 
     private final ContestPostRepository contestPostRepository;
     private final ContestPostCustomRepository contestPostCustomRepository;
+    private final ContestVoteRepository contestVoteRepository;
 
     @Override
     public void createContestPost(ContestPostCreateEvent message) {
@@ -50,6 +53,15 @@ public class ContestPostServiceImpl implements ContestPostService {
         return ContestPostResponseDto.toDto(contestPostRepository.findByPostUuid(postUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_EXIST_POST)
                 ));
+    }
+
+    @Override
+    public void createContestVoteRecord(ContestVoteRecordEvent message) {
+        contestVoteRepository.save(message.toEntity(
+                message.getContestId(),
+                message.getMemberUuid(),
+                message.getPostUuid()
+        ));
     }
 
 }
