@@ -1,0 +1,50 @@
+"use client";
+
+import * as React from "react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@repo/ui/shadcn/select";
+import { useRouter, useSearchParams } from "next/navigation";
+import type { GetFeedsReq } from "@/types/feed/feed-read-service";
+import { toURLSearchParams } from "@/functions/utils";
+
+export function FeedSortSelector() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const viewType =
+    searchParams.get("viewType") === "compact" ? "compact" : "card";
+  const sortBy: GetFeedsReq["sortBy"] =
+    searchParams.get("sortBy") === "likes" ? "likes" : "latest";
+
+  function handleChange(value: string) {
+    router.push(`?${toURLSearchParams({ viewType, sortBy: value })}`);
+  }
+
+  return (
+    <Select onValueChange={handleChange}>
+      <SelectTrigger
+        className="
+          w-[8rem]
+        text-primary text-sm font-medium 
+          border-[0] focus:border-0 focus:ring-opacity-0 focus:ring-white
+        "
+      >
+        <SelectValue placeholder="Sort by" defaultValue={sortBy} />
+      </SelectTrigger>
+      <SelectContent className="border-none outline-none text-primary">
+        <SelectGroup>
+          <SelectLabel>Sort by</SelectLabel>
+          <SelectItem value="latest">New</SelectItem>
+          <SelectItem value="likes">Like</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  );
+}
