@@ -1,8 +1,10 @@
 package com.mulmeong.member.read.common.config;
 
+import com.mulmeong.event.member.MemberBadgeUpdateEvent;
 import com.mulmeong.event.member.MemberCreateEvent;
 import com.mulmeong.event.member.MemberNicknameUpdateEvent;
 import com.mulmeong.event.member.MemberProfileImgUpdateEvent;
+import com.mulmeong.member.read.common.exception.BaseException;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,8 +15,10 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
+import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.Map;
 
@@ -40,37 +44,32 @@ public class KafkaConsumerConfig {
      *
      * @return {@link KafkaListenerContainerFactory} Kafka Listener가 사용하는 기본 Consumer Factory
      */
-    /* 회원가입 후 이벤트 리스너 */
+    /* 회원가입 이벤트 리스너 */
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, MemberCreateEvent> memberCreateEventListener() {
         return kafkaListenerContainerFactory(MemberCreateEvent.class);
     }
 
-    /* 닉네임 수정 후 이벤트 리스너 */
+    /* 닉네임 수정 이벤트 리스너 */
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, MemberNicknameUpdateEvent> nicknameUpdateEventListener() {
         return kafkaListenerContainerFactory(MemberNicknameUpdateEvent.class);
     }
 
-    /* 프로필사진 수정 후 이벤트 리스너 */
+    /* 프로필사진 수정 이벤트 리스너 */
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, MemberProfileImgUpdateEvent> profileUpdateEventListener() {
         return kafkaListenerContainerFactory(MemberProfileImgUpdateEvent.class);
     }
 
+    /* 멤버의 뱃지 수정 이벤트 리스너 */
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, MemberBadgeUpdateEvent> memberBadgeUpdateEventListener() {
+        return kafkaListenerContainerFactory(MemberBadgeUpdateEvent.class);
+    }
+
     // =================================================================
     // 아래는 공통 설정입니다.
-
-    /**
-     * {@link CommonJsonDeserializer} 에서 JSON 데이터를 역직렬화하는 설정을 가져옵니다.
-     * Consumer은 해당 설정에 맞게 JSON 데이터를 역직렬화하여 사용합니다.
-     *
-     * @return Kafka 컨슈머 설정을 포함하는 Map
-     */
-    @Bean
-    public Map<String, Object> readConsumerConfigs() {
-        return CommonJsonDeserializer.getStringObjectMap(bootstrapServer, groupId);
-    }
 
     /**
      * 특정 메시지 타입에 맞게 ConsumerFactory를 생성합니다.
@@ -78,7 +77,6 @@ public class KafkaConsumerConfig {
      * @param messageType 제네릭으로 선언한 Event 객체
      * @return DefaultKafkaConsumerFactory, Kafka Listener가 사용하는 기본 Consumer Factory
      */
-    @Bean
     public <T> ConsumerFactory<String, T> consumerFactory(Class<T> messageType) {
         return new DefaultKafkaConsumerFactory<>(Map.of(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer,
@@ -87,8 +85,9 @@ public class KafkaConsumerConfig {
                 ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class,
                 ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS, StringDeserializer.class.getName(),
                 ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class.getName(),
-                JsonDeserializer.TRUSTED_PACKAGES, "com.mulmeong.event.member",
-                JsonDeserializer.VALUE_DEFAULT_TYPE, messageType
+                JsonDeserializer.VALUE_DEFAULT_TYPE, messageType.getName(),
+                JsonDeserializer.TRUSTED_PACKAGES, "com.mulmeong.*"
+
         ));
     }
 
@@ -99,12 +98,26 @@ public class KafkaConsumerConfig {
      * @param messageType 제네릭으로 선언한 Event 객체
      * @return ConcurrentKafkaListenerContainerFactory, 다중 스레드에서 Kafka 메시지를 처리하는 컨테이너 팩토리
      */
-    @Bean
     public <T> ConcurrentKafkaListenerContainerFactory<String, T> kafkaListenerContainerFactory(Class<T> messageType) {
         ConcurrentKafkaListenerContainerFactory<String, T> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory(messageType));
         factory.getContainerProperties().setGroupId(groupId);
         return factory;
+    }
+
+    /**
+     * Kafka Listener에서 예외가 발생했을 때 처리하는 DefaultErrorHandler를 생성.
+     * 재시도 횟수와 대기 시간을 설정합니다.
+     * BaseException은 재시도하지 않습니다.
+     *
+     * @return DefaultErrorHandler DefaultErrorHandler 객체
+     */
+    @Bean
+    public DefaultErrorHandler errorHandler() {
+        DefaultErrorHandler errorHandler = new DefaultErrorHandler(
+                new FixedBackOff(1000L, 2)); // 1초 대기, 최대 2번 재시도
+        errorHandler.addNotRetryableExceptions(BaseException.class);
+        return errorHandler;
     }
 }
