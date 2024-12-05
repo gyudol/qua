@@ -1,9 +1,6 @@
 package com.mulmeong.member.read.member.application;
 
-import com.mulmeong.event.member.MemberBadgeUpdateEvent;
-import com.mulmeong.event.member.MemberCreateEvent;
-import com.mulmeong.event.member.MemberNicknameUpdateEvent;
-import com.mulmeong.event.member.MemberProfileImgUpdateEvent;
+import com.mulmeong.event.member.*;
 import com.mulmeong.member.read.member.document.Member;
 import com.mulmeong.member.read.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +21,7 @@ public class MemberEventServiceImpl implements MemberEventService {
 
     /**
      * 회원 Read DB 생성.
-     * Write DB에서 회원 생성 이벤트를 받아 처리.
+     * Write DB에서 회원 생성 이벤트를 받아 처리. 회원가입시 모르는 정보는 기본값으로 변환해 저장.
      *
      * @param event 회원 생성 Event
      */
@@ -67,6 +64,16 @@ public class MemberEventServiceImpl implements MemberEventService {
         updateMemberField(event.getMemberUuid(),
                 "equippedBadge",
                 event.isEquipped() ? event.toEntity() : null);
+    }
+
+    /**
+     * 회원 Read DB의 등급 업데이트.
+     *
+     * @param event 등급 업데이트 이벤트
+     */
+    @Override
+    public void updateGrade(MemberGradeUpdateEvent event) {
+        updateMemberField(event.getMemberUuid(), "grade", event.getGrade());
     }
 
     /**

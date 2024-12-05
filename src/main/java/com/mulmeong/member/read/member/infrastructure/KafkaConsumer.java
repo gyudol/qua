@@ -1,9 +1,6 @@
 package com.mulmeong.member.read.member.infrastructure;
 
-import com.mulmeong.event.member.MemberBadgeUpdateEvent;
-import com.mulmeong.event.member.MemberCreateEvent;
-import com.mulmeong.event.member.MemberNicknameUpdateEvent;
-import com.mulmeong.event.member.MemberProfileImgUpdateEvent;
+import com.mulmeong.event.member.*;
 import com.mulmeong.member.read.member.application.MemberEventService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,5 +40,12 @@ public class KafkaConsumer {
     public void handleMemberBadgeUpdatedEvent(MemberBadgeUpdateEvent event) {
         log.info("Consumed 회원 뱃지 변경 이벤트 : {}", event);
         memberService.updateEquippedBadge(event);
+    }
+
+    @KafkaListener(topics = "${event.grade.pub.topics.member-grade-update.name}",
+            containerFactory = "memberBadgeCreateEventListener")
+    public void handleMemberGradeUpdatedEvent(MemberGradeUpdateEvent event) {
+        log.info("Consumed 회원 등급 변경 이벤트 : {}", event);
+        memberService.updateGrade(event);
     }
 }

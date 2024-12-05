@@ -22,7 +22,7 @@ public class MemberCreateEvent {
                 .nickname(nickname)
                 .profileImageUrl(profileImageUrl)
                 .createdAt(createdAt)
-                .grade("default") //todo : RewardService에서 계산한 등급으로 변경
+                .grade("플랑크톤") //default grade
                 .followerCount(0)
                 .followingCount(0)
                 .feedCount(0)

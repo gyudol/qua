@@ -1,9 +1,6 @@
 package com.mulmeong.member.read.common.config;
 
-import com.mulmeong.event.member.MemberBadgeUpdateEvent;
-import com.mulmeong.event.member.MemberCreateEvent;
-import com.mulmeong.event.member.MemberNicknameUpdateEvent;
-import com.mulmeong.event.member.MemberProfileImgUpdateEvent;
+import com.mulmeong.event.member.*;
 import com.mulmeong.member.read.common.exception.BaseException;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -67,6 +64,14 @@ public class KafkaConsumerConfig {
     public ConcurrentKafkaListenerContainerFactory<String, MemberBadgeUpdateEvent> memberBadgeUpdateEventListener() {
         return kafkaListenerContainerFactory(MemberBadgeUpdateEvent.class);
     }
+
+    /* 멤버 등급 수정 이벤트 리스너 */
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, MemberGradeUpdateEvent> memberGradeUpdateEventListener() {
+        return kafkaListenerContainerFactory(MemberGradeUpdateEvent.class);
+    }
+
+
 
     // =================================================================
     // 아래는 공통 설정입니다.
