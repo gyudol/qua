@@ -8,6 +8,7 @@ function Skatefish({
   size: number;
   className?: string;
 }) {
+
   return (
     <svg
       className={className}

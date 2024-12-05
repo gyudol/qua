@@ -8,6 +8,7 @@ function Shark({
   size: number;
   className?: string;
 }) {
+
   return (
     <svg
       className={className}

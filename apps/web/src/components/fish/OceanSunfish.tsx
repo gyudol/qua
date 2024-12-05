@@ -8,6 +8,7 @@ function OceanSunfish({
   size: number;
   className?: string;
 }) {
+
   return (
     <svg
       className={className}

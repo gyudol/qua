@@ -1,3 +1,4 @@
+
 'use client';
 import React from 'react';
 
@@ -8,6 +9,7 @@ function Redfish({
   size: number;
   className?: string;
 }) {
+
   return (
     <svg
       className={className}
