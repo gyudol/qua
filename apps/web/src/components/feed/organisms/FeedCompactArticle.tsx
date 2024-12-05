@@ -21,6 +21,7 @@ export function FeedCompactArticle({
   likeCount,
   dislikeCount,
   commentCount,
+  categoryName,
   hashtags,
   link,
 }: FeedCompactArticleProps) {
@@ -33,12 +34,20 @@ export function FeedCompactArticle({
 
         <div className="flex-1 flex flex-col">
           <FeedCompactHeader
-            {...{ feedUuid, memberUuid, createdAt, updatedAt, title, link }}
+            {...{
+              feedUuid,
+              memberUuid,
+              createdAt,
+              updatedAt,
+              title,
+              categoryName,
+              link,
+            }}
           />
           <FeedButtonGroup
             {...{ feedUuid, likeCount, dislikeCount, commentCount }}
           />
-          <FeedFooter {...{ hashtags }} />
+          <FeedFooter {...{ categoryName, hashtags }} />
         </div>
       </article>
       <Separator className="bg-[#EEE] h-[0.5rem]" />

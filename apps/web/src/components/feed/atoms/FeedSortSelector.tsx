@@ -16,15 +16,12 @@ import { toURLSearchParams } from "@/functions/utils";
 
 export function FeedSortSelector() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const viewType =
-    searchParams.get("viewType") === "compact" ? "compact" : "card";
+  const searchParams = Object.fromEntries(useSearchParams().entries());
   const sortBy: GetFeedsReq["sortBy"] =
-    searchParams.get("sortBy") === "likes" ? "likes" : "latest";
+    searchParams.sortBy === "likes" ? "likes" : "latest";
 
   function handleChange(value: string) {
-    router.push(`?${toURLSearchParams({ viewType, sortBy: value })}`);
+    router.push(`?${toURLSearchParams({ ...searchParams, sortBy: value })}`);
   }
 
   return (

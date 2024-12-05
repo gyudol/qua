@@ -11,7 +11,12 @@ import { FeedMoreOption } from "./FeedMoreOption";
 interface FeedCompactHeaderProps
   extends Pick<
     Feed,
-    "feedUuid" | "memberUuid" | "createdAt" | "updatedAt" | "title"
+    | "feedUuid"
+    | "memberUuid"
+    | "createdAt"
+    | "updatedAt"
+    | "title"
+    | "categoryName"
   > {
   link?: boolean;
 }
@@ -22,6 +27,7 @@ export function FeedCompactHeader({
   createdAt,
   updatedAt,
   title,
+  categoryName,
   link,
 }: FeedCompactHeaderProps) {
   const { data: member } = useMemberCompactProfile({ memberUuid });
@@ -31,7 +37,7 @@ export function FeedCompactHeader({
 
   return (
     <header className="flex flex-col mb-[0.25rem]">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mb-[0.5rem]">
         <div className="flex items-center mr-[1rem]">
           <div className="mr-[1rem]">
             <MemberProfileImage
@@ -48,7 +54,7 @@ export function FeedCompactHeader({
           <FeedMoreOption {...{ feedUuid, memberUuid }} />
         </div>
       </div>
-      <FeedTitle {...{ feedUuid, title, link }} />
+      <FeedTitle {...{ feedUuid, title, categoryName, link }} />
     </header>
   );
 }

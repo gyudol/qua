@@ -10,7 +10,7 @@ interface PageProps {
 
 export default function page({ params: { feedUuid } }: PageProps) {
   return (
-    <CommonLayout.Contents className="flex flex-col my-[7rem]">
+    <CommonLayout.Contents className="flex flex-col">
       <FeedDetailSection {...{ feedUuid }} />
       <CommentSection {...{ feedUuid }} />
     </CommonLayout.Contents>

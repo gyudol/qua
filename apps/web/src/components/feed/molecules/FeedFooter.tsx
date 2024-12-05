@@ -6,7 +6,7 @@ type FeedFooterProps = Pick<Feed, "hashtags">;
 export function FeedFooter({ hashtags }: FeedFooterProps) {
   return (
     <footer className="py-[0.5rem]">
-      <ul className="flex flex-wrap gap-[0.5rem]">
+      <ul className="flex flex-wrap gap-[0.5rem] items-center">
         {hashtags.map((hashtag) => (
           <li key={hashtag.name}>
             <FeedHashtag {...{ ...hashtag }} />

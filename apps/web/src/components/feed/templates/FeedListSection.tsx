@@ -1,29 +1,36 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useGetFeedsInfiniteQuery } from "@/hooks";
 import { FeedCardArticle } from "@/components/feed/organisms/FeedCardArticle";
 import type { GetFeedsReq } from "@/types/feed/feed-read-service";
+import type { FeedViewType } from "@/types/feed/common";
 import { FeedListOptionGroup } from "../organisms/FeedListOptionGroup";
 import { FeedCompactArticle } from "../organisms/FeedCompactArticle";
 
-export default function FeedListSection() {
-  const searchParams = useSearchParams();
+interface FeedListSectionProps
+  extends Pick<GetFeedsReq, "categoryName" | "hashtagName" | "sortBy"> {
+  view?: FeedViewType;
+}
 
-  const viewType =
-    searchParams.get("viewType") === "compact" ? "compact" : "card";
-  const sortBy: GetFeedsReq["sortBy"] =
-    searchParams.get("sortBy") === "likes" ? "likes" : "latest";
-
-  const { data } = useGetFeedsInfiniteQuery({ sortBy });
+export default function FeedListSection({
+  categoryName,
+  hashtagName,
+  sortBy,
+  view,
+}: FeedListSectionProps) {
+  const { data } = useGetFeedsInfiniteQuery({
+    categoryName,
+    sortBy,
+    hashtagName,
+  });
 
   return (
-    <div className="relative pt-[5rem]">
+    <div className="relative">
       <FeedListOptionGroup />
       <section className="flex flex-col pb-16 md:pb-16 md:pt-0">
         {data?.pages.map((page) =>
           page.content.map((feed) => {
-            if (viewType === "compact")
+            if (view === "compact")
               return <FeedCompactArticle key={feed.feedUuid} {...feed} link />;
             return <FeedCardArticle key={feed.feedUuid} {...feed} link />;
           }),

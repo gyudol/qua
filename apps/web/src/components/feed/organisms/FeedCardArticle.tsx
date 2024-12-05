@@ -21,6 +21,7 @@ export function FeedCardArticle({
   likeCount,
   dislikeCount,
   commentCount,
+  categoryName,
   hashtags,
   link,
 }: FeedCardArticleProps) {
@@ -28,14 +29,22 @@ export function FeedCardArticle({
     <>
       <article className="p-[1rem]">
         <FeedHeader
-          {...{ feedUuid, memberUuid, createdAt, updatedAt, title, link }}
+          {...{
+            feedUuid,
+            memberUuid,
+            createdAt,
+            updatedAt,
+            title,
+            categoryName,
+            link,
+          }}
         />
         <FeedBody {...{ feedUuid, content, link }} />
         <FeedGallery {...{ feedUuid, mediaList, link }} />
         <FeedButtonGroup
           {...{ feedUuid, likeCount, dislikeCount, commentCount }}
         />
-        <FeedFooter {...{ hashtags }} />
+        <FeedFooter {...{ categoryName, hashtags }} />
       </article>
       <Separator className="bg-[#EEE] h-[0.5rem]" />
     </>

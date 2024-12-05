@@ -18,10 +18,8 @@ export function FeedMoreOption({ feedUuid, memberUuid }: FeedMoreOptionProps) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <button type="button" className="p-1 hover:bg-gray-100 rounded-full">
-          <MoreHorizontal className="w-5 h-5" />
-        </button>
+      <DropdownMenuTrigger className="p-1 hover:bg-gray-100 rounded-full">
+        <MoreHorizontal className="w-5 h-5" />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {sessionUuid !== memberUuid ? (

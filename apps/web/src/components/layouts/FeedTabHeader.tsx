@@ -1,8 +1,8 @@
-'use client';
-import { useEffect, useState, useRef } from 'react';
-import { CommonLayout } from '@/components/common/atoms/CommonLayout';
-import HeaderLeftMenuAndLogo from './HeaderLeftMenuAndLogo';
-import HeaderNav from './HeaderNav';
+"use client";
+import { useEffect, useState, useRef } from "react";
+import { CommonLayout } from "@/components/common/atoms/CommonLayout";
+import HeaderLeftMenuAndLogo from "./HeaderLeftMenuAndLogo";
+import HeaderNav from "./HeaderNav";
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -40,21 +40,24 @@ export default function FeedTabHeader({ onMenuClick }: HeaderProps) {
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   return (
-    <CommonLayout.Header
-      className={`flex justify-between items-center px-[0.8rem] py-[1.5rem] bg-white transition-transform duration-300 
+    <>
+      <CommonLayout.Header
+        className={`flex justify-between items-center px-[0.8rem] py-[1.5rem] bg-white transition-transform duration-300 
         fixed top-0 left-0 right-0 z-[20] md:z-[5] md:top-[2.4rem] md:max-w-md md:rounded-t-xl
         drop-shadow-primary
-        ${isView ? 'translate-y-0' : '-translate-y-full'}`}
-    >
-      <HeaderLeftMenuAndLogo onMenuClick={onMenuClick} />
-      <HeaderNav />
-    </CommonLayout.Header>
+        ${isView ? "translate-y-0" : "-translate-y-full"}`}
+      >
+        <HeaderLeftMenuAndLogo onMenuClick={onMenuClick} />
+        <HeaderNav />
+      </CommonLayout.Header>
+      <div className="h-[5.5rem] bg-white" />
+    </>
   );
 }

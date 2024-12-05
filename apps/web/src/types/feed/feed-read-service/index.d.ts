@@ -15,7 +15,7 @@ export interface Feed {
   memberUuid: string;
   title: string;
   content: string;
-  catergoryName: string;
+  categoryName: string;
   visibility: "VISIBLE";
   hashtags: Hashtag[];
   mediaList: (ImageMedia | VideoMedia)[];
