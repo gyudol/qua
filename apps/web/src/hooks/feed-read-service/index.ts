@@ -30,7 +30,7 @@ export function useGetFeedsInfiniteQuery({ ...query }: GetFeedsReq) {
     initialPageParam: {
       pageNo: pageNo || 1,
       pageSize: pageSize || 10,
-      nextCursor: nextCursor || "",
+      nextCursor: nextCursor || undefined,
     },
   });
 }

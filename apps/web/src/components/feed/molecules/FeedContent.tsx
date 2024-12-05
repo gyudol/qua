@@ -1,14 +1,11 @@
-import { cn } from "@repo/ui/lib/utils";
+import type { Feed } from "@/types/feed/feed-read-service";
 
-interface FeedContentProps {
-  content: string;
-  detail?: boolean;
-}
+type FeedContentProps = Pick<Feed, "content">;
 
-export default function FeedContent({ content, detail }: FeedContentProps) {
+export function FeedContent({ content }: FeedContentProps) {
   return (
-    <p className={cn(!detail && "text-ellipsis line-clamp-5 overflow-hidden")}>
-      {content}
-    </p>
+    <div className="my-[0.5rem]">
+      <p className="text-gray-600">{content}</p>
+    </div>
   );
 }

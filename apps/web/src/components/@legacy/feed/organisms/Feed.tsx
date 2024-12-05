@@ -1,11 +1,11 @@
-import type { Feed as FeedType } from '@/types/contents/feed';
-import FeedHeader from '../molecules/FeedHeader';
+import type { Feed as FeedType } from "@/types/contents/feed";
+import FeedHeader from "../molecules/FeedHeader";
 import {
   FeedButtonGroup,
   FeedContentWithLink,
   FeedMediaContainerWithLink,
-} from '../molecules';
-import FeedHashtagList from '../molecules/FeedHashtagList';
+} from "../molecules";
+import FeedHashtagList from "../molecules/FeedHashtagList";
 
 interface FeedProps extends FeedType {
   detail?: boolean;

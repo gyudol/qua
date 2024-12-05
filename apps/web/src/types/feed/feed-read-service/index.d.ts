@@ -3,9 +3,9 @@ import type { Hashtag } from "@/types/contents";
 import type { FeedReq, ImageMedia, VideoMedia } from "../common";
 
 export interface GetFeedsReq extends CommonPaginationReq {
-  categoryName: string;
-  hashtagName: string;
-  sortBy: "latest" | "likes";
+  categoryName?: string;
+  hashtagName?: string;
+  sortBy?: "latest" | "likes";
 }
 
 export type GetFeedReq = FeedReq;

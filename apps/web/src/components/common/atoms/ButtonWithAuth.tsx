@@ -1,15 +1,26 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useSessionContext } from "@/context/SessionContext";
+
 export default function ButtonWithAuth({
   onClick,
   children,
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-    // eslint-disable-next-line no-alert -- for test
-    alert("로그인이 필요한 작업입니다.");
+  const { isAuthenticated } = useSessionContext();
+  const router = useRouter();
 
-    onClick && onClick(e);
+  function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+    if (isAuthenticated && onClick) return onClick(e);
+    return toast.error("로그인이 필요한 작업입니다.", {
+      description: "설명",
+      action: {
+        label: "로그인",
+        onClick: () => router.push("/sign-in"),
+      },
+    });
   }
 
   return (
