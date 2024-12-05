@@ -24,8 +24,8 @@ export default function FeedListSection() {
         {data?.pages.map((page) =>
           page.content.map((feed) => {
             if (viewType === "compact")
-              return <FeedCompactArticle key={feed.feedUuid} {...feed} />;
-            return <FeedCardArticle key={feed.feedUuid} {...feed} />;
+              return <FeedCompactArticle key={feed.feedUuid} {...feed} link />;
+            return <FeedCardArticle key={feed.feedUuid} {...feed} link />;
           }),
         )}
       </section>

@@ -24,7 +24,7 @@ export function CommentSection({ feedUuid }: CommentSectionProps) {
   });
 
   return (
-    <section>
+    <section id="comment">
       <CommentInput {...{ feedUuid }} />
       {newCommentList?.map((comment) => (
         <CommentView key={comment.commentUuid} {...comment} />

@@ -1,15 +1,20 @@
 "use client";
 
-import Image from "next/image";
+import Link from "next/link";
 import { PostedAt } from "@/components/common/atoms";
 import { useMemberCompactProfile } from "@/hooks";
 import type { Feed } from "@/types/feed/feed-read-service";
+import { MemberProfileImage } from "@/components/profile/templates/atoms/MemberProfileImage";
+import { FeedTitle } from "../atoms/FeedTitle";
 import { FeedMoreOption } from "./FeedMoreOption";
 
-type FeedCompactHeaderProps = Pick<
-  Feed,
-  "feedUuid" | "memberUuid" | "createdAt" | "updatedAt" | "title"
->;
+interface FeedCompactHeaderProps
+  extends Pick<
+    Feed,
+    "feedUuid" | "memberUuid" | "createdAt" | "updatedAt" | "title"
+  > {
+  link?: boolean;
+}
 
 export function FeedCompactHeader({
   feedUuid,
@@ -17,10 +22,11 @@ export function FeedCompactHeader({
   createdAt,
   updatedAt,
   title,
+  link,
 }: FeedCompactHeaderProps) {
   const { data: member } = useMemberCompactProfile({ memberUuid });
   const defaultProfileImage = "/dummies/members/member-001.png";
-  const profileImage = member?.profileImageUrl || defaultProfileImage;
+  const profileImageUrl = member?.profileImageUrl || defaultProfileImage;
   const nickname = member?.nickname || memberUuid;
 
   return (
@@ -28,20 +34,21 @@ export function FeedCompactHeader({
       <div className="flex justify-between items-center">
         <div className="flex items-center mr-[1rem]">
           <div className="mr-[1rem]">
-            <figure className="relative w-[1.5rem] h-[1.5rem] rounded-full">
-              <Image src={profileImage} alt={nickname} fill />
-            </figure>
+            <MemberProfileImage
+              {...{ size: "1.5rem", profileImageUrl, nickname }}
+              link
+            />
           </div>
-          <div className="mr-[1rem]">{nickname}</div>
+          <Link href={`/profile/${nickname}`} className="mr-[1rem]">
+            {nickname}
+          </Link>
           <PostedAt {...{ createdAt, updatedAt }} />
         </div>
         <div>
           <FeedMoreOption {...{ feedUuid, memberUuid }} />
         </div>
       </div>
-      <div className="flex-1">
-        <h2 className="text-lg font-bold">{title}</h2>
-      </div>
+      <FeedTitle {...{ feedUuid, title, link }} />
     </header>
   );
 }

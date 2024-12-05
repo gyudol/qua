@@ -12,7 +12,7 @@ export function FeedCommentButton({
 }: FeedCommentButtonProps) {
   return (
     <Link
-      href={`/feeds/${feedUuid}`}
+      href={`/feeds/${feedUuid}#comment`}
       className="flex gap-[0.5rem] items-center"
     >
       <span>
