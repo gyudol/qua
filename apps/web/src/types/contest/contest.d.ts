@@ -1,0 +1,3 @@
+interface ContestListRes {
+  contestPostUuid: "string";
+}
