@@ -1,7 +1,12 @@
 import React from "react";
 
 function ContestForm() {
-  return <div>콘테스트 폼</div>;
+  return (
+    <div>
+      <form className="w-full px-5" action="" />
+      <div />
+    </div>
+  );
 }
 
 export default ContestForm;

@@ -1,3 +1,3 @@
-interface ContestListRes {
+export interface ContestListRes {
   contestPostUuid: "string";
 }

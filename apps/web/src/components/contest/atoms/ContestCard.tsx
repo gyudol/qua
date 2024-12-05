@@ -32,7 +32,7 @@ function ContestCard() {
         </Link>
         <div className="flex gap-4">
           <Link
-            href="/"
+            href="/contest/contesthistory"
             className="bg-[#47D0BF] text-white font-semibold text-lg py-2 px-2 rounded-lg hover:bg-[#3bb3a5] flex-1 text-center shadow-sm transition whitespace-nowrap"
           >
             역대 우승자 조회

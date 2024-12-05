@@ -14,7 +14,7 @@ function ContestHeader() {
         translate-y-0`}
     >
       <p className="text-xl md:text-2xl font-bold text-center text-gray-900 flex-grow">
-        제1회 물고기컵 콘테스트
+        콘테스트
       </p>
       <XCircle
         className="w-[2rem] h-[2rem] text-gray-600 cursor-pointer hover:text-gray-800"
