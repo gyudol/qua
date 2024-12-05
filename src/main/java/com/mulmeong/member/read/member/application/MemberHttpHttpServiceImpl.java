@@ -19,47 +19,13 @@ import static com.mulmeong.member.read.common.response.BaseResponseStatus.NOT_FO
 
 @RequiredArgsConstructor
 @Service
-public class MemberServiceImpl implements MemberService {
+public class MemberHttpHttpServiceImpl implements MemberHttpService {
 
     private final MemberRepository memberRepository;
     private final MongoTemplate mongoTemplate;
 
     /**
-     * 회원 Read DB 생성.
-     * Write DB에서 회원 생성 이벤트를 받아 처리.
-     *
-     * @param event 회원 생성 Event
-     */
-    @Override
-    public void createMember(MemberCreateEvent event) {
-
-        memberRepository.save(event.toEntity());
-    }
-
-    /**
-     * 회원 Read DB의 닉네임 수정.
-     * Write DB에서 닉네임 수정 이벤트를 받아 처리.
-     *
-     * @param event 닉네임 수정 Event
-     */
-    @Override
-    public void updateNickname(MemberNicknameUpdateEvent event) {
-        updateMemberField(event.getMemberUuid(), "nickname", event.getNickname());
-    }
-
-    /**
-     * 회원 Read DB의 프로필 이미지 수정.
-     * Write DB에서 프로필 이미지 수정 이벤트를 받아 처리.
-     *
-     * @param event 프로필 이미지 수정 Event.
-     */
-    @Override
-    public void updateProfileImage(MemberProfileImgUpdateEvent event) {
-        updateMemberField(event.getMemberUuid(), "profileImageUrl", event.getProfileImgUrl());
-    }
-
-    /**
-     * 회원 프로필 조회 API
+     * 닉네임으로 회원 프로필 조회 API
      * 등록/수정이 되지 않은 필드들은 기본값으로 반환.(예: 집계데이터들).
      *
      * @param nickname 회원 닉네임
@@ -73,10 +39,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 회원 프로필 조회 API
+     * 회원 uuid로 회원 프로필 조회 API
      * 등록/수정이 되지 않은 필드들은 기본값으로 반환됩니다.(예: 집계데이터들).
      *
-     * @param memberUuid 회원 닉네임
+     * @param memberUuid 회원 uuid
      * @return 회원 프로필 DTO(Member Document와 같음)
      */
     @Override
@@ -98,18 +64,5 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.findByMemberUuid(memberUuid)
                 .map(CompactProfileDto::fromDocument)
                 .orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
-    }
-
-    /**
-     * 회원 필드 업데이트하는 private 메서드.
-     *
-     * @param memberUuid 업데이트할 회원의 uuid
-     * @param field      업데이트할 필드(닉네임, 프로필 이미지 URL...)
-     * @param value      업데이트할 값
-     */
-    private void updateMemberField(String memberUuid, String field, Object value) {
-        Query query = new Query(Criteria.where("memberUuid").is(memberUuid));
-        Update update = new Update().set(field, value);
-        mongoTemplate.updateFirst(query, update, Member.class);
     }
 }
