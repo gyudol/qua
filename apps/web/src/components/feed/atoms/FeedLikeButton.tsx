@@ -26,7 +26,7 @@ export function FeedLikeButton({ likeCount, likeStatus }: FeedLikeButtonProps) {
     >
       <span>
         <ThumbsUp
-          size="1.125rem"
+          size="1.25rem"
           color={likeStatus.data ? "skyblue" : "#B1B1B1"}
         />
       </span>

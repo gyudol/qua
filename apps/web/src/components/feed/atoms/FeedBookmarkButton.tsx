@@ -20,7 +20,8 @@ export function FeedBookmarkButton({ feedUuid }: FeedBookmarkButtonProps) {
     >
       <span>
         <Bookmark
-          size="1.125rem"
+          className="m-[0.25rem]"
+          size="1.25rem"
           color="#B1B1B1"
           fill={data ? "#B1B1B1" : "none"}
         />

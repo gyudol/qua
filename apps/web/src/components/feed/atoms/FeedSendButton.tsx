@@ -18,7 +18,7 @@ export function FeedSendButton({ feedUuid }: FeedSendButtonProps) {
       onClick={handleClick}
     >
       <span>
-        <Send size="1.125rem" color="#B1B1B1" />
+        <Send size="1.25rem" color="#B1B1B1" />
       </span>
     </button>
   );

@@ -29,7 +29,7 @@ export function FeedDislikeButton({
     >
       <span>
         <ThumbsDown
-          size="1.125rem"
+          size="1.25rem"
           color={dislikeStatus.data ? "pink" : "#B1B1B1"}
         />
       </span>
