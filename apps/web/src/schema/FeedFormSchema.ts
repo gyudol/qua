@@ -9,13 +9,17 @@ export const feedFormSchema = z.object({
     .string()
     .min(1, '내용은 필수 항목입니다')
     .max(500, '내용은 500자 이하여야 합니다'),
-  categoryId: z.number().min(1, '카테고리를 선택해야 합니다'),
-  tags: z
-    .array(z.object({ name: z.string() })) // 태그 배열을 객체 배열로 허용
-    .max(5, '태그는 최대 5개까지 입력할 수 있습니다'),
+  categoryName: z.string().min(1, '카테고리는 필수 항목입니다'),
+  hashtags: z
+    .array(
+      z.object({
+        name: z.string().min(1, '태그 이름은 필수입니다'),
+      })
+    )
+    .min(1, '태그는 1개 이상 입력해야 합니다'),
 }) as z.ZodSchema<{
   title: string;
   content: string;
-  categoryId: number;
-  tags: { name: string }[];
+  categoryName: string;
+  hashtags: { name: string }[];
 }>;

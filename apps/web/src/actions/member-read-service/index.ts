@@ -1,15 +1,15 @@
-"use server";
+'use server';
 
 import type {
   GetMemberCompactProfileReq,
   GetMemberProfileByNicknameReq,
   GetMemberProfileByUuidReq,
   MemberProfile,
-} from "@/types/member/member-read-service";
-import { getHeaders, processResponse } from "../common";
+} from '@/types/member/member-read-service';
+import { getHeaders, processResponse } from '../common';
 
 const API_SERVER = process.env.BASE_API_URL;
-const PREFIX = "member-read-service";
+const PREFIX = 'member-read-service';
 
 export async function getMemberProfileByNickname({
   nickname,
@@ -18,8 +18,8 @@ export async function getMemberProfileByNickname({
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: "GET",
-    cache: "no-cache",
+    method: 'GET',
+    cache: 'no-cache',
   });
 
   return processResponse<MemberProfile, false>({ res });
@@ -32,8 +32,8 @@ export async function getMemberProfileByUuid({
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: "GET",
-    cache: "no-cache",
+    method: 'GET',
+    cache: 'no-cache',
   });
 
   return processResponse<MemberProfile, false>({ res });
@@ -46,8 +46,8 @@ export async function getMemberCompactProfile({
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: "GET",
-    cache: "no-cache",
+    method: 'GET',
+    cache: 'no-cache',
   });
 
   return processResponse<MemberProfile, false>({ res });

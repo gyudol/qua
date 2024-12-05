@@ -14,6 +14,7 @@ import { UuidConverter } from '@/functions/utils/uuidConverter';
 export interface PreviewImageType {
   s3Url: string;
   fileType: string;
+  uniqueUuid: string;
 }
 
 function ImageUploader({
@@ -34,14 +35,15 @@ function ImageUploader({
     const file = files[0];
     const fileType = file.type.startsWith('image') ? 'IMAGE' : 'VIDEO';
     const fileExtention = file.name.split('.').pop();
-    const uniqueFileName = `${UuidConverter()}.${fileExtention}`;
+    const uniqueUuid = UuidConverter();
+    const uniqueFileName = `${uniqueUuid}.${fileExtention}`;
 
     const s3Url = await uploadFileToS3(file, uniqueFileName);
 
     if (!s3Url) return;
     setMediaList((prev) => {
       const updated = [...prev];
-      updated.push({ s3Url, fileType });
+      updated.push({ s3Url, fileType, uniqueUuid });
       return updated;
     });
 
@@ -49,27 +51,33 @@ function ImageUploader({
 
     setPayload((prev) => {
       const updatedPayload = { ...prev };
-      updatedPayload.mediaList = [convertedMedia];
+      updatedPayload.mediaList = [...prev.mediaList, convertedMedia];
       return updatedPayload;
     });
   };
 
-  const handleDeleteImage = async (s3Url: string, fileType: string) => {
+  const handleDeleteImage = async (
+    uniqueUuid: string,
+    s3Url: string,
+    fileType: string
+  ) => {
     try {
       if (s3Url && fileType) {
         const res = await deleteFileFromS3(s3Url);
         if (!res) throw new Error('Failed to delete from S3');
       }
 
-      // 이미지 삭제 후 해당 슬롯 비우기
-      setPayload((prev) => {
-        const updatedPayload = { ...prev };
-        updatedPayload.mediaList = [];
-        return updatedPayload;
-      });
       setMediaList((prev) => {
         const updated = prev.filter((media) => media.s3Url !== s3Url);
         return updated;
+      });
+
+      setPayload((prev) => {
+        const updatedPayload = { ...prev };
+        updatedPayload.mediaList = prev.mediaList.filter(
+          (media) => media.mediaUuid !== uniqueUuid
+        );
+        return updatedPayload;
       });
       // input file 초기화
       if (mediaRef.current) {
@@ -85,10 +93,10 @@ function ImageUploader({
       {/* 업로드 라벨 */}
       <label
         htmlFor="feedImg"
-        className="items-center gap-2 w-full flex justify-center border-dotted border-2 border-gray-300 p-4 rounded-lg bg-[#F1F4F9] h-[110px] cursor-pointer"
+        className="items-center gap-2 w-full flex justify-center border-dotted border-[1px] border-primary p-4 rounded-lg bg-[#ebfbfa] h-[110px] cursor-pointer"
       >
-        <UploadCloud />
-        <span className="text-gray-600 text-sm">Upload attachment</span>
+        <UploadCloud color="#48d0bf" />
+        <span className="text-primary text-sm">Upload attachment</span>
       </label>
 
       {/* 파일 입력 */}
@@ -104,11 +112,11 @@ function ImageUploader({
           void handleFeedImage(e);
         }}
       />
-      <ul className="flex gap-4 mt-4 flex-wrap w-full justify-center">
+      <ul className="grid grid-cols-3 gap-2 mt-4 w-full justify-left">
         {mediaList.map((previewMedia: PreviewImageType) => (
           <li
             key={previewMedia.s3Url}
-            className="relative w-[120px] h-[150px] bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 border-dashed border-2 overflow-hidden"
+            className="relative col-span-1 w-full h-[150px] bg-gray-200 rounded-lg flex items-start justify-left text-gray-400 border-[1px] border-primary overflow-hidden"
           >
             {previewMedia.fileType === 'IMAGE' ? (
               <Image
@@ -128,6 +136,7 @@ function ImageUploader({
               type="button"
               onClick={() =>
                 void handleDeleteImage(
+                  previewMedia.uniqueUuid,
                   previewMedia.s3Url,
                   previewMedia.fileType
                 )
