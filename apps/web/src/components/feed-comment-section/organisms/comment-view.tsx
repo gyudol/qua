@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { FeedComment } from "@/types/comment/comment-read-service";
-import { Profile } from "@/components/@legacy-profile/molecules";
+import { Profile } from "@/components/@legacy/profile/molecules";
 import { PostedAt } from "@/components/common/atoms";
 import { useGetFeedCommentQuery } from "@/hooks";
 import { useMemberCompactProfile } from "@/hooks/member-read-service";

@@ -49,9 +49,9 @@ export default function PostedAt({ createdAt, updatedAt }: PostedAtProps) {
   }
 
   return (
-    <p className="text-gray-400 text-xs">
+    <time dateTime={createdAt} className="text-gray-400 text-xs">
       {text}
       {createdAt !== updatedAt ? "(edited)" : ""}
-    </p>
+    </time>
   );
 }
