@@ -14,19 +14,22 @@ public class SignUpAndInResponseDto {
     private String memberUuid;
     private String accessToken;
     private String refreshToken;
+    private boolean isSignUp;
 
     public SignUpAndSignInResponseVo toVo() {
         return SignUpAndSignInResponseVo.builder()
                 .memberUuid(memberUuid)
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .isSignUp(isSignUp)
                 .build();
     }
 
     @Builder
-    public SignUpAndInResponseDto(String memberUuid, String accessToken, String refreshToken) {
+    public SignUpAndInResponseDto(String memberUuid, String accessToken, String refreshToken, boolean isSignUp) {
         this.memberUuid = memberUuid;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+        this.isSignUp = isSignUp;
     }
 }

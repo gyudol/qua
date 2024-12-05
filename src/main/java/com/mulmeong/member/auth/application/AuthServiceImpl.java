@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
                         requestDto.getOauthId(), requestDto.getOauthProvider())
                 .orElse(null);
         if (existMember != null) {
-            return respondSignIn(existMember);
+            return respondSignIn(existMember, false);
         }
 
         /* 회원이 아닌 경우 => 회원가입, Read-DB 반영 Kafka 이벤트 발행 */
@@ -63,7 +63,7 @@ public class AuthServiceImpl implements AuthService {
         Member signUpMember = memberRepository.save(requestDto.toEntity(randomNicknameUtil));
         eventPublisher.send(MemberCreateEvent.from(signUpMember));
 
-        return respondSignIn(signUpMember);
+        return respondSignIn(signUpMember, true);
     }
 
     /**
@@ -114,7 +114,7 @@ public class AuthServiceImpl implements AuthService {
      * @param member 회원 정보
      * @return 토큰 발급 후 응답 DTO
      */
-    private SignUpAndInResponseDto respondSignIn(Member member) {
+    private SignUpAndInResponseDto respondSignIn(Member member, boolean isSignUp) {
 
         // 토큰 발급(로그인)
         String accessToken = jwtProvider.generateToken(member.getMemberUuid(), jwtProperties.getAccessExpireTime());
@@ -127,6 +127,7 @@ public class AuthServiceImpl implements AuthService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .memberUuid(member.getMemberUuid())
+                .isSignUp(isSignUp)
                 .build();
     }
 
