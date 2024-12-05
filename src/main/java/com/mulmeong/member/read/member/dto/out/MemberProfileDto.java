@@ -1,6 +1,5 @@
 package com.mulmeong.member.read.member.dto.out;
 
-import com.mulmeong.member.read.member.document.Badge;
 import com.mulmeong.member.read.member.document.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,8 +19,8 @@ public class MemberProfileDto {
     private String nickname;
     private String profileImageUrl;
     private LocalDateTime createdAt;
-    private String grade;
-    private Badge equippedBadge;
+    private Long gradeId;
+    private Long equippedBadgeId;
     private Integer followerCount;
     private Integer followingCount;
     private Integer feedCount;
@@ -33,8 +32,8 @@ public class MemberProfileDto {
                 .nickname(member.getNickname())
                 .profileImageUrl(member.getProfileImageUrl())
                 .createdAt(member.getCreatedAt())
-                .grade(member.getGrade())
-                .equippedBadge(member.getEquippedBadge())
+                .gradeId(member.getGradeId())
+                .equippedBadgeId(member.getEquippedBadgeId())
                 .followerCount(member.getFollowerCount())
                 .followingCount(member.getFollowingCount())
                 .feedCount(member.getFeedCount())

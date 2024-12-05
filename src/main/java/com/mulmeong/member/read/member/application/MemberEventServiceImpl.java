@@ -62,8 +62,8 @@ public class MemberEventServiceImpl implements MemberEventService {
     @Override
     public void updateEquippedBadge(MemberBadgeUpdateEvent event) {
         updateMemberField(event.getMemberUuid(),
-                "equippedBadge",
-                event.isEquipped() ? event.toEntity() : null);
+                "equippedBadgeId",
+                event.isEquipped() ? event.getBadgeId() : null);
     }
 
     /**
@@ -73,7 +73,7 @@ public class MemberEventServiceImpl implements MemberEventService {
      */
     @Override
     public void updateGrade(MemberGradeUpdateEvent event) {
-        updateMemberField(event.getMemberUuid(), "grade", event.getGrade());
+        updateMemberField(event.getMemberUuid(), "gradeId", event.getGradeId());
     }
 
     /**

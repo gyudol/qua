@@ -43,7 +43,7 @@ public class KafkaConsumer {
     }
 
     @KafkaListener(topics = "${event.grade.pub.topics.member-grade-update.name}",
-            containerFactory = "memberBadgeCreateEventListener")
+            containerFactory = "memberGradeUpdateEventListener")
     public void handleMemberGradeUpdatedEvent(MemberGradeUpdateEvent event) {
         log.info("Consumed 회원 등급 변경 이벤트 : {}", event);
         memberService.updateGrade(event);
