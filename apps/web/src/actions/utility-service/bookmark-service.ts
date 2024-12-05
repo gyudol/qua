@@ -46,7 +46,7 @@ export async function getFeedBookmarks({ ...query }: GetFeedBookmarksReq) {
 export async function postShortsBookmark({
   shortsUuid,
 }: PostShortsBookmarkReq) {
-  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/shorts/bookmarks}`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/shorts/bookmarks`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
@@ -59,7 +59,7 @@ export async function postShortsBookmark({
 }
 
 export async function postFeedBookmark({ feedUuid }: PostFeedBookmarkReq) {
-  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/feeds/bookmarks}`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/feeds/bookmarks`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
@@ -86,7 +86,7 @@ export async function deleteShortsBookmark({
 }
 
 export async function deleteFeedBookmark({ feedUuid }: DeleteFeedBookmarkReq) {
-  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/feeds/${feedUuid}/bookmarks}`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/feeds/${feedUuid}/bookmarks`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),

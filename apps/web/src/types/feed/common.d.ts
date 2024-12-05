@@ -24,10 +24,10 @@ export interface VideoMediaAssets {
 export interface ImageMedia {
   mediaUuid: string;
   mediaType: "IMAGE";
-  asstes: ImageMediaAssets;
+  assets: ImageMediaAssets;
 }
 export interface VideoMedia {
   mediaUuid: string;
   mediaType: "VIDEO";
-  asstes: VideoMediaAssets;
+  assets: VideoMediaAssets;
 }

@@ -19,7 +19,6 @@ export async function processResponse<T, IsPagination extends boolean>({
     T,
     IsPagination
   >;
-
   if (!isSuccess) {
     throw Error(result as string);
   }
