@@ -20,18 +20,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class KafkaConsumer {
 
-    @KafkaListener(topics = "${event.feed.pub.topics.feed-create.name}",
-            containerFactory = "feedCreateListener")
-    public void feedCreated(FeedCreateEvent message) {
-        log.info("message: {}", message.getContent());
-    }
-
-    @KafkaListener(topics = "${event.shorts.pub.topics.shorts-create.name}",
-            containerFactory = "shortsCreateListener")
-    public void shortsCreated(ShortsCreateEvent message) {
-        log.info("message: {}", message.getTitle());
-    }
-
     @KafkaListener(topics = "${event.utility.pub.topics.feed-create-followers.name}",
             containerFactory = "feedCreateFollowersListener")
     public void getFollowersOfFeedCreator(FeedCreatedFollowersEvent message) {

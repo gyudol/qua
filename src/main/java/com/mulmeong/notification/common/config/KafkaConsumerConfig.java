@@ -33,25 +33,13 @@ public class KafkaConsumerConfig {
     @Value("${event.notification.sub.group-id}")
     private String groupId;
 
-    //피드 생성
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, FeedCreateEvent> feedCreateListener() {
-        return kafkaListenerContainerFactory(FeedCreateEvent.class);
-    }
-
-    //쇼츠 생성
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ShortsCreateEvent> shortsCreateListener() {
-        return kafkaListenerContainerFactory(ShortsCreateEvent.class);
-    }
-
-    //피드 록성한 회원을 팔로우하는 사람들의 uuid 목록
+    //피드 작성한 회원을 팔로우하는 사람들의 uuid 목록
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, FeedCreatedFollowersEvent> feedCreateFollowersListener() {
         return kafkaListenerContainerFactory(FeedCreatedFollowersEvent.class);
     }
 
-    //쇼츠 성한 회원을 팔로우하는 사람들의 uuid 목록
+    //쇼츠 작성한 회원을 팔로우하는 사람들의 uuid 목록
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, ShortsCreatedFollowersEvent> shortCreateFollowersListener() {
         return kafkaListenerContainerFactory(ShortsCreatedFollowersEvent.class);

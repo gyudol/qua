@@ -13,4 +13,5 @@ public class FeedCreatedFollowersEvent {
     private String feedUuid;
     private String memberUuid;
     private List<String> followerUuids;
+    private String title;
 }
