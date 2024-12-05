@@ -5,10 +5,13 @@ import { useGetFeedsInfiniteQuery } from "@/hooks";
 import { FeedCardArticle } from "@/components/feed/organisms/FeedCardArticle";
 import type { GetFeedsReq } from "@/types/feed/feed-read-service";
 import { FeedListOptionGroup } from "../organisms/FeedListOptionGroup";
+import { FeedCompactArticle } from "../organisms/FeedCompactArticle";
 
 export default function FeedListSection() {
   const searchParams = useSearchParams();
 
+  const viewType =
+    searchParams.get("viewType") === "compact" ? "compact" : "card";
   const sortBy: GetFeedsReq["sortBy"] =
     searchParams.get("sortBy") === "likes" ? "likes" : "latest";
 
@@ -19,9 +22,11 @@ export default function FeedListSection() {
       <FeedListOptionGroup />
       <section className="flex flex-col pb-16 md:pb-16 md:pt-0">
         {data?.pages.map((page) =>
-          page.content.map((feed) => (
-            <FeedCardArticle key={feed.feedUuid} {...feed} />
-          )),
+          page.content.map((feed) => {
+            if (viewType === "compact")
+              return <FeedCompactArticle key={feed.feedUuid} {...feed} />;
+            return <FeedCardArticle key={feed.feedUuid} {...feed} />;
+          }),
         )}
       </section>
     </div>
