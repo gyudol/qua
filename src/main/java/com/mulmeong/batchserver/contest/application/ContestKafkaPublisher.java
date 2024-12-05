@@ -1,4 +1,4 @@
-package com.mulmeong.batchserver.application;
+package com.mulmeong.batchserver.contest.application;
 
 import com.mulmeong.event.contest.produce.ContestStatusEvent;
 import com.mulmeong.event.contest.produce.ContestVoteRecordEvent;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class EventPublisher {
+public class ContestKafkaPublisher {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
@@ -25,12 +25,6 @@ public class EventPublisher {
     private String contestVoteResultEventTopic;
     @Value("${event.contest.pub.topics.contest-status-alter.name}")
     private String contestStatusAlterEventTopic;
-
-
-    public void send(String topic, Object event) {
-        log.info("Publishing event: {}", event);
-        kafkaTemplate.send(topic, event);
-    }
 
     public void send(ContestVoteUpdateEvent event) {
         kafkaTemplate.send(contestVoteUpdateEventTopic, event);
@@ -51,4 +45,5 @@ public class EventPublisher {
         kafkaTemplate.send(contestStatusAlterEventTopic, event);
         log.info("contest status topic: {}", contestStatusAlterEventTopic);
     }
+
 }

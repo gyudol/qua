@@ -1,6 +1,6 @@
 package com.mulmeong.batchserver.contest.config;
 
-import com.mulmeong.batchserver.application.EventPublisher;
+import com.mulmeong.batchserver.contest.application.ContestKafkaPublisher;
 import com.mulmeong.batchserver.contest.entity.contest.Contest;
 import com.mulmeong.batchserver.contest.infrastructure.repository.ContestRepository;
 import com.mulmeong.event.contest.produce.ContestVoteUpdateEvent;
@@ -38,7 +38,7 @@ public class ContestBatchConfig {
     private final ContestRepository contestRepository;
     private final RedisTemplate<String, String> redisTemplate;
     private final PlatformTransactionManager transactionManager;
-    private final EventPublisher eventPublisher;
+    private final ContestKafkaPublisher contestKafkaPublisher;
     private static final String VOTE_COUNT_KEY = "contest:%d:post:votes";
     private final JobRepository jobRepository;
     private final JobLauncher jobLauncher;
@@ -121,7 +121,7 @@ public class ContestBatchConfig {
             for (List<ContestVoteUpdateEvent> eventList : items) {
                 for (ContestVoteUpdateEvent event : eventList) {
                     // 이벤트 발행
-                    eventPublisher.send(event);
+                    contestKafkaPublisher.send(event);
 
                     // Redis에서 해당 포스트의 데이터 삭제
                     Long contestId = event.getContestId();

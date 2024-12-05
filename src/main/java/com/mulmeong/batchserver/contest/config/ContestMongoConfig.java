@@ -5,6 +5,7 @@ import com.mongodb.client.MongoClients;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
@@ -15,7 +16,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
         basePackages = "com.mulmeong.batchserver.contest.infrastructure.repository",
         mongoTemplateRef = "contestReadMongoTemplate"
 )
-public class ContestReadDatabaseConfig {
+public class ContestMongoConfig {
 
     @Value("${spring.data.mongodb.contest.dbname}")
     private String DB_NAME;
@@ -23,6 +24,7 @@ public class ContestReadDatabaseConfig {
     @Value("${spring.data.mongodb.contest.uri}")
     private String contestMongoUri;
 
+    @Primary
     @Bean(name = "contestReadMongoTemplate")
     public MongoTemplate contestMongoTemplate() {
         MongoClient mongoClient = MongoClients.create(contestMongoUri);

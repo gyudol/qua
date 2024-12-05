@@ -25,7 +25,7 @@ import java.util.HashMap;
         entityManagerFactoryRef = "contestEntityManagerFactory",
         transactionManagerRef = "contestTransactionManager"
 )
-public class ContestDatabaseConfig {
+public class ContestMysqlDatabaseConfig {
 
     @Primary
     @Bean(name = "contestDataSource")
@@ -58,6 +58,7 @@ public class ContestDatabaseConfig {
         return em;
     }
 
+    @Primary
     @Bean(name = "contestTransactionManager")
     public PlatformTransactionManager contestTransactionManager(
             @Qualifier("contestEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
