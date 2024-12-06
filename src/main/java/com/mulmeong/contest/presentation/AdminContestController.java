@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@Tag(name = "admin-contest" ,description = "콘테스트 관리")
+@Tag(name = "admin-contest", description = "콘테스트 관리")
 @RequestMapping("/admin/v1/contests")
 public class AdminContestController {
 
@@ -29,7 +29,6 @@ public class AdminContestController {
 
         return new BaseResponse<>();
     }
-
 
 
 }

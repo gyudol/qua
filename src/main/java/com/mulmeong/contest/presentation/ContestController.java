@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@Tag(name = "contest" ,description = "콘테스트 공통")
+@Tag(name = "contest", description = "콘테스트 공통")
 @RequestMapping("/auth/v1/contests")
 public class ContestController {
 

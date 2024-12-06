@@ -25,7 +25,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@Tag(name = "auth-contest" ,description = "콘테스트 회원 기능")
+@Tag(name = "auth-contest", description = "콘테스트 회원 기능")
 @RequestMapping("/auth/v1/contests")
 public class AuthContestController {
 
@@ -52,8 +52,6 @@ public class AuthContestController {
         contestService.vote(PostVoteRequestDto.toDto(postVoteRequestVo), memberUuid);
         return new BaseResponse<>();
     }
-
-
 
 
 }

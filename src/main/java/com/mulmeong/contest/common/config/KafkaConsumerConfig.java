@@ -26,11 +26,6 @@ public class KafkaConsumerConfig {
     private String groupId;
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, String> contestVoteRenewListener() {
-        return kafkaListenerContainerFactory(String.class);
-    }
-
-    @Bean
     public ConcurrentKafkaListenerContainerFactory<String, ContestVoteResultEvent> contestVoteResultListener() {
         return kafkaListenerContainerFactory(ContestVoteResultEvent.class);
     }
