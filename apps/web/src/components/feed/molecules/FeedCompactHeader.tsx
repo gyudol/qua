@@ -30,10 +30,10 @@ export function FeedCompactHeader({
   categoryName,
   link,
 }: FeedCompactHeaderProps) {
-  const { data: member } = useMemberCompactProfile({ memberUuid });
-  const defaultProfileImage = "/dummies/members/member-001.png";
-  const profileImageUrl = member?.profileImageUrl || defaultProfileImage;
-  const nickname = member?.nickname || memberUuid;
+  const { data: member, status } = useMemberCompactProfile({ memberUuid });
+  if (status !== "success") return null;
+  const profileImageUrl = member.profileImageUrl;
+  const nickname = member.nickname || memberUuid;
 
   return (
     <header className="flex flex-col mb-[0.25rem]">

@@ -15,8 +15,10 @@ export function FeedCompactThumbnail({ mediaList }: FeedCompactThumbnailProps) {
       <figure className="relative w-[6rem] h-[6rem]">
         <Image
           className="rounded-xl"
-          src={`https://qua-assets.s3.ap-northeast-2.amazonaws.com/${mediaUrl}`}
+          src={`https://media.qua.world/${mediaUrl}`}
           alt={description}
+          sizes="6rem"
+          priority
           fill
         />
       </figure>
