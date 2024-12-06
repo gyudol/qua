@@ -1,5 +1,6 @@
 package com.mulmeong.utility.application;
 
+import com.mulmeong.event.produce.DislikesRenewEvent;
 import com.mulmeong.event.produce.LikesRenewEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,9 @@ public class EventPublisher {
 
     @Value("${event.utility.pub.topics.like-create.name}")
     private String likeCreateEventTopic;
+    @Value("${event.utility.pub.topics.dislike-create.name}")
+    private String dislikeCreateEventTopic;
+
 
     public void send(String topic, Object event) {
         log.info("Publishing event: {}", event);
@@ -28,4 +32,8 @@ public class EventPublisher {
     }
 
 
+    public void sendDislikedEvent(DislikesRenewEvent event) {
+        kafkaTemplate.send(dislikeCreateEventTopic, event);
+        log.info("dislike topic: {}", dislikeCreateEventTopic);
+    }
 }
