@@ -9,7 +9,7 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/admin/v1")
 public class ValidationController {
 
     private final ValidationServiceImpl fishValidationService;

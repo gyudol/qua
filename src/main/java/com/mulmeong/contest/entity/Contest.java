@@ -25,24 +25,34 @@ public class Contest {
     private String description;
     @Column(nullable = false, length = 2083)
     private String imgUrl;
+    private boolean status;
+    @Column(nullable = false)
+    private Long badgeId;
 
     private LocalDate startDate;
     private LocalDate endDate;
 
     @Builder
     public Contest(
+            Long id,
             Kind kind,
             String name,
             String description,
             String imgUrl,
+            boolean status,
+            Long badgeId,
             LocalDate startDate,
             LocalDate endDate
     ) {
+        this.id = id;
         this.kind = kind;
         this.name = name;
         this.description = description;
         this.imgUrl = imgUrl;
+        this.status = status;
+        this.badgeId = badgeId;
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
 }

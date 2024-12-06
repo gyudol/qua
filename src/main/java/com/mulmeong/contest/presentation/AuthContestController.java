@@ -2,11 +2,16 @@ package com.mulmeong.contest.presentation;
 
 import com.mulmeong.contest.application.ContestService;
 import com.mulmeong.contest.common.response.BaseResponse;
+import com.mulmeong.contest.common.utils.CursorPage;
+import com.mulmeong.contest.dto.in.ContestQueryRequestDto;
+import com.mulmeong.contest.dto.in.ContestRequestDto;
 import com.mulmeong.contest.dto.in.PostRequestDto;
 import com.mulmeong.contest.dto.in.PostVoteRequestDto;
+import com.mulmeong.contest.dto.out.ContestResponseDto;
 import com.mulmeong.contest.vo.in.PostRequestVo;
 import com.mulmeong.contest.vo.in.PostVoteRequestVo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.*;
@@ -15,9 +20,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
+@Tag(name = "auth-contest", description = "콘테스트 회원 기능")
 @RequestMapping("/auth/v1/contests")
 public class AuthContestController {
 

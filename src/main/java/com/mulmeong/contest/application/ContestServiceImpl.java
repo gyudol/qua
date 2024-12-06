@@ -2,34 +2,34 @@ package com.mulmeong.contest.application;
 
 import com.mulmeong.contest.common.exception.BaseException;
 import com.mulmeong.contest.common.response.BaseResponseStatus;
+import com.mulmeong.contest.common.utils.CursorPage;
+import com.mulmeong.contest.dto.in.ContestQueryRequestDto;
 import com.mulmeong.contest.dto.in.ContestRequestDto;
 import com.mulmeong.contest.dto.in.PostRequestDto;
 import com.mulmeong.contest.dto.in.PostVoteRequestDto;
+import com.mulmeong.contest.dto.out.ContestResponseDto;
+import com.mulmeong.contest.entity.Contest;
+import com.mulmeong.contest.entity.ContestPost;
 import com.mulmeong.contest.infrastructure.*;
+import com.mulmeong.event.contest.consume.ContestStatusEvent;
+import com.mulmeong.event.contest.consume.ContestVoteResultEvent;
+import com.mulmeong.event.contest.produce.ContestPostCreateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.batch.core.*;
-import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
-import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
-import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class ContestServiceImpl implements ContestService {
 
+    private final EventPublisher eventPublisher;
     private final ContestRepository contestRepository;
     private final ContestPostRepository contestPostRepository;
+    private final ContestResultRepository contestResultRepository;
+    private final ContestCustomRepository contestCustomRepository;
     private final RedisTemplate<String, String> redisTemplate;
-    private final JobLauncher jobLauncher;
-    private final Job rankingJob;
 
     private static final String VOTER_SET_KEY = "contest:%d:post:%s:voters";
     private static final String VOTE_COUNT_KEY = "contest:%d:post:votes";
@@ -44,7 +44,8 @@ public class ContestServiceImpl implements ContestService {
         if (contestPostRepository.existsByContestIdAndMemberUuid(dto.getContestId(), dto.getMemberUuid())) {
             throw new BaseException(BaseResponseStatus.DUPLICATE_POST);
         }
-        contestPostRepository.save(dto.toEntity());
+        ContestPost contestPost = contestPostRepository.save(dto.toEntity());
+        eventPublisher.send(ContestPostCreateEvent.toDto(contestPost));
     }
 
     @Override
@@ -64,22 +65,34 @@ public class ContestServiceImpl implements ContestService {
 
         redisTemplate.opsForZSet().incrementScore(voteCountKey, voteRequestDto.getPostUuid(), 1);
 
-        redisTemplate.expire(voterSetKey, 7, TimeUnit.DAYS);
-        redisTemplate.expire(voteCountKey, 7, TimeUnit.DAYS);
-    }
-
-    @Transactional
-    @Scheduled(cron = "0 0 0 * * ?")    // 매일 정각 배치 작업 실행
-    public void selectWinners()
-            throws JobInstanceAlreadyCompleteException,
-            JobExecutionAlreadyRunningException,
-            JobParametersInvalidException,
-            JobRestartException {
-
-        JobParameters jobParameters = new JobParametersBuilder()
-                .toJobParameters();
-
-        jobLauncher.run(rankingJob, jobParameters);
 
     }
+
+    @Override
+    public CursorPage<ContestResponseDto> getContests(ContestQueryRequestDto requestDto) {
+        return contestCustomRepository.getContests(requestDto);
+    }
+
+    @Override
+    public void createContestResult(ContestVoteResultEvent message) {
+        contestResultRepository.save(message.toEntity(
+                message.getContestId(),
+                message.getMemberUuid(),
+                message.getPostUuid(),
+                message.getBadgeId(),
+                message.getVoteCount(),
+                message.getRanking()
+        ));
+    }
+
+    @Override
+    public void altContestStatus(ContestStatusEvent message) {
+        Contest contest = contestRepository.findById(message.getContestId())
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_EXIST)
+        );
+        log.info("id: {}", contest.getId());
+        contestRepository.save(message.toEntity(contest));
+    }
+
+
 }
