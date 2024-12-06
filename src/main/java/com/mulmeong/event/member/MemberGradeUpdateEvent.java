@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MemberGradeUpdateEvent {
     private String memberUuid;
-    private String grade;
+    private Long gradeId;
 }
