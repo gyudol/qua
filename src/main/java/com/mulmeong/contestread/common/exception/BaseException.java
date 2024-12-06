@@ -1,6 +1,6 @@
 package com.mulmeong.contestread.common.exception;
 
-import com.mulmeong.test.common.response.BaseResponseStatus;
+import com.mulmeong.contestread.common.response.BaseResponseStatus;
 import lombok.Getter;
 
 @Getter
