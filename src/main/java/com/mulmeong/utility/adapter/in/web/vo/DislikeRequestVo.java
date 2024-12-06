@@ -11,6 +11,7 @@ public class DislikeRequestVo {
     private String memberUuid;
     private String kind;
     private String kindUuid;
+    private Long dislikeCount;
 
     public DislikeRequestDto toDto() {
         return DislikeRequestDto.builder()

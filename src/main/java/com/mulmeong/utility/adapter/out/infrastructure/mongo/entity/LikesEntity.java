@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @NoArgsConstructor
 @Document(collection = "likes")
-public class LikesEntity {
+ public class LikesEntity {
 
     @Id
     private String id;

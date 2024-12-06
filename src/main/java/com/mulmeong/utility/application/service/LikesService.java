@@ -1,7 +1,10 @@
 package com.mulmeong.utility.application.service;
 
+import com.mulmeong.event.produce.LikesRenewEvent;
+import com.mulmeong.utility.application.EventPublisher;
 import com.mulmeong.utility.application.mapper.LikesDtoMapper;
 import com.mulmeong.utility.application.port.in.LikesUseCase;
+import com.mulmeong.utility.application.port.in.dto.LikesRenewRequestDto;
 import com.mulmeong.utility.application.port.in.dto.LikesRequestDto;
 import com.mulmeong.utility.application.port.out.LikesPort;
 import com.mulmeong.utility.application.port.out.dto.LikesEntityResponseDto;
@@ -20,6 +23,7 @@ public class LikesService implements LikesUseCase {
 
     private final LikesPort likesPort;
     private final LikesDtoMapper likesDtoMapper;
+    private final EventPublisher eventPublisher;
 
     @Override
     public void likes(LikesRequestDto likesRequestDto) {
@@ -55,6 +59,13 @@ public class LikesService implements LikesUseCase {
     @Override
     public CursorPage<String> getLikes(String memberUuid, String kind, String lastId, int pageSize, int pageNo) {
         return likesPort.getLikes(memberUuid, kind, lastId, pageSize, pageNo);
+    }
+
+    @Override
+    public void renewValidate(LikesRenewRequestDto requestDto) {
+        if (requestDto.getLikeCount() < 10) {
+            eventPublisher.sendLikedEvent(LikesRenewEvent.toDto(requestDto));
+        }
     }
 
 
