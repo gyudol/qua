@@ -1,7 +1,6 @@
 package com.mulmeong.utility.application.service;
 
-import com.mulmeong.event.produce.DislikesRenewEvent;
-import com.mulmeong.event.produce.LikesRenewEvent;
+import com.mulmeong.event.produce.DislikesCreateEvent;
 import com.mulmeong.utility.application.EventPublisher;
 import com.mulmeong.utility.application.mapper.DislikeDtoMapper;
 import com.mulmeong.utility.application.port.in.DislikeUseCase;
@@ -69,7 +68,7 @@ public class DislikeService implements DislikeUseCase {
     @Override
     public void renewValidate(DislikesRenewRequestDto requestDto) {
         if (requestDto.getDislikeCount() < 10) {
-            eventPublisher.sendDislikedEvent(DislikesRenewEvent.toDto(requestDto));
+            eventPublisher.sendDislikedEvent(DislikesCreateEvent.toDto(requestDto));
         }
     }
 

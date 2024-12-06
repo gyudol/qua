@@ -1,6 +1,6 @@
 package com.mulmeong.utility.application.service;
 
-import com.mulmeong.event.produce.LikesRenewEvent;
+import com.mulmeong.event.produce.LikesCreateEvent;
 import com.mulmeong.utility.application.EventPublisher;
 import com.mulmeong.utility.application.mapper.LikesDtoMapper;
 import com.mulmeong.utility.application.port.in.LikesUseCase;
@@ -64,7 +64,7 @@ public class LikesService implements LikesUseCase {
     @Override
     public void renewValidate(LikesRenewRequestDto requestDto) {
         if (requestDto.getLikeCount() < 10) {
-            eventPublisher.sendLikedEvent(LikesRenewEvent.toDto(requestDto));
+            eventPublisher.sendLikedEvent(LikesCreateEvent.toDto(requestDto));
         }
     }
 
