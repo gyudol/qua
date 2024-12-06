@@ -21,6 +21,8 @@ export function RecommentButtonGroup({
   const { likeStatus, dislikeStatus } = useLikeService({
     kind: "feed-recomment",
     kindUuid: recommentUuid,
+    likeCount,
+    dislikeCount,
   });
 
   return (

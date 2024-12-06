@@ -6,8 +6,12 @@ interface KindReq {
   kindUuid: string;
 }
 
-export interface PostLikeReq extends MemberReq, KindReq {}
-export interface PostDislikeReq extends MemberReq, KindReq {}
+export interface PostLikeReq extends MemberReq, KindReq {
+  likeCount: number;
+}
+export interface PostDislikeReq extends MemberReq, KindReq {
+  dislikeCount: number;
+}
 
 export type GetLikeStatusReq = KindReq;
 export type GetDislikeStatusReq = KindReq;

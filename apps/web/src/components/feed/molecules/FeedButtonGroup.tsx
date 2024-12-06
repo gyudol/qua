@@ -22,6 +22,8 @@ export function FeedButtonGroup({
   const { likeStatus, dislikeStatus } = useLikeService({
     kind: "feed",
     kindUuid: feedUuid,
+    likeCount,
+    dislikeCount,
   });
 
   return (

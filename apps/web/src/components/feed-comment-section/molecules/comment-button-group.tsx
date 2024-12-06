@@ -19,6 +19,8 @@ export function CommentButtonGroup({
   const { likeStatus, dislikeStatus } = useLikeService({
     kind: "feed-comment",
     kindUuid: commentUuid,
+    likeCount,
+    dislikeCount,
   });
 
   return (
