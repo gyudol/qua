@@ -5,10 +5,10 @@ import "@repo/ui/styles.css";
 import { CustomToaster } from "@repo/ui/shadcn/customSonner";
 import { getServerSession } from "next-auth";
 import QueryClientProvider from "@/components/common/molecules/QueryClientProvider";
-import SessionProvider from "@/provider/SessionProvider";
 import Bubbles from "@/components/fish/Bubbles";
 import Aquarium from "@/components/fish/Aquarium";
 import SessionContextProvider from "@/provider/SessionContextProvider";
+import { options } from "./api/auth/[...nextauth]/authOption";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,26 +34,24 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session: { user?: { memberUuid: string } } | null =
-    await getServerSession();
+    await getServerSession(options);
 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProvider>
-          <SessionContextProvider
-            {...{
-              isAuthenticated: Boolean(session?.user),
-              memberUuid: session?.user?.memberUuid,
-            }}
-          >
-            <QueryClientProvider>
-              <Bubbles />
-              <Aquarium size={50} speed={200} />
-              {children}
-              <CustomToaster richColors />
-            </QueryClientProvider>
-          </SessionContextProvider>
-        </SessionProvider>
+        <SessionContextProvider
+          {...{
+            isAuthenticated: Boolean(session?.user),
+            memberUuid: session?.user?.memberUuid,
+          }}
+        >
+          <QueryClientProvider>
+            <Bubbles />
+            <Aquarium size={50} speed={200} />
+            {children}
+            <CustomToaster richColors />
+          </QueryClientProvider>
+        </SessionContextProvider>
       </body>
     </html>
   );

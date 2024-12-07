@@ -1,7 +1,6 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
 import {
   getDislikeStatus,
   getLikeStatus,
@@ -9,6 +8,7 @@ import {
   postLike,
 } from "@/actions/utility-service";
 import type { KindReq } from "@/types/utility-service";
+import { useSessionContext } from "@/context/SessionContext";
 
 interface UseLikeServiceReq extends KindReq {
   likeCount: number;
@@ -20,12 +20,7 @@ export function useLikeService({
   dislikeCount,
   ...kindReq
 }: UseLikeServiceReq) {
-  const { status: sessionStaus, data } = useSession();
-  const session = (data &&
-    (data as { user?: { memberUuid?: string } }).user) || {
-    memberUuid: "",
-  };
-  const memberUuid = session.memberUuid || "";
+  const { isAuthenticated, memberUuid = "" } = useSessionContext();
 
   const QC = useQueryClient();
 
@@ -116,12 +111,13 @@ export function useLikeService({
 
   const likeStatusMutation = useStatusMutation("like");
   const dislikeStatusMutation = useStatusMutation("dislike");
-  const isReady =
+  const isReady = !(
     isLikeStatusLoading ||
     isDislikeStatusLoading ||
     isLikeStatusError ||
     isDislikeStatusError ||
-    sessionStaus === "authenticated";
+    !isAuthenticated
+  );
 
   return {
     likeStatus: { data: isReady && likeStatus, mutation: likeStatusMutation },
