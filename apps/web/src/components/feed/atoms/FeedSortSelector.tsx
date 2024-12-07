@@ -29,13 +29,13 @@ export function FeedSortSelector() {
       <SelectTrigger
         className="
           w-[8rem]
-        text-primary text-sm font-medium 
+        text-teal-400 text-sm font-medium 
           border-[0] focus:border-0 focus:ring-opacity-0 focus:ring-white
         "
       >
         <SelectValue placeholder="Sort by" defaultValue={sortBy} />
       </SelectTrigger>
-      <SelectContent className="border-none outline-none text-primary">
+      <SelectContent className="border-none outline-none text-teal-400">
         <SelectGroup>
           <SelectLabel>Sort by</SelectLabel>
           <SelectItem value="latest">New</SelectItem>

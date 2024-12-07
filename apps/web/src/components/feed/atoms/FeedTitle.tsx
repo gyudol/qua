@@ -16,7 +16,7 @@ export function FeedTitle({
   return (
     <h2 className="text-lg font-bold items-center">
       <Link href={`/category/${categoryName}`}>
-        <span className="text-emerald-700 text-base font-bold bg-slate-50 rounded-xl py-1 px-2 mr-[0.5rem]">
+        <span className="text-teal-500 text-base font-bold bg-slate-50 rounded-xl py-1 px-2 mr-[0.5rem]">
           📚{categoryName}
         </span>
       </Link>

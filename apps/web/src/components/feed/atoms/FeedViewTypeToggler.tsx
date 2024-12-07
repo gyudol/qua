@@ -9,6 +9,7 @@ export function FeedViewTypeToggler() {
   const searchParams = Object.fromEntries(useSearchParams().entries());
 
   const { view } = searchParams;
+
   const views = [
     { value: "card", Icon: Rows2 },
     { value: "compact", Icon: Rows4 },
@@ -23,7 +24,10 @@ export function FeedViewTypeToggler() {
       {views.map(({ value, Icon }) => (
         <li key={value} className="flex items-center">
           <button type="button" onClick={() => handleClick(value)}>
-            <Icon color={view === value ? "#48d0bf" : "lightgray"} />
+            <Icon
+              className={view === value ? "text-teal-400" : "text-slate-400"}
+              color={view === value ? "#48d0bf" : "lightgray"}
+            />
           </button>
         </li>
       ))}

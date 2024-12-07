@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetFeedsInfiniteQuery } from "@/hooks";
+import { useGetFeedsInfiniteQuery, useInfiniteScroll } from "@/hooks";
 import { FeedCardArticle } from "@/components/feed/organisms/FeedCardArticle";
 import type { GetFeedsReq } from "@/types/feed/feed-read-service";
 import type { FeedViewType } from "@/types/feed/common";
@@ -18,15 +18,22 @@ export default function FeedListSection({
   sortBy,
   view,
 }: FeedListSectionProps) {
-  const { data } = useGetFeedsInfiniteQuery({
-    categoryName,
-    sortBy,
-    hashtagName,
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useGetFeedsInfiniteQuery({
+      categoryName,
+      sortBy,
+      hashtagName,
+    });
+  const observerRef = useInfiniteScroll({
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
   });
 
   return (
     <div className="relative">
       <FeedListOptionGroup />
+
       <section className="flex flex-col pb-16 md:pb-16 md:pt-0">
         {data?.pages.map((page) =>
           page.content.map((feed) => {
@@ -35,6 +42,9 @@ export default function FeedListSection({
             return <FeedCardArticle key={feed.feedUuid} {...feed} link />;
           }),
         )}
+        <div ref={observerRef} className="">
+          {isFetchingNextPage ? "로딩중" : null}
+        </div>
       </section>
     </div>
   );

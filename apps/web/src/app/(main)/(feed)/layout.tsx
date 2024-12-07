@@ -1,8 +1,8 @@
-'use client';
-import { useState } from 'react';
-import { FeedTabHeader } from '@/components/feed-tab/organisms';
-import { Sidebar } from '@/components/common/organisms/SideBar';
-import InnerMobileContainer from '@/components/layouts/InnerMobileContainer';
+"use client";
+import { useState } from "react";
+import { FeedTabHeader } from "@/components/feed-tab/organisms";
+import { Sidebar } from "@/components/common/organisms/SideBar";
+import InnerMobileContainer from "@/components/layouts/InnerMobileContainer";
 
 export default function Layout({
   children,
@@ -12,10 +12,10 @@ export default function Layout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <>
+    <InnerMobileContainer>
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <FeedTabHeader onMenuClick={() => setSidebarOpen(true)} />
-      <InnerMobileContainer>{children}</InnerMobileContainer>
-    </>
+      {children}
+    </InnerMobileContainer>
   );
 }

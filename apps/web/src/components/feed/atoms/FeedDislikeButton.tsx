@@ -30,10 +30,10 @@ export function FeedDislikeButton({
       <span>
         <ThumbsDown
           size="1.25rem"
-          color={dislikeStatus.data ? "pink" : "#B1B1B1"}
+          className={dislikeStatus.data ? "text-pink-300" : "text-slate-400"}
         />
       </span>
-      <span className="text-sm text-gray-500">
+      <span className="text-sm text-slate-400">
         {Number(dislikeCount) + Number(dislikeStatus.data || 0)}
       </span>
     </ButtonWithAuth>

@@ -33,7 +33,7 @@ export function FeedCompactHeader({
   const { data: member, status } = useMemberCompactProfile({ memberUuid });
   if (status !== "success") return null;
   const profileImageUrl = member.profileImageUrl;
-  const nickname = member.nickname || memberUuid;
+  const nickname = member.nickname;
 
   return (
     <header className="flex flex-col mb-[0.25rem]">
@@ -45,7 +45,7 @@ export function FeedCompactHeader({
               link
             />
           </div>
-          <Link href={`/profile/${nickname}`} className="mr-[1rem]">
+          <Link href={`/profile/${nickname}`} className="mr-[1rem] text-nowrap">
             {nickname}
           </Link>
           <PostedAt {...{ createdAt, updatedAt }} />
