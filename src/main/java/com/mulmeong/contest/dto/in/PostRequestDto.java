@@ -1,7 +1,7 @@
 package com.mulmeong.contest.dto.in;
 
-import com.mulmeong.contest.entity.MediaType;
 import com.mulmeong.contest.entity.ContestPost;
+import com.mulmeong.contest.entity.MediaType;
 import com.mulmeong.contest.vo.in.PostRequestVo;
 import lombok.Builder;
 import lombok.Getter;
