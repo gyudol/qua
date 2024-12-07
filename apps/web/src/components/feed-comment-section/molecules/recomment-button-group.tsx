@@ -27,7 +27,7 @@ export function RecommentButtonGroup({
 
   return (
     <>
-      <ul className="flex">
+      <ul className="flex gap-[0.5rem] items-center">
         <li>
           <LikeButton
             {...{
@@ -49,7 +49,7 @@ export function RecommentButtonGroup({
         </li>
       </ul>
       {isReplyInputShowed ? (
-        <div>
+        <div className="my-[0.5rem]">
           <ReplyInput {...{ commentUuid, setIsReplyInputShowed }} />
         </div>
       ) : null}

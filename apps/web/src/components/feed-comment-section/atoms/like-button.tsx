@@ -1,10 +1,9 @@
-"use client";
-
-import { ThumbsUp } from "lucide-react";
-import { useSession } from "next-auth/react";
 import type { UseMutationResult } from "@tanstack/react-query";
+import { ThumbsUp } from "lucide-react";
+import { ButtonWithAuth } from "@/components/common/atoms";
+import { formatToNumAbbrs } from "@/functions/utils";
 
-interface LikeButtonProps {
+interface FeedLikeButtonProps {
   likeCount: number;
   likeStatus: {
     data: boolean | undefined;
@@ -20,21 +19,21 @@ interface LikeButtonProps {
   };
 }
 
-export function LikeButton({ likeCount, likeStatus }: LikeButtonProps) {
-  const { status } = useSession();
-
-  function toggleLike() {
-    if (status === "authenticated") {
-      likeStatus.mutation.mutate();
-    }
-  }
-
+export function LikeButton({ likeCount, likeStatus }: FeedLikeButtonProps) {
   return (
-    <button type="button" onClick={toggleLike} className="flex">
+    <ButtonWithAuth
+      className="flex gap-[0.5rem] items-center"
+      onClick={() => likeStatus.mutation.mutate()}
+    >
       <span>
-        <ThumbsUp stroke={likeStatus.data ? "skyblue" : "black"} />
+        <ThumbsUp
+          size="1.25rem"
+          className={likeStatus.data ? "text-sky-300" : "text-slate-400"}
+        />
       </span>
-      <span>{likeCount + Number(likeStatus.data)}</span>
-    </button>
+      <span className="text-sm text-slate-400">
+        {formatToNumAbbrs(Number(likeCount) + Number(likeStatus.data || 0))}
+      </span>
+    </ButtonWithAuth>
   );
 }

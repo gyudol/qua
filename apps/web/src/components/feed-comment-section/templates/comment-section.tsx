@@ -24,18 +24,22 @@ export function CommentSection({ feedUuid }: CommentSectionProps) {
   });
 
   return (
-    <section id="comment">
-      <CommentInput {...{ feedUuid }} />
-      {newCommentList?.map((comment) => (
-        <CommentView key={comment.commentUuid} {...comment} />
-      ))}
-      {data?.pages.map((page) => (
-        <React.Fragment key={page.pageNo}>
-          {page.content.map((comment) => (
-            <CommentView key={comment.commentUuid} {...comment} />
-          ))}
-        </React.Fragment>
-      ))}
+    <section id="comment" className="flex flex-col min-h-[50vh] p-[1rem]">
+      <div className="mb-[1rem]">
+        <CommentInput {...{ feedUuid }} />
+      </div>
+      <div>
+        {newCommentList?.map((comment) => (
+          <CommentView key={comment.commentUuid} {...comment} justNow />
+        ))}
+        {data?.pages.map((page) => (
+          <React.Fragment key={page.pageNo}>
+            {page.content.map((comment) => (
+              <CommentView key={comment.commentUuid} {...comment} />
+            ))}
+          </React.Fragment>
+        ))}
+      </div>
       <div ref={observerRef}>
         {isFetchingNextPage ? <p>loading more...</p> : null}
       </div>

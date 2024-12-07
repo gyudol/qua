@@ -25,7 +25,7 @@ export function CommentButtonGroup({
 
   return (
     <>
-      <ul className="flex">
+      <ul className="flex gap-[0.5rem] items-center">
         <li>
           <LikeButton {...{ likeCount, likeStatus }} />
         </li>
@@ -42,7 +42,7 @@ export function CommentButtonGroup({
         </li>
       </ul>
       {isReplyInputShowed ? (
-        <div>
+        <div className="my-[0.5rem]">
           <ReplyInput {...{ commentUuid, setIsReplyInputShowed }} />
         </div>
       ) : null}
