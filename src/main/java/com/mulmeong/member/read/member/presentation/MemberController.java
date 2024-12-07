@@ -1,7 +1,7 @@
 package com.mulmeong.member.read.member.presentation;
 
 import com.mulmeong.member.read.common.response.BaseResponse;
-import com.mulmeong.member.read.member.application.MemberService;
+import com.mulmeong.member.read.member.application.MemberHttpService;
 import com.mulmeong.member.read.member.dto.out.CompactProfileDto;
 import com.mulmeong.member.read.member.dto.out.MemberProfileDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,18 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MemberController {
 
-    private final MemberService memberService;
+    private final MemberHttpService memberHttpService;
 
-    @Operation(summary = "닉네임으로 회원 프로필 조회", description = "회원 프로필 화면에 필요한 정보를 조회합니다. 있는 거 다 꺼내줍니다.")
+    @Operation(summary = "닉네임으로 회원 프로필 조회", description = "회원 프로필 화면에 필요한 정보를 조회합니다. "
+            + "설계 변경으로 포인트는 Reward 서비스로 이동했습니다.")
     @GetMapping("/{nickname}/profile")
     public BaseResponse<MemberProfileDto> getMemberProfileByNickname(@PathVariable String nickname) {
-        return new BaseResponse<>(memberService.getProfileByNickname(nickname));
+        return new BaseResponse<>(memberHttpService.getProfileByNickname(nickname));
     }
 
-    @Operation(summary = "회원 UUID로 프로필 조회", description = "회원 프로필 화면에 필요한 정보를 조회합니다. 있는 거 다 꺼내줍니다.")
+    @Operation(summary = "회원 UUID로 프로필 조회", description = "회원 프로필 화면에 필요한 정보를 조회합니다."
+            + "설계 변경으로 포인트는 Reward 서비스로 이동했습니다.")
     @GetMapping("/uuid/{memberUuid}/profile")
     public BaseResponse<MemberProfileDto> getMemberProfileByUuid(@PathVariable String memberUuid) {
-        return new BaseResponse<>(memberService.getProfileByMemberUuid(memberUuid));
+        return new BaseResponse<>(memberHttpService.getProfileByMemberUuid(memberUuid));
     }
 
     @Operation(summary = "회원 UUID로 Compact 프로필 조회", description = "회원 닉네임, 프사, 포인트, 뱃지, 등급 반환. "
@@ -37,6 +39,6 @@ public class MemberController {
 
     @GetMapping("/{memberUuid}/compact-profile")
     public BaseResponse<CompactProfileDto> getCompactProfileByUuid(@PathVariable String memberUuid) {
-        return new BaseResponse<>(memberService.getCompactProfile(memberUuid));
+        return new BaseResponse<>(memberHttpService.getCompactProfile(memberUuid));
     }
 }

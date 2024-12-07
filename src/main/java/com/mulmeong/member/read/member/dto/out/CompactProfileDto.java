@@ -13,7 +13,6 @@ public class CompactProfileDto {
     private String memberUuid;
     private String nickname;
     private String profileImageUrl;
-    private Integer point;
     private String grade;
     private Badge equippedBadge;
 
@@ -22,7 +21,6 @@ public class CompactProfileDto {
                 .memberUuid(member.getMemberUuid())
                 .nickname(member.getNickname())
                 .profileImageUrl(member.getProfileImageUrl())
-                .point(member.getPoint())
                 .grade(member.getGrade())
                 .equippedBadge(member.getEquippedBadge())
                 .build();

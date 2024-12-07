@@ -20,7 +20,6 @@ public class MemberProfileDto {
     private String nickname;
     private String profileImageUrl;
     private LocalDateTime createdAt;
-    private Integer point;
     private String grade;
     private Badge equippedBadge;
     private Integer followerCount;
@@ -34,7 +33,6 @@ public class MemberProfileDto {
                 .nickname(member.getNickname())
                 .profileImageUrl(member.getProfileImageUrl())
                 .createdAt(member.getCreatedAt())
-                .point(member.getPoint())
                 .grade(member.getGrade())
                 .equippedBadge(member.getEquippedBadge())
                 .followerCount(member.getFollowerCount())

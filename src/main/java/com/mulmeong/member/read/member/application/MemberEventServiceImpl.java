@@ -1,32 +1,27 @@
 package com.mulmeong.member.read.member.application;
 
-import com.mulmeong.event.member.MemberCreateEvent;
-import com.mulmeong.event.member.MemberNicknameUpdateEvent;
-import com.mulmeong.event.member.MemberProfileImgUpdateEvent;
-import com.mulmeong.member.read.common.exception.BaseException;
+import com.mulmeong.event.member.*;
 import com.mulmeong.member.read.member.document.Member;
-import com.mulmeong.member.read.member.dto.out.CompactProfileDto;
-import com.mulmeong.member.read.member.dto.out.MemberProfileDto;
 import com.mulmeong.member.read.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import static com.mulmeong.member.read.common.response.BaseResponseStatus.NOT_FOUND_MEMBER;
-
+@Slf4j
 @RequiredArgsConstructor
 @Service
-public class MemberServiceImpl implements MemberService {
+public class MemberEventServiceImpl implements MemberEventService {
 
     private final MemberRepository memberRepository;
     private final MongoTemplate mongoTemplate;
 
     /**
      * 회원 Read DB 생성.
-     * Write DB에서 회원 생성 이벤트를 받아 처리.
+     * Write DB에서 회원 생성 이벤트를 받아 처리. 회원가입시 모르는 정보는 기본값으로 변환해 저장.
      *
      * @param event 회원 생성 Event
      */
@@ -59,45 +54,26 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 회원 프로필 조회 API
-     * 등록/수정이 되지 않은 필드들은 기본값으로 반환.(예: 집계데이터들).
+     * 회원 Read DB의 장착 뱃지 수정.
+     * 뱃지를 해제한 경우에는 null로 업데이트.
      *
-     * @param nickname 회원 닉네임
-     * @return 회원 프로필 DTO(Member Document와 같음)
+     * @param event 뱃지 장착/해제 이벤트
      */
     @Override
-    public MemberProfileDto getProfileByNickname(String nickname) {
-        return memberRepository.findByNickname(nickname)
-                .map(MemberProfileDto::fromDocument)
-                .orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
+    public void updateEquippedBadge(MemberBadgeUpdateEvent event) {
+        updateMemberField(event.getMemberUuid(),
+                "equippedBadge",
+                event.isEquipped() ? event.toEntity() : null);
     }
 
     /**
-     * 회원 프로필 조회 API
-     * 등록/수정이 되지 않은 필드들은 기본값으로 반환됩니다.(예: 집계데이터들).
+     * 회원 Read DB의 등급 업데이트.
      *
-     * @param memberUuid 회원 닉네임
-     * @return 회원 프로필 DTO(Member Document와 같음)
+     * @param event 등급 업데이트 이벤트
      */
     @Override
-    public MemberProfileDto getProfileByMemberUuid(String memberUuid) {
-        return memberRepository.findByMemberUuid(memberUuid)
-                .map(MemberProfileDto::fromDocument)
-                .orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
-    }
-
-    /**
-     * 회원 Compact 프로필 조회 API
-     * 피드, 쇼츠 등에서 사용되는 간단한 회원 프로필 조회.
-     *
-     * @param memberUuid 회원 닉네임
-     * @return 회원 프로필 DTO중 일부
-     */
-    @Override
-    public CompactProfileDto getCompactProfile(String memberUuid) {
-        return memberRepository.findByMemberUuid(memberUuid)
-                .map(CompactProfileDto::fromDocument)
-                .orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
+    public void updateGrade(MemberGradeUpdateEvent event) {
+        updateMemberField(event.getMemberUuid(), "grade", event.getGrade());
     }
 
     /**
