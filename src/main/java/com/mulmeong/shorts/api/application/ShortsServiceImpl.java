@@ -3,6 +3,7 @@ package com.mulmeong.shorts.api.application;
 import static com.mulmeong.shorts.common.response.BaseResponseStatus.SHORTS_NOT_FOUND;
 
 import com.mulmeong.shorts.api.dto.in.ShortsCreateDto;
+import com.mulmeong.shorts.api.dto.in.ShortsHashtagUpdateDto;
 import com.mulmeong.shorts.api.dto.in.ShortsInfoUpdateDto;
 import com.mulmeong.shorts.api.dto.in.ShortsStatusUpdateDto;
 import com.mulmeong.shorts.api.infrastructure.KafkaProducer;
@@ -50,6 +51,17 @@ public class ShortsServiceImpl implements ShortsService {
         shortsRepository.save(
             requestDto.toShortsEntity(shortsRepository.findByShortsUuid(requestDto.getShortsUuid())
                 .orElseThrow(() -> new BaseException(SHORTS_NOT_FOUND))));
+        kafkaProducer.send(requestDto.toEventEntity());
+    }
+
+    @Transactional
+    @Override
+    public void updateShortsHashtag(ShortsHashtagUpdateDto requestDto) {
+
+        shortsRepository.save(
+            requestDto.toShortsEntity(shortsRepository.findByShortsUuid(requestDto.getShortsUuid())
+                .orElseThrow(() -> new BaseException(SHORTS_NOT_FOUND))));
+        shortsHashtagRepository.save(requestDto.toShortsHashtagEntity());
         kafkaProducer.send(requestDto.toEventEntity());
     }
 

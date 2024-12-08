@@ -2,9 +2,11 @@ package com.mulmeong.shorts.api.presentation;
 
 import com.mulmeong.shorts.api.application.ShortsService;
 import com.mulmeong.shorts.api.dto.in.ShortsCreateDto;
+import com.mulmeong.shorts.api.dto.in.ShortsHashtagUpdateDto;
 import com.mulmeong.shorts.api.dto.in.ShortsInfoUpdateDto;
 import com.mulmeong.shorts.api.dto.in.ShortsStatusUpdateDto;
 import com.mulmeong.shorts.api.vo.in.ShortsCreateVo;
+import com.mulmeong.shorts.api.vo.in.ShortsHashtagUpdateVo;
 import com.mulmeong.shorts.api.vo.in.ShortsInfoUpdateVo;
 import com.mulmeong.shorts.api.vo.in.ShortsStatusUpdateVo;
 import com.mulmeong.shorts.common.response.BaseResponse;
@@ -54,6 +56,15 @@ public class AuthRequiredShortsController {
         @PathVariable String shortsUuid, @RequestBody ShortsStatusUpdateVo requestVo) {
 
         shortsService.updateShortsStatus(ShortsStatusUpdateDto.toDto(shortsUuid, requestVo));
+        return new BaseResponse<>();
+    }
+
+    @Operation(summary = "Shorts Hashtag 수정 API")
+    @PutMapping("/{shortsUuid}/hashtags")
+    public BaseResponse<Void> updateShortsHashtag(
+        @PathVariable String shortsUuid, @RequestBody @Valid ShortsHashtagUpdateVo requestVo) {
+
+        shortsService.updateShortsHashtag(ShortsHashtagUpdateDto.toDto(shortsUuid, requestVo));
         return new BaseResponse<>();
     }
 

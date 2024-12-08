@@ -1,6 +1,7 @@
 package com.mulmeong.shorts.api.infrastructure;
 
 import com.mulmeong.shorts.api.domain.event.ShortsCreateEvent;
+import com.mulmeong.shorts.api.domain.event.ShortsHashtagUpdateEvent;
 import com.mulmeong.shorts.api.domain.event.ShortsInfoUpdateEvent;
 import com.mulmeong.shorts.api.domain.event.ShortsStatusUpdateEvent;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,12 @@ public class KafkaProducer {
         log.info("Sending ShortsStatusUpdateEvent: {}, topic: {}", event,
             shortsStatusUpdateEventTopic);
         kafkaTemplate.send(shortsStatusUpdateEventTopic, event);
+    }
+
+    public void send(ShortsHashtagUpdateEvent event) {
+        log.info("Sending ShortsHashtagUpdateEvent: {}, topic: {}", event,
+            shortsHashtagUpdateEventTopic);
+        kafkaTemplate.send(shortsHashtagUpdateEventTopic, event);
     }
 
 }
