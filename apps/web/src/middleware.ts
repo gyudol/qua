@@ -12,7 +12,7 @@ const routes = {
 const FALLBACK_URL = "/";
 
 const withAuthList = [routes.mypage];
-const withOutAuthList = [
+const withoutAuthList = [
   routes.signIn,
   routes.signup,
   routes.testAccountSignIn,
@@ -29,7 +29,7 @@ const withAuth = (req: NextRequest, token: boolean) => {
   }
 };
 
-const withOutAuth = (req: NextRequest, token: boolean, to: string | null) => {
+const withoutAuth = (req: NextRequest, token: boolean, to: string | null) => {
   const url = req.nextUrl.clone();
 
   if (token) {
@@ -54,12 +54,12 @@ export default async function middleware(request: NextRequest) {
 
   // ** 경로에 따른 처리 **
   const isWithAuth = withAuthList.includes(pathname);
-  const isWithOutAuth = withOutAuthList.includes(pathname);
+  const isWithoutAuth = withoutAuthList.includes(pathname);
 
   if (isWithAuth) {
     return withAuth(request, Boolean(accessToken));
-  } else if (isWithOutAuth) {
-    return withOutAuth(request, Boolean(accessToken), callbackUrl);
+  } else if (isWithoutAuth) {
+    return withoutAuth(request, Boolean(accessToken), callbackUrl);
   }
 
   // ** 기본 응답 **
