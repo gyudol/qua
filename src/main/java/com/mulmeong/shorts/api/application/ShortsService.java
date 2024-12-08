@@ -15,4 +15,6 @@ public interface ShortsService {
 
     void updateShortsHashtag(ShortsHashtagUpdateDto requestDto);
 
+    void deleteShorts(String shortsUuid);
+
 }

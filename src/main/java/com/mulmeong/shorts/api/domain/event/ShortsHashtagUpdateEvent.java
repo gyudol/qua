@@ -4,7 +4,9 @@ import com.mulmeong.shorts.api.domain.model.Hashtag;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class ShortsHashtagUpdateEvent {
 
     private String shortsUuid;

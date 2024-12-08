@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,8 +32,8 @@ public class AuthRequiredShortsController {
 
     @Operation(summary = "Shorts 생성 API", description = """
         - Visibility: `VISIBLE` / `HIDDEN` / `REPORTED`<br>
-        - MediaType: `IMAGE` / `VIDEO_THUMBNAIL` / `VIDEO_360` / `VIDEO_540` / `VIDEO_720` / `VIDEO_MP4`<br><br>
-        - playtime: second 기준으로 입력 ex) 90 sec => 90 저장
+        - MediaType: `VIDEO_THUMBNAIL` / `VIDEO_360` / `VIDEO_540` / `VIDEO_720` / `VIDEO_MP4`<br><br>
+        - playtime: second 기준으로 입력 ex) 90 sec => 90 저장 **(Range: 0 ~ 32767)**
         - ShortsMedia 테이블은 **FE에서 생성한 MediaUUID를 기본키로 설정**하는 것에 주의""")
     @PostMapping
     public BaseResponse<Void> createShorts(@RequestBody @Valid ShortsCreateVo requestVo) {
@@ -41,7 +42,8 @@ public class AuthRequiredShortsController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "Shorts 정보 수정 API")
+    @Operation(summary = "Shorts 정보 수정 API",
+        description = "playtime: second 기준으로 입력 ex) 90 sec => 90 저장 **(Range: 0 ~ 32767)**")
     @PutMapping("/{shortsUuid}")
     public BaseResponse<Void> updateShortsInfo(
         @PathVariable("shortsUuid") String shortsUuid, @RequestBody ShortsInfoUpdateVo requestVo) {
@@ -65,6 +67,14 @@ public class AuthRequiredShortsController {
         @PathVariable String shortsUuid, @RequestBody @Valid ShortsHashtagUpdateVo requestVo) {
 
         shortsService.updateShortsHashtag(ShortsHashtagUpdateDto.toDto(shortsUuid, requestVo));
+        return new BaseResponse<>();
+    }
+
+    @Operation(summary = "Shorts 삭제 API")
+    @DeleteMapping("/{shortsUuid}")
+    public BaseResponse<Void> deleteShorts(@PathVariable String shortsUuid) {
+
+        shortsService.deleteShorts(shortsUuid);
         return new BaseResponse<>();
     }
 

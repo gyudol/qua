@@ -1,6 +1,7 @@
 package com.mulmeong.shorts.api.infrastructure;
 
 import com.mulmeong.shorts.api.domain.event.ShortsCreateEvent;
+import com.mulmeong.shorts.api.domain.event.ShortsDeleteEvent;
 import com.mulmeong.shorts.api.domain.event.ShortsHashtagUpdateEvent;
 import com.mulmeong.shorts.api.domain.event.ShortsInfoUpdateEvent;
 import com.mulmeong.shorts.api.domain.event.ShortsStatusUpdateEvent;
@@ -20,7 +21,7 @@ public class KafkaProducer {
     @Value("${event.shorts.pub.topics.shorts-create.name}")
     private String shortsCreateEventTopic;
 
-    @Value("${event.shorts.pub.topics.shorts-delete.name")
+    @Value("${event.shorts.pub.topics.shorts-delete.name}")
     private String shortsDeleteEventTopic;
 
     @Value("${event.shorts.pub.topics.shorts-update.name}")
@@ -52,6 +53,11 @@ public class KafkaProducer {
         log.info("Sending ShortsHashtagUpdateEvent: {}, topic: {}", event,
             shortsHashtagUpdateEventTopic);
         kafkaTemplate.send(shortsHashtagUpdateEventTopic, event);
+    }
+
+    public void send(ShortsDeleteEvent event) {
+        log.info("Sending ShortsDeleteEvent: {}, topic: {}", event, shortsDeleteEventTopic);
+        kafkaTemplate.send(shortsDeleteEventTopic, event);
     }
 
 }

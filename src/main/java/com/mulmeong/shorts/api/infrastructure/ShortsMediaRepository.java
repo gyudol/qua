@@ -5,4 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface ShortsMediaRepository extends MongoRepository<ShortsMedia, String> {
 
+    void deleteByShortsUuid(String shortsUuid);
+
 }

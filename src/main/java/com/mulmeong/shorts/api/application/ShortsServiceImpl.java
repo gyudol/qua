@@ -2,6 +2,7 @@ package com.mulmeong.shorts.api.application;
 
 import static com.mulmeong.shorts.common.response.BaseResponseStatus.SHORTS_NOT_FOUND;
 
+import com.mulmeong.shorts.api.domain.event.ShortsDeleteEvent;
 import com.mulmeong.shorts.api.dto.in.ShortsCreateDto;
 import com.mulmeong.shorts.api.dto.in.ShortsHashtagUpdateDto;
 import com.mulmeong.shorts.api.dto.in.ShortsInfoUpdateDto;
@@ -63,6 +64,17 @@ public class ShortsServiceImpl implements ShortsService {
                 .orElseThrow(() -> new BaseException(SHORTS_NOT_FOUND))));
         shortsHashtagRepository.save(requestDto.toShortsHashtagEntity());
         kafkaProducer.send(requestDto.toEventEntity());
+    }
+
+    @Transactional
+    @Override
+    public void deleteShorts(String shortsUuid) {
+
+        shortsRepository.delete(shortsRepository.findByShortsUuid(shortsUuid)
+            .orElseThrow(() -> new BaseException(SHORTS_NOT_FOUND)));
+        shortsHashtagRepository.deleteById(shortsUuid);
+        shortsMediaRepository.deleteByShortsUuid(shortsUuid);
+        kafkaProducer.send(new ShortsDeleteEvent(shortsUuid));
     }
 
 }
