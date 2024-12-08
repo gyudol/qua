@@ -1,14 +1,17 @@
 package com.mulmeong.shorts.read.api.presentation;
 
 import com.mulmeong.shorts.read.api.application.ShortsQueryService;
+import com.mulmeong.shorts.read.api.dto.in.ShortsRecommendationRequestDto;
 import com.mulmeong.shorts.read.api.dto.out.ShortsResponseDto;
 import com.mulmeong.shorts.read.common.response.BaseResponse;
+import com.mulmeong.shorts.read.common.utils.CursorPage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Shorts Query")
@@ -28,6 +31,20 @@ public class ShortsQueryController {
     public BaseResponse<ShortsResponseDto> getSingleShorts(@PathVariable String shortsUuid) {
 
         return new BaseResponse<>(shortsQueryService.getSingleShorts(shortsUuid));
+    }
+
+    @Operation(summary = "비회원에게 추천되는 Shorts 목록 조회 API", description = """
+        - netLikes 내림차순 조회<br><br>
+        - Visibility: `VISIBLE`인 쇼츠 목록만 조회
+        """)
+    @GetMapping("/recommendation")
+    public BaseResponse<CursorPage<ShortsResponseDto>> getRecommendedShortsForGuest(
+        @RequestParam(required = false, name = "nextCursor") String lastId,
+        @RequestParam(required = false) Integer pageSize,
+        @RequestParam(required = false) Integer pageNo) {
+
+        return new BaseResponse<>(shortsQueryService.getRecommendedShorts(
+            ShortsRecommendationRequestDto.toDto(null, false, lastId, pageSize, pageNo)));
     }
 
 }

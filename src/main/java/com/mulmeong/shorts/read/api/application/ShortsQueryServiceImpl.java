@@ -3,6 +3,7 @@ package com.mulmeong.shorts.read.api.application;
 import static com.mulmeong.shorts.read.common.response.BaseResponseStatus.SHORTS_NOT_FOUND;
 
 import com.mulmeong.shorts.read.api.dto.in.ShortsAuthorRequestDto;
+import com.mulmeong.shorts.read.api.dto.in.ShortsRecommendationRequestDto;
 import com.mulmeong.shorts.read.api.dto.out.ShortsResponseDto;
 import com.mulmeong.shorts.read.api.infrastructure.ShortsCustomRepository;
 import com.mulmeong.shorts.read.api.infrastructure.ShortsQueryRepository;
@@ -31,6 +32,13 @@ public class ShortsQueryServiceImpl implements ShortsQueryService {
     public CursorPage<ShortsResponseDto> getShortsByAuthor(ShortsAuthorRequestDto requestDto) {
 
         return shortsCustomRepository.getShortsByAuthor(requestDto);
+    }
+
+    @Override
+    public CursorPage<ShortsResponseDto> getRecommendedShorts(
+        ShortsRecommendationRequestDto requestDto) {
+
+        return shortsCustomRepository.getRecommendedShorts(requestDto);
     }
 
 }
