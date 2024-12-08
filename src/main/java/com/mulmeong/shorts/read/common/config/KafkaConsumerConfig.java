@@ -43,7 +43,9 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ShortsHashtagUpdateEvent> shortsHashtagUpdateEventListener() {
+    public ConcurrentKafkaListenerContainerFactory<String, ShortsHashtagUpdateEvent>
+        shortsHashtagUpdateEventListener() {
+
         return kafkaListenerContainerFactory(ShortsHashtagUpdateEvent.class);
     }
 
