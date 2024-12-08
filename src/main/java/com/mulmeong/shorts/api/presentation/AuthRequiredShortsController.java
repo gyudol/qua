@@ -3,8 +3,10 @@ package com.mulmeong.shorts.api.presentation;
 import com.mulmeong.shorts.api.application.ShortsService;
 import com.mulmeong.shorts.api.dto.in.ShortsCreateDto;
 import com.mulmeong.shorts.api.dto.in.ShortsInfoUpdateDto;
+import com.mulmeong.shorts.api.dto.in.ShortsStatusUpdateDto;
 import com.mulmeong.shorts.api.vo.in.ShortsCreateVo;
 import com.mulmeong.shorts.api.vo.in.ShortsInfoUpdateVo;
+import com.mulmeong.shorts.api.vo.in.ShortsStatusUpdateVo;
 import com.mulmeong.shorts.common.response.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,6 +45,15 @@ public class AuthRequiredShortsController {
         @PathVariable("shortsUuid") String shortsUuid, @RequestBody ShortsInfoUpdateVo requestVo) {
 
         shortsService.updateShortsInfo(ShortsInfoUpdateDto.toDto(shortsUuid, requestVo));
+        return new BaseResponse<>();
+    }
+
+    @Operation(summary = "Shorts Visibility 상태 수정 API", description = "Visibility: `VISIBLE` / `HIDDEN` / `REPORTED`")
+    @PutMapping("/{shortsUuid}/status")
+    public BaseResponse<Void> updateShortsStatus(
+        @PathVariable String shortsUuid, @RequestBody ShortsStatusUpdateVo requestVo) {
+
+        shortsService.updateShortsStatus(ShortsStatusUpdateDto.toDto(shortsUuid, requestVo));
         return new BaseResponse<>();
     }
 

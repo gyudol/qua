@@ -64,7 +64,7 @@ public class ShortsCreateDto {
     }
 
     public ShortsHashtag toShortsHashtagEntity() {
-        if(hashtags == null) {
+        if (hashtags == null) {
             hashtags = List.of();
         }
 

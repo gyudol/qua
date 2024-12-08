@@ -2,6 +2,7 @@ package com.mulmeong.shorts.api.infrastructure;
 
 import com.mulmeong.shorts.api.domain.event.ShortsCreateEvent;
 import com.mulmeong.shorts.api.domain.event.ShortsInfoUpdateEvent;
+import com.mulmeong.shorts.api.domain.event.ShortsStatusUpdateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +39,12 @@ public class KafkaProducer {
     public void send(ShortsInfoUpdateEvent event) {
         log.info("Sending ShortsInfoUpdateEvent: {}, topic: {}", event, shortsInfoUpdateEventTopic);
         kafkaTemplate.send(shortsInfoUpdateEventTopic, event);
+    }
+
+    public void send(ShortsStatusUpdateEvent event) {
+        log.info("Sending ShortsStatusUpdateEvent: {}, topic: {}", event,
+            shortsStatusUpdateEventTopic);
+        kafkaTemplate.send(shortsStatusUpdateEventTopic, event);
     }
 
 }
