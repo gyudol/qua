@@ -10,6 +10,11 @@ export interface GetFeedsReq extends CommonPaginationReq {
 
 export type GetFeedReq = FeedReq;
 
+export interface GetMemberFeeds extends CommonPaginationReq {
+  memberUuid: string;
+  sortBy?: "latest" | "likes";
+}
+
 export interface Feed {
   feedUuid: string;
   memberUuid: string;
