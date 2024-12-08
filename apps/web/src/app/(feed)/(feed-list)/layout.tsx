@@ -3,12 +3,13 @@ import { useState } from "react";
 import { FeedTabHeader } from "@/components/feed-tab/organisms";
 import { Sidebar } from "@/components/common/organisms/SideBar";
 import InnerMobileContainer from "@/components/layouts/InnerMobileContainer";
+import { CommonGbnb } from "@/components/common/organisms";
 
-export default function Layout({
-  children,
-}: {
+interface FeedListLayoutProps {
   children: React.ReactNode;
-}): JSX.Element {
+}
+
+export default function Layout({ children }: FeedListLayoutProps): JSX.Element {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -16,6 +17,7 @@ export default function Layout({
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <FeedTabHeader onMenuClick={() => setSidebarOpen(true)} />
       {children}
+      <CommonGbnb />
     </InnerMobileContainer>
   );
 }

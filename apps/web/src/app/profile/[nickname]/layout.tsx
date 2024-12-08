@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import type { PropsWithChildren } from "react";
+import InnerMobileContainer from "@/components/layouts/InnerMobileContainer";
+import { CommonGbnb } from "@/components/common/organisms";
 
 export const metadata: Metadata = {
   title: {
@@ -20,5 +22,10 @@ export const metadata: Metadata = {
 export default function ChatroomLayout({
   children,
 }: PropsWithChildren): JSX.Element {
-  return <>{children}</>;
+  return (
+    <InnerMobileContainer>
+      {children}
+      <CommonGbnb />
+    </InnerMobileContainer>
+  );
 }

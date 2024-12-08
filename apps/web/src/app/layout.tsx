@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "@/app/globals.css";
-import "@repo/ui/styles.css";
 import { CustomToaster } from "@repo/ui/shadcn/customSonner";
 import { getServerSession } from "next-auth";
 import QueryClientProvider from "@/components/common/molecules/QueryClientProvider";
@@ -9,6 +7,9 @@ import Bubbles from "@/components/fish/Bubbles";
 import Aquarium from "@/components/fish/Aquarium";
 import SessionContextProvider from "@/provider/SessionContextProvider";
 import { options } from "./api/auth/[...nextauth]/authOption";
+import "@/app/globals.css";
+import "@repo/ui/styles.css";
+import "swiper/css";
 
 const inter = Inter({ subsets: ["latin"] });
 
