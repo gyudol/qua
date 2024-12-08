@@ -16,8 +16,14 @@ import {
 } from "@repo/ui/shadcn/dialog";
 import { useCommentDrawerContext } from "@/context/DrawerContext";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { CommentSection } from "@/components/shorts-comment-section/templates";
+import type { ShortsComment } from "@/types/comment/comment-read-service";
 
-export default function ShortsCommentDrawer() {
+type ShortsCommentDrawerProps = Pick<ShortsComment, "shortsUuid">;
+
+export default function ShortsCommentDrawer({
+  shortsUuid,
+}: ShortsCommentDrawerProps) {
   const { open, commentTarget, setOpen } = useCommentDrawerContext();
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -34,6 +40,7 @@ export default function ShortsCommentDrawer() {
             <DialogTitle>댓글창</DialogTitle>
             <DialogDescription>{commentTarget?.targetUuid}</DialogDescription>
           </DialogHeader>
+          <CommentSection {...{ shortsUuid }} />
         </DialogContent>
       </Dialog>
     );
@@ -50,7 +57,7 @@ export default function ShortsCommentDrawer() {
           <DrawerTitle>댓글창</DrawerTitle>
           <DrawerDescription>{commentTarget?.targetUuid}</DrawerDescription>
         </DrawerHeader>
-        {commentTarget?.targetUuid}
+        <CommentSection {...{ shortsUuid }} />
       </DrawerContent>
     </Drawer>
   );
