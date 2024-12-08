@@ -26,10 +26,10 @@ public enum BaseResponseStatus {
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "서버에서 예기치 않은 오류가 발생했습니다."),
 
     /**
-     * 1000: Feed Service 에러.
+     * 2000: Shorts Service 에러.
      */
-    FEED_FORBIDDEN(HttpStatus.FORBIDDEN, false, 1003, "피드 접근 권한이 없습니다."),
-    FEED_NOT_FOUND(HttpStatus.NOT_FOUND, false, 1004, "존재하지 않는 게시글 정보입니다.");
+    SHORTS_FORBIDDEN(HttpStatus.FORBIDDEN, false, 1003, "쇼츠 접근 권한이 없습니다."),
+    SHORTS_NOT_FOUND(HttpStatus.NOT_FOUND, false, 1004, "존재하지 않는 쇼츠 정보입니다.");
 
     private final HttpStatusCode httpStatusCode;
     private final boolean isSuccess;

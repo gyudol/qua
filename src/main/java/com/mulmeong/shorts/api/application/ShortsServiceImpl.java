@@ -1,10 +1,14 @@
 package com.mulmeong.shorts.api.application;
 
+import static com.mulmeong.shorts.common.response.BaseResponseStatus.SHORTS_NOT_FOUND;
+
 import com.mulmeong.shorts.api.dto.in.ShortsCreateDto;
+import com.mulmeong.shorts.api.dto.in.ShortsInfoUpdateDto;
 import com.mulmeong.shorts.api.infrastructure.KafkaProducer;
 import com.mulmeong.shorts.api.infrastructure.ShortsHashtagRepository;
 import com.mulmeong.shorts.api.infrastructure.ShortsMediaRepository;
 import com.mulmeong.shorts.api.infrastructure.ShortsRepository;
+import com.mulmeong.shorts.common.exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +29,16 @@ public class ShortsServiceImpl implements ShortsService {
         shortsRepository.save(requestDto.toShortsEntity());
         shortsMediaRepository.save(requestDto.toShortsMediaEntity());
         shortsHashtagRepository.save(requestDto.toShortsHashtagEntity());
+        kafkaProducer.send(requestDto.toEventEntity());
+    }
+
+    @Transactional
+    @Override
+    public void updateShortsInfo(ShortsInfoUpdateDto requestDto) {
+
+        shortsRepository.save(
+            requestDto.toShortsEntity(shortsRepository.findByShortsUuid(requestDto.getShortsUuid())
+                .orElseThrow(() -> new BaseException(SHORTS_NOT_FOUND))));
         kafkaProducer.send(requestDto.toEventEntity());
     }
 
