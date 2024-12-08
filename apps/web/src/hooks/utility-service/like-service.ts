@@ -42,7 +42,10 @@ export function useLikeService({
     isError: isLikeStatusError,
   } = useQuery<boolean>({
     queryKey: likeStatusQK,
-    queryFn: () => getLikeStatus({ ...kindReq }),
+    queryFn: () => {
+      if (!isAuthenticated) return false;
+      return getLikeStatus({ ...kindReq });
+    },
   });
 
   const {
@@ -51,7 +54,10 @@ export function useLikeService({
     isError: isDislikeStatusError,
   } = useQuery<boolean>({
     queryKey: dislikeStatusQK,
-    queryFn: () => getDislikeStatus({ ...kindReq }),
+    queryFn: () => {
+      if (!isAuthenticated) return false;
+      return getDislikeStatus({ ...kindReq });
+    },
   });
 
   const postReq = { ...kindReq, memberUuid };
