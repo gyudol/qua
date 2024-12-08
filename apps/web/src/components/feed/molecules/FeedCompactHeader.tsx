@@ -4,7 +4,7 @@ import Link from "next/link";
 import { PostedAt } from "@/components/common/atoms";
 import { useMemberCompactProfile } from "@/hooks";
 import type { Feed } from "@/types/feed/feed-read-service";
-import { MemberProfileImage } from "@/components/profile/templates/atoms/MemberProfileImage";
+import { MemberProfileImage } from "@/components/profile/atoms/MemberProfileImage";
 import { FeedTitle } from "../atoms/FeedTitle";
 import { FeedMoreOption } from "./FeedMoreOption";
 

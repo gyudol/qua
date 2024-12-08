@@ -6,7 +6,7 @@ import { PostedAt } from "@/components/common/atoms";
 import type { FeedRecomment } from "@/types/comment/comment-read-service";
 import { useGetFeedRecommentQuery } from "@/hooks";
 import { useMemberCompactProfile } from "@/hooks/member-read-service";
-import { MemberProfileImage } from "@/components/profile/templates/atoms/MemberProfileImage";
+import { MemberProfileImage } from "@/components/profile/atoms/MemberProfileImage";
 import { RecommentButtonGroup } from "../molecules";
 import { RecommentEditInput, RecommentMoreButton } from "../atoms";
 

@@ -6,7 +6,7 @@ import type { FeedComment } from "@/types/comment/comment-read-service";
 import { PostedAt } from "@/components/common/atoms";
 import { useGetFeedCommentQuery } from "@/hooks";
 import { useMemberCompactProfile } from "@/hooks/member-read-service";
-import { MemberProfileImage } from "@/components/profile/templates/atoms/MemberProfileImage";
+import { MemberProfileImage } from "@/components/profile/atoms/MemberProfileImage";
 import { CommentEditInput, CommentMoreButton } from "../atoms";
 import { CommentButtonGroup } from "../molecules";
 import { RecommentViewList } from "./recomment-view-list";
