@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Profile } from "@/components/@legacy/profile/molecules";
 import { Skeleton } from "@/components/common/atoms";
+import { MemberProfileImage } from "@/components/profile/atoms/MemberProfileImage";
 
 interface ChatroomListItemProp {
   chatroomUuid: string;
@@ -10,7 +10,7 @@ export function ChatroomListItemSkeleton() {
   return (
     <div className="flex gap-x-3 items-center px-7 py-2">
       <div className="flex">
-        <Profile.PictureSkeleton />
+        <Skeleton className="w-[3rem] h-[3rem] rounded-full" />
       </div>
       <div className="flex-1 flex flex-col gap-y-1">
         <Skeleton className="w-16 h-4 rounded-full" />
@@ -43,7 +43,10 @@ export function ChatroomListItem({ chatroomUuid }: ChatroomListItemProp) {
       className="flex gap-x-3 items-center px-7 py-2"
     >
       <div className="flex">
-        <Profile.Picture src={profileImageUrl} alt={nickname} />
+        <MemberProfileImage
+          {...{ profileImageUrl, nickname, size: "3rem" }}
+          link
+        />
       </div>
       <div className="flex-1 flex flex-col">
         <div className="h-auto font-bold">{nickname}</div>
