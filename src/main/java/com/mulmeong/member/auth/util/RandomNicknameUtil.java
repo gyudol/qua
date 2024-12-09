@@ -13,7 +13,7 @@ public class RandomNicknameUtil {
         String fish = fishes[random.nextInt(fishes.length)];
         String randomCode = generateRandomCode();
 
-        return adjective + fish + "#" + randomCode;
+        return adjective + fish + "-" + randomCode;
     }
 
     private String generateRandomCode() {
