@@ -1,11 +1,9 @@
-import { Separator } from '@repo/ui/shadcn/separator';
-import type { Feed } from '@/types/feed/feed-read-service';
-import { FeedHeader } from '../molecules/FeedHeader';
-import { FeedBody } from '../molecules/FeedBody';
-import { FeedGallery } from '../molecules/FeedGallery';
-import { FeedButtonGroup } from '../molecules/FeedButtonGroup';
-import { FeedFooter } from '../molecules/FeedFooter';
-import { Suspense } from 'react';
+import type { Feed } from "@/types/feed/feed-read-service";
+import { FeedHeader } from "../molecules/FeedHeader";
+import { FeedBody } from "../molecules/FeedBody";
+import { FeedGallery } from "../molecules/FeedGallery";
+import { FeedButtonGroup } from "../molecules/FeedButtonGroup";
+import { FeedFooter } from "../molecules/FeedFooter";
 
 interface FeedCardArticleProps extends Feed {
   link?: boolean;

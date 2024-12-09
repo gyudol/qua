@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { PostedAt } from '@/components/common/atoms';
-import { useMemberCompactProfile } from '@/hooks';
-import type { Feed } from '@/types/feed/feed-read-service';
-import { MemberProfileImage } from '@/components/profile/atoms/MemberProfileImage';
-import { FeedMoreOption } from './FeedMoreOption';
+import Link from "next/link";
+import { PostedAt } from "@/components/common/atoms";
+import { useMemberCompactProfile } from "@/hooks";
+import type { Feed } from "@/types/feed/feed-read-service";
+import { MemberProfileImage } from "@/components/profile/atoms/MemberProfileImage";
+import { FeedMoreOption } from "./FeedMoreOption";
 
 interface FeedHeaderProps
-  extends Pick<Feed, 'feedUuid' | 'memberUuid' | 'createdAt' | 'updatedAt'> {
+  extends Pick<Feed, "feedUuid" | "memberUuid" | "createdAt" | "updatedAt"> {
   link?: boolean;
 }
 
@@ -17,11 +17,10 @@ export function FeedHeader({
   memberUuid,
   createdAt,
   updatedAt,
-  link,
 }: FeedHeaderProps) {
   const { data: member, status } = useMemberCompactProfile({ memberUuid });
-  if (status === 'pending') return <div className="h-10">loading</div>;
-  if (status !== 'success') return null;
+  if (status === "pending") return <div className="h-10">loading</div>;
+  if (status !== "success") return null;
   const profileImageUrl = member.profileImageUrl;
   const nickname = member.nickname || memberUuid;
 
@@ -31,7 +30,7 @@ export function FeedHeader({
         <div className="flex items-center mb-[0.25rem]">
           <div className="mr-[1rem]">
             <MemberProfileImage
-              {...{ size: '2.4rem', profileImageUrl, nickname }}
+              {...{ size: "2.4rem", profileImageUrl, nickname }}
               link
             />
           </div>

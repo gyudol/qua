@@ -1,7 +1,7 @@
-'use client';
-import Image from 'next/image';
-import Hls from 'hls.js';
-import { useEffect, useState, useRef } from 'react';
+"use client";
+import Image from "next/image";
+import Hls from "hls.js";
+import { useEffect, useState, useRef } from "react";
 import type { ImageMedia, VideoMedia } from "@/types/media";
 
 interface FeedGalleryItemProps {
@@ -16,16 +16,16 @@ export function FeedGalleryItem({ media, className }: FeedGalleryItemProps) {
   const { mediaType, assets } = media;
 
   useEffect(() => {
-    if (mediaType === 'VIDEO' && videoRef.current) {
+    if (mediaType === "VIDEO" && videoRef.current) {
       const { mediaUrl } = assets.STREAMING_720;
 
-      if (mediaUrl.endsWith('m3u8') && Hls.isSupported()) {
+      if (mediaUrl.endsWith("m3u8") && Hls.isSupported()) {
         const hls = new Hls();
         hls.loadSource(`https://media.qua.world/${mediaUrl}`);
         hls.attachMedia(videoRef.current);
         return () => hls.destroy();
       } else if (
-        videoRef.current.canPlayType('application/vnd.apple.mpegurl')
+        videoRef.current.canPlayType("application/vnd.apple.mpegurl")
       ) {
         // iOS Safari 지원
         videoRef.current.src = `https://media.qua.world/${mediaUrl}`;
@@ -38,8 +38,6 @@ export function FeedGalleryItem({ media, className }: FeedGalleryItemProps) {
       const videoWidth = videoRef.current.videoWidth;
       const videoHeight = videoRef.current.videoHeight;
       setAspectRatio(videoWidth / videoHeight); // 비율 계산
-      console.log('metadata loaded', videoWidth, videoHeight, aspectRatio);
-      console.log(screen.width / (10 - aspectRatio));
     }
   };
 
@@ -54,7 +52,7 @@ export function FeedGalleryItem({ media, className }: FeedGalleryItemProps) {
     }
   };
 
-  if (mediaType === 'IMAGE') {
+  if (mediaType === "IMAGE") {
     const { mediaUrl, description } = assets.IMAGE;
     return (
       <figure className={`${className}`}>
@@ -81,7 +79,7 @@ export function FeedGalleryItem({ media, className }: FeedGalleryItemProps) {
     >
       <video
         ref={videoRef}
-        className="w-full h-full object-cover"
+        className={`w-full aspect-[${aspectRatio}]`}
         preload="metadata"
         onLoadedMetadata={handleMetadataLoaded}
         onClick={() => togglePlayPause()}
