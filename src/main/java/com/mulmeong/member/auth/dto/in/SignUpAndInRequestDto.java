@@ -6,6 +6,7 @@ import com.mulmeong.member.auth.util.RandomNicknameUtil;
 import com.mulmeong.member.auth.vo.in.SignUpAndSignInRequestVo;
 import com.mulmeong.member.common.exception.BaseException;
 import com.mulmeong.member.common.response.BaseResponseStatus;
+import org.springframework.beans.factory.annotation.Value;
 import lombok.*;
 
 import java.util.UUID;
@@ -19,6 +20,9 @@ public class SignUpAndInRequestDto {
     private String oauthId;
     private String oauthProvider;
     private String email;
+
+    @Value("${defaultProfileImage.url}")
+    private String defaultProfileImage;
 
     public static SignUpAndInRequestDto toDto(SignUpAndSignInRequestVo requestVo) {
 
@@ -41,7 +45,7 @@ public class SignUpAndInRequestDto {
                 .oauthProvider(oauthProvider)
                 .email(email)
                 .nickname(randomNicknameUtil.generateNickname()) // 랜덤 닉네임(경우의수 840억)
-                .profileImageUrl("image/198af19d-bbc6-4252-a632-d1a1ccd5c659.webp")
+                .profileImageUrl(defaultProfileImage)
                 .build();
     }
 
