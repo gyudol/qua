@@ -38,7 +38,7 @@ public class ShortsCustomRepository {     // QueryDSL Repository
 
         BooleanBuilder builder = new BooleanBuilder();
 
-        if (!requestDto.getRequesterUuid().equals(requestDto.getAuthorUuid())) {
+        if (!requestDto.isOwner()) {
             builder.and(shorts.visibility.eq(Visibility.VISIBLE));
         }
         Optional.ofNullable(requestDto.getAuthorUuid()).ifPresent(author ->

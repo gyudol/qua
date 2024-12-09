@@ -9,14 +9,14 @@ import lombok.Getter;
 public class ShortsAuthorRequestDto extends BasePaginationRequestDto {
 
     private String authorUuid;
-    private String requesterUuid;
+    private boolean isOwner;
 
-    public static ShortsAuthorRequestDto toDto(String authorUuid, String requesterUuid,
-        String sortBy, String lastId, Integer pageSize, Integer pageNo) {
+    public static ShortsAuthorRequestDto toDto(String authorUuid, boolean isOwner, String sortBy,
+        String lastId, Integer pageSize, Integer pageNo) {
 
         return ShortsAuthorRequestDto.builder()
             .authorUuid(authorUuid)
-            .requesterUuid(requesterUuid)
+            .isOwner(isOwner)
             .sortType(SortType.valueOf(sortBy.toUpperCase()))
             .lastId(lastId)
             .pageSize(pageSize)
@@ -25,11 +25,11 @@ public class ShortsAuthorRequestDto extends BasePaginationRequestDto {
     }
 
     @Builder
-    public ShortsAuthorRequestDto(SortType sortType, String lastId, Integer pageSize,
-        Integer pageNo, String authorUuid, String requesterUuid) {
+    public ShortsAuthorRequestDto(SortType sortType, boolean isOwner, String lastId,
+        Integer pageSize, Integer pageNo, String authorUuid) {
 
         super(sortType, lastId, pageSize, pageNo);
         this.authorUuid = authorUuid;
-        this.requesterUuid = requesterUuid;
+        this.isOwner = isOwner;
     }
 }
