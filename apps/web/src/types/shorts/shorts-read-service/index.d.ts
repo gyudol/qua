@@ -12,7 +12,7 @@ export interface GetMemberShortsesReq extends CommonPaginationReq {
   memberUuid: string;
   sortBy: "latest" | "likes";
 }
-export interface GetMemberShrotsRecsReq extends CommonPaginationReq {
+export interface GetMemberShortsRecsReq extends CommonPaginationReq {
   memberUuid: string;
 }
 

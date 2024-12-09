@@ -2,7 +2,7 @@
 
 import type {
   GetMemberShortsesReq,
-  GetMemberShrotsRecsReq,
+  GetMemberShortsRecsReq,
   GetShortsRecsReq,
   GetShortsReq,
   Shorts,
@@ -55,7 +55,7 @@ export async function getMemberShortses({
 export async function getMemberShortsRecs({
   memberUuid,
   ...query
-}: GetMemberShrotsRecsReq) {
+}: GetMemberShortsRecsReq) {
   const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/${memberUuid}/shorts/recommendation?${toURLSearchParams(query)}`;
 
   const res: Response = await fetch(URI, {
