@@ -1,41 +1,51 @@
-import { HashtagWithLink } from "@/components/common/atoms";
-import { Profile } from "@/components/@legacy/profile/molecules";
-import type { Shorts } from "@/types/contents";
+"use client";
+
+import Link from "next/link";
+import type { Shorts } from "@/types/shorts/shorts-read-service";
+import { useMemberCompactProfile } from "@/hooks";
+import { MemberProfileImage } from "@/components/profile/atoms/MemberProfileImage";
+import { ShortsHashtag } from "../atoms/ShortsHashtag";
+import { ShortsFollowButton } from "../atoms";
 
 type ShortsPannelProp = Shorts;
 
 export function ShortsPannel({
-  author: { nickname, profileImageUrl },
+  memberUuid,
   title,
-  // content,
   hashtags,
 }: ShortsPannelProp) {
+  const { data, status } = useMemberCompactProfile({ memberUuid });
+  if (status !== "success") return null;
+
+  const { nickname, profileImageUrl } = data;
+
   return (
     <div className="absolute max-w-[calc(100%-100px)] bottom-10 left-5 flex flex-col gap-1 text-white">
-      <div className="flex items-center">
-        <Profile.PictureWithLink
-          href={`/profile/${nickname}`}
-          src={profileImageUrl}
-          alt={nickname}
-        />
-        <span>{nickname}</span>
-        <button
-          type="button"
-          className="bg-white text-black py-1 px-3 rounded-full"
-        >
-          follow
-        </button>
-      </div>
-      <div className="line-clamp-1">{title}</div>
-      {/* <div className="line-clamp-1">{content}</div> */}
-      <div className="line-clamp-1">
-        {hashtags.map((hashtag) => (
-          <HashtagWithLink
-            key={hashtag.name}
-            {...{ href: `/search?hashtag=#${hashtag.name}`, hashtag }}
+      <div className="flex items-center mb-[0.25rem]">
+        <div className="mr-[1rem]">
+          <MemberProfileImage
+            {...{ size: "2rem", profileImageUrl, nickname }}
+            link
           />
-        ))}
+        </div>
+        <div className="flex flex-col">
+          <Link href={`/profile/${nickname}`} className="mr-[1rem]">
+            {nickname}
+          </Link>
+        </div>
+        <div>
+          <ShortsFollowButton {...{ memberUuid }} />
+        </div>
       </div>
+
+      <div className="line-clamp-1">{title}</div>
+      <ul className="flex flex-wrap gap-[0.5rem] items-center">
+        {hashtags.map((hashtag) => (
+          <li key={hashtag.name}>
+            <ShortsHashtag {...{ ...hashtag }} />
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

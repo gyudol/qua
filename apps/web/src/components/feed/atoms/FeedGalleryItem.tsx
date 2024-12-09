@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { ImageMedia, VideoMedia } from "@/types/feed/common";
+import type { ImageMedia, VideoMedia } from "@/types/media";
 
 type FeedGalleryItemProps = ImageMedia | VideoMedia;
 
