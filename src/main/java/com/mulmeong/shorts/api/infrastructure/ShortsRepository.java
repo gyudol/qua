@@ -8,4 +8,6 @@ public interface ShortsRepository extends JpaRepository<Shorts, Long> {
 
     Optional<Shorts> findByShortsUuid(String shortsUuid);
 
+    void deleteByShortsUuid(String shortsUuid);
+
 }

@@ -8,5 +8,6 @@ import lombok.Getter;
 public class ShortsDeleteEvent {
 
     private String shortsUuid;
+    private String memberUuid;
 
 }
