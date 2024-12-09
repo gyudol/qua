@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import type { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { useState } from "react";
-import { usePutFeedRecommentMutation } from "@/hooks";
-import { ButtonWithAuth } from "@/components/common/atoms";
+import type { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
+import { usePutFeedRecommentMutation } from '@/hooks';
+import { ButtonWithAuth } from '@/components/common/atoms';
 
 interface RecommentEditInputProps {
   recommentUuid: string;
@@ -31,16 +31,16 @@ export function RecommentEditInput({
   }
 
   function handleEdit() {
-    setNewContent("");
+    setNewContent('');
     setIsEditing(false);
     mutation.mutate(newContent);
   }
 
   return (
     <div
-      className={`w-full p-[0.25rem] bg-white ring-2 ${isFocused ? " ring-teal-400" : "ring-teal-100"}`}
+      className={`w-full p-2 bg-white border-[1px] rounded-lg overflow-hidden ${isFocused ? ' border-teal-400' : 'border-teal-100'}`}
     >
-      <div className="h-[3rem]">
+      <div className="h-[3rem] ">
         <textarea
           className="w-full h-full resize-none focus:outline-none"
           placeholder="답글 수정..."

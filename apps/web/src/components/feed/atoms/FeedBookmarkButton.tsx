@@ -1,12 +1,12 @@
-import { Bookmark } from "lucide-react";
-import { ButtonWithAuth } from "@/components/common/atoms";
+import { Bookmark } from 'lucide-react';
+import { ButtonWithAuth } from '@/components/common/atoms';
 import {
   useFeedBookmarkMutation,
   useFeedBookmarkStatusQuery,
-} from "@/hooks/utility-service/bookmark-service";
-import type { Feed } from "@/types/feed/feed-read-service";
+} from '@/hooks/utility-service/bookmark-service';
+import type { Feed } from '@/types/feed/feed-read-service';
 
-type FeedBookmarkButtonProps = Pick<Feed, "feedUuid">;
+type FeedBookmarkButtonProps = Pick<Feed, 'feedUuid'>;
 
 export function FeedBookmarkButton({ feedUuid }: FeedBookmarkButtonProps) {
   const { data } = useFeedBookmarkStatusQuery({ feedUuid });
@@ -22,7 +22,8 @@ export function FeedBookmarkButton({ feedUuid }: FeedBookmarkButtonProps) {
         <Bookmark
           className="m-[0.25rem] text-slate-400"
           size="1.25rem"
-          fill={data ? "#B1B1B1" : "none"}
+          color="#48d0bf"
+          fill={data ? '#48d0bf' : 'none'}
         />
       </span>
     </ButtonWithAuth>

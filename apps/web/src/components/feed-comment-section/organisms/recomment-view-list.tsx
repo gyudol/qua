@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { ChevronDown, ChevronUp, CornerDownRight } from "lucide-react";
-import { useQueryClient } from "@tanstack/react-query";
+import React, { useState } from 'react';
+import { ChevronDown, ChevronUp, CornerDownRight } from 'lucide-react';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   getFeedRecommentsQK,
   getNewFeedRecommentsQK,
   useGetFeedRecommentsInfiniteQuery,
   usePostFeedRecommentQuery,
-} from "@/hooks";
-import { ButtonWithAuth } from "@/components/common/atoms";
-import { RecommentView } from "./recomment-view";
+} from '@/hooks';
+import { ButtonWithAuth } from '@/components/common/atoms';
+import { RecommentView } from './recomment-view';
 
 interface RecommentViewListProps {
   commentUuid: string;
@@ -45,10 +45,14 @@ export function RecommentViewList({
           <ButtonWithAuth
             type="button"
             onClick={handleShow}
-            className="flex text-teal-400"
+            className="flex text-teal-400 gap-[1rem]"
           >
-            {isRecommentListShowed ? <ChevronUp /> : <ChevronDown />}
-            <span>
+            {isRecommentListShowed ? (
+              <ChevronUp size={16} />
+            ) : (
+              <ChevronDown size={16} />
+            )}
+            <span className="text-xs">
               답글 {recommentCount + (newRecommentList?.length || 0)}개
             </span>
           </ButtonWithAuth>

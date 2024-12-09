@@ -1,7 +1,7 @@
-import type { UseMutationResult } from "@tanstack/react-query";
-import { ThumbsUp } from "lucide-react";
-import { ButtonWithAuth } from "@/components/common/atoms";
-import { formatToNumAbbrs } from "@/functions/utils";
+import type { UseMutationResult } from '@tanstack/react-query';
+import { ThumbsUp } from 'lucide-react';
+import { ButtonWithAuth } from '@/components/common/atoms';
+import { formatToNumAbbrs } from '@/functions/utils';
 
 interface FeedLikeButtonProps {
   likeCount: number;
@@ -27,11 +27,11 @@ export function LikeButton({ likeCount, likeStatus }: FeedLikeButtonProps) {
     >
       <span>
         <ThumbsUp
-          size="1.25rem"
-          className={likeStatus.data ? "text-sky-300" : "text-slate-400"}
+          size="1rem"
+          className={likeStatus.data ? 'text-sky-300' : 'text-slate-400'}
         />
       </span>
-      <span className="text-sm text-slate-400">
+      <span className="text-xs text-slate-400">
         {formatToNumAbbrs(Number(likeCount) + Number(likeStatus.data || 0))}
       </span>
     </ButtonWithAuth>

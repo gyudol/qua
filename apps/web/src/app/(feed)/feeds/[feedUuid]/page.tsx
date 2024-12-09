@@ -1,6 +1,6 @@
-import { CommonLayout } from "@/components/common/molecules";
-import { CommentSection } from "@/components/feed-comment-section/templates";
-import { FeedDetailSection } from "@/components/feed/templates/FeedDetailSection";
+import { CommonLayout } from '@/components/common/molecules';
+import CommentDrawer from '@/components/feed-comment-section/organisms/CommentDrawer';
+import { FeedDetailSection } from '@/components/feed/templates/FeedDetailSection';
 
 interface PageProps {
   params: {
@@ -10,9 +10,9 @@ interface PageProps {
 
 export default function page({ params: { feedUuid } }: PageProps) {
   return (
-    <CommonLayout.Contents className="flex flex-col bg-white">
+    <CommonLayout.Contents className="flex flex-col bg-white h-auto pt-[4rem]">
       <FeedDetailSection {...{ feedUuid }} />
-      <CommentSection {...{ feedUuid }} />
+      <CommentDrawer {...{ feedUuid }} />
     </CommonLayout.Contents>
   );
 }

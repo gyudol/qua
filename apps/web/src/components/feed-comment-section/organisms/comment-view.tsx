@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
-import type { FeedComment } from "@/types/comment/comment-read-service";
-import { PostedAt } from "@/components/common/atoms";
-import { useGetFeedCommentQuery } from "@/hooks";
-import { useMemberCompactProfile } from "@/hooks/member-read-service";
-import { MemberProfileImage } from "@/components/profile/atoms/MemberProfileImage";
-import { CommentEditInput, CommentMoreButton } from "../atoms";
-import { CommentButtonGroup } from "../molecules";
-import { RecommentViewList } from "./recomment-view-list";
+import { useState } from 'react';
+import Link from 'next/link';
+import type { FeedComment } from '@/types/comment/comment-read-service';
+import { PostedAt } from '@/components/common/atoms';
+import { useGetFeedCommentQuery } from '@/hooks';
+import { useMemberCompactProfile } from '@/hooks/member-read-service';
+import { MemberProfileImage } from '@/components/profile/atoms/MemberProfileImage';
+import { CommentEditInput, CommentMoreButton } from '../atoms';
+import { CommentButtonGroup } from '../molecules';
+import { RecommentViewList } from './recomment-view-list';
 
 interface CommentViewProps extends FeedComment {
   justNow?: boolean;
@@ -34,7 +34,7 @@ export function CommentView({
 
   return (
     <div
-      className={`mb-[0.5rem] p-[0.25rem] rounded-lg ${justNow ? "bg-teal-100" : ""}`}
+      className={`mb-[0.5rem] p-[0.25rem] rounded-lg ${justNow ? 'bg-teal-100' : ''}`}
     >
       <div className="flex">
         <div className="w-[2.5rem] mr-[1rem]">
@@ -42,14 +42,14 @@ export function CommentView({
             {...{
               profileImageUrl,
               nickname,
-              size: "2.5rem",
+              size: '2.5rem',
             }}
             link
           />
         </div>
 
         <div className="flex-1 mb-[0.5rem]">
-          <div className="mb-[0.25rem]">
+          <div className="mb-[0.25rem] text-xs">
             <Link href={`/profile/${nickname}`} className="mr-[0.5rem]">
               {nickname}
             </Link>
