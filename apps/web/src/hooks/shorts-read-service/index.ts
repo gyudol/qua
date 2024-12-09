@@ -10,11 +10,13 @@ import {
 import type { ShortsReq } from "@/types/shorts/common";
 import type {
   GetMemberShortsesReq,
-  GetMemberShortsRecsReq,
+  // GetMemberShortsRecsReq,
   GetShortsRecsReq,
 } from "@/types/shorts/shorts-read-service";
+import { useSessionContext } from "@/context/SessionContext";
 
 export function useGetShortsRecsInfiniteQuery({ ...query }: GetShortsRecsReq) {
+  const { memberUuid } = useSessionContext();
   const { pageNo, pageSize, nextCursor } = query;
   return useInfiniteQuery({
     queryKey: [
@@ -24,7 +26,10 @@ export function useGetShortsRecsInfiniteQuery({ ...query }: GetShortsRecsReq) {
         query,
       },
     ],
-    queryFn: ({ pageParam }) => getShortsRecs({ ...pageParam }),
+    queryFn: ({ pageParam }) =>
+      memberUuid
+        ? getMemberShortsRecs({ memberUuid, ...pageParam })
+        : getShortsRecs({ ...pageParam }),
     getNextPageParam: ({
       hasNext,
       ...nextQuery
@@ -90,35 +95,35 @@ export function useGetMemberShortsesInfiniteQuery({
   });
 }
 
-export function useGetMemberShortsRecsInfiniteQuery({
-  memberUuid,
-  ...query
-}: GetMemberShortsRecsReq) {
-  const { pageNo, pageSize, nextCursor } = query;
-  return useInfiniteQuery({
-    queryKey: [
-      "shorts-service",
-      {
-        kind: "member-shorts-recs",
-        memberUuid,
-        query,
-      },
-    ],
-    queryFn: ({ pageParam }) =>
-      getMemberShortsRecs({ memberUuid, ...pageParam }),
-    getNextPageParam: ({
-      hasNext,
-      ...nextQuery
-    }: {
-      pageNo: number;
-      pageSize: number;
-      nextCursor: string;
-      hasNext: boolean;
-    }) => (hasNext ? { ...nextQuery } : null),
-    initialPageParam: {
-      pageNo: pageNo || 1,
-      pageSize: pageSize || 10,
-      nextCursor: nextCursor || undefined,
-    },
-  });
-}
+// export function useGetMemberShortsRecsInfiniteQuery({
+//   memberUuid,
+//   ...query
+// }: GetMemberShortsRecsReq) {
+//   const { pageNo, pageSize, nextCursor } = query;
+//   return useInfiniteQuery({
+//     queryKey: [
+//       "shorts-service",
+//       {
+//         kind: "member-shorts-recs",
+//         memberUuid,
+//         query,
+//       },
+//     ],
+//     queryFn: ({ pageParam }) =>
+//       getMemberShortsRecs({ memberUuid, ...pageParam }),
+//     getNextPageParam: ({
+//       hasNext,
+//       ...nextQuery
+//     }: {
+//       pageNo: number;
+//       pageSize: number;
+//       nextCursor: string;
+//       hasNext: boolean;
+//     }) => (hasNext ? { ...nextQuery } : null),
+//     initialPageParam: {
+//       pageNo: pageNo || 1,
+//       pageSize: pageSize || 10,
+//       nextCursor: nextCursor || undefined,
+//     },
+//   });
+// }
