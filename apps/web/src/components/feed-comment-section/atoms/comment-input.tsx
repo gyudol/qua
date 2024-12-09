@@ -1,20 +1,20 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import type { ChangeEvent } from "react";
 import { useState } from "react";
-import { alertNotImplemented } from "@/functions/utils";
 import { usePostFeedCommentMutation } from "@/hooks/comment-service";
+import { useSessionContext } from "@/context/SessionContext";
+import { ButtonWithAuth } from "@/components/common/atoms";
 
 interface CommentInputProps {
   feedUuid: string;
 }
 
 export function CommentInput({ feedUuid }: CommentInputProps) {
-  const { status, data } = useSession();
+  const { memberUuid } = useSessionContext();
   const mutation = usePostFeedCommentMutation({ feedUuid });
 
-  const lengthLimit = 300;
+  const lengthLimit = 1000;
   const [content, setContent] = useState<string>("");
   const [isFocused, setIsFocused] = useState<boolean>(false);
 
@@ -23,14 +23,10 @@ export function CommentInput({ feedUuid }: CommentInputProps) {
   }
 
   function handlePost() {
-    if (status === "authenticated") {
-      setContent("");
-      setIsFocused(false);
-      const session = data as { user: { memberUuid: string } };
-      mutation.mutate({ content, memberUuid: session.user.memberUuid });
-    } else if (status === "unauthenticated") {
-      alertNotImplemented({ message: "로그인 하세요" });
-    }
+    if (!memberUuid) return;
+    mutation.mutate({ content, memberUuid });
+    setContent("");
+    setIsFocused(false);
   }
 
   function handleCancle() {
@@ -39,7 +35,9 @@ export function CommentInput({ feedUuid }: CommentInputProps) {
   }
 
   return (
-    <div className={isFocused ? "ring-2 ring-blue-500" : ""}>
+    <div
+      className={`w-full p-[0.25rem] bg-white ring-2 ${isFocused ? " ring-teal-400" : "ring-teal-100"}`}
+    >
       <div
         className={`transition-all duration-200 ${isFocused ? "h-[8rem]" : "h-[3rem]"}`}
       >
@@ -49,31 +47,31 @@ export function CommentInput({ feedUuid }: CommentInputProps) {
           value={content}
           onChange={handleChange}
           onFocus={() => setIsFocused(true)}
+          spellCheck={false}
         />
       </div>
       {isFocused ? (
-        <div className="flex justify-between items-center h-[2rem] bg-white">
+        <div className="flex justify-between items-center h-[2rem] ">
           <div>
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-slate-400">
               {content.length}/{lengthLimit}
             </span>
           </div>
-          <div>
+          <div className="flex gap-[0.25rem]">
             <button
-              className="px-4 py-1 text-sm text-gray-500 bg-gray-200 rounded-full"
+              className="px-4 py-1 text-sm text-slate-400 bg-slate-200 rounded-full"
               type="button"
               onClick={() => handleCancle()}
             >
               취소
             </button>
-            <button
-              className="px-4 py-1 text-sm text-white bg-blue-500 rounded-full"
+            <ButtonWithAuth
+              className="px-4 py-1 text-sm text-white bg-teal-400 rounded-full"
               type="button"
               onClick={() => handlePost()}
-              disabled={status === "loading" || !content}
             >
               작성
-            </button>
+            </ButtonWithAuth>
           </div>
         </div>
       ) : null}

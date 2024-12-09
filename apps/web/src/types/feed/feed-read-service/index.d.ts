@@ -10,12 +10,17 @@ export interface GetFeedsReq extends CommonPaginationReq {
 
 export type GetFeedReq = FeedReq;
 
+export interface GetMemberFeeds extends CommonPaginationReq {
+  memberUuid: string;
+  sortBy?: "latest" | "likes";
+}
+
 export interface Feed {
   feedUuid: string;
   memberUuid: string;
   title: string;
   content: string;
-  catergoryName: string;
+  categoryName: string;
   visibility: "VISIBLE";
   hashtags: Hashtag[];
   mediaList: (ImageMedia | VideoMedia)[];

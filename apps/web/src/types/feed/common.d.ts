@@ -31,3 +31,5 @@ export interface VideoMedia {
   mediaType: "VIDEO";
   assets: VideoMediaAssets;
 }
+
+export type FeedViewType = "card" | "compact";

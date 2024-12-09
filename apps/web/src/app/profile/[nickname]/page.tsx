@@ -9,7 +9,7 @@ interface PageProps {
 
 export default function page({ params: { nickname } }: PageProps) {
   return (
-    <CommonLayout.Contents className="bg-[#EEE] flex flex-col gap-[20px] pb-32">
+    <CommonLayout.Contents className="bg-white flex flex-col gap-[20px] pb-32">
       <ProfileCardSection {...{ nickname: decodeURI(nickname) }} />
     </CommonLayout.Contents>
   );

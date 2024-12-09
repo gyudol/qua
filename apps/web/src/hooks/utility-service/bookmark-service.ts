@@ -22,6 +22,7 @@ import type {
   GetShortsBookmarksReq,
 } from "@/types/utility-service";
 import type { FeedReq } from "@/types/feed/common";
+import { useSessionContext } from "@/context/SessionContext";
 
 export function useShortsBookmarksInfiniteQuery({
   ...query
@@ -155,6 +156,7 @@ export function useFeedBookmarkMutation({ feedUuid }: FeedReq) {
 }
 
 export function useFeedBookmarkStatusQuery({ feedUuid }: FeedReq) {
+  const { isAuthenticated } = useSessionContext();
   return useQuery({
     queryKey: [
       "bookmark-service",
@@ -163,6 +165,9 @@ export function useFeedBookmarkStatusQuery({ feedUuid }: FeedReq) {
         uuid: feedUuid,
       },
     ],
-    queryFn: () => getFeedBookmarkStatus({ feedUuid }),
+    queryFn: () => {
+      if (!isAuthenticated) return false;
+      return getFeedBookmarkStatus({ feedUuid });
+    },
   });
 }

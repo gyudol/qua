@@ -26,11 +26,11 @@ export function FeedLikeButton({ likeCount, likeStatus }: FeedLikeButtonProps) {
     >
       <span>
         <ThumbsUp
-          size="1.125rem"
-          color={likeStatus.data ? "skyblue" : "#B1B1B1"}
+          size="1.25rem"
+          className={likeStatus.data ? "text-sky-300" : "text-slate-400"}
         />
       </span>
-      <span className="text-sm text-gray-500">
+      <span className="text-sm text-slate-400">
         {Number(likeCount) + Number(likeStatus.data || 0)}
       </span>
     </ButtonWithAuth>

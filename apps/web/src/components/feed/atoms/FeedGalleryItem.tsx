@@ -11,8 +11,9 @@ export function FeedGalleryItem({ mediaType, assets }: FeedGalleryItemProps) {
     <figure className="relative w-full h-full">
       <Image
         className="rounded-xl"
-        src={`https://qua-assets.s3.ap-northeast-2.amazonaws.com/${mediaUrl}`}
+        src={`https://media.qua.world/${mediaUrl}`}
         alt={description}
+        priority
         fill
       />
     </figure>

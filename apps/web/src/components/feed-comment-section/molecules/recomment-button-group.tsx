@@ -21,11 +21,13 @@ export function RecommentButtonGroup({
   const { likeStatus, dislikeStatus } = useLikeService({
     kind: "feed-recomment",
     kindUuid: recommentUuid,
+    likeCount,
+    dislikeCount,
   });
 
   return (
     <>
-      <ul className="flex">
+      <ul className="flex gap-[0.5rem] items-center">
         <li>
           <LikeButton
             {...{
@@ -47,7 +49,7 @@ export function RecommentButtonGroup({
         </li>
       </ul>
       {isReplyInputShowed ? (
-        <div>
+        <div className="my-[0.5rem]">
           <ReplyInput {...{ commentUuid, setIsReplyInputShowed }} />
         </div>
       ) : null}

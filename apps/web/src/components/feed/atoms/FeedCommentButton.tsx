@@ -12,13 +12,13 @@ export function FeedCommentButton({
 }: FeedCommentButtonProps) {
   return (
     <Link
-      href={`/feeds/${feedUuid}`}
-      className="flex gap-[0.5rem] items-center"
+      href={`/feeds/${feedUuid}#comment`}
+      className="flex gap-[0.5rem] items-center text-slate-400"
     >
       <span>
-        <MessageSquareMore size="1.125rem" color="#B1B1B1" />
+        <MessageSquareMore size="1.25rem" />
       </span>
-      <span className="text-sm text-gray-500">{commentCount}</span>
+      <span className="text-sm">{commentCount}</span>
     </Link>
   );
 }

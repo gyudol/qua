@@ -19,8 +19,12 @@ import type {
   GetFollowingsReq,
   GetFollowStatusReq,
 } from "@/types/utility-service";
+import { useSessionContext } from "@/context/SessionContext";
 
-export function useFollowMutation({ sourceUuid, targetUuid }: FollowingReq) {
+export function useFollowMutation({
+  targetUuid,
+}: Pick<FollowingReq, "targetUuid">) {
+  const { memberUuid: sourceUuid } = useSessionContext();
   const QC = useQueryClient();
   const QK = [
     "follow-service",
@@ -31,11 +35,13 @@ export function useFollowMutation({ sourceUuid, targetUuid }: FollowingReq) {
     },
   ];
   return useMutation({
-    mutationFn: async (bool: boolean) => {
-      bool
-        ? await postFollowing({ sourceUuid, targetUuid })
-        : await deleteFollowing({ sourceUuid, targetUuid });
-    },
+    mutationFn: sourceUuid
+      ? async (bool: boolean) => {
+          bool
+            ? await postFollowing({ sourceUuid, targetUuid })
+            : await deleteFollowing({ sourceUuid, targetUuid });
+        }
+      : undefined,
     onMutate: (bool: boolean) => {
       const prevStatus = QC.getQueryData<boolean>(QK);
       QC.setQueryData(QK, bool);
@@ -115,9 +121,9 @@ export function useFollowersInfiniteQuery({
 }
 
 export function useFollowStatusQuery({
-  sourceUuid,
   targetUuid,
-}: GetFollowStatusReq) {
+}: Pick<GetFollowStatusReq, "targetUuid">) {
+  const { isAuthenticated, memberUuid: sourceUuid } = useSessionContext();
   return useQuery({
     queryKey: [
       "follow-service",
@@ -127,6 +133,9 @@ export function useFollowStatusQuery({
         targetUuid,
       },
     ],
-    queryFn: () => getFollowStatus({ sourceUuid, targetUuid }),
+    queryFn: () => {
+      if (!isAuthenticated || !sourceUuid) return false;
+      return getFollowStatus({ sourceUuid, targetUuid });
+    },
   });
 }

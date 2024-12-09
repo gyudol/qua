@@ -1,15 +1,25 @@
 "use client";
 
-import Image from "next/image";
+import Link from "next/link";
 import { PostedAt } from "@/components/common/atoms";
 import { useMemberCompactProfile } from "@/hooks";
 import type { Feed } from "@/types/feed/feed-read-service";
+import { MemberProfileImage } from "@/components/profile/atoms/MemberProfileImage";
+import { FeedTitle } from "../atoms/FeedTitle";
 import { FeedMoreOption } from "./FeedMoreOption";
 
-type FeedHeaderProps = Pick<
-  Feed,
-  "feedUuid" | "memberUuid" | "createdAt" | "updatedAt" | "title"
->;
+interface FeedHeaderProps
+  extends Pick<
+    Feed,
+    | "feedUuid"
+    | "memberUuid"
+    | "createdAt"
+    | "updatedAt"
+    | "title"
+    | "categoryName"
+  > {
+  link?: boolean;
+}
 
 export function FeedHeader({
   feedUuid,
@@ -17,23 +27,28 @@ export function FeedHeader({
   createdAt,
   updatedAt,
   title,
+  categoryName,
+  link,
 }: FeedHeaderProps) {
-  const { data: member } = useMemberCompactProfile({ memberUuid });
-  const defaultProfileImage = "/dummies/members/member-001.png";
-  const profileImage = member?.profileImageUrl || defaultProfileImage;
-  const nickname = member?.nickname || memberUuid;
+  const { data: member, status } = useMemberCompactProfile({ memberUuid });
+  if (status !== "success") return null;
+  const profileImageUrl = member.profileImageUrl;
+  const nickname = member.nickname || memberUuid;
 
   return (
     <header className="flex flex-col mb-[0.25rem]">
       <div className="flex justify-between items-center">
-        <div className="flex items-center mr-[1rem]">
+        <div className="flex items-center mb-[0.25rem]">
           <div className="mr-[1rem]">
-            <figure className="relative w-[3rem] h-[3rem] rounded-full">
-              <Image src={profileImage} alt={nickname} fill />
-            </figure>
+            <MemberProfileImage
+              {...{ size: "2rem", profileImageUrl, nickname }}
+              link
+            />
           </div>
           <div className="flex flex-col">
-            <div>{nickname}</div>
+            <Link href={`/profile/${nickname}`} className="mr-[1rem]">
+              {nickname}
+            </Link>
             <PostedAt {...{ createdAt, updatedAt }} />
           </div>
         </div>
@@ -41,9 +56,7 @@ export function FeedHeader({
           <FeedMoreOption {...{ feedUuid, memberUuid }} />
         </div>
       </div>
-      <div className="flex-1">
-        <h2 className="text-lg font-bold">{title}</h2>
-      </div>
+      <FeedTitle {...{ feedUuid, title, categoryName, link }} />
     </header>
   );
 }
