@@ -1,6 +1,7 @@
 import type { CommonPaginationReq, Datetime } from "@/types/common";
 import type { Hashtag } from "@/types/contents";
-import type { FeedReq, ImageMedia, VideoMedia } from "../common";
+import type { ImageMedia, VideoMedia } from "@/types/media";
+import type { FeedReq } from "../common";
 
 export interface GetFeedsReq extends CommonPaginationReq {
   categoryName?: string;

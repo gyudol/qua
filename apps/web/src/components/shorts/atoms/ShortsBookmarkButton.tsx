@@ -1,25 +1,32 @@
-import { cn } from "@repo/ui/lib/utils";
 import { Bookmark } from "lucide-react";
-import { useState } from "react";
+import { ButtonWithAuth } from "@/components/common/atoms";
+import {
+  useShortsBookmarkMutation,
+  useShortsBookmarkStatusQuery,
+} from "@/hooks/utility-service/bookmark-service";
+import type { Shorts } from "@/types/shorts/shorts-read-service";
 
-export function ShortsBookmarkButton() {
-  const [isBookmarked, setIsBookmarked] = useState(false);
+type ShortsBookmarkButtonProps = Pick<Shorts, "shortsUuid">;
 
-  const handleClick = () => {
-    setIsBookmarked((wasBookmarked) => !wasBookmarked);
-  };
+export function ShortsBookmarkButton({
+  shortsUuid,
+}: ShortsBookmarkButtonProps) {
+  const { data } = useShortsBookmarkStatusQuery({ shortsUuid });
+  const { mutate } = useShortsBookmarkMutation({ shortsUuid });
 
   return (
-    <button
+    <ButtonWithAuth
       type="button"
-      className={cn("p-2 rounded-full bg-gray-800 bg-opacity-50")}
-      onClick={() => handleClick()}
+      onClick={() => mutate(!data)}
+      className="flex gap-[0.5rem] items-center"
     >
-      <Bookmark
-        stroke={isBookmarked ? "white" : "white"}
-        fill={isBookmarked ? "white" : "none"}
-        className="w-6 h-6"
-      />
-    </button>
+      <span>
+        <Bookmark
+          className="m-[0.25rem] text-slate-400"
+          size="1.25rem"
+          fill={data ? "#B1B1B1" : "none"}
+        />
+      </span>
+    </ButtonWithAuth>
   );
 }

@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import Hls from 'hls.js';
 import { useEffect, useState, useRef } from 'react';
-import type { ImageMedia, VideoMedia } from '@/types/feed/common';
+import type { ImageMedia, VideoMedia } from "@/types/media";
 
 interface FeedGalleryItemProps {
   media: ImageMedia | VideoMedia;

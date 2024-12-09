@@ -1,4 +1,4 @@
-import type { ShortsReq, ShortsUuid } from "../../shorts-service";
+import type { ShortsReq, ShortsUuid } from "../../shorts/common";
 import type {
   BaseComment,
   DeleteCommentReq,

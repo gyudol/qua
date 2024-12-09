@@ -16,7 +16,7 @@ import {
   postFeedBookmark,
   postShortsBookmark,
 } from "@/actions/utility-service";
-import type { ShortsReq } from "@/types/shorts-service";
+import type { ShortsReq } from "@/types/shorts/common";
 import type {
   GetFeedBookmarksReq,
   GetShortsBookmarksReq,
