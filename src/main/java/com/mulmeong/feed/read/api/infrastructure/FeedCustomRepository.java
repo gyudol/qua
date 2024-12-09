@@ -46,7 +46,7 @@ public class FeedCustomRepository {     // QueryDSL Repository
 
         BooleanBuilder builder = new BooleanBuilder();
 
-        if (!requestDto.getRequesterUuid().equals(requestDto.getAuthorUuid())) {
+        if (!requestDto.isOwner()) {
             builder.and(feed.visibility.eq(Visibility.VISIBLE));
         }
         Optional.ofNullable(requestDto.getAuthorUuid()).ifPresent(author ->

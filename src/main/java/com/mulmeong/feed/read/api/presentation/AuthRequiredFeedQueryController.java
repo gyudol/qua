@@ -23,22 +23,20 @@ public class AuthRequiredFeedQueryController {
 
     private final FeedQueryService feedQueryService;
 
-    @Operation(summary = "특정 사용자가 작성한 피드 목록 조회",
+    @Operation(summary = "특정 사용자가 작성한 피드 목록 조회 (프로필 페이지의 Owner가 요청시)",
         description = """
-            - **요청자와 작성자의 memberUuid가 같으면** 조건에 맞는 모든 Feed를,
-            같지 않으면 Visibility = `VISIBLE`인 Feed만을 조회<br><br>
+            - 조건에 부합하는 모든 Feed를 조회<br><br>
             - sortBy: `LATEST` / `LIKES` (대·소문자 구분하지 않음)<br><br>
             - LATEST: **최신순**, LIKES: **netLikes 내림차순** (likesCount - dislikeCount)""")
     @GetMapping("/{memberUuid}/feeds")
     public BaseResponse<CursorPage<FeedResponseDto>> getFeedsByAuthor(
         @PathVariable(name = "memberUuid") String authorUuid,
-        @RequestHeader("Member-Uuid") String requesterUuid,
         @RequestParam(defaultValue = "latest", required = false) String sortBy,
         @RequestParam(required = false, name = "nextCursor") String lastId,
         @RequestParam(required = false) Integer pageSize,
         @RequestParam(required = false) Integer pageNo) {
 
         return new BaseResponse<>(feedQueryService.getFeedsByAuthor(FeedAuthorRequestDto.toDto(
-            authorUuid, requesterUuid, sortBy, lastId, pageSize, pageNo)));
+            authorUuid, true, sortBy, lastId, pageSize, pageNo)));
     }
 }
