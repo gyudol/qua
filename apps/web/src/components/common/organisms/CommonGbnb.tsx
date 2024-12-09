@@ -14,7 +14,7 @@ function GbnbListItem({ href, Icon }: GbnbListItemProp) {
     <li>
       <Link
         href={href}
-        className="w-[48px] h-[48px] flex justify-center items-center"
+        className="w-[3rem] h-[3rem] flex justify-center items-center"
       >
         <Icon />
       </Link>
@@ -32,12 +32,15 @@ const GbnbListItemInfos: GbnbListItemProp[] = [
 
 export default function CommonGbnb() {
   return (
-    <CommonLayout.Bnb>
-      <ul className="flex flex-row justify-between items-center h-[64px] px-[16px] bg-white">
-        {GbnbListItemInfos.map(({ name, href, Icon }) => (
-          <GbnbListItem {...{ name, href, Icon }} key={name} />
-        ))}
-      </ul>
-    </CommonLayout.Bnb>
+    <>
+      <div className="h-[5.5rem]" />
+      <CommonLayout.Bnb>
+        <ul className="flex flex-row justify-between items-center py-[1.25rem] px-[1.125rem] bg-white">
+          {GbnbListItemInfos.map(({ name, href, Icon }) => (
+            <GbnbListItem {...{ name, href, Icon }} key={name} />
+          ))}
+        </ul>
+      </CommonLayout.Bnb>
+    </>
   );
 }

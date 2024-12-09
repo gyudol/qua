@@ -1,4 +1,4 @@
-"use server";
+'use server';
 
 import type {
   DislikeStatus,
@@ -8,21 +8,21 @@ import type {
   LikeStatus,
   PostDislikeReq,
   PostLikeReq,
-} from "@/types/utility-service";
-import type { EmptyObject } from "@/types/common";
-import { toURLSearchParams } from "@/functions/utils";
-import { getHeaders, processResponse } from "../common";
+} from '@/types/utility-service';
+import type { EmptyObject } from '@/types/common';
+import { toURLSearchParams } from '@/functions/utils';
+import { getHeaders, processResponse } from '../common';
 
 const API_SERVER = process.env.BASE_API_URL;
-const PREFIX = "utility-service";
+const PREFIX = 'utility-service';
 
 export async function postLike({ ...body }: PostLikeReq) {
   const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/likes`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: "POST",
-    cache: "no-cache",
+    method: 'POST',
+    cache: 'no-cache',
     body: JSON.stringify({ ...body }),
   });
 
@@ -34,8 +34,8 @@ export async function postDislike({ ...body }: PostDislikeReq) {
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: "POST",
-    cache: "no-cache",
+    method: 'POST',
+    cache: 'no-cache',
     body: JSON.stringify({ ...body }),
   });
 
@@ -47,8 +47,8 @@ export async function getLikeStatus({ kind, kindUuid }: GetLikeStatusReq) {
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: "GET",
-    cache: "no-cache",
+    method: 'GET',
+    cache: 'no-cache',
   });
 
   return processResponse<LikeStatus, false>({ res });
@@ -62,8 +62,8 @@ export async function getDislikeStatus({
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: "GET",
-    cache: "no-cache",
+    method: 'GET',
+    cache: 'no-cache',
   });
 
   return processResponse<DislikeStatus, false>({ res });
@@ -74,8 +74,8 @@ export async function getLikes({ kind, ...query }: GetLikesReq) {
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: "GET",
-    cache: "no-cache",
+    method: 'GET',
+    cache: 'no-cache',
   });
 
   return processResponse<string, true>({ res });

@@ -1,32 +1,42 @@
-import React from "react";
+"use client";
+import React, { useLayoutEffect, useMemo, useState } from "react";
 
 function Bubble() {
-  // 거품의 랜덤한 크기와 위치
-  const size = Math.random() * 20 + 10;
-  const leftPosition = Math.random() * 100;
-  const bottomPosition = Math.random() * 100;
-  const duration = Math.random() * 5 + 3; // 3초 ~ 8초
-  const delay = Math.random() * 2; // 0초 ~ 2초
+  // 거품의 랜덤한 크기와 위치를 메모화
+  const [style, setStyle] = useState({});
 
-  return (
-    <div
-      className="bubble"
-      style={{
-        width: `${size}px`,
-        height: `${size}px`,
-        left: `${leftPosition}%`,
-        bottom: `${bottomPosition}%`,
-        animationDuration: `${duration}s`,
-        animationDelay: `${delay}s`,
-      }}
-    />
-  );
+  useLayoutEffect(() => {
+    const size = Math.random() * 20 + 10; // 크기
+    const leftPosition = Math.random() * 100; // x축 위치
+    const bottomPosition = Math.random() * 100; // y축 위치
+    const duration = Math.random() * 5 + 3; // 3초 ~ 8초
+    const delay = Math.random() * 2; // 0초 ~ 2초
+    setStyle({
+      width: `${size}px`,
+      height: `${size}px`,
+      left: `${leftPosition}%`,
+      bottom: `${bottomPosition}%`,
+      animationDuration: `${duration}s`,
+      animationDelay: `${delay}s`,
+      animationFillMode: "both", // 애니메이션 유지
+    });
+  }, []);
+
+  return <div className="bubble" style={style} />;
 }
 
 function Bubbles() {
-  const bubbles = Array.from({ length: 50 }, (_, i) => <Bubble key={i} />); // 50개의 거품 생성
+  // Bubbles 배열을 메모화
+  const bubbles = useMemo(
+    () => Array.from({ length: 50 }, (_, i) => <Bubble key={i} />),
+    [], // 한 번만 생성
+  );
 
-  return <div className="z-[150]">{bubbles}</div>;
+  return (
+    <div className="z-[150] w-full h-full fixed top-0 left-0 pointer-events-none">
+      {bubbles}
+    </div>
+  );
 }
 
 export default Bubbles;

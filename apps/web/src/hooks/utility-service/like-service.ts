@@ -1,7 +1,6 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
 import {
   getDislikeStatus,
   getLikeStatus,
@@ -9,14 +8,19 @@ import {
   postLike,
 } from "@/actions/utility-service";
 import type { KindReq } from "@/types/utility-service";
+import { useSessionContext } from "@/context/SessionContext";
 
-export function useLikeService({ ...kindReq }: KindReq) {
-  const { status: sessionStaus, data } = useSession();
-  const session = (data &&
-    (data as { user?: { memberUuid?: string } }).user) || {
-    memberUuid: "",
-  };
-  const memberUuid = session.memberUuid || "";
+interface UseLikeServiceReq extends KindReq {
+  likeCount: number;
+  dislikeCount: number;
+}
+
+export function useLikeService({
+  likeCount,
+  dislikeCount,
+  ...kindReq
+}: UseLikeServiceReq) {
+  const { isAuthenticated, memberUuid = "" } = useSessionContext();
 
   const QC = useQueryClient();
 
@@ -38,7 +42,10 @@ export function useLikeService({ ...kindReq }: KindReq) {
     isError: isLikeStatusError,
   } = useQuery<boolean>({
     queryKey: likeStatusQK,
-    queryFn: () => getLikeStatus({ ...kindReq }),
+    queryFn: () => {
+      if (!isAuthenticated) return false;
+      return getLikeStatus({ ...kindReq });
+    },
   });
 
   const {
@@ -47,7 +54,10 @@ export function useLikeService({ ...kindReq }: KindReq) {
     isError: isDislikeStatusError,
   } = useQuery<boolean>({
     queryKey: dislikeStatusQK,
-    queryFn: () => getDislikeStatus({ ...kindReq }),
+    queryFn: () => {
+      if (!isAuthenticated) return false;
+      return getDislikeStatus({ ...kindReq });
+    },
   });
 
   const postReq = { ...kindReq, memberUuid };
@@ -75,10 +85,11 @@ export function useLikeService({ ...kindReq }: KindReq) {
           QC.setQueryData(dislikeStatusQK, false);
         }
 
-        if (subtype === "like" || isLikeStatusChanged) await postLike(postReq);
+        if (subtype === "like" || isLikeStatusChanged)
+          await postLike({ likeCount, ...postReq });
 
         if (subtype === "dislike" || isDislikeStatusChanged)
-          await postDislike(postReq);
+          await postDislike({ dislikeCount, ...postReq });
       },
 
       onMutate: async () => {
@@ -106,12 +117,13 @@ export function useLikeService({ ...kindReq }: KindReq) {
 
   const likeStatusMutation = useStatusMutation("like");
   const dislikeStatusMutation = useStatusMutation("dislike");
-  const isReady =
+  const isReady = !(
     isLikeStatusLoading ||
     isDislikeStatusLoading ||
     isLikeStatusError ||
     isDislikeStatusError ||
-    sessionStaus === "authenticated";
+    !isAuthenticated
+  );
 
   return {
     likeStatus: { data: isReady && likeStatus, mutation: likeStatusMutation },

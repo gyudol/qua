@@ -9,6 +9,7 @@ import {
   useGetFeedRecommentsInfiniteQuery,
   usePostFeedRecommentQuery,
 } from "@/hooks";
+import { ButtonWithAuth } from "@/components/common/atoms";
 import { RecommentView } from "./recomment-view";
 
 interface RecommentViewListProps {
@@ -38,38 +39,49 @@ export function RecommentViewList({
     }
   }
   return (
-    <div className="ml-[1.5rem]">
-      {" "}
-      {data?.pages[0].content.length ? (
-        <button type="button" onClick={handleShow} className="flex">
-          {isRecommentListShowed ? <ChevronUp /> : <ChevronDown />}
-          <span>답글 {recommentCount + (newRecommentList?.length || 0)}개</span>
-        </button>
-      ) : null}
-      {newRecommentList?.map((recomment) => (
-        <RecommentView key={recomment.recommentUuid} {...recomment} />
-      ))}
-      {isRecommentListShowed ? (
-        <>
-          {data?.pages.map((page) => (
-            <React.Fragment key={page.pageNo}>
-              {page.content.map((recomment) => (
-                <RecommentView key={recomment.recommentUuid} {...recomment} />
-              ))}
-            </React.Fragment>
-          ))}
-          {hasNextPage ? (
-            <button
-              type="button"
-              onClick={() => void fetchNextPage()}
-              className="flex"
-            >
-              <CornerDownRight />
-              <span>답글 더보기</span>
-            </button>
-          ) : null}
-        </>
-      ) : null}
+    <div className="ml-[3.5rem] flex flex-col">
+      <div>
+        {data?.pages[0].content.length ? (
+          <ButtonWithAuth
+            type="button"
+            onClick={handleShow}
+            className="flex text-teal-400"
+          >
+            {isRecommentListShowed ? <ChevronUp /> : <ChevronDown />}
+            <span>
+              답글 {recommentCount + (newRecommentList?.length || 0)}개
+            </span>
+          </ButtonWithAuth>
+        ) : null}
+      </div>
+      <div>
+        {newRecommentList?.map((recomment) => (
+          <RecommentView key={recomment.recommentUuid} {...recomment} justNow />
+        ))}
+        {isRecommentListShowed ? (
+          <>
+            {data?.pages.map((page) => (
+              <React.Fragment key={page.pageNo}>
+                {page.content.map((recomment) => (
+                  <RecommentView key={recomment.recommentUuid} {...recomment} />
+                ))}
+              </React.Fragment>
+            ))}
+            {hasNextPage ? (
+              <button
+                type="button"
+                onClick={() => void fetchNextPage()}
+                className="flex text-teal-400"
+              >
+                <span className="mr-[0.5rem]">
+                  <CornerDownRight />
+                </span>
+                <span>답글 더보기</span>
+              </button>
+            ) : null}
+          </>
+        ) : null}
+      </div>
     </div>
   );
 }

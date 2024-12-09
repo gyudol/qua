@@ -1,4 +1,4 @@
-import type { FeedReq, FeedUuid } from "@/types/feed-service";
+import type { FeedReq, FeedUuid } from "@/types/feed/common";
 import type { BaseComment, GetCommentsReq } from "../common";
 
 export interface GetFeedCommentsReq extends GetCommentsReq, FeedReq {}

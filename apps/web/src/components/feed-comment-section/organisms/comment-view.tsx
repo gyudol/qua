@@ -1,17 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import type { FeedComment } from "@/types/comment/comment-read-service";
-import { getMemberProfile } from "@/actions/member-read-service";
-import { Profile } from "@/components/profile/molecules";
 import { PostedAt } from "@/components/common/atoms";
 import { useGetFeedCommentQuery } from "@/hooks";
+import { useMemberCompactProfile } from "@/hooks/member-read-service";
+import { MemberProfileImage } from "@/components/profile/atoms/MemberProfileImage";
 import { CommentEditInput, CommentMoreButton } from "../atoms";
 import { CommentButtonGroup } from "../molecules";
 import { RecommentViewList } from "./recomment-view-list";
 
-type CommentViewProps = FeedComment;
+interface CommentViewProps extends FeedComment {
+  justNow?: boolean;
+}
 
 export function CommentView({
   commentUuid,
@@ -19,47 +21,60 @@ export function CommentView({
   likeCount,
   dislikeCount,
   recommentCount,
+  justNow,
 }: CommentViewProps) {
-  const { data: comment } = useGetFeedCommentQuery({ commentUuid });
-  const { data: memberProfile } = useQuery({
-    queryKey: ["member-profile", memberUuid],
-    queryFn: () => getMemberProfile({ memberUuid }),
-  });
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const { data: comment } = useGetFeedCommentQuery({ commentUuid });
+  const { data: memberProfile } = useMemberCompactProfile({ memberUuid });
 
-  if (!comment) return null;
+  if (!comment || !memberProfile) return null;
 
   const { content, createdAt, updatedAt } = comment;
+  const { profileImageUrl, nickname } = memberProfile;
 
   return (
-    <div>
+    <div
+      className={`mb-[0.5rem] p-[0.25rem] rounded-lg ${justNow ? "bg-teal-100" : ""}`}
+    >
       <div className="flex">
-        {isEditing ? (
-          <CommentEditInput {...{ commentUuid, content, setIsEditing }} />
-        ) : (
-          <>
-            <div className="w-[2.5rem] mr-[1rem]">
-              <Profile.PictureSkeleton />
+        <div className="w-[2.5rem] mr-[1rem]">
+          <MemberProfileImage
+            {...{
+              profileImageUrl,
+              nickname,
+              size: "2.5rem",
+            }}
+            link
+          />
+        </div>
+
+        <div className="flex-1 mb-[0.5rem]">
+          <div className="mb-[0.25rem]">
+            <Link href={`/profile/${nickname}`} className="mr-[0.5rem]">
+              {nickname}
+            </Link>
+            <span className="text-nowrap">
+              <PostedAt {...{ createdAt, updatedAt }} />
+            </span>
+          </div>
+          {isEditing ? (
+            <div>
+              <CommentEditInput {...{ commentUuid, content, setIsEditing }} />
             </div>
-            <div className="flex-1">
-              <div className="flex items-center">
-                <span>{memberProfile?.nickname}</span>
-                <span>
-                  <PostedAt {...{ createdAt, updatedAt }} />
-                </span>
-              </div>
-              <div>{content}</div>
+          ) : (
+            <>
+              <div className="mb-[0.5rem]">{content}</div>
               <CommentButtonGroup
                 {...{ commentUuid, likeCount, dislikeCount }}
               />
-            </div>
-            <div className="w-[2.5rem]">
-              <CommentMoreButton
-                {...{ commentUuid, memberUuid, setIsEditing }}
-              />
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
+        {!isEditing ? (
+          <div className="w-[2.5rem]">
+            <CommentMoreButton {...{ commentUuid, memberUuid, setIsEditing }} />
+          </div>
+        ) : null}
       </div>
       <RecommentViewList
         {...{

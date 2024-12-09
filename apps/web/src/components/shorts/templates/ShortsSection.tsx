@@ -49,7 +49,7 @@ function ShortsSwiper() {
     <Swiper
       direction="vertical" // 수직 스와이프
       onSlideChange={handleSlideChange}
-      className="h-[calc(100vh-64px)] bg-black"
+      className="h-[calc(100vh-5.5rem)] bg-black"
     >
       {SHORTS_LIST_DATA.map((shortsUuid, index) => (
         <SwiperSlide
@@ -70,7 +70,7 @@ export function ShortsSection() {
   return (
     <CommentDrawerContextProvider>
       <ShortsSwiper />
-      <ShortsCommentDrawer />
+      <ShortsCommentDrawer shortsUuid="test" />
     </CommentDrawerContextProvider>
   );
 }

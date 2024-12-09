@@ -1,14 +1,22 @@
+'use client';
 import React from 'react';
 
-function OceanSunfish({ size }: { size: number }) {
+function OceanSunfish({
+  size,
+  className = 'transform scale-x-[-1]',
+}: {
+  size: number;
+  className?: string;
+}) {
+
   return (
     <svg
+      className={className}
       width={size}
       height={size}
-      viewBox="0 0 185 185"
+      viewBox="0 0 184 185"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="transform scale-x-[-1]"
     >
       <path
         d="M107.594 54.3293L107.301 54.2968C98.886 37.4867 106.621 7.58681 116.378 2.99902C117.624 3.46152 118.679 4.47686 119.102 5.94385C125.01 26.4781 121.292 40.1038 107.594 54.3293Z"

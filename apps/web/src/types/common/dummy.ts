@@ -23,7 +23,7 @@ export function pagination<T>({
 }: PaginationParam<T>): Pagination<T> {
   return {
     content,
-    nextCursor: -1,
+    nextCursor: "",
     hasNext: true,
     pageSize,
     pageNo,

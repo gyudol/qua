@@ -1,16 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getMemberProfile } from "@/actions/member-read-service";
+import Link from "next/link";
 import { PostedAt } from "@/components/common/atoms";
-import { Profile } from "@/components/profile/molecules";
 import type { FeedRecomment } from "@/types/comment/comment-read-service";
 import { useGetFeedRecommentQuery } from "@/hooks";
+import { useMemberCompactProfile } from "@/hooks/member-read-service";
+import { MemberProfileImage } from "@/components/profile/atoms/MemberProfileImage";
 import { RecommentButtonGroup } from "../molecules";
 import { RecommentEditInput, RecommentMoreButton } from "../atoms";
 
-type RecommentViewProps = FeedRecomment;
+interface RecommentViewProps extends FeedRecomment {
+  justNow?: boolean;
+}
 
 export function RecommentView({
   memberUuid,
@@ -18,52 +20,60 @@ export function RecommentView({
   recommentUuid,
   likeCount,
   dislikeCount,
+  justNow,
 }: RecommentViewProps) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const { data: recomment } = useGetFeedRecommentQuery({ recommentUuid });
+  const { data: memberProfile } = useMemberCompactProfile({ memberUuid });
 
-  const { data: memberProfile } = useQuery({
-    queryKey: ["member-profile", memberUuid],
-    queryFn: () => getMemberProfile({ memberUuid }),
-  });
+  if (!recomment || !memberProfile) return null;
 
-  if (!recomment) return null;
+  const { profileImageUrl, nickname } = memberProfile;
 
   const { content, createdAt, updatedAt } = recomment;
 
   return (
-    <div className="flex">
-      {isEditing ? (
-        <RecommentEditInput {...{ recommentUuid, content, setIsEditing }} />
-      ) : (
-        <>
-          <div className="w-[2.5rem] mr-[1rem]">
-            <Profile.PictureSkeleton />
-          </div>
-          <div className="flex-1">
-            <div className="flex items-center">
-              <span>{memberProfile?.nickname}</span>
-              <span>
-                <PostedAt {...{ createdAt, updatedAt }} />
-              </span>
-            </div>
-            <div>{content}</div>
+    <div
+      className={`flex p-[0.25rem] rounded-lg ${justNow ? "bg-teal-100" : ""}`}
+    >
+      <div className="w-[2.5rem] mr-[1rem]">
+        <MemberProfileImage
+          {...{
+            profileImageUrl,
+            nickname,
+            size: "2.5rem",
+          }}
+          link
+        />
+      </div>
+      <div className="flex-1 mb-[0.5rem]">
+        <div className="mb-[0.25rem]">
+          <Link href={`/profile/${nickname}`} className="mr-[0.5rem]">
+            {nickname}
+          </Link>
+          <span className="text-nowrap">
+            <PostedAt {...{ createdAt, updatedAt }} />
+          </span>
+        </div>
+
+        {isEditing ? (
+          <RecommentEditInput {...{ recommentUuid, content, setIsEditing }} />
+        ) : (
+          <>
+            <div className="mb-[0.5rem]">{content}</div>
             <RecommentButtonGroup
-              {...{
-                commentUuid,
-                recommentUuid,
-                likeCount,
-                dislikeCount,
-              }}
+              {...{ commentUuid, recommentUuid, likeCount, dislikeCount }}
             />
-          </div>
-          <div className="w-[2.5rem]">
-            <RecommentMoreButton
-              {...{ recommentUuid, memberUuid, setIsEditing }}
-            />
-          </div>
-        </>
-      )}
+          </>
+        )}
+      </div>{" "}
+      {!isEditing ? (
+        <div className="w-[2.5rem]">
+          <RecommentMoreButton
+            {...{ recommentUuid, memberUuid, setIsEditing }}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }

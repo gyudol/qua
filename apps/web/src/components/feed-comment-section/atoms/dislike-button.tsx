@@ -1,10 +1,9 @@
-"use client";
-
-import { ThumbsDown } from "lucide-react";
-import { useSession } from "next-auth/react";
 import type { UseMutationResult } from "@tanstack/react-query";
+import { ThumbsDown } from "lucide-react";
+import { ButtonWithAuth } from "@/components/common/atoms";
+import { formatToNumAbbrs } from "@/functions/utils";
 
-interface DislikeButtonProps {
+interface FeedDislikeButtonProps {
   dislikeCount: number;
   dislikeStatus: {
     data: boolean | undefined;
@@ -23,21 +22,23 @@ interface DislikeButtonProps {
 export function DislikeButton({
   dislikeCount,
   dislikeStatus,
-}: DislikeButtonProps) {
-  const { status } = useSession();
-
-  function toggleLike() {
-    if (status === "authenticated") {
-      dislikeStatus.mutation.mutate();
-    }
-  }
-
+}: FeedDislikeButtonProps) {
   return (
-    <button type="button" onClick={toggleLike} className="flex">
+    <ButtonWithAuth
+      className="flex gap-[0.5rem] items-center"
+      onClick={() => dislikeStatus.mutation.mutate()}
+    >
       <span>
-        <ThumbsDown stroke={dislikeStatus.data ? "pink" : "black"} />
+        <ThumbsDown
+          size="1.25rem"
+          className={dislikeStatus.data ? "text-pink-300" : "text-slate-400"}
+        />
       </span>
-      <span>{dislikeCount + Number(dislikeStatus.data)}</span>
-    </button>
+      <span className="text-sm text-slate-400">
+        {formatToNumAbbrs(
+          Number(dislikeCount) + Number(dislikeStatus.data || 0),
+        )}
+      </span>
+    </ButtonWithAuth>
   );
 }
