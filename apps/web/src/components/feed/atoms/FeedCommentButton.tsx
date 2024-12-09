@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { MessageSquareMore } from "lucide-react";
-import Link from "next/link";
-import type { Feed } from "@/types/feed/feed-read-service";
+import { MessageSquareMore } from 'lucide-react';
+import Link from 'next/link';
+import type { Feed } from '@/types/feed/feed-read-service';
 
-type FeedCommentButtonProps = Pick<Feed, "feedUuid" | "commentCount">;
+type FeedCommentButtonProps = Pick<Feed, 'feedUuid' | 'commentCount'>;
 
 export function FeedCommentButton({
   feedUuid,
@@ -18,7 +18,7 @@ export function FeedCommentButton({
       <span>
         <MessageSquareMore size="1.25rem" />
       </span>
-      <span className="text-sm">{commentCount}</span>
+      <span className="text-xs">{commentCount}</span>
     </Link>
   );
 }

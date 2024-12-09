@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 import {
   getMemberCompactProfile,
   getMemberProfileByNickname,
   getMemberProfileByUuid,
-} from "@/actions/member-read-service";
-import type { GetMemberCompactProfileReq } from "@/types/member/member-read-service";
+} from '@/actions/member-read-service';
+import type { GetMemberCompactProfileReq } from '@/types/member/member-read-service';
 
 export function useMemberProfile({
   memberUuid,
@@ -19,9 +19,9 @@ export function useMemberProfile({
 
   return useQuery({
     queryKey: [
-      "member-service",
+      'member-service',
       {
-        type: "profile",
+        type: 'profile',
         memberUuid,
         nickname,
       },
@@ -32,7 +32,7 @@ export function useMemberProfile({
       } else if (nickname) {
         return getMemberProfileByNickname({ nickname });
       }
-      throw Error("memberUuid or nickanme is needed");
+      throw Error('memberUuid or nickanme is needed');
     },
   });
 }
@@ -41,7 +41,7 @@ export function useMemberCompactProfile({
   memberUuid,
 }: GetMemberCompactProfileReq) {
   return useQuery({
-    queryKey: ["member-service", { type: "compact-profile", memberUuid }],
+    queryKey: ['member-service', { type: 'compact-profile', memberUuid }],
     queryFn: () => getMemberCompactProfile({ memberUuid }),
   });
 }

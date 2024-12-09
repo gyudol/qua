@@ -62,7 +62,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
             </p>
           ))}
         </div>
-        <Aquarium size={300} />
+        <Aquarium size={80} />
       </aside>
     </>
   );

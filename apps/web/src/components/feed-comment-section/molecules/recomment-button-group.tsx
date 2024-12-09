@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useLikeService } from "@/hooks";
-import { DislikeButton, LikeButton, ReplyButton, ReplyInput } from "../atoms";
+import { useState } from 'react';
+import { useLikeService } from '@/hooks';
+import { DislikeButton, LikeButton, ReplyButton, ReplyInput } from '../atoms';
 
 interface RecommentButtonGroupProps {
   commentUuid: string;
@@ -19,7 +19,7 @@ export function RecommentButtonGroup({
 }: RecommentButtonGroupProps) {
   const [isReplyInputShowed, setIsReplyInputShowed] = useState<boolean>(false);
   const { likeStatus, dislikeStatus } = useLikeService({
-    kind: "feed-recomment",
+    kind: 'feed-recomment',
     kindUuid: recommentUuid,
     likeCount,
     dislikeCount,
@@ -27,7 +27,7 @@ export function RecommentButtonGroup({
 
   return (
     <>
-      <ul className="flex gap-[0.5rem] items-center">
+      <ul className="flex gap-[1rem] items-center">
         <li>
           <LikeButton
             {...{

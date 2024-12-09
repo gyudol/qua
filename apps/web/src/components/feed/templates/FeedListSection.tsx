@@ -1,14 +1,15 @@
-"use client";
+'use client';
 
-import { useGetFeedsInfiniteQuery, useInfiniteScroll } from "@/hooks";
-import { FeedCardArticle } from "@/components/feed/organisms/FeedCardArticle";
-import type { GetFeedsReq } from "@/types/feed/feed-read-service";
-import type { FeedViewType } from "@/types/feed/common";
-import { FeedListOptionGroup } from "../organisms/FeedListOptionGroup";
-import { FeedCompactArticle } from "../organisms/FeedCompactArticle";
+import { Separator } from '@repo/ui/shadcn/separator';
+import { useGetFeedsInfiniteQuery, useInfiniteScroll } from '@/hooks';
+import { FeedCardArticle } from '@/components/feed/organisms/FeedCardArticle';
+import type { GetFeedsReq } from '@/types/feed/feed-read-service';
+import type { FeedViewType } from '@/types/feed/common';
+import { FeedListOptionGroup } from '../organisms/FeedListOptionGroup';
+import { FeedCompactArticle } from '../organisms/FeedCompactArticle';
 
 interface FeedListSectionProps
-  extends Pick<GetFeedsReq, "categoryName" | "hashtagName" | "sortBy"> {
+  extends Pick<GetFeedsReq, 'categoryName' | 'hashtagName' | 'sortBy'> {
   view?: FeedViewType;
 }
 
@@ -35,15 +36,27 @@ export default function FeedListSection({
       <FeedListOptionGroup />
 
       <section className="flex flex-col pb-16 md:pb-16 md:pt-0">
-        {data?.pages.map((page) =>
-          page.content.map((feed) => {
-            if (view === "compact")
-              return <FeedCompactArticle key={feed.feedUuid} {...feed} link />;
-            return <FeedCardArticle key={feed.feedUuid} {...feed} link />;
-          }),
-        )}
+        {data
+          ? data.pages.map((page) =>
+              page.content.map((feed) => {
+                if (view === 'compact')
+                  return (
+                    <>
+                      <FeedCompactArticle key={feed.feedUuid} {...feed} link />
+                      <Separator className="bg-[#EEE] h-[0.5rem]" />
+                    </>
+                  );
+                return (
+                  <>
+                    <FeedCardArticle key={feed.feedUuid} {...feed} link />
+                    <Separator className="bg-[#EEE] h-[0.5rem]" />
+                  </>
+                );
+              })
+            )
+          : null}
         <div ref={observerRef} className="">
-          {isFetchingNextPage ? "로딩중" : null}
+          {isFetchingNextPage ? '로딩중' : null}
         </div>
       </section>
     </div>

@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@repo/ui/shadcn/dropdown-menu";
-import { Flag, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
-import type { Dispatch, SetStateAction } from "react";
-import { toast } from "sonner";
-import { useDeleteFeedCommentMutation } from "@/hooks/comment-service";
-import { useSessionContext } from "@/context/SessionContext";
-import { ButtonWithAuth } from "@/components/common/atoms";
+} from '@repo/ui/shadcn/dropdown-menu';
+import { Flag, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
+import type { Dispatch, SetStateAction } from 'react';
+import { toast } from 'sonner';
+import { useDeleteFeedCommentMutation } from '@/hooks/comment-service';
+import { useSessionContext } from '@/context/SessionContext';
+import { ButtonWithAuth } from '@/components/common/atoms';
 
 interface CommentMoreButtonProps {
   commentUuid: string;
@@ -28,7 +28,7 @@ export function CommentMoreButton({
   const deleteMutation = useDeleteFeedCommentMutation({ commentUuid });
 
   function handleReport() {
-    toast.error("해당 댓글을 신고하였습니다.");
+    toast.error('해당 댓글을 신고하였습니다.');
   }
   function handleEdit() {
     setIsEditing(true);
@@ -40,17 +40,17 @@ export function CommentMoreButton({
     <DropdownMenu>
       <DropdownMenuTrigger>
         <button type="button" className="p-1 hover:bg-gray-50 rounded-full">
-          <MoreHorizontal className="w-5 h-5" />
+          <MoreHorizontal size={16} color="gray" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent align="end" className="rounded-lg">
         {sessionUuid !== memberUuid ? (
           <DropdownMenuItem>
             <ButtonWithAuth
-              className="w-full px-4 py-2 text-left flex items-center gap-2"
+              className="w-full px-4 py-1 text-left flex items-center gap-2 text-xs"
               onClick={() => handleReport()}
             >
-              <Flag className="w-4 h-4" />
+              <Flag size={12} />
               신고하기
             </ButtonWithAuth>
           </DropdownMenuItem>
@@ -58,19 +58,19 @@ export function CommentMoreButton({
           <>
             <DropdownMenuItem>
               <ButtonWithAuth
-                className="w-full px-4 py-2 text-left flex items-center gap-2"
+                className="w-full px-4 py-1 text-left flex items-center gap-2 text-xs"
                 onClick={handleEdit}
               >
-                <Pencil className="w-4 h-4" />
+                <Pencil size={12} />
                 수정하기
               </ButtonWithAuth>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <ButtonWithAuth
-                className="w-full px-4 py-2 text-left text-red-600 flex items-center gap-2"
+                className="w-full px-4 py-2 text-left text-red-600 flex items-center gap-2 text-xs"
                 onClick={handleDelete}
               >
-                <Trash2 className="w-4 h-4" />
+                <Trash2 size={12} />
                 삭제하기
               </ButtonWithAuth>
             </DropdownMenuItem>

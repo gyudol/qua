@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
-import { PostedAt } from "@/components/common/atoms";
-import type { FeedRecomment } from "@/types/comment/comment-read-service";
-import { useGetFeedRecommentQuery } from "@/hooks";
-import { useMemberCompactProfile } from "@/hooks/member-read-service";
-import { MemberProfileImage } from "@/components/profile/atoms/MemberProfileImage";
-import { RecommentButtonGroup } from "../molecules";
-import { RecommentEditInput, RecommentMoreButton } from "../atoms";
+import { useState } from 'react';
+import Link from 'next/link';
+import { PostedAt } from '@/components/common/atoms';
+import type { FeedRecomment } from '@/types/comment/comment-read-service';
+import { useGetFeedRecommentQuery } from '@/hooks';
+import { useMemberCompactProfile } from '@/hooks/member-read-service';
+import { MemberProfileImage } from '@/components/profile/atoms/MemberProfileImage';
+import { RecommentButtonGroup } from '../molecules';
+import { RecommentEditInput, RecommentMoreButton } from '../atoms';
 
 interface RecommentViewProps extends FeedRecomment {
   justNow?: boolean;
@@ -34,21 +34,24 @@ export function RecommentView({
 
   return (
     <div
-      className={`flex p-[0.25rem] rounded-lg ${justNow ? "bg-teal-100" : ""}`}
+      className={`flex p-[0.25rem] rounded-lg ${justNow ? 'bg-teal-100' : ''}`}
     >
       <div className="w-[2.5rem] mr-[1rem]">
         <MemberProfileImage
           {...{
             profileImageUrl,
             nickname,
-            size: "2.5rem",
+            size: '2.5rem',
           }}
           link
         />
       </div>
       <div className="flex-1 mb-[0.5rem]">
         <div className="mb-[0.25rem]">
-          <Link href={`/profile/${nickname}`} className="mr-[0.5rem]">
+          <Link
+            href={`/profile/${nickname}`}
+            className="mr-[0.5rem] text-sm text-slate-600"
+          >
             {nickname}
           </Link>
           <span className="text-nowrap">
@@ -60,13 +63,13 @@ export function RecommentView({
           <RecommentEditInput {...{ recommentUuid, content, setIsEditing }} />
         ) : (
           <>
-            <div className="mb-[0.5rem]">{content}</div>
+            <div className="mb-[0.5rem] text-xs">{content}</div>
             <RecommentButtonGroup
               {...{ commentUuid, recommentUuid, likeCount, dislikeCount }}
             />
           </>
         )}
-      </div>{" "}
+      </div>{' '}
       {!isEditing ? (
         <div className="w-[2.5rem]">
           <RecommentMoreButton

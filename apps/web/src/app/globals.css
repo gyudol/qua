@@ -121,14 +121,14 @@ body {
 
 @keyframes bubble {
   0% {
-    transform: translateY(0) scale(0.2); /* 물고기 근처에서 시작 */
+    transform: translateY(0) scale(0.1); /* 물고기 근처에서 시작 */
     opacity: 0; /* 시작 시 반투명 */
   }
   50% {
     opacity: 1; /* 중간에서 선명해짐 */
   }
   100% {
-    transform: translateY(-100px) scale(0.7); /* 위로 떠오르며 커짐 */
+    transform: translateY(-100px) scale(0.3); /* 위로 떠오르며 커짐 */
     opacity: 0; /* 사라짐 */
   }
 }

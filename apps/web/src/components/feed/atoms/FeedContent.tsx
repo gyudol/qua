@@ -1,8 +1,8 @@
-import Link from "next/link";
-import type { PropsWithChildren } from "react";
-import type { Feed } from "@/types/feed/feed-read-service";
+import Link from 'next/link';
+import type { PropsWithChildren } from 'react';
+import type { Feed } from '@/types/feed/feed-read-service';
 
-interface FeedContentProps extends Pick<Feed, "feedUuid" | "content"> {
+interface FeedContentProps extends Pick<Feed, 'feedUuid' | 'content'> {
   link?: boolean;
 }
 
@@ -21,5 +21,7 @@ interface ContentProps extends PropsWithChildren {
 }
 
 function Content({ children, className }: ContentProps) {
-  return <p className={`text-gray-600 ${className}`}>{children}</p>;
+  return (
+    <p className={`text-gray-600 text-sm px-1 ${className}`}>{children}</p>
+  );
 }

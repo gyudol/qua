@@ -1,6 +1,6 @@
-import type { UseMutationResult } from "@tanstack/react-query";
-import { ThumbsDown } from "lucide-react";
-import { ButtonWithAuth } from "@/components/common/atoms";
+import type { UseMutationResult } from '@tanstack/react-query';
+import { ThumbsDown } from 'lucide-react';
+import { ButtonWithAuth } from '@/components/common/atoms';
 
 interface FeedDislikeButtonProps {
   dislikeCount: number;
@@ -30,10 +30,10 @@ export function FeedDislikeButton({
       <span>
         <ThumbsDown
           size="1.25rem"
-          className={dislikeStatus.data ? "text-pink-300" : "text-slate-400"}
+          className={dislikeStatus.data ? 'text-pink-300' : 'text-slate-400'}
         />
       </span>
-      <span className="text-sm text-slate-400">
+      <span className="text-xs text-slate-400">
         {Number(dislikeCount) + Number(dislikeStatus.data || 0)}
       </span>
     </ButtonWithAuth>

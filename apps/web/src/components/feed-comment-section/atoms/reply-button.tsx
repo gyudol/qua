@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import type { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from 'react';
 
 interface ReplyButtonProps {
   setIsReplyInputShowed: Dispatch<SetStateAction<boolean>>;
@@ -15,7 +15,7 @@ export function ReplyButton({ setIsReplyInputShowed }: ReplyButtonProps) {
     <button
       type="button"
       onClick={() => handleOpen()}
-      className="px-4 py-1 text-sm text-white bg-teal-400 rounded-full"
+      className="px-4 py-1 text-xs bg-white text-teal-400 border-[1px] border-teal-400 rounded-full"
     >
       답글
     </button>

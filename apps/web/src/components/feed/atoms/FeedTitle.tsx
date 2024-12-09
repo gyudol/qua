@@ -1,9 +1,9 @@
-import Link from "next/link";
-import type { PropsWithChildren } from "react";
-import type { Feed } from "@/types/feed/feed-read-service";
+import Link from 'next/link';
+import type { PropsWithChildren } from 'react';
+import type { Feed } from '@/types/feed/feed-read-service';
 
 interface FeedTitleProps
-  extends Pick<Feed, "feedUuid" | "title" | "categoryName"> {
+  extends Pick<Feed, 'feedUuid' | 'title' | 'categoryName'> {
   link?: boolean;
 }
 
@@ -14,20 +14,20 @@ export function FeedTitle({
   link,
 }: FeedTitleProps) {
   return (
-    <h2 className="text-lg font-bold items-center">
+    <div className="flex text-md font-bold items-center mb-2">
       <Link href={`/category/${categoryName}`}>
-        <span className="text-teal-500 text-base font-bold bg-slate-50 rounded-xl py-1 px-2 mr-[0.5rem]">
+        <p className="text-white text-xs font-normal bg-teal-500 rounded-full py-1 px-2 mr-[0.5rem]">
           📚{categoryName}
-        </span>
+        </p>
       </Link>
       <Title {...{ feedUuid, link }}>
-        <span className="overflow-hidden">{title}</span>
+        <h2 className="overflow-hidden">{title}</h2>
       </Title>
-    </h2>
+    </div>
   );
 }
 
-interface TitleProps extends Pick<Feed, "feedUuid">, PropsWithChildren {
+interface TitleProps extends Pick<Feed, 'feedUuid'>, PropsWithChildren {
   link?: boolean;
 }
 

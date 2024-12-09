@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import type { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { useState } from "react";
-import { toast } from "sonner";
-import { usePutFeedCommentMutation } from "@/hooks/comment-service";
-import { ButtonWithAuth } from "@/components/common/atoms";
+import type { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { usePutFeedCommentMutation } from '@/hooks/comment-service';
+import { ButtonWithAuth } from '@/components/common/atoms';
 
 interface CommentEditInputProps {
   commentUuid: string;
@@ -32,15 +32,15 @@ export function CommentEditInput({
   }
 
   function handleEdit() {
-    if (newContent === "") return toast.error("내용을 입력해주세요");
+    if (newContent === '') return toast.error('내용을 입력해주세요');
     mutation.mutate(newContent);
-    setNewContent("");
+    setNewContent('');
     setIsEditing(false);
   }
 
   return (
     <div
-      className={`w-full p-[0.25rem] bg-white ring-2 ${isFocused ? " ring-teal-400" : "ring-teal-100"}`}
+      className={`w-full p-2 !rounded-md bg-white border-[1px] ${isFocused ? ' border-teal-400' : 'border-teal-100'}`}
     >
       <div className="h-[3rem]">
         <textarea
@@ -61,14 +61,14 @@ export function CommentEditInput({
         </div>
         <div className="flex gap-[0.25rem]">
           <button
-            className="px-4 py-1 text-sm text-slate-400 bg-slate-200 rounded-full"
+            className="px-4 py-1 text-xs text-slate-400 bg-slate-200 !rounded-md"
             type="button"
             onClick={() => handleClose()}
           >
             취소
           </button>
           <ButtonWithAuth
-            className="px-4 py-1 text-sm text-white bg-teal-400 rounded-full"
+            className="px-4 py-1 text-xs text-white bg-teal-400 !rounded-md"
             type="button"
             onClick={() => handleEdit()}
           >
