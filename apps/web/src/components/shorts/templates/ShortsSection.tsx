@@ -5,32 +5,13 @@ import type { Swiper as SwiperClass } from "swiper/types"; // Swiper instance �
 import { useState } from "react";
 import { CommentDrawerContextProvider } from "@/provider/CommentDrawerContextProvider";
 import { useCommentDrawerContext } from "@/context/DrawerContext";
-import { SHORTS_DATA, SHORTS_LIST_DATA } from "@/dummies/shorts-data";
-import { ShortsButtonGroup, ShortsPannel } from "../molecules";
+import { useGetShortsRecsInfiniteQuery } from "@/hooks/shorts-read-service";
 import ShortsCommentDrawer from "../organisms/ShortsCommentDrawer";
-import ShortsVideo from "../organisms/ShortsVideo";
-
-function ShortsSlideContent({
-  shortsUuid,
-  isActive,
-}: {
-  shortsUuid: string;
-  isActive: boolean;
-}) {
-  const shortsData = SHORTS_DATA[shortsUuid];
-
-  return (
-    <>
-      <div className="w-full h-[50%] translate-y-[50%] flex items-center">
-        <ShortsVideo src={shortsData.mediaUrl} isActive={isActive} />
-      </div>
-      <ShortsButtonGroup />
-      <ShortsPannel {...shortsData} />
-    </>
-  );
-}
+import { ShortsSlideContent } from "../organisms/ShortsSlideContent";
 
 function ShortsSwiper() {
+  const { data } = useGetShortsRecsInfiniteQuery({});
+
   const { setCommentTarget } = useCommentDrawerContext();
 
   const [activeIndex, setActiveIndex] = useState(0); // 현재 활성 슬라이드 인덱스
@@ -38,9 +19,11 @@ function ShortsSwiper() {
     setActiveIndex(swiper.activeIndex); // 활성 슬라이드 업데이트
     if (setCommentTarget)
       setCommentTarget(() => {
+        const targetUuid =
+          swiper.slides[swiper.activeIndex].ariaDescription || "";
         return {
           targetType: "shorts",
-          targetUuid: SHORTS_LIST_DATA[swiper.activeIndex],
+          targetUuid,
         };
       });
   };
@@ -51,17 +34,17 @@ function ShortsSwiper() {
       onSlideChange={handleSlideChange}
       className="h-[calc(100vh-5.5rem)] bg-black"
     >
-      {SHORTS_LIST_DATA.map((shortsUuid, index) => (
-        <SwiperSlide
-          key={shortsUuid}
-          className="flex justify-center items-center relative overflow-hidden"
-        >
-          <ShortsSlideContent
-            shortsUuid={shortsUuid}
-            isActive={index === activeIndex}
-          />
-        </SwiperSlide>
-      ))}
+      {data?.pages.map((page) =>
+        page.content.map((shorts, index) => (
+          <SwiperSlide
+            key={shorts.shortsUuid}
+            aria-description={shorts.shortsUuid}
+            className="flex justify-center items-center relative overflow-hidden"
+          >
+            <ShortsSlideContent {...shorts} isActive={index === activeIndex} />
+          </SwiperSlide>
+        )),
+      )}
     </Swiper>
   );
 }
@@ -70,7 +53,7 @@ export function ShortsSection() {
   return (
     <CommentDrawerContextProvider>
       <ShortsSwiper />
-      <ShortsCommentDrawer shortsUuid="test" />
+      <ShortsCommentDrawer />
     </CommentDrawerContextProvider>
   );
 }
