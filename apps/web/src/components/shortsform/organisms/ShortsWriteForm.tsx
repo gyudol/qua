@@ -5,13 +5,15 @@ import { useRef, useState } from "react";
 import { toast } from "sonner";
 import type { PostShortsReq } from "@/types/shorts/shorts-service";
 import { postShorts } from "@/actions/shorts-service";
+import { useSessionContext } from "@/context/SessionContext";
 import ShortsCreateFormFields from "./ShortsCreateFormFields";
 
 function ShortsWriteForm() {
+  const { memberUuid } = useSessionContext();
   const [payload, setPayload] = useState<
     Omit<PostShortsReq, "media"> & Partial<Pick<PostShortsReq, "media">>
   >({
-    memberUuid: "test",
+    memberUuid: memberUuid || "",
     title: "",
     playtime: 0,
     visibility: "VISIBLE", // 기본값
