@@ -1,16 +1,15 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, CornerDownRight } from 'lucide-react';
-import { useQueryClient } from '@tanstack/react-query';
+import React, { useState } from "react";
+import { ChevronDown, ChevronUp, CornerDownRight } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   getFeedRecommentsQK,
   getNewFeedRecommentsQK,
   useGetFeedRecommentsInfiniteQuery,
   usePostFeedRecommentQuery,
-} from '@/hooks';
-import { ButtonWithAuth } from '@/components/common/atoms';
-import { RecommentView } from './recomment-view';
+} from "@/hooks";
+import { RecommentView } from "./recomment-view";
 
 interface RecommentViewListProps {
   commentUuid: string;
@@ -40,24 +39,24 @@ export function RecommentViewList({
   }
   return (
     <div className="ml-[3.5rem] flex flex-col">
-      <div>
-        {data?.pages[0].content.length ? (
-          <ButtonWithAuth
+      {data?.pages[0].content.length ? (
+        <div className="">
+          <button
             type="button"
             onClick={handleShow}
             className="flex text-teal-400 gap-[1rem]"
           >
             {isRecommentListShowed ? (
-              <ChevronUp size={16} />
+              <ChevronUp size="1rem" />
             ) : (
-              <ChevronDown size={16} />
+              <ChevronDown size="1rem" />
             )}
             <span className="text-xs">
               답글 {recommentCount + (newRecommentList?.length || 0)}개
             </span>
-          </ButtonWithAuth>
-        ) : null}
-      </div>
+          </button>
+        </div>
+      ) : null}
       <div>
         {newRecommentList?.map((recomment) => (
           <RecommentView key={recomment.recommentUuid} {...recomment} justNow />
@@ -75,12 +74,10 @@ export function RecommentViewList({
               <button
                 type="button"
                 onClick={() => void fetchNextPage()}
-                className="flex text-teal-400"
+                className="flex text-teal-400 gap-[1rem]"
               >
-                <span className="mr-[0.5rem]">
-                  <CornerDownRight />
-                </span>
-                <span>답글 더보기</span>
+                <CornerDownRight size="1rem" />
+                <span className="text-xs">답글 더보기</span>
               </button>
             ) : null}
           </>
