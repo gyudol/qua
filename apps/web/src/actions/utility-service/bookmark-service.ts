@@ -74,7 +74,7 @@ export async function postFeedBookmark({ feedUuid }: PostFeedBookmarkReq) {
 export async function deleteShortsBookmark({
   shortsUuid,
 }: DeleteShortsBookmarkReq) {
-  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/shorts/${shortsUuid}/bookmarks}`;
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/shorts/${shortsUuid}/bookmarks`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
