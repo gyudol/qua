@@ -25,7 +25,7 @@ export interface PostShortsReq {
   memberUuid: string;
   title: string;
   playtime: number;
-  visibility: "VISIBLE";
+  visibility: "VISIBLE" | "HIDDEN";
   hashtags: Hashtag[];
   media: ShortsMedia;
 }
