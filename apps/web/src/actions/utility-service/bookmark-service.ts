@@ -1,6 +1,6 @@
-'use server';
+"use server";
 
-import { toURLSearchParams } from '@/functions/utils';
+import { toURLSearchParams } from "@/functions/utils";
 import type {
   DeleteFeedBookmarkReq,
   DeleteShortsBookmarkReq,
@@ -10,22 +10,22 @@ import type {
   GetShortsBookmarkStatusReq,
   PostFeedBookmarkReq,
   PostShortsBookmarkReq,
-} from '@/types/utility-service/bookmark-service';
-import type { ShortsUuid } from '@/types/shorts-service';
-import type { EmptyObject } from '@/types/common';
-import type { FeedUuid } from '@/types/feed/common';
-import { getHeaders, processResponse } from '../common';
+} from "@/types/utility-service/bookmark-service";
+import type { ShortsUuid } from "@/types/shorts/common";
+import type { EmptyObject } from "@/types/common";
+import type { FeedUuid } from "@/types/feed/common";
+import { getHeaders, processResponse } from "../common";
 
 const API_SERVER = process.env.BASE_API_URL;
-const PREFIX = 'utility-service';
+const PREFIX = "utility-service";
 
 export async function getShortsBookmarks({ ...query }: GetShortsBookmarksReq) {
   const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/shorts/bookmarks?${toURLSearchParams(query)}`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: 'GET',
-    cache: 'no-cache',
+    method: "GET",
+    cache: "no-cache",
   });
 
   return processResponse<ShortsUuid, true>({ res });
@@ -36,8 +36,8 @@ export async function getFeedBookmarks({ ...query }: GetFeedBookmarksReq) {
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: 'GET',
-    cache: 'no-cache',
+    method: "GET",
+    cache: "no-cache",
   });
 
   return processResponse<FeedUuid, true>({ res });
@@ -50,8 +50,8 @@ export async function postShortsBookmark({
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: 'POST',
-    cache: 'no-cache',
+    method: "POST",
+    cache: "no-cache",
     body: JSON.stringify({ shortsUuid }),
   });
 
@@ -63,8 +63,8 @@ export async function postFeedBookmark({ feedUuid }: PostFeedBookmarkReq) {
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: 'POST',
-    cache: 'no-cache',
+    method: "POST",
+    cache: "no-cache",
     body: JSON.stringify({ feedUuid }),
   });
 
@@ -78,8 +78,8 @@ export async function deleteShortsBookmark({
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: 'DELETE',
-    cache: 'no-cache',
+    method: "DELETE",
+    cache: "no-cache",
   });
 
   return processResponse<EmptyObject, false>({ res });
@@ -90,8 +90,8 @@ export async function deleteFeedBookmark({ feedUuid }: DeleteFeedBookmarkReq) {
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: 'DELETE',
-    cache: 'no-cache',
+    method: "DELETE",
+    cache: "no-cache",
   });
 
   return processResponse<EmptyObject, false>({ res });
@@ -104,8 +104,8 @@ export async function getShortsBookmarkStatus({
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: 'GET',
-    cache: 'no-cache',
+    method: "GET",
+    cache: "no-cache",
   });
 
   return processResponse<boolean, false>({ res });
@@ -118,8 +118,8 @@ export async function getFeedBookmarkStatus({
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
-    method: 'GET',
-    cache: 'no-cache',
+    method: "GET",
+    cache: "no-cache",
   });
 
   return processResponse<boolean, false>({ res });
