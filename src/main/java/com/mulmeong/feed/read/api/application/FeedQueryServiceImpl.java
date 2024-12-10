@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class FeedQueryServiceImpl implements FeedQueryService {
@@ -20,7 +21,6 @@ public class FeedQueryServiceImpl implements FeedQueryService {
     private final FeedQueryRepository feedQueryRepository;
     private final FeedCustomRepository feedCustomRepository;
 
-    @Transactional(readOnly = true)
     @Override
     public FeedResponseDto getSingleFeed(String feedUuid) {
 
@@ -28,14 +28,12 @@ public class FeedQueryServiceImpl implements FeedQueryService {
             .orElseThrow(() -> new BaseException(FEED_NOT_FOUND)));
     }
 
-    @Transactional(readOnly = true)
     @Override
     public CursorPage<FeedResponseDto> getFeedsByCategoryOrTag(FeedFilterRequestDto requestDto) {
 
         return feedCustomRepository.getFeedsByCategoryOrTag(requestDto);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public CursorPage<FeedResponseDto> getFeedsByAuthor(FeedAuthorRequestDto requestDto) {
 

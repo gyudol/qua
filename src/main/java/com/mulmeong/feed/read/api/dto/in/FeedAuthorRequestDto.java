@@ -9,14 +9,14 @@ import lombok.Getter;
 public class FeedAuthorRequestDto extends BasePaginationRequestDto {
 
     private String authorUuid;
-    private String requesterUuid;
+    private boolean isOwner;
 
-    public static FeedAuthorRequestDto toDto(String authorUuid, String requesterUuid, String sortBy,
+    public static FeedAuthorRequestDto toDto(String authorUuid, boolean isOwner, String sortBy,
         String lastId, Integer pageSize, Integer pageNo) {
 
         return FeedAuthorRequestDto.builder()
             .authorUuid(authorUuid)
-            .requesterUuid(requesterUuid)
+            .isOwner(isOwner)
             .sortType(SortType.valueOf(sortBy.toUpperCase()))
             .lastId(lastId)
             .pageSize(pageSize)
@@ -25,12 +25,12 @@ public class FeedAuthorRequestDto extends BasePaginationRequestDto {
     }
 
     @Builder
-    public FeedAuthorRequestDto(String authorUuid, String requesterUuid, SortType sortType,
+    public FeedAuthorRequestDto(String authorUuid, boolean isOwner, SortType sortType,
         String lastId, Integer pageSize, Integer pageNo) {
 
         super(sortType, lastId, pageSize, pageNo);
         this.authorUuid = authorUuid;
-        this.requesterUuid = requesterUuid;
+        this.isOwner = isOwner;
     }
 
 }
