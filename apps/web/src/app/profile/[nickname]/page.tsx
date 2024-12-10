@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { options } from "@/app/api/auth/[...nextauth]/authOption";
 import { CommonLayout } from "@/components/common/atoms";
-import { ProfileCardSection } from "@/components/profile/templates";
+import { ProfilePage } from "@/components/profile/page";
 
 interface PageProps {
   params: {
@@ -19,8 +19,8 @@ export default async function page({ params: { nickname } }: PageProps) {
   }
 
   return (
-    <CommonLayout.Contents className="bg-white flex flex-col gap-[20px] pb-32">
-      <ProfileCardSection {...{ nickname: decodedNickname }} />
+    <CommonLayout.Contents className="bg-white flex flex-col gap-[20px]">
+      <ProfilePage {...{ nickname: decodedNickname }} />
     </CommonLayout.Contents>
   );
 }

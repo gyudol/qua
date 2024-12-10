@@ -28,5 +28,6 @@ export interface VideoMedia {
 
 export interface ShortsMedia {
   mediaUuid: string;
+  mediaType: undefined | "VIDEO";
   assets: VideoMediaAssets;
 }

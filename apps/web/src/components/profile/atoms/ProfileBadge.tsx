@@ -3,8 +3,8 @@ import { Circle, CircleEllipsis, PlusCircle } from "lucide-react";
 export function ProfileBadge() {
   return (
     <Circle
-      width="3.5rem"
-      height="3.5rem"
+      width="full"
+      height="full"
       strokeWidth="1px"
       stroke="white"
       fill="#DDD"
@@ -16,8 +16,8 @@ export function ProfileBadge() {
 export function ProfileBadgeMore() {
   return (
     <CircleEllipsis
-      width="3.5rem"
-      height="3.5rem"
+      width="full"
+      height="full"
       strokeWidth="1px"
       stroke="white"
       fill="#DDD"
@@ -29,8 +29,8 @@ export function ProfileBadgeMore() {
 export function ProfileBadgeAdd() {
   return (
     <PlusCircle
-      width="3.5rem"
-      height="3.5rem"
+      width="full"
+      height="full"
       strokeWidth="1px"
       stroke="white"
       fill="var(--theme-color)"
