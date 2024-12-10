@@ -5,24 +5,15 @@ import { options } from "@/app/api/auth/[...nextauth]/authOption";
 import { CommonLayout } from "@/components/common/atoms";
 import { ProfileCardSection } from "@/components/profile/templates";
 
-interface PageProps {
-  params: {
-    nickname: string;
-  };
-}
-
-export default async function page({ params: { nickname } }: PageProps) {
-  const decodedNickname = decodeURI(nickname);
+export default async function page() {
   const session = await getServerSession(options);
-  if (session?.user) {
-    const { memberUuid } = session.user as { memberUuid: string };
-    const myNickname = await getMemberNickname({ memberUuid });
-    if (decodedNickname === myNickname) redirect("/profile/me");
-  }
+  if (!session?.user) redirect("/");
+  const { memberUuid } = session.user as { memberUuid: string };
+  const nickname = await getMemberNickname({ memberUuid });
 
   return (
     <CommonLayout.Contents className="bg-white flex flex-col gap-[20px] pb-32">
-      <ProfileCardSection {...{ nickname: decodedNickname }} />
+      <ProfileCardSection {...{ nickname: decodeURI(nickname) }} />
     </CommonLayout.Contents>
   );
 }
