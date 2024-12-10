@@ -1,5 +1,6 @@
-package com.mulmeong.contest.read.entity;
+package com.mulmeong.contest.read.domain.document;
 
+import com.mulmeong.contest.read.domain.model.Media;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,8 +22,7 @@ public class ContestPost {
     private String postUuid;
     private Long contestId;
     private String memberUuid;
-    private String mediaUrl;
-    private MediaType mediaType;
+    private Media media;
     private LocalDateTime createdAt;
     private Integer voteCount;
 

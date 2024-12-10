@@ -1,4 +1,4 @@
-package com.mulmeong.contest.read.entity;
+package com.mulmeong.contest.read.domain.document;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

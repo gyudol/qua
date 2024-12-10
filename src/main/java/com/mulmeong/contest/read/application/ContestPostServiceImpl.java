@@ -5,7 +5,7 @@ import com.mulmeong.contest.read.common.response.BaseResponseStatus;
 import com.mulmeong.contest.read.common.utils.CursorPage;
 import com.mulmeong.contest.read.dto.in.ContestPostRequestDto;
 import com.mulmeong.contest.read.dto.out.ContestPostResponseDto;
-import com.mulmeong.contest.read.entity.ContestPost;
+import com.mulmeong.contest.read.domain.document.ContestPost;
 import com.mulmeong.contest.read.infrastructure.ContestPostCustomRepository;
 import com.mulmeong.contest.read.infrastructure.ContestPostRepository;
 import com.mulmeong.contest.read.infrastructure.ContestVoteRepository;
@@ -15,8 +15,6 @@ import com.mulmeong.event.contest.consume.ContestVoteUpdateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.NoSuchElementException;
 
 @Slf4j
 @RequiredArgsConstructor

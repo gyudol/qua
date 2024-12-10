@@ -1,7 +1,7 @@
 package com.mulmeong.contest.read.dto.in;
 
 import com.mulmeong.contest.read.dto.model.BasePaginationRequestDto;
-import com.mulmeong.contest.read.entity.SortType;
+import com.mulmeong.contest.read.domain.model.SortType;
 import lombok.Builder;
 import lombok.Getter;
 

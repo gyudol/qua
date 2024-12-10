@@ -1,9 +1,8 @@
 package com.mulmeong.contest.read.dto.out;
 
-import com.mulmeong.contest.read.dto.model.BasePaginationRequestDto;
-import com.mulmeong.contest.read.entity.ContestPost;
-import com.mulmeong.contest.read.entity.MediaType;
-import com.mulmeong.contest.read.entity.SortType;
+import com.mulmeong.contest.read.domain.document.ContestPost;
+import com.mulmeong.contest.read.domain.model.Media;
+import com.mulmeong.contest.read.domain.model.MediaType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,8 +16,7 @@ public class ContestPostResponseDto {
     private String postUuid;
     private Long contestId;
     private String memberUuid;
-    private String mediaUrl;
-    private MediaType mediaType;
+    private Media media;
     private LocalDateTime createdAt;
     private Integer voteCount;
 
@@ -27,16 +25,14 @@ public class ContestPostResponseDto {
             String postUuid,
             Long contestId,
             String memberUuid,
-            String mediaUrl,
-            MediaType mediaType,
+            Media media,
             LocalDateTime createdAt,
             Integer voteCount
     ) {
         this.postUuid = postUuid;
         this.contestId = contestId;
         this.memberUuid = memberUuid;
-        this.mediaUrl = mediaUrl;
-        this.mediaType = mediaType;
+        this.media = media;
         this.createdAt = createdAt;
         this.voteCount = voteCount;
     }
@@ -46,8 +42,7 @@ public class ContestPostResponseDto {
                 .contestId(post.getContestId())
                 .postUuid(post.getPostUuid())
                 .memberUuid(post.getMemberUuid())
-                .mediaUrl(post.getMediaUrl())
-                .mediaType(post.getMediaType())
+                .media(post.getMedia())
                 .createdAt(post.getCreatedAt())
                 .voteCount(post.getVoteCount())
                 .build();

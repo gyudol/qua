@@ -1,8 +1,8 @@
 package com.mulmeong.event.contest.consume;
 
 
-import com.mulmeong.contest.read.entity.ContestPost;
-import com.mulmeong.contest.read.entity.MediaType;
+import com.mulmeong.contest.read.domain.document.ContestPost;
+import com.mulmeong.contest.read.domain.model.Media;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,8 +17,7 @@ public class ContestPostCreateEvent {
     private String postUuid;
     private Long contestId;
     private String memberUuid;
-    private String mediaUrl;
-    private MediaType mediaType;
+    private Media media;
     private LocalDateTime createdAt;
 
 
@@ -27,8 +26,7 @@ public class ContestPostCreateEvent {
                 .postUuid(postUuid)
                 .contestId(contestId)
                 .memberUuid(memberUuid)
-                .mediaUrl(mediaUrl)
-                .mediaType(mediaType)
+                .media(media)
                 .createdAt(createdAt)
                 .voteCount(0)
                 .build();

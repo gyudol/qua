@@ -1,4 +1,4 @@
-package com.mulmeong.contest.read.entity;
+package com.mulmeong.contest.read.domain.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

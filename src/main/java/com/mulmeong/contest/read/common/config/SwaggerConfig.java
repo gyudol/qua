@@ -40,7 +40,7 @@ public class SwaggerConfig {
                 .addSecurityItem(securityRequirement)
                 .components(components)
                 .addServersItem(new Server().url("/contest-read-service"));
-        //.addServersItem(new Server().url("/"));
+        //        .addServersItem(new Server().url("/"));
     }
 
 }
