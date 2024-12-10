@@ -1,3 +1,5 @@
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,33 +8,39 @@ import {
 } from "@repo/ui/shadcn/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import { useSessionContext } from "@/context/SessionContext";
-import type { Feed } from "@/types/feed/feed-read-service";
-import { FeedReportButton } from "../atoms/FeedReportButton";
-// import { FeedEditButton } from '../atoms/FeedEditButton';
-import { FeedDeleteButton } from "../atoms/FeedDeleteButton";
+import type { Shorts } from "@/types/shorts/shorts-read-service";
+import { ShortsDeleteButton, ShortsReportButton } from "../atoms";
 
-type FeedMoreOptionProps = Pick<Feed, "feedUuid" | "memberUuid">;
+type ShortsMoreOptionProps = Pick<Shorts, "shortsUuid" | "memberUuid">;
 
-export function FeedMoreOption({ feedUuid, memberUuid }: FeedMoreOptionProps) {
+export function ShortsMoreOption({
+  shortsUuid,
+  memberUuid,
+}: ShortsMoreOptionProps) {
   const { memberUuid: sessionUuid } = useSessionContext();
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="p-1 hover:bg-gray-100 rounded-full">
-        <MoreHorizontal className="w-5 h-5 text-slate-400" />
+      <DropdownMenuTrigger asChild>
+        <button
+          type="button"
+          className="p-1 hover:bg-gray-100 rounded-full text-slate-400"
+        >
+          <MoreHorizontal size="1.25rem" />
+        </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="rounded-lg shadow-xl">
         {sessionUuid !== memberUuid ? (
           <DropdownMenuItem className="py-0 text-xs">
-            <FeedReportButton {...{ feedUuid }} />
+            <ShortsReportButton {...{ shortsUuid }} />
           </DropdownMenuItem>
         ) : (
           <>
             {/* <DropdownMenuItem>
-              <FeedEditButton {...{ feedUuid }} />
+              <ShortsEditButton {...{ shortsUuid }} />
             </DropdownMenuItem> */}
             <DropdownMenuItem>
-              <FeedDeleteButton {...{ feedUuid }} />
+              <ShortsDeleteButton {...{ shortsUuid }} />
             </DropdownMenuItem>
           </>
         )}

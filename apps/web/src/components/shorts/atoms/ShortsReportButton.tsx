@@ -2,15 +2,15 @@
 
 import { Flag } from "lucide-react";
 import { toast } from "sonner";
-import type { Feed } from "@/types/feed/feed-read-service";
+import type { Shorts } from "@/types/shorts/shorts-read-service";
 import { ButtonWithAuth } from "@/components/common/atoms";
 
-type FeedReportButtonProps = Pick<Feed, "feedUuid">;
+type ShortsReportButtonProps = Pick<Shorts, "shortsUuid">;
 
-export function FeedReportButton({ feedUuid }: FeedReportButtonProps) {
+export function ShortsReportButton({ shortsUuid }: ShortsReportButtonProps) {
   function handleClick() {
-    toast.error("해당 게시글을 신고하였습니다.", {
-      description: feedUuid,
+    toast.error("해당 쇼츠를 신고하였습니다.", {
+      description: shortsUuid,
     });
   }
 

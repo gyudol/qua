@@ -6,7 +6,7 @@ import type { ForwardRefExoticComponent, RefAttributes } from "react";
 import { useState } from "react";
 import type { MemberProfile } from "@/types/member/member-read-service";
 import { FeedTab } from "../organisms/FeedTab";
-import { ShortsTab } from "../organisms/ShorsTab";
+import { ShortsTab } from "../organisms/ShortsTab";
 
 interface ContentsTab {
   Icon: ForwardRefExoticComponent<

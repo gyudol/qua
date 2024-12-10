@@ -1,7 +1,7 @@
 "use client";
 
 import type { MemberProfile } from "@/types/member/member-read-service";
-import { useGetMemberShortsesInfiniteQuery } from "@/hooks/shorts-read-service";
+import { useGetMemberShortsesInfiniteQuery } from "@/hooks/shorts-service";
 import { useInfiniteScroll } from "@/hooks";
 import { ContentsArticle } from "../molecules/ContentsArticle";
 

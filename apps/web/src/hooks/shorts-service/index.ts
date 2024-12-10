@@ -1,6 +1,11 @@
 "use client";
 
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import {
   getMemberShortses,
   getMemberShortsRecs,
@@ -10,10 +15,10 @@ import {
 import type { ShortsReq } from "@/types/shorts/common";
 import type {
   GetMemberShortsesReq,
-  // GetMemberShortsRecsReq,
   GetShortsRecsReq,
 } from "@/types/shorts/shorts-read-service";
 import { useSessionContext } from "@/context/SessionContext";
+import { deleteShorts } from "@/actions/shorts-service";
 
 export function useGetShortsRecsInfiniteQuery({ ...query }: GetShortsRecsReq) {
   const { memberUuid } = useSessionContext();
@@ -95,35 +100,15 @@ export function useGetMemberShortsesInfiniteQuery({
   });
 }
 
-// export function useGetMemberShortsRecsInfiniteQuery({
-//   memberUuid,
-//   ...query
-// }: GetMemberShortsRecsReq) {
-//   const { pageNo, pageSize, nextCursor } = query;
-//   return useInfiniteQuery({
-//     queryKey: [
-//       "shorts-service",
-//       {
-//         kind: "member-shorts-recs",
-//         memberUuid,
-//         query,
-//       },
-//     ],
-//     queryFn: ({ pageParam }) =>
-//       getMemberShortsRecs({ memberUuid, ...pageParam }),
-//     getNextPageParam: ({
-//       hasNext,
-//       ...nextQuery
-//     }: {
-//       pageNo: number;
-//       pageSize: number;
-//       nextCursor: string;
-//       hasNext: boolean;
-//     }) => (hasNext ? { ...nextQuery } : null),
-//     initialPageParam: {
-//       pageNo: pageNo || 1,
-//       pageSize: pageSize || 10,
-//       nextCursor: nextCursor || undefined,
-//     },
-//   });
-// }
+export function useDeleteShorts({ shortsUuid }: ShortsReq) {
+  const QC = useQueryClient();
+  const queryKey = ["shorts-service"];
+  return useMutation({
+    mutationFn: async () => {
+      await deleteShorts({ shortsUuid });
+    },
+    onSettled: async () => {
+      await QC.invalidateQueries({ queryKey });
+    },
+  });
+}

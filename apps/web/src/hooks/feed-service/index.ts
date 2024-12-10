@@ -1,12 +1,18 @@
 "use client";
 
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { getFeed, getFeeds, getMemberFeeds } from "@/actions/feed-read-service";
 import type {
   GetFeedsReq,
   GetMemberFeeds,
 } from "@/types/feed/feed-read-service";
 import type { FeedReq } from "@/types/feed/common";
+import { deleteFeed } from "@/actions/feed-service";
 
 export function useGetFeedsInfiniteQuery({ ...query }: GetFeedsReq) {
   const { categoryName, hashtagName, sortBy, pageNo, pageSize, nextCursor } =
@@ -76,6 +82,19 @@ export function useGetMemberFeedsInfiniteQuery({ ...query }: GetMemberFeeds) {
       pageNo: pageNo || 1,
       pageSize: pageSize || 10,
       nextCursor: nextCursor || undefined,
+    },
+  });
+}
+
+export function useDeleteFeed({ feedUuid }: FeedReq) {
+  const QC = useQueryClient();
+  const queryKey = ["feed-service", { kind: "feeds" }];
+  return useMutation({
+    mutationFn: async () => {
+      await deleteFeed({ feedUuid });
+    },
+    onSettled: async () => {
+      await QC.invalidateQueries({ queryKey });
     },
   });
 }

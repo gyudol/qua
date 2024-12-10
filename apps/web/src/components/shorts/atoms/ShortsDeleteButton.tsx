@@ -2,23 +2,23 @@
 
 import { Trash2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import type { Feed } from "@/types/contents";
-import { deleteFeed } from "@/actions/feed-service";
-import { useDeleteFeed } from "@/hooks";
+import type { Shorts } from "@/types/contents";
+import { deleteShorts } from "@/actions/shorts-service";
 import { toURLSearchParams } from "@/functions/utils";
+import { useDeleteShorts } from "@/hooks/shorts-service";
 import { ButtonWithAuth } from "../../common/atoms";
 
-type FeedDeleteButtonProps = Pick<Feed, "feedUuid">;
+type ShortsDeleteButtonProps = Pick<Shorts, "shortsUuid">;
 
-export function FeedDeleteButton({ feedUuid }: FeedDeleteButtonProps) {
+export function ShortsDeleteButton({ shortsUuid }: ShortsDeleteButtonProps) {
   const router = useRouter();
   const searchParams = Object.fromEntries(useSearchParams().entries());
-  const { mutate } = useDeleteFeed({ feedUuid });
+  const { mutate } = useDeleteShorts({ shortsUuid });
 
   function handleClick() {
-    void deleteFeed({ feedUuid }).then(() => {
+    void deleteShorts({ shortsUuid }).then(() => {
       mutate();
-      router.push(`?${toURLSearchParams({ ...searchParams })}`);
+      router.push(`/shorts?${toURLSearchParams({ ...searchParams })}`);
     });
   }
 

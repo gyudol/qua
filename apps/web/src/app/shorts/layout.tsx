@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { CommonGbnb } from "@/components/common/organisms";
+import InnerMobileContainer from "@/components/layouts/InnerMobileContainer";
 
 export const metadata: Metadata = {
   title: "Create Turborepo",
@@ -12,9 +13,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }): JSX.Element {
   return (
-    <>
+    <InnerMobileContainer>
       {children}
       <CommonGbnb />
-    </>
+    </InnerMobileContainer>
   );
 }
