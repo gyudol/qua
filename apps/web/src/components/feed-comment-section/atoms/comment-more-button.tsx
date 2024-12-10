@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@repo/ui/shadcn/dropdown-menu';
-import { Flag, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
-import type { Dispatch, SetStateAction } from 'react';
-import { toast } from 'sonner';
-import { useDeleteFeedCommentMutation } from '@/hooks/comment-service';
-import { useSessionContext } from '@/context/SessionContext';
-import { ButtonWithAuth } from '@/components/common/atoms';
+} from "@repo/ui/shadcn/dropdown-menu";
+import { Flag, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import type { Dispatch, SetStateAction } from "react";
+import { toast } from "sonner";
+import { useDeleteFeedCommentMutation } from "@/hooks/comment-service";
+import { useSessionContext } from "@/context/SessionContext";
+import { ButtonWithAuth } from "@/components/common/atoms";
 
 interface CommentMoreButtonProps {
   commentUuid: string;
@@ -28,7 +28,7 @@ export function CommentMoreButton({
   const deleteMutation = useDeleteFeedCommentMutation({ commentUuid });
 
   function handleReport() {
-    toast.error('해당 댓글을 신고하였습니다.');
+    toast.error("해당 댓글을 신고하였습니다.");
   }
   function handleEdit() {
     setIsEditing(true);
@@ -38,7 +38,7 @@ export function CommentMoreButton({
   }
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>
         <button type="button" className="p-1 hover:bg-gray-50 rounded-full">
           <MoreHorizontal size={16} color="gray" />
         </button>

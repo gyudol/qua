@@ -36,13 +36,11 @@ export function CommentSection({ feedUuid }: CommentSectionProps) {
           {newCommentList?.map((comment) => (
             <CommentView key={comment.commentUuid} {...comment} justNow />
           ))}
-          {data?.pages.map((page) => (
-            <React.Fragment key={page.pageNo}>
-              {page.content.map((comment) => (
-                <CommentView key={comment.commentUuid} {...comment} />
-              ))}
-            </React.Fragment>
-          ))}
+          {data?.pages.map((page) =>
+            page.content.map((comment) => (
+              <CommentView key={comment.commentUuid} {...comment} />
+            )),
+          )}
         </div>
       ) : (
         <div className="w-full flex-1 flex justify-center items-center text-teal-400 text-sm">

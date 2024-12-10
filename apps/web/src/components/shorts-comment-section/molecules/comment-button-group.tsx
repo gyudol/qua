@@ -25,7 +25,7 @@ export function CommentButtonGroup({
 
   return (
     <>
-      <ul className="flex gap-[0.5rem] items-center">
+      <ul className="flex gap-[1.5rem] items-center">
         <li>
           <LikeButton {...{ likeCount, likeStatus }} />
         </li>

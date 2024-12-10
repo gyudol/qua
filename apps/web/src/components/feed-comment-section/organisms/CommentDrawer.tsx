@@ -1,7 +1,15 @@
-'use client';
-import { Drawer, DrawerContent, DrawerTrigger } from '@repo/ui/shadcn/drawer';
-import { Button } from '@repo/ui/shadcn/button';
-import { CommentSection } from '../templates';
+"use client";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@repo/ui/shadcn/drawer";
+import { Button } from "@repo/ui/shadcn/button";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { CommentSection } from "../templates";
 
 function CommentDrawer({ feedUuid }: { feedUuid: string }) {
   return (
@@ -14,7 +22,14 @@ function CommentDrawer({ feedUuid }: { feedUuid: string }) {
           댓글 작성하기
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="max-h-[80%]">
+
+      <DrawerContent className="max-h-[80%]" aria-hidden="false">
+        <VisuallyHidden>
+          <DrawerHeader>
+            <DrawerTitle>댓글창</DrawerTitle>
+            <DrawerDescription>댓글창 입니다.</DrawerDescription>
+          </DrawerHeader>
+        </VisuallyHidden>
         <CommentSection {...{ feedUuid }} />
       </DrawerContent>
     </Drawer>
