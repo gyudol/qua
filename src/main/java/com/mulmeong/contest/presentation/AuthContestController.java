@@ -26,7 +26,21 @@ public class AuthContestController {
         - MediaSubType: `IMAGE` / `VIDEO_THUMBNAIL` / `VIDEO_360` / `VIDEO_540` / `VIDEO_720` / `VIDEO_MP4`<br><br>
         - 물고기컵의 경우 validation 통과한 IMAGE만 가능
         - IMAGE, VIDEO에 따라 골라서 쓰기, 대괄호도 빼줘야 함
-        - ContestPostMedia 테이블은 **FE에서 생성한 MediaUUID를 기본키로 설정**하는 것에 주의""")
+        - ContestPostMedia 테이블은 **FE에서 생성한 MediaUUID를 기본키로 설정**하는 것에 주의
+        - 이미지 일 경우
+        ```
+        {
+            "mediaUuid": "string_ex0",
+            "mediaType": "IMAGE",
+            "assets": {
+                "IMAGE": {
+                    "mediaUrl": "string",
+                        "description": "string"
+                }
+            }
+        }
+        ```
+        """)
     @PostMapping("/{contestId}/apply")
     public BaseResponse<Void> applyContest(
             @RequestHeader("Member-Uuid") String memberUuid,

@@ -10,43 +10,31 @@ import lombok.Getter;
 public class PostRequestVo {
 
     @Schema(example = """
-        [
-            {
-                "mediaUuid": "string_ex0",
-                "mediaType": "IMAGE",
-                "assets": {
-                    "IMAGE": {
-                        "mediaUrl": "string",
-                            "description": "string"
-                    }
-                }
-            },
-            {
-                "mediaUuid": "string_ex1",
-                "mediaType": "VIDEO",
-                "assets": {
-                    "VIDEO_THUMBNAIL": {
-                        "mediaUrl": "string",
-                        "description": "string"
-                    },
-                    "STREAMING_360": {
-                        "mediaUrl": "string",
-                        "description": "string"
-                    },
-                    "STREAMING_540": {
-                        "mediaUrl": "string",
-                        "description": "string"
-                    },
-                    "STREAMING_720": {
-                        "mediaUrl": "string",
-                        "description": "string"
-                    },
-                    "VIDEO_MP4": {
-                        "mediaUrl": "string",
-                        "description": "string"
-                    }
+        {
+            "mediaUuid": "string_ex1",
+            "mediaType": "VIDEO",
+            "assets": {
+                "VIDEO_THUMBNAIL": {
+                    "mediaUrl": "string",
+                    "description": "string"
+                },
+                "STREAMING_360": {
+                    "mediaUrl": "string",
+                    "description": "string"
+                },
+                "STREAMING_540": {
+                    "mediaUrl": "string",
+                    "description": "string"
+                },
+                "STREAMING_720": {
+                    "mediaUrl": "string",
+                    "description": "string"
+                },
+                "VIDEO_MP4": {
+                    "mediaUrl": "string",
+                    "description": "string"
                 }
             }
-        ]""")
+        }""")
     private @Valid Media media;
 }
