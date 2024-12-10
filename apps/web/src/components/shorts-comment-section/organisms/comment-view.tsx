@@ -49,8 +49,11 @@ export function CommentView({
         </div>
 
         <div className="flex-1 mb-[0.5rem]">
-          <div className="mb-[0.25rem]">
-            <Link href={`/profile/${nickname}`} className="mr-[0.5rem]">
+          <div className="mb-[0.25rem] text-sm">
+            <Link
+              href={`/profile/${nickname}`}
+              className="mr-[0.5rem] text-sm text-slate-600"
+            >
               {nickname}
             </Link>
             <span className="text-nowrap">
@@ -63,7 +66,7 @@ export function CommentView({
             </div>
           ) : (
             <>
-              <div className="mb-[0.5rem]">{content}</div>
+              <div className="mb-[0.5rem] text-slate-700">{content}</div>
               <CommentButtonGroup
                 {...{ commentUuid, likeCount, dislikeCount }}
               />

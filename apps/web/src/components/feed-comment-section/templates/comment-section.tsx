@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 import {
   useGetFeedCommentsInfiniteQuery,
   usePostFeedCommentQuery,
-} from '@/hooks/comment-service';
-import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
-import { CommentInput } from '../atoms';
-import { CommentView } from '../organisms';
+} from "@/hooks/comment-service";
+import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
+import { CommentInput } from "../atoms";
+import { CommentView } from "../organisms";
 
 interface CommentSectionProps {
   feedUuid: string;
@@ -26,23 +26,21 @@ export function CommentSection({ feedUuid }: CommentSectionProps) {
   return (
     <section
       id="comment"
-      className="flex flex-col p-[1rem] overflow-auto relative min-h-[10rem]"
+      className="flex flex-col m-[1rem] overflow-auto relative min-h-[10rem]"
     >
       <div className="fixed w-full top-5 left-0 py-4 px-4 bg-white z-[100]">
         <CommentInput {...{ feedUuid }} />
       </div>
       {newCommentList?.length || data?.pages[0].content.length ? (
-        <div className="mt-[3rem]">
+        <div className="mt-[4rem]">
           {newCommentList?.map((comment) => (
             <CommentView key={comment.commentUuid} {...comment} justNow />
           ))}
-          {data?.pages.map((page) => (
-            <React.Fragment key={page.pageNo}>
-              {page.content.map((comment) => (
-                <CommentView key={comment.commentUuid} {...comment} />
-              ))}
-            </React.Fragment>
-          ))}
+          {data?.pages.map((page) =>
+            page.content.map((comment) => (
+              <CommentView key={comment.commentUuid} {...comment} />
+            )),
+          )}
         </div>
       ) : (
         <div className="w-full flex-1 flex justify-center items-center text-teal-400 text-sm">

@@ -1,15 +1,16 @@
-'use client';
+"use client";
 
-import { Separator } from '@repo/ui/shadcn/separator';
-import { useGetFeedsInfiniteQuery, useInfiniteScroll } from '@/hooks';
-import { FeedCardArticle } from '@/components/feed/organisms/FeedCardArticle';
-import type { GetFeedsReq } from '@/types/feed/feed-read-service';
-import type { FeedViewType } from '@/types/feed/common';
-import { FeedListOptionGroup } from '../organisms/FeedListOptionGroup';
-import { FeedCompactArticle } from '../organisms/FeedCompactArticle';
+import React from "react";
+import { Separator } from "@repo/ui/shadcn/separator";
+import { useGetFeedsInfiniteQuery, useInfiniteScroll } from "@/hooks";
+import { FeedCardArticle } from "@/components/feed/organisms/FeedCardArticle";
+import type { GetFeedsReq } from "@/types/feed/feed-read-service";
+import type { FeedViewType } from "@/types/feed/common";
+import { FeedListOptionGroup } from "../organisms/FeedListOptionGroup";
+import { FeedCompactArticle } from "../organisms/FeedCompactArticle";
 
 interface FeedListSectionProps
-  extends Pick<GetFeedsReq, 'categoryName' | 'hashtagName' | 'sortBy'> {
+  extends Pick<GetFeedsReq, "categoryName" | "hashtagName" | "sortBy"> {
   view?: FeedViewType;
 }
 
@@ -39,24 +40,24 @@ export default function FeedListSection({
         {data
           ? data.pages.map((page) =>
               page.content.map((feed) => {
-                if (view === 'compact')
+                if (view === "compact")
                   return (
-                    <>
-                      <FeedCompactArticle key={feed.feedUuid} {...feed} link />
+                    <React.Fragment key={feed.feedUuid}>
+                      <FeedCompactArticle {...feed} link />
                       <Separator className="bg-[#EEE] h-[0.5rem]" />
-                    </>
+                    </React.Fragment>
                   );
                 return (
-                  <>
-                    <FeedCardArticle key={feed.feedUuid} {...feed} link />
+                  <React.Fragment key={feed.feedUuid}>
+                    <FeedCardArticle {...feed} link />
                     <Separator className="bg-[#EEE] h-[0.5rem]" />
-                  </>
+                  </React.Fragment>
                 );
-              })
+              }),
             )
           : null}
         <div ref={observerRef} className="">
-          {isFetchingNextPage ? '로딩중' : null}
+          {isFetchingNextPage ? "로딩중" : null}
         </div>
       </section>
     </div>

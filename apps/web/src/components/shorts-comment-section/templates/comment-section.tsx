@@ -24,12 +24,15 @@ export function CommentSection({ shortsUuid }: CommentSectionProps) {
   });
 
   return (
-    <section id="comment" className="flex flex-col min-h-[10rem] p-[1rem]">
-      <div className="mb-[1rem]">
+    <section
+      id="comment"
+      className="flex flex-col m-[1rem] overflow-auto relative min-h-[10rem]"
+    >
+      <div className="fixed w-full top-5 left-0 my-4 px-4 bg-white z-[100]">
         <CommentInput {...{ shortsUuid }} />
       </div>
       {newCommentList?.length || data?.pages[0].content.length ? (
-        <div>
+        <div className="mt-[4rem]">
           {newCommentList?.map((comment) => (
             <CommentView key={comment.commentUuid} {...comment} justNow />
           ))}
@@ -42,7 +45,7 @@ export function CommentSection({ shortsUuid }: CommentSectionProps) {
           ))}
         </div>
       ) : (
-        <div className="w-full flex-1 flex justify-center items-center text-teal-400 font-bold">
+        <div className="w-full flex-1 flex justify-center items-center text-teal-400 text-sm">
           첫번째 댓글을 작성해보세요!
         </div>
       )}

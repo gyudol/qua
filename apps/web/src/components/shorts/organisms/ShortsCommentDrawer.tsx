@@ -14,6 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@repo/ui/shadcn/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useCommentDrawerContext } from "@/context/DrawerContext";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { CommentSection } from "@/components/shorts-comment-section/templates";
@@ -30,11 +31,14 @@ export default function ShortsCommentDrawer() {
           if (setOpen) setOpen((prev) => !prev);
         }}
       >
-        <DialogContent className="w-full max-w-[600px] h-[50%] mx-auto p-20">
-          <DialogHeader>
-            <DialogTitle>댓글창</DialogTitle>
-            <DialogDescription>{commentTarget?.targetUuid}</DialogDescription>
-          </DialogHeader>
+        <DialogContent className="min-h-[30rem]">
+          <VisuallyHidden>
+            <DialogHeader>
+              <DialogTitle>댓글창</DialogTitle>
+              <DialogDescription>{commentTarget?.targetUuid}</DialogDescription>
+            </DialogHeader>
+          </VisuallyHidden>
+
           <CommentSection
             {...{ shortsUuid: commentTarget?.targetUuid || "" }}
           />
@@ -50,10 +54,12 @@ export default function ShortsCommentDrawer() {
       }}
     >
       <DrawerContent className="w-full max-w-[600px] h-[50%] mx-auto">
-        <DrawerHeader>
-          <DrawerTitle>댓글창</DrawerTitle>
-          <DrawerDescription>{commentTarget?.targetUuid}</DrawerDescription>
-        </DrawerHeader>
+        <VisuallyHidden>
+          <DrawerHeader>
+            <DrawerTitle>댓글창</DrawerTitle>
+            <DrawerDescription>{commentTarget?.targetUuid}</DrawerDescription>
+          </DrawerHeader>
+        </VisuallyHidden>
         <CommentSection {...{ shortsUuid: commentTarget?.targetUuid || "" }} />
       </DrawerContent>
     </Drawer>

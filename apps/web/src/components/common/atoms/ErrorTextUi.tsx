@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import RandomFish from './RandomFish';
+import { useEffect, useState } from "react";
+import RandomFish from "./RandomFish";
 
 function ErrorTextUi({
   errorText,
@@ -9,8 +9,8 @@ function ErrorTextUi({
   isView: boolean;
 }) {
   const [animationValues, setAnimationValues] = useState({
-    duration: '0s',
-    delay: '0s',
+    duration: "0s",
+    delay: "0s",
   });
 
   useEffect(() => {
@@ -23,8 +23,8 @@ function ErrorTextUi({
 
   return (
     <div
-      className={`animate-error absolute pointer-events-none top-[-1.2rem] left-[30%] ${
-        isView ? 'opacity-100' : 'opacity-0'
+      className={`animate-back-and-forth-2 absolute pointer-events-none top-[-1.2rem] left-[30%] ${
+        isView ? "opacity-100" : "opacity-0"
       } transition ease-in-out duration-300`}
       style={{
         zIndex: 100,
@@ -34,10 +34,16 @@ function ErrorTextUi({
     >
       <div className="flex flex-col items-center justify-between">
         <p className="text-white text-[0.6rem] bg-rose-400 py-1 px-4 rounded-full">
-          {errorText ? errorText : 'Bye ~'}
+          {errorText ? errorText : "Bye ~"}
         </p>
 
-        <div className="animate-up-down">
+        <div
+          className="animate-flipping-2 animate-up-down"
+          style={{
+            animationDuration: animationValues.duration,
+            animationDelay: animationValues.delay,
+          }}
+        >
           <RandomFish />
         </div>
       </div>
