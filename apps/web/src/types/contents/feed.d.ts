@@ -18,5 +18,5 @@ export interface Feed extends BaseFeed, CUAt {
   mediaList: Media[];
   hashtags: Hashtag[];
   createdAt: Datetime;
-  updatedAt: Datetime
+  updatedAt: Datetime;
 }

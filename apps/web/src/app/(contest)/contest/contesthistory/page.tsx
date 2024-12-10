@@ -3,7 +3,7 @@ import ContestHistory from "@/components/contesthistory/organisms/ContestHistory
 
 function page() {
   return (
-    <div>
+    <div className="w-full px-4 flex flex-col gap-4">
       <ContestHistory />
     </div>
   );

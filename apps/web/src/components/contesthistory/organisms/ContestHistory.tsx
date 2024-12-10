@@ -1,94 +1,34 @@
-"use client";
-import React, { useState } from "react";
-
-interface Contest {
-  id: number;
-  name: string;
-  period: string;
-  badge: string;
-  winners: string[];
-}
-
-const contests: Contest[] = [
-  {
-    id: 1,
-    name: "Goldfish Cup",
-    period: "2023.11.01 - 2023.11.10",
-    badge: "🐠 Goldfish",
-    winners: ["Tiger Ranchu", "Oranda", "Ryukin"],
-  },
-  {
-    id: 2,
-    name: "Betta Championship",
-    period: "2023.12.01 - 2023.12.15",
-    badge: "🐟 Betta",
-    winners: ["Halfmoon Betta", "Plakat Betta", "Crown Tail Betta"],
-  },
-  {
-    id: 3,
-    name: "Cichlid Showdown",
-    period: "2024.01.10 - 2024.01.20",
-    badge: "🌊 Cichlid",
-    winners: ["Oscar Cichlid", "Angelfish", "Discus"],
-  },
-];
+import React from "react";
 
 function ContestHistory() {
-  const [showWinners, setShowWinners] = useState<Record<number, boolean>>({});
-
-  const toggleWinners = (id: number) => {
-    setShowWinners((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
-
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-6">
-      <h1 className="text-3xl font-bold text-center mb-8">콘테스트 히스토리</h1>
-      <div className="space-y-8">
-        {contests.map((contest) => (
-          <div
-            key={contest.id}
-            className="bg-white shadow-md rounded-lg p-8 relative flex flex-col items-center"
-          >
-            <div className="w-full text-center py-2 px-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold text-2xl rounded-md shadow-md mb-6">
-              {contest.name}
-            </div>
-
-            <div className="w-full flex justify-between items-center">
-              <div className="flex items-center w-1/3 gap-4">
-                <div className="text-4xl">{contest.badge}</div>
-              </div>
-
-              <div className="flex flex-col items-end w-2/3">
-                <p className="text-gray-600 text-sm mb-4">
-                  기간: {contest.period}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => toggleWinners(contest.id)}
-                  className="bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold py-2 px-6 rounded-full shadow-lg hover:shadow-xl hover:from-purple-600 hover:to-blue-600 transition-all"
-                >
-                  {showWinners[contest.id] ? "우승자 닫기" : "우승자 보기"}
-                </button>
-              </div>
-            </div>
-
-            {showWinners[contest.id] ? (
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-100 p-6 rounded-lg shadow-lg border border-gray-300 transition-opacity duration-300">
-                <h3 className="text-xl font-semibold mb-4 text-center">
-                  우승자 명단
-                </h3>
-                <ul className="text-gray-700 list-disc pl-5 space-y-2">
-                  {contest.winners.map((winner) => (
-                    <li key={winner}>{winner}</li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
+    <div>
+      <div className="flex justify-center items-center mt-5">
+        <div className="text-6xl text-[#47D0BF]">🏆</div>
+      </div>
+      <div className="relative border border-gray-300 rounded-lg shadow-md p-6 bg-white max-w-md mx-auto mt-5">
+        <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-[#47D0BF] text-white font-semibold text-sm py-1 px-4 rounded-full shadow-md">
+          콘테스트 이름
+        </div>
+        <div className="mb-6">
+          <div className="flex justify-between items-center text-sm text-gray-600 border-b pb-4 mb-4">
+            <p className="font-medium">진행 기간</p>
+            <p>24.12.19 ~ 24.12.25</p>
           </div>
-        ))}
+          <div className="mb-4 h-60 w-full bg-gray-300 flex items-center justify-center rounded-lg">
+            {/* <Image></Image> */}
+            {/* 콘테스트 홈 이미지에 들어갈 자리 */}
+            <span className="text-gray-500">이미지 자리</span>
+          </div>
+        </div>
+        <div className="flex flex-col gap-4">
+          <button
+            type="button"
+            className="bg-gray-100 text-[#47D0BF] font-medium text-lg py-2 px-4 rounded-lg hover:bg-gray-200 text-center shadow-sm transition whitespace-nowrap"
+          >
+            우승자 리스트
+          </button>
+        </div>
       </div>
     </div>
   );
