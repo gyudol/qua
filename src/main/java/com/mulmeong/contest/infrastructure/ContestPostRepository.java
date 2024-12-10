@@ -1,6 +1,6 @@
 package com.mulmeong.contest.infrastructure;
 
-import com.mulmeong.contest.entity.ContestPost;
+import com.mulmeong.contest.domain.entity.ContestPost;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

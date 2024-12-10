@@ -46,6 +46,7 @@ dependencies {
     implementation 'com.google.cloud:spring-cloud-gcp-starter'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
 
     compileOnly 'org.projectlombok:lombok'

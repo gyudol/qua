@@ -1,7 +1,8 @@
 package com.mulmeong.contest.dto.in;
 
-import com.mulmeong.contest.entity.Contest;
-import com.mulmeong.contest.entity.Kind;
+
+import com.mulmeong.contest.domain.entity.Contest;
+import com.mulmeong.contest.domain.model.Kind;
 import com.mulmeong.contest.vo.in.ContestRequestVo;
 import lombok.Builder;
 import lombok.Getter;

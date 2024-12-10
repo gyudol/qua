@@ -1,7 +1,7 @@
 package com.mulmeong.contest.dto.model;
 
 
-import com.mulmeong.contest.entity.SortType;
+import com.mulmeong.contest.domain.model.SortType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

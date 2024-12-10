@@ -1,4 +1,4 @@
-package com.mulmeong.contest.entity;
+package com.mulmeong.contest.domain.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

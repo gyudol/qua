@@ -1,6 +1,6 @@
 package com.mulmeong.contest.dto.out;
 
-import com.mulmeong.contest.entity.Contest;
+import com.mulmeong.contest.domain.entity.Contest;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
