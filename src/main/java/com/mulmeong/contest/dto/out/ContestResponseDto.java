@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -16,7 +17,7 @@ public class ContestResponseDto {
     private LocalDate startDate;
     private LocalDate endDate;
     private String imgUrl;
-
+    private List<ContestWinnerDto> winners;
 
     @Builder
     public ContestResponseDto(
@@ -24,22 +25,25 @@ public class ContestResponseDto {
             String contestName,
             LocalDate startDate,
             LocalDate endDate,
-            String imgUrl
+            String imgUrl,
+            List<ContestWinnerDto> winners
     ) {
         this.contestId = contestId;
         this.contestName = contestName;
         this.startDate = startDate;
         this.endDate = endDate;
         this.imgUrl = imgUrl;
+        this.winners = winners;
     }
 
-    public static ContestResponseDto toDto(Contest contest) {
+    public static ContestResponseDto toDto(Contest contest, List<ContestWinnerDto> winners) {
         return ContestResponseDto.builder()
                 .contestId(contest.getId())
                 .contestName(contest.getName())
                 .startDate(contest.getStartDate())
                 .endDate(contest.getEndDate())
                 .imgUrl(contest.getImgUrl())
+                .winners(winners)
                 .build();
     }
 }
