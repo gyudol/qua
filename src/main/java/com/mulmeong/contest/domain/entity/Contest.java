@@ -1,5 +1,6 @@
-package com.mulmeong.contest.entity;
+package com.mulmeong.contest.domain.entity;
 
+import com.mulmeong.contest.domain.model.Kind;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

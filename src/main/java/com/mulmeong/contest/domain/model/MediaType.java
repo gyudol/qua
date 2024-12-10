@@ -1,4 +1,4 @@
-package com.mulmeong.contest.entity;
+package com.mulmeong.contest.domain.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -7,8 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum MediaType {
 
-    IMAGE("사진"),
-    VIDEO("영상");
+    IMAGE("이미지"),
+    VIDEO("비디오");
 
     private final String mediaType;
+
 }

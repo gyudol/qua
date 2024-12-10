@@ -1,7 +1,6 @@
 package com.mulmeong.event.contest.produce;
 
-import com.mulmeong.contest.entity.ContestPost;
-import com.mulmeong.contest.entity.MediaType;
+import com.mulmeong.contest.domain.model.Media;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,19 +13,7 @@ public class ContestPostCreateEvent {
     private String postUuid;
     private Long contestId;
     private String memberUuid;
-    private String mediaUrl;
-    private MediaType mediaType;
+    private Media media;
     private LocalDateTime createdAt;
-
-    public static ContestPostCreateEvent toDto(ContestPost contestPost) {
-        return ContestPostCreateEvent.builder()
-                .postUuid(contestPost.getPostUuid())
-                .contestId(contestPost.getContestId())
-                .memberUuid(contestPost.getMemberUuid())
-                .mediaUrl(contestPost.getMediaUrl())
-                .mediaType(contestPost.getMediaType())
-                .createdAt(contestPost.getCreatedAt())
-                .build();
-    }
 
 }

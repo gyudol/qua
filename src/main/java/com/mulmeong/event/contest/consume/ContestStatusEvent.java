@@ -1,8 +1,6 @@
 package com.mulmeong.event.contest.consume;
 
-import com.mulmeong.contest.entity.Contest;
-import com.mulmeong.contest.entity.Kind;
-import lombok.Builder;
+import com.mulmeong.contest.domain.entity.Contest;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

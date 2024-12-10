@@ -1,6 +1,7 @@
 package com.mulmeong.contest.infrastructure;
 
-import com.mulmeong.contest.entity.Contest;
+
+import com.mulmeong.contest.domain.entity.Contest;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
