@@ -1,4 +1,4 @@
-package com.mulmeong.contestread.common.healthcheck.healthcheck;
+package com.mulmeong.contest.read.common.healthcheck.healthcheck;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.ResponseEntity;
