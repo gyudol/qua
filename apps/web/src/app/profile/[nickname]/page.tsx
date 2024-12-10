@@ -1,6 +1,5 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { getMemberNickname } from "@/actions/member-service";
 import { options } from "@/app/api/auth/[...nextauth]/authOption";
 import { CommonLayout } from "@/components/common/atoms";
 import { ProfileCardSection } from "@/components/profile/templates";
@@ -15,8 +14,7 @@ export default async function page({ params: { nickname } }: PageProps) {
   const decodedNickname = decodeURI(nickname);
   const session = await getServerSession(options);
   if (session?.user) {
-    const { memberUuid } = session.user as { memberUuid: string };
-    const myNickname = await getMemberNickname({ memberUuid });
+    const { nickname: myNickname } = session.user as { nickname: string };
     if (decodedNickname === myNickname) redirect("/profile/me");
   }
 
