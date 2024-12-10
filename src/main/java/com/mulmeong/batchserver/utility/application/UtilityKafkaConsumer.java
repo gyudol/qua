@@ -1,6 +1,7 @@
 package com.mulmeong.batchserver.utility.application;
 
 import com.mulmeong.batchserver.feed.application.FeedService;
+import com.mulmeong.event.utility.consume.DislikesCreateEvent;
 import com.mulmeong.event.utility.consume.FeedCreateEvent;
 import com.mulmeong.event.utility.consume.LikesCreateEvent;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +26,30 @@ public class UtilityKafkaConsumer {
 
     @KafkaListener(topics = "${event.utility.pub.topics.like-create.name}",
             containerFactory = "likeCreateListener")
-    public void feedLikesCreated(LikesCreateEvent message) {
+    public void likesCreated(LikesCreateEvent message) {
         String kind = message.getKind();
         log.info("like message: {}", kind);
         switch (kind) {
             case "FEED":
                 feedService.likeCountRenew(message);
+                break;
+            case "SHORTS":
+                break;
+            case "COMMENT":
+                break;
+            case "RECOMMENT":
+                break;
+        }
+    }
+
+    @KafkaListener(topics = "${event.utility.pub.topics.dislike-create.name}",
+            containerFactory = "dislikeCreateListener")
+    public void dislikesCreated(DislikesCreateEvent message) {
+        String kind = message.getKind();
+        log.info("dislike message: {}", kind);
+        switch (kind) {
+            case "FEED":
+                feedService.dislikeCountRenew(message);
                 break;
             case "SHORTS":
                 break;
