@@ -5,12 +5,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Getter
 @NoArgsConstructor
 public class ContestResponseDto {
 
     private Long contestId;
     private String contestName;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String imgUrl;
 
 
@@ -18,10 +22,14 @@ public class ContestResponseDto {
     public ContestResponseDto(
             Long contestId,
             String contestName,
+            LocalDate startDate,
+            LocalDate endDate,
             String imgUrl
     ) {
         this.contestId = contestId;
         this.contestName = contestName;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.imgUrl = imgUrl;
     }
 
@@ -29,6 +37,8 @@ public class ContestResponseDto {
         return ContestResponseDto.builder()
                 .contestId(contest.getId())
                 .contestName(contest.getName())
+                .startDate(contest.getStartDate())
+                .endDate(contest.getEndDate())
                 .imgUrl(contest.getImgUrl())
                 .build();
     }
