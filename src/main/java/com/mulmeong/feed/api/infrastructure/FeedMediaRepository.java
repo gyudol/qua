@@ -5,6 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface FeedMediaRepository extends MongoRepository<FeedMedia, String> {
 
-    void deleteByFeedUuid(String feedUuid);
+    void deleteAllByFeedUuid(String feedUuid);
 
 }

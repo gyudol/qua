@@ -8,5 +8,6 @@ import lombok.Getter;
 public class FeedDeleteEvent {
 
     private String feedUuid;
+    private String memberUuid;
 
 }

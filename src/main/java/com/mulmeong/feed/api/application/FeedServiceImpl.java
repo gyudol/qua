@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class FeedServiceImpl implements FeedService {
@@ -26,7 +27,6 @@ public class FeedServiceImpl implements FeedService {
     private final FeedHashtagRepository feedHashtagRepository;
     private final KafkaProducer kafkaProducer;
 
-    @Transactional
     @Override
     public void createFeed(FeedCreateDto requestDto) {
 
@@ -36,7 +36,6 @@ public class FeedServiceImpl implements FeedService {
         kafkaProducer.send(requestDto.toEventEntity());
     }
 
-    @Transactional
     @Override
     public void updateFeed(FeedUpdateDto requestDto) {
 
@@ -46,7 +45,6 @@ public class FeedServiceImpl implements FeedService {
         kafkaProducer.send(requestDto.toEventEntity());
     }
 
-    @Transactional
     @Override
     public void updateFeedStatus(FeedStatusUpdateDto requestDto) {
 
@@ -56,7 +54,6 @@ public class FeedServiceImpl implements FeedService {
         kafkaProducer.send(requestDto.toEventEntity());
     }
 
-    @Transactional
     @Override
     public void updateFeedHashtag(FeedHashtagUpdateDto requestDto) {
 
@@ -67,15 +64,16 @@ public class FeedServiceImpl implements FeedService {
         kafkaProducer.send(requestDto.toEventEntity());
     }
 
-    @Transactional
     @Override
     public void deleteFeed(String feedUuid) {
 
-        feedRepository.delete(feedRepository.findByFeedUuid(feedUuid)
-            .orElseThrow(() -> new BaseException(FEED_FORBIDDEN)));
-        feedHashtagRepository.deleteAllByFeedUuid(feedUuid);
-        feedMediaRepository.deleteByFeedUuid(feedUuid);
-        kafkaProducer.send(new FeedDeleteEvent(feedUuid));
+        final String memberUuid = feedRepository.findByFeedUuid(feedUuid)
+                .orElseThrow(() -> new BaseException(FEED_NOT_FOUND)).getMemberUuid();
+
+        feedRepository.deleteByFeedUuid(feedUuid);
+        feedHashtagRepository.deleteById(feedUuid);
+        feedMediaRepository.deleteAllByFeedUuid(feedUuid);
+        kafkaProducer.send(new FeedDeleteEvent(feedUuid, memberUuid));
     }
 
 }
