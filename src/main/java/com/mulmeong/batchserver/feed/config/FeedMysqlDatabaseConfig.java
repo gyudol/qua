@@ -37,7 +37,7 @@ public class FeedMysqlDatabaseConfig {
             @Qualifier("feedDataSource") DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
-        em.setPackagesToScan("com.mulmeong.batchserver.feed.entity.feed");
+        em.setPackagesToScan("com.mulmeong.batchserver.feed.domain.entity");
         em.setPersistenceUnitName("feed");
         return getLocalContainerEntityManagerFactoryBean(em);
     }

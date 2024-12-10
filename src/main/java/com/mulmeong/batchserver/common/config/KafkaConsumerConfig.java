@@ -3,6 +3,7 @@ package com.mulmeong.batchserver.common.config;
 
 import com.mulmeong.batchserver.common.exception.BaseException;
 import com.mulmeong.event.utility.consume.FeedCreateEvent;
+import com.mulmeong.event.utility.consume.LikesCreateEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,24 +42,12 @@ public class KafkaConsumerConfig {
         return kafkaListenerContainerFactory(FeedCreateEvent.class);
     }
 
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, LikesCreateEvent> likeCreateListener() {
+        return kafkaListenerContainerFactory(LikesCreateEvent.class);
+    }
 
-//    public <T> ConsumerFactory<String, T> consumerFactory(Class<T> messageType) {
-//        return new DefaultKafkaConsumerFactory<>(Map.of(
-//                ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
-//                ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class,
-//                ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class,
-//                JsonDeserializer.VALUE_DEFAULT_TYPE, messageType.getName(),
-//                JsonDeserializer.TRUSTED_PACKAGES, "com.mulmeong.event"
-//        ));
-//    }
-//
-//    public <T> ConcurrentKafkaListenerContainerFactory<String, T> kafkaListenerContainerFactory(Class<T> messageType) {
-//        ConcurrentKafkaListenerContainerFactory<String, T> factory =
-//                new ConcurrentKafkaListenerContainerFactory<>();
-//        factory.setConsumerFactory(consumerFactory(messageType));
-//        factory.getContainerProperties().setGroupId(groupId);
-//        return factory;
-//    }
+
 
     public <T> ConsumerFactory<String, T> consumerFactory(Class<T> messageType) {
         return new DefaultKafkaConsumerFactory<>(Map.of(

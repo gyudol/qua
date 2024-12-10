@@ -1,6 +1,6 @@
 package com.mulmeong.batchserver.contest.infrastructure.repository;
 
-import com.mulmeong.batchserver.contest.entity.contestRead.ContestPostRead;
+import com.mulmeong.batchserver.contest.domain.document.ContestPostRead;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

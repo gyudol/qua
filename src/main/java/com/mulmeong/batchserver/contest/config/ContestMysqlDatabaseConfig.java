@@ -40,7 +40,7 @@ public class ContestMysqlDatabaseConfig {
             @Qualifier("contestDataSource") DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
-        em.setPackagesToScan("com.mulmeong.batchserver.contest.entity.contest");
+        em.setPackagesToScan("com.mulmeong.batchserver.contest.domain.entity");
         em.setPersistenceUnitName("contest");
         return getLocalContainerEntityManagerFactoryBean(em);
     }

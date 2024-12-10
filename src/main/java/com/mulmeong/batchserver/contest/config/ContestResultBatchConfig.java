@@ -1,9 +1,9 @@
 package com.mulmeong.batchserver.contest.config;
 
 import com.mulmeong.batchserver.contest.application.ContestKafkaPublisher;
-import com.mulmeong.batchserver.contest.entity.contest.Contest;
-import com.mulmeong.batchserver.contest.entity.contest.ContestPost;
-import com.mulmeong.batchserver.contest.entity.contestRead.ContestPostRead;
+import com.mulmeong.batchserver.contest.domain.entity.Contest;
+import com.mulmeong.batchserver.contest.domain.entity.ContestPost;
+import com.mulmeong.batchserver.contest.domain.document.ContestPostRead;
 import com.mulmeong.batchserver.contest.infrastructure.repository.ContestPostRepository;
 import com.mulmeong.batchserver.contest.infrastructure.repository.ContestPostReadRepository;
 import com.mulmeong.batchserver.contest.infrastructure.repository.ContestRepository;
@@ -239,7 +239,7 @@ public class ContestResultBatchConfig {
                         post.getMemberUuid(),
                         post.getPostUuid(),
                         contest.getBadgeId(),
-                        post.getVoteCount(),
+                        Long.valueOf(post.getVoteCount()),
                         ranking));
                 ranking++;
             }

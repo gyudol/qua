@@ -1,7 +1,7 @@
 package com.mulmeong.batchserver.contest.config;
 
 import com.mulmeong.batchserver.contest.application.ContestKafkaPublisher;
-import com.mulmeong.batchserver.contest.entity.contest.Contest;
+import com.mulmeong.batchserver.contest.domain.entity.Contest;
 import com.mulmeong.batchserver.contest.infrastructure.repository.ContestRepository;
 import com.mulmeong.event.contest.produce.ContestVoteUpdateEvent;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.mulmeong.batchserver.utility.infrastructure.repository;
 
-import com.mulmeong.batchserver.utility.domain.model.Follow;
+import com.mulmeong.batchserver.utility.domain.document.Follow;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.mulmeong.batchserver.utility.application;
 
-import com.mulmeong.batchserver.utility.domain.model.Follow;
+import com.mulmeong.batchserver.utility.domain.document.Follow;
 import com.mulmeong.batchserver.utility.infrastructure.repository.FollowRepository;
 import com.mulmeong.event.utility.consume.FeedCreateEvent;
 import com.mulmeong.event.utility.produce.FeedCreatedFollowersEvent;
