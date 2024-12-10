@@ -1,6 +1,6 @@
 package com.mulmeong.contest.vo.in;
 
-import com.mulmeong.contest.entity.Kind;
+import com.mulmeong.contest.domain.model.Kind;
 import lombok.Getter;
 import lombok.ToString;
 

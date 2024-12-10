@@ -21,7 +21,11 @@ public class AuthContestController {
 
     private final ContestService contestService;
 
-    @Operation(summary = "콘테스트 신청(Post 등록)", description = "Contest-Service")
+    @Operation(summary = "콘테스트 신청(Post 등록)", description = """
+        - MediaType: `IMAGE` / `VIDEO`<br>
+        - MediaSubType: `IMAGE` / `VIDEO_THUMBNAIL` / `VIDEO_360` / `VIDEO_540` / `VIDEO_720` / `VIDEO_MP4`<br><br>
+        - 물고기컵의 경우 validation 통과한 IMAGE만 가능
+        - ContestPostMedia 테이블은 **FE에서 생성한 MediaUUID를 기본키로 설정**하는 것에 주의""")
     @PostMapping("/{contestId}/apply")
     public BaseResponse<Void> applyContest(
             @RequestHeader("Member-Uuid") String memberUuid,

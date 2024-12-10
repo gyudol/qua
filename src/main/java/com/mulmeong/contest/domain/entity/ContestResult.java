@@ -1,4 +1,4 @@
-package com.mulmeong.contest.entity;
+package com.mulmeong.contest.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;

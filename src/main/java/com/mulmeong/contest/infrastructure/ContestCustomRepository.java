@@ -1,10 +1,12 @@
 package com.mulmeong.contest.infrastructure;
 
 import com.mulmeong.contest.common.utils.CursorPage;
+import com.mulmeong.contest.domain.entity.Contest;
+import com.mulmeong.contest.domain.entity.QContest;
+import com.mulmeong.contest.domain.model.SortType;
 import com.mulmeong.contest.dto.in.ContestQueryRequestDto;
 import com.mulmeong.contest.dto.model.BasePaginationRequestDto;
 import com.mulmeong.contest.dto.out.ContestResponseDto;
-import com.mulmeong.contest.entity.*;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQueryFactory;
