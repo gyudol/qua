@@ -2,6 +2,7 @@ package com.mulmeong.shorts.api.application;
 
 import static com.mulmeong.shorts.common.response.BaseResponseStatus.SHORTS_NOT_FOUND;
 
+import com.mulmeong.shorts.api.domain.entity.Shorts;
 import com.mulmeong.shorts.api.domain.event.ShortsDeleteEvent;
 import com.mulmeong.shorts.api.dto.in.ShortsCreateDto;
 import com.mulmeong.shorts.api.dto.in.ShortsHashtagUpdateDto;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class ShortsServiceImpl implements ShortsService {
@@ -25,7 +27,6 @@ public class ShortsServiceImpl implements ShortsService {
     private final ShortsHashtagRepository shortsHashtagRepository;
     private final KafkaProducer kafkaProducer;
 
-    @Transactional
     @Override
     public void createShorts(ShortsCreateDto requestDto) {
 
@@ -35,7 +36,6 @@ public class ShortsServiceImpl implements ShortsService {
         kafkaProducer.send(requestDto.toEventEntity());
     }
 
-    @Transactional
     @Override
     public void updateShortsInfo(ShortsInfoUpdateDto requestDto) {
 
@@ -45,7 +45,6 @@ public class ShortsServiceImpl implements ShortsService {
         kafkaProducer.send(requestDto.toEventEntity());
     }
 
-    @Transactional
     @Override
     public void updateShortsStatus(ShortsStatusUpdateDto requestDto) {
 
@@ -55,7 +54,6 @@ public class ShortsServiceImpl implements ShortsService {
         kafkaProducer.send(requestDto.toEventEntity());
     }
 
-    @Transactional
     @Override
     public void updateShortsHashtag(ShortsHashtagUpdateDto requestDto) {
 
@@ -66,15 +64,16 @@ public class ShortsServiceImpl implements ShortsService {
         kafkaProducer.send(requestDto.toEventEntity());
     }
 
-    @Transactional
     @Override
     public void deleteShorts(String shortsUuid) {
 
-        shortsRepository.delete(shortsRepository.findByShortsUuid(shortsUuid)
-            .orElseThrow(() -> new BaseException(SHORTS_NOT_FOUND)));
+        final String memberUuid = shortsRepository.findByShortsUuid(shortsUuid)
+            .orElseThrow(() -> new BaseException(SHORTS_NOT_FOUND)).getMemberUuid();
+
+        shortsRepository.deleteByShortsUuid(shortsUuid);
         shortsHashtagRepository.deleteById(shortsUuid);
         shortsMediaRepository.deleteByShortsUuid(shortsUuid);
-        kafkaProducer.send(new ShortsDeleteEvent(shortsUuid));
+        kafkaProducer.send(new ShortsDeleteEvent(shortsUuid, memberUuid));
     }
 
 }
