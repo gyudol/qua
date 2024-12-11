@@ -24,8 +24,7 @@ public class Member {
     private String nickname;
     private String profileImageUrl;
     private LocalDateTime createdAt;
-    private Integer point;
-    private String grade;
+    private String grade; // 등급 이름
     private Badge equippedBadge;
     // todo : 화면에 따른 기타 집계 데이터 추가/수정 필요
     private Integer followerCount;
@@ -34,14 +33,13 @@ public class Member {
     private Integer shortsCount;
 
     @Builder
-    public Member(String memberUuid, String nickname, String profileImageUrl, LocalDateTime createdAt, Integer point,
+    public Member(String memberUuid, String nickname, String profileImageUrl, LocalDateTime createdAt,
                   String grade, Badge equippedBadge, Integer followerCount, Integer followingCount, Integer feedCount,
                   Integer shortsCount) {
         this.memberUuid = memberUuid;
         this.nickname = nickname;
         this.profileImageUrl = profileImageUrl;
         this.createdAt = createdAt;
-        this.point = point;
         this.grade = grade;
         this.equippedBadge = equippedBadge;
         this.followerCount = followerCount;
