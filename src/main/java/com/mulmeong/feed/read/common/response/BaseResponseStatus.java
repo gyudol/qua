@@ -29,7 +29,8 @@ public enum BaseResponseStatus {
      * 1000: Feed Service 에러.
      */
     FEED_FORBIDDEN(HttpStatus.FORBIDDEN, false, 1003, "피드 접근 권한이 없습니다."),
-    FEED_NOT_FOUND(HttpStatus.NOT_FOUND, false, 1004, "존재하지 않는 게시글 정보입니다.");
+    FEED_NOT_FOUND(HttpStatus.NOT_FOUND, false, 1004, "존재하지 않는 게시글 정보입니다."),
+    HASHTAG_DUPLICATE_KEY(HttpStatus.CONFLICT, false, 1009, "해시태그가 이미 존재합니다.");
 
     private final HttpStatusCode httpStatusCode;
     private final boolean isSuccess;

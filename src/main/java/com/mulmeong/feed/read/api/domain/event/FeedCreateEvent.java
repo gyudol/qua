@@ -1,6 +1,7 @@
 package com.mulmeong.feed.read.api.domain.event;
 
 import com.mulmeong.feed.read.api.domain.document.Feed;
+import com.mulmeong.feed.read.api.domain.entity.FeedHashtag;
 import com.mulmeong.feed.read.api.domain.model.Hashtag;
 import com.mulmeong.feed.read.api.domain.model.Media;
 import com.mulmeong.feed.read.api.domain.model.Visibility;
@@ -24,7 +25,7 @@ public class FeedCreateEvent {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Feed toDocument() {
+    public Feed toFeedDocument() {
         return Feed.builder()
             .feedUuid(feedUuid)
             .memberUuid(memberUuid)
@@ -41,6 +42,14 @@ public class FeedCreateEvent {
             .createdAt(createdAt)
             .updatedAt(updatedAt)
             .build();
+    }
+
+    public List<FeedHashtag> toHashtagEntities() {
+        return hashtags.stream()
+            .map(hashtag -> FeedHashtag.builder()
+                .name(hashtag.getName())
+                .build())
+            .toList();
     }
 
 }

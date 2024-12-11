@@ -5,6 +5,7 @@ import com.mulmeong.feed.read.api.domain.event.FeedDeleteEvent;
 import com.mulmeong.feed.read.api.domain.event.FeedHashtagUpdateEvent;
 import com.mulmeong.feed.read.api.domain.event.FeedStatusUpdateEvent;
 import com.mulmeong.feed.read.api.domain.event.FeedUpdateEvent;
+import com.mulmeong.feed.read.common.exception.BaseException;
 import java.util.Map;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -15,7 +16,9 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
+import org.springframework.util.backoff.FixedBackOff;
 
 @Configuration
 @EnableKafka
@@ -58,6 +61,22 @@ public class KafkaConsumerConfig {
     }
 
     /**
+     * KafkaListener에서 예외가 발생했을 때 처리하는 DefaultErrorHandler를 생성.
+     * 재시도 횟수와 대기 시간을 설정
+     *
+     * @return DefaultErrorHandler DefaultErrorHandler 객체
+     */
+    @Bean
+    public DefaultErrorHandler errorHandler() {
+        DefaultErrorHandler handler = new DefaultErrorHandler(
+            new FixedBackOff(1000L, 3));    // 1초 대기, 최대 3회 재시도
+
+        handler.addNotRetryableExceptions(BaseException.class);
+
+        return handler;
+    }
+
+    /**
      * 특정 메시지 타입에 맞게 ConsumerFactory 생성.
      *
      * @param messageType 제네릭으로 선언한 Event 객체
@@ -85,6 +104,7 @@ public class KafkaConsumerConfig {
         ConcurrentKafkaListenerContainerFactory<String, T> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory(messageType));
         factory.getContainerProperties().setGroupId(groupId);
+        factory.setCommonErrorHandler(errorHandler());
         return factory;
     }
 
