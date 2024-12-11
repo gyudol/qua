@@ -6,7 +6,6 @@ import com.mulmeong.contest.domain.entity.QContest;
 import com.mulmeong.contest.domain.model.SortType;
 import com.mulmeong.contest.dto.in.ContestQueryRequestDto;
 import com.mulmeong.contest.dto.model.BasePaginationRequestDto;
-import com.mulmeong.contest.dto.out.ContestResponseDto;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -28,16 +27,15 @@ public class ContestCustomRepository {
 
     QContest contest = QContest.contest;
 
-    public CursorPage<ContestResponseDto> getContests(ContestQueryRequestDto requestDto) {
+    public CursorPage<Contest> getContests(ContestQueryRequestDto requestDto) {
 
         BooleanBuilder builder = new BooleanBuilder();
-
-        builder.and(contest.status.eq(requestDto.isStatus()));
+        builder.and(contest.status.eq(requestDto.isStatus())); // 진행 중인지 과거인지 필터링
 
         return getPostsWithPagination(requestDto, builder);
     }
 
-    private CursorPage<ContestResponseDto> getPostsWithPagination(
+    private CursorPage<Contest> getPostsWithPagination(
             BasePaginationRequestDto requestDto, BooleanBuilder builder) {
 
         Optional.ofNullable(requestDto.getLastId()).ifPresent(id -> builder.and(contest.id.lt(Long.parseLong(id))));
@@ -62,15 +60,13 @@ public class ContestCustomRepository {
             content = content.subList(0, curPageSize);
         }
 
-        return new CursorPage<>(content.stream().map(ContestResponseDto::toDto).toList(),
-                nextCursor, hasNext, content.size(), requestDto.getPageNo());
+        return new CursorPage<>(content, nextCursor, hasNext, content.size(), requestDto.getPageNo());
     }
 
-    private OrderSpecifier<?> determineSortOrder(QContest post, SortType sortType) {
+    private OrderSpecifier<?> determineSortOrder(QContest contest, SortType sortType) {
         return switch (sortType) {
-            case LATEST -> post.startDate.desc();
-            case OLDEST -> post.startDate.asc();
+            case LATEST -> contest.startDate.desc();
+            case OLDEST -> contest.startDate.asc();
         };
     }
-
 }
