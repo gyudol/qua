@@ -35,14 +35,14 @@ function ShortsSwiper() {
     <Swiper
       direction="vertical" // 수직 스와이프
       onSlideChange={handleSlideChange}
-      className="h-[calc(100vh-5.5rem)] bg-black"
+      className="size-full bg-black"
     >
       {data.pages.map((page) =>
         page.content.map((shorts, index) => (
           <SwiperSlide
             key={shorts.shortsUuid}
             aria-description={shorts.shortsUuid}
-            className="flex justify-center items-center relative overflow-hidden"
+            className="size-full flex justify-center items-center relative overflow-hidden"
           >
             <ShortsSlideContent {...shorts} isActive={index === activeIndex} />
           </SwiperSlide>

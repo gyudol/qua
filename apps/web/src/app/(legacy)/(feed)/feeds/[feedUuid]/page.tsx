@@ -1,6 +1,6 @@
-import { CommonLayout } from '@/components/common/molecules';
-import CommentDrawer from '@/components/feed-comment-section/organisms/CommentDrawer';
-import { FeedDetailSection } from '@/components/feed/templates/FeedDetailSection';
+import { CommonLayout } from "@/components/common/molecules";
+import CommentDrawer from "@/components/feed-comment-section/organisms/CommentDrawer";
+import { FeedDetailSection } from "@/components/feed/templates/FeedDetailSection";
 
 interface PageProps {
   params: {

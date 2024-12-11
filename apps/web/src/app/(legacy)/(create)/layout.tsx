@@ -1,5 +1,5 @@
-import CloseHeader from '@/components/layouts/CloseHeader';
-import InnerMobileContainer from '@/components/layouts/InnerMobileContainer';
+import CloseHeader from "@/components/layouts/CloseHeader";
+import InnerMobileContainer from "@/components/layouts/InnerMobileContainer";
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (

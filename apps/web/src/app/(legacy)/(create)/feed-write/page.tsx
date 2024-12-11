@@ -1,5 +1,5 @@
-import { CommonLayout } from '@/components/common/molecules';
-import FeedWriteFrom from '@/components/feedform/organisms/FeedWriteFrom';
+import { CommonLayout } from "@/components/common/molecules";
+import FeedWriteFrom from "@/components/feedform/organisms/FeedWriteFrom";
 
 function page() {
   return (

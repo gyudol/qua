@@ -17,7 +17,9 @@ function CommentDrawer({ feedUuid }: { feedUuid: string }) {
       <DrawerTrigger asChild>
         <Button
           variant="default"
-          className="w-full md:max-w-md py-[1.7rem] fixed bottom-0 bg-teal-300 !rounded-t-xl border-[1px] !border-teal-400"
+          className="
+          w-full md:max-w-md 
+          py-[1.7rem] absolute bottom-[5rem] bg-teal-300 !rounded-t-xl border-[1px] !border-teal-400"
         >
           댓글 작성하기
         </Button>
