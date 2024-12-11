@@ -5,6 +5,7 @@ import com.mulmeong.notification.document.NotificationType;
 import com.mulmeong.notification.vo.NotificationHistoryResponseVo;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -12,24 +13,28 @@ import java.time.LocalDateTime;
 @Builder
 public class NotificationHistoryResponseDto {
     private String notificationHistoryUuid;
-    private NotificationType notificationType;
-    private String notificationTypeUuid;
-    private LocalDateTime createdAt;
-    private String notificationComment;
+    private String targetUuid; //notification 받는 사람
+    private NotificationType notificationType; //notification 종류 id
+    private String kindUuid;
+    private String linkToUuid;
+    private String comment; //알림 comment
     private String content;
-    private String sourceType;
+    private String sourceType; //user or admin
     private String sourceUuid;
+    private boolean isRead;
+    private LocalDateTime createdAt;
     private String sourceNickname;
     private String sourceProfileImage;
-    private boolean isRead;
 
     public static NotificationHistoryResponseDto toDto(NotificationHistory notificationHistory) {
         return NotificationHistoryResponseDto.builder()
                 .notificationHistoryUuid(notificationHistory.getNotificationHistoryUuid())
                 .notificationType(notificationHistory.getNotificationType())
-                .notificationTypeUuid(notificationHistory.getKindUuid())
+                .kindUuid(notificationHistory.getKindUuid())
+                .targetUuid(notificationHistory.getTargetUuid())
+                .linkToUuid(notificationHistory.getLinkToUuid())
                 .createdAt(notificationHistory.getCreatedAt())
-                .notificationComment(notificationHistory.getComment())
+                .comment(notificationHistory.getComment())
                 .content(notificationHistory.getContent())
                 .sourceType(notificationHistory.getSourceType())
                 .sourceUuid(notificationHistory.getSourceUuid())
@@ -43,9 +48,11 @@ public class NotificationHistoryResponseDto {
         return NotificationHistoryResponseVo.builder()
                 .notificationHistoryUuid(notificationHistoryUuid)
                 .notificationType(notificationType)
-                .notificationTypeUuid(notificationTypeUuid)
+                .kindUuid(kindUuid)
                 .createdAt(createdAt)
-                .notificationComment(notificationComment)
+                .targetUuid(targetUuid)
+                .linkToUuid(linkToUuid)
+                .comment(comment)
                 .content(content)
                 .sourceType(sourceType)
                 .sourceUuid(sourceUuid)

@@ -20,6 +20,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -84,6 +85,14 @@ public class NotificationServiceImpl implements NotificationService {
             update.set("isRead", true);
             mongoTemplate.updateFirst(query, update, NotificationHistory.class);
         }
+    }
+
+    @Override
+    public NotificationHistoryResponseDto getNotificationHistory(String notificationHistoryUuid) {
+        NotificationHistory notificationHistory = notificationHistoryRepository
+                .findByNotificationHistoryUuid(notificationHistoryUuid)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_NOTIFICATION_HISTORY));
+        return NotificationHistoryResponseDto.toDto(notificationHistory);
     }
 
 }

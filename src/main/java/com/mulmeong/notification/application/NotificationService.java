@@ -22,4 +22,5 @@ public interface NotificationService {
 
     void updateNotificationHistoryRead(String memberUuid, String historyUuid);
 
+    NotificationHistoryResponseDto getNotificationHistory(String notificationHistoryUuid);
 }

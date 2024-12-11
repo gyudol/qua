@@ -1,6 +1,5 @@
 package com.mulmeong.notification.presentation;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.mulmeong.notification.application.NotificationService;
 import com.mulmeong.notification.common.response.BaseResponse;
 import com.mulmeong.notification.common.utils.CursorPage;
@@ -27,8 +26,8 @@ public class NotificationController {
     @Operation(summary = "회원의 전체 알림 목록 조회", tags = {"Notification Service"},
             description = """
                     - type : `all` / `unread` <br>
-                    - kind : `feed` / `shorts` / `comment` / 
-                    `recomment` / `follow` / `chat` / 
+                    - kind : `feed` / `shorts` / `comment` /
+                    `recomment` / `follow` / `chat` /
                     `grade` / `contest` / `report`<br>
                     """
 
@@ -42,8 +41,8 @@ public class NotificationController {
             @RequestParam(defaultValue = "all", value = "type", required = false) String type,
             @Parameter(
                     description = "각 알림 별 목록 조회, 기본값은 전체 목록에 대한 조회",
-                    schema = @Schema(allowableValues = {"feed", "shorts", "comment", "recomment", "follow",
-                                                        "chat", "grade", "contest", "report"})
+                    schema = @Schema(allowableValues = {"feed", "shorts", "comment", "recomment",
+                        "follow", "chat", "grade", "contest", "report"})
             )
             @RequestParam(value = "kind", required = false) String kind,
             @RequestParam(value = "nextCursor", required = false) String lastId,
@@ -61,9 +60,8 @@ public class NotificationController {
     @GetMapping("/members/{memberUuid}/notifications-status")
     @Operation(summary = "회원의 알림 종류 및 상태 조회", tags = {"Notification Service"},
             description = """
-                    kind: `feed` / `shorts` / `comment` / 
-                    `recomment` / `follow` / `chat` / 
-                    `grade` / `contest` / `report`""")
+                    - kind : `feed` / `shorts` / `comment` / `recomment` / `follow` /
+                    `chat` / `grade` / `contest` / `report`""")
     BaseResponse<List<NotificationStatusResponseVo>> getAllNotificationHistories(@PathVariable String memberUuid) {
         return new BaseResponse<>(notificationService.getAllNotificationStatus(memberUuid)
                 .stream().map(NotificationStatusResponseDto::toVo).toList());
@@ -85,4 +83,10 @@ public class NotificationController {
         return new BaseResponse<>();
     }
 
+    @GetMapping("/members/notification/{historyUuid}")
+    BaseResponse<NotificationHistoryResponseVo> getNotificationHistory(@PathVariable String historyUuid) {
+        return new BaseResponse<>(
+                notificationService.getNotificationHistory(historyUuid).toVo()
+        );
+    }
 }
