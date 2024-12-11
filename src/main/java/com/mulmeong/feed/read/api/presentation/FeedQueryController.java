@@ -57,7 +57,7 @@ public class FeedQueryController {
 
     @Operation(summary = "특정 사용자가 작성한 피드 목록 조회 (Guest가 요청시)",
         description = """
-            - 조건에 부합하는 모든 Feed를 조회<br><br>
+            - Visibility = `VISIBLE`인 Feed만을 조회<br><br>
             - sortBy: `LATEST` / `LIKES` (대·소문자 구분하지 않음)<br><br>
             - LATEST: **최신순**, LIKES: **netLikes 내림차순** (likesCount - dislikeCount)""")
     @GetMapping("/members/{memberUuid}/feeds")
