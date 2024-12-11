@@ -4,6 +4,7 @@ import com.mulmeong.event.chat.ChattingCreateEvent;
 import com.mulmeong.event.contents.*;
 import com.mulmeong.event.contest.ContestVoteResultEvent;
 import com.mulmeong.event.member.FollowCreateEvent;
+import com.mulmeong.event.member.MemberCreateEvent;
 import com.mulmeong.event.member.MemberGradeUpdateEvent;
 import com.mulmeong.event.report.ReportApproveEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -99,6 +100,12 @@ public class KafkaConsumerConfig {
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, ReportApproveEvent> reportApproveListener() {
         return kafkaListenerContainerFactory(ReportApproveEvent.class);
+    }
+
+    //member 생성
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, MemberCreateEvent> memberCreateListener() {
+        return kafkaListenerContainerFactory(MemberCreateEvent.class);
     }
 
     public <T> ConsumerFactory<String, T> consumerFactory(Class<T> messageType) {
