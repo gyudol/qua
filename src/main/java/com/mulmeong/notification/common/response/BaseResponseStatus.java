@@ -15,17 +15,19 @@ public enum BaseResponseStatus {
 
     // 200: 요청 성공.
     SUCCESS(HttpStatus.OK, true, 200, "요청에 성공하였습니다."),
-
     // 400 : 사용자 요청 오류
     ILLEGAL_ARGUMENT(HttpStatus.BAD_REQUEST, false, 400, "잘못된 요청입니다."),
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, false, 401, "적절하지 않은 요청값입니다."),
     NO_SIGN_IN(HttpStatus.UNAUTHORIZED, false, 402, "로그인을 먼저 진행해주세요"),
 
     // 900 : 기타 에러
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "요청 처리 중 에러가 발생하였습니다.");
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "요청 처리 중 에러가 발생하였습니다."),
 
+    NO_NOTIFICATION_STATUS(HttpStatus.BAD_REQUEST, false, 4200, "회원의 알림 상태가 존재하지 않습니다."),
+    NO_NOTIFICATION_HISTORY(HttpStatus.BAD_REQUEST, false, 4201, "회원의 알림 내역이 존재하지 않습니다."),
+    NO_NOTIFICATION_HISTORY_AUTHORITY(HttpStatus.BAD_REQUEST, false, 3202, "알림 내역 접근 권한이 없습니다.");
 
-    private final HttpStatusCode httpStatusCode;
+    private final HttpStatus httpStatus;
     private final boolean isSuccess;
     private final int code;
     private final String message;
