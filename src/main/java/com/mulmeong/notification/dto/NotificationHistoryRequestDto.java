@@ -6,156 +6,215 @@ import com.mulmeong.event.contest.ContestVoteResultEvent;
 import com.mulmeong.event.member.FollowCreateEvent;
 import com.mulmeong.event.member.MemberGradeUpdateEvent;
 import com.mulmeong.event.report.ReportApproveEvent;
+import com.mulmeong.notification.client.member.MemberDto;
 import com.mulmeong.notification.document.NotificationComment;
 import com.mulmeong.notification.document.NotificationHistory;
+import com.mulmeong.notification.document.NotificationType;
 import lombok.Builder;
 import lombok.Getter;
+import org.apache.kafka.common.Uuid;
 
+import java.lang.annotation.Target;
 import java.time.LocalDateTime;
 
 @Getter
 @Builder
 public class NotificationHistoryRequestDto {
-    private String notificationId;
-    private String memberUuid;
+    private NotificationType notificationType;
+    private String targetUuid;
+    private String sourceType;
+    private String sourceUuid;
     private String kindUuid;
     private NotificationComment comment;
+    private String content;
     private boolean isRead;
-    private LocalDateTime createdAt;
+    private String sourceNickname;
+    private String sourceProfileImage;
 
     public NotificationHistory toDocument() {
         return NotificationHistory.builder()
-                .notificationId(notificationId)
-                .memberUuid(memberUuid)
+                .notificationHistoryUuid(Uuid.randomUuid().toString())
+                .notificationType(notificationType)
+                .targetUuid(targetUuid)
+                .sourceUuid(sourceUuid)
+                .sourceType(sourceType)
                 .kindUuid(kindUuid)
                 .comment(comment.getComment())
-
+                .content(content)
                 .isRead(false)
-                .createdAt(LocalDateTime.now())
+                .sourceNickname(sourceNickname)
+                .sourceProfileImage(sourceProfileImage)
                 .build();
     }
 
     public static NotificationHistoryRequestDto feedToDto(
-            String notificationId, FeedCreatedFollowersEvent message) {
+            FeedCreatedFollowersEvent message, String followerUuid, MemberDto memberDto) {
         return NotificationHistoryRequestDto.builder()
-                .memberUuid(message.getMemberUuid())
-                .notificationId(notificationId)
+                .sourceUuid(message.getMemberUuid()) //피드 생성한 사람
+                .sourceType("user")
+                .targetUuid(followerUuid) //피드 생성한 사람을 팔로우하는 사람들
+                .notificationType(NotificationType.FEED)
                 .kindUuid(message.getFeedUuid())
                 .comment(NotificationComment.FEED_CREATE)
+                .content(message.getTitle())
+                .sourceNickname(memberDto.getNickname())
+                .sourceProfileImage(memberDto.getProfileImageUrl())
                 .build();
     }
 
     public static NotificationHistoryRequestDto shortsToDto(
-            String notificationId, ShortsCreatedFollowersEvent message) {
+            ShortsCreatedFollowersEvent message, String followerUuid, MemberDto memberDto) {
         return NotificationHistoryRequestDto.builder()
-                .memberUuid(message.getMemberUuid())
-                .notificationId(notificationId)
+                .sourceUuid(message.getMemberUuid()) //쇼츠 생성한 사람
+                .sourceType("user")
+                .targetUuid(followerUuid) //쇼츠 생성한 사람을 팔로우하는 사람들
+                .notificationType(NotificationType.SHORTS)
                 .kindUuid(message.getShortsUuid())
                 .comment(NotificationComment.SHORTS_CREATE)
+                .content(message.getTitle())
+                .sourceNickname(memberDto.getNickname())
+                .sourceProfileImage(memberDto.getProfileImageUrl())
                 .build();
     }
 
     public static NotificationHistoryRequestDto feedCommentToDto(
-            String notificationId, FeedCommentCreateEvent message) {
+            FeedCommentCreateEvent message, String targetUuid, MemberDto memberDto) {
         return NotificationHistoryRequestDto.builder()
-                .memberUuid(message.getMemberUuid())
-                .notificationId(notificationId)
+                .sourceUuid(message.getMemberUuid()) //피드 댓글 생성한 사람
+                .sourceType("user")
+                .targetUuid(targetUuid) //피드 생성한 사람
+                .notificationType(NotificationType.COMMENT)
                 .kindUuid(message.getCommentUuid())
                 .comment(NotificationComment.FEED_COMMENT_CREATE)
+                .content(message.getContent())
+                .sourceNickname(memberDto.getNickname())
+                .sourceProfileImage(memberDto.getProfileImageUrl())
                 .build();
     }
 
     public static NotificationHistoryRequestDto feedRecommentToDto(
-            String notificationId, FeedRecommentCreateEvent message) {
+            FeedRecommentCreateEvent message, String targetUuid, MemberDto memberDto) {
         return NotificationHistoryRequestDto.builder()
-                .memberUuid(message.getMemberUuid())
-                .notificationId(notificationId)
+                .sourceUuid(message.getMemberUuid()) //대댓글 작성한 사람
+                .sourceType("user")
+                .targetUuid(targetUuid)
+                .notificationType(NotificationType.RECOMMENT)
                 .kindUuid(message.getRecommentUuid())
-                .comment(NotificationComment.FEED_COMMENT_CREATE)
+                .comment(NotificationComment.RECOMMENT_CREATE)
+                .content(message.getContent())
+                .sourceNickname(memberDto.getNickname())
+                .sourceProfileImage(memberDto.getProfileImageUrl())
                 .build();
     }
 
     public static NotificationHistoryRequestDto shortsCommentToDto(
-            String notificationId, ShortsCommentCreateEvent message) {
+            ShortsCommentCreateEvent message, String targetUuid, MemberDto memberDto) {
         return NotificationHistoryRequestDto.builder()
-                .memberUuid(message.getMemberUuid())
-                .notificationId(notificationId)
+                .sourceUuid(message.getMemberUuid()) //댓글 작성자
+                .sourceType("user")
+                .targetUuid(targetUuid) //쇼츠 작성자
+                .notificationType(NotificationType.COMMENT)
                 .kindUuid(message.getCommentUuid())
                 .comment(NotificationComment.SHORTS_COMMENT_CREATE)
+                .content(message.getContent())
+                .sourceNickname(memberDto.getNickname())
+                .sourceProfileImage(memberDto.getProfileImageUrl())
                 .build();
     }
 
     public static NotificationHistoryRequestDto shortsRecommentToDto(
-            String notificationId, ShortsRecommentCreateEvent message) {
+            ShortsRecommentCreateEvent message, String targetUuid, MemberDto memberDto) {
         return NotificationHistoryRequestDto.builder()
-                .memberUuid(message.getMemberUuid())
-                .notificationId(notificationId)
+                .sourceUuid(message.getMemberUuid()) //대댓글 작성자
+                .sourceType("user")
+                .targetUuid(targetUuid) //댓글 작성자
+                .notificationType(NotificationType.RECOMMENT)
                 .kindUuid(message.getCommentUuid())
-                .comment(NotificationComment.SHORTS_COMMENT_CREATE)
+                .comment(NotificationComment.RECOMMENT_CREATE)
+                .content(message.getContent())
+                .sourceNickname(memberDto.getNickname())
+                .sourceProfileImage(memberDto.getProfileImageUrl())
                 .build();
     }
 
     public static NotificationHistoryRequestDto likeToDto(
-            String notificationId, LikeCreateEvent message) {
+            LikeCreateEvent message, String targetUuid, MemberDto memberDto) {
         NotificationComment comment = switch (message.getKind()) {
             case "feed" -> NotificationComment.FEED_LIKE_CREATE;
             case "shorts" -> NotificationComment.SHORTS_LIKE_CREATE;
             case "comment", "recomment" -> NotificationComment.COMMENT_LIKE_CREATE;
             default -> null;
         };
+        NotificationType notificationType = switch (message.getKind()) {
+            case "feed" -> NotificationType.FEED;
+            case "shorts" -> NotificationType.SHORTS;
+            case "comment" -> NotificationType.COMMENT;
+            case "recomment" -> NotificationType.RECOMMENT;
+            default -> null;
+        };
         return NotificationHistoryRequestDto.builder()
-                .memberUuid(message.getMemberUuid())
-                .notificationId(notificationId)
+                .sourceUuid(message.getMemberUuid())//좋아요 한 사람
+                .sourceType("user")
+                .targetUuid(targetUuid) //피드, 쇼츠, 댓글, 대댓글 작성한 사람
+                .notificationType(notificationType)
                 .kindUuid(message.getKindUuid())
                 .comment(comment)
+                .sourceNickname(memberDto.getNickname())
+                .sourceProfileImage(memberDto.getProfileImageUrl())
                 .build();
     }
 
-    public static NotificationHistoryRequestDto followToDto(
-            String notificationId, FollowCreateEvent message) {
+    public static NotificationHistoryRequestDto followToDto(FollowCreateEvent message, MemberDto memberDto) {
         return NotificationHistoryRequestDto.builder()
-                .memberUuid(message.getTargetUuid())
-                .notificationId(notificationId)
-                .kindUuid(message.getSourceUuid())
+                .sourceUuid(message.getSourceUuid())
+                .sourceType("user")
+                .targetUuid(message.getTargetUuid())
+                .notificationType(NotificationType.FOLLOW)
                 .comment(NotificationComment.FOLLOW_CREATE)
+                .sourceNickname(memberDto.getNickname())
+                .sourceProfileImage(memberDto.getProfileImageUrl())
                 .build();
     }
 
-    public static NotificationHistoryRequestDto gradeToDto(
-            String notificationId, MemberGradeUpdateEvent message) {
+    public static NotificationHistoryRequestDto gradeToDto(MemberGradeUpdateEvent message) {
         return NotificationHistoryRequestDto.builder()
-                .memberUuid(message.getMemberUuid())
-                .notificationId(notificationId)
+                .sourceType("admin")
+                .targetUuid(message.getMemberUuid())
+                .notificationType(NotificationType.GRADE)
                 .kindUuid(message.getGradeId().toString())
                 .comment(NotificationComment.GRADE_UPDATE)
                 .build();
     }
 
-    public static NotificationHistoryRequestDto chatToDto(
-            String notificationId, ChattingCreateEvent message) {
+    public static NotificationHistoryRequestDto chatToDto(ChattingCreateEvent message, MemberDto memberDto) {
         return NotificationHistoryRequestDto.builder()
-                .memberUuid(message.getTargetUuid())
-                .notificationId(notificationId)
+                .sourceUuid(message.getMemberUuid())
+                .sourceType("user")
+                .targetUuid(message.getTargetUuid())
+                .notificationType(NotificationType.CHAT)
                 .kindUuid(message.getChatRoomUuid())
                 .comment(NotificationComment.CHAT_CREATE)
+                .content(message.getMessage())
+                .sourceNickname(memberDto.getNickname())
+                .sourceProfileImage(memberDto.getProfileImageUrl())
                 .build();
     }
 
-    public static NotificationHistoryRequestDto contestToDto(
-            String notificationId, ContestVoteResultEvent message) {
+    public static NotificationHistoryRequestDto contestToDto(ContestVoteResultEvent message) {
         return NotificationHistoryRequestDto.builder()
-                .memberUuid(message.getMemberUuid())
-                .notificationId(notificationId)
+                .sourceType("admin")
+                .targetUuid(message.getMemberUuid())
+                .notificationType(NotificationType.CONTEST)
                 .kindUuid(message.getContestId().toString())
                 .comment(NotificationComment.WIN_CONTEST)
                 .build();
     }
 
-    public static NotificationHistoryRequestDto reportToDto(
-            String notificationId, ReportApproveEvent message) {
+    public static NotificationHistoryRequestDto reportToDto(ReportApproveEvent message) {
         return NotificationHistoryRequestDto.builder()
-                .memberUuid(message.getMemberUuid())
-                .notificationId(notificationId)
+                .sourceType("admin")
+                .targetUuid(message.getMemberUuid())
+                .notificationType(NotificationType.REPORT)
                 .kindUuid(message.getTargetUuid())
                 .comment(NotificationComment.REPORT_APPROVE)
                 .build();

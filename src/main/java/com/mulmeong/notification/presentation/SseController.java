@@ -1,6 +1,7 @@
 package com.mulmeong.notification.presentation;
 
 import com.mulmeong.notification.application.SseService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -13,6 +14,7 @@ public class SseController {
     private final SseService sseService;
 
     @GetMapping(value = "/subscribe", produces = "text/event-stream")
+    @Operation(summary = "sse 구독하기", tags = {"Notification Service"})
     public SseEmitter subscribe(@RequestParam String memberUuid,
                                 @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "")
                                 String lastEventId) {

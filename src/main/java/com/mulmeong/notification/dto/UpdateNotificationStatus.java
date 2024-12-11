@@ -5,30 +5,25 @@ import com.mulmeong.notification.document.NotificationType;
 import lombok.Builder;
 import lombok.Getter;
 
-import javax.management.Notification;
-
-@Getter
 @Builder
-public class NotificationStatusRequestDto {
+@Getter
+public class UpdateNotificationStatus {
 
     private NotificationType notificationType;
     private String memberUuid;
-    private boolean notificationStatus;
 
-    public static NotificationStatusRequestDto toDto(
-            NotificationType notificationType, String memberUuid) {
-        return NotificationStatusRequestDto.builder()
-                .notificationType(notificationType)
-                .memberUuid(memberUuid)
+    public static UpdateNotificationStatus toUpdate(NotificationStatus notificationStatus) {
+        return UpdateNotificationStatus.builder()
+                .notificationType(notificationStatus.getNotificationType())
+                .memberUuid(notificationStatus.getMemberUuid())
                 .build();
     }
 
-    public NotificationStatus toDocument() {
+    public NotificationStatus updateStatus(boolean status) {
         return NotificationStatus.builder()
                 .notificationType(notificationType)
                 .memberUuid(memberUuid)
-                .notificationStatus(true)
+                .notificationStatus(status)
                 .build();
     }
-
 }

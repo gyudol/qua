@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class NotificationStatus {
     @Id
     private String id;
-    private String notificationId;
+    private NotificationType notificationType;
     private String memberUuid;
     private boolean notificationStatus;
 }
