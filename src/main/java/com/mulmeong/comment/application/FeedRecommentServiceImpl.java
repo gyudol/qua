@@ -61,7 +61,7 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
         }
 
         feedRecommentRepository.delete(feedRecomment);
-        eventPublisher.send(FeedRecommentDeleteEvent.toDto(recommentUuid));
+        eventPublisher.send(FeedRecommentDeleteEvent.toDto(recommentUuid, memberUuid));
 
     }
 
