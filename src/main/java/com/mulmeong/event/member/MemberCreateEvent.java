@@ -22,7 +22,7 @@ public class MemberCreateEvent {
                 .nickname(nickname)
                 .profileImageUrl(profileImageUrl)
                 .createdAt(createdAt)
-                .grade("플랑크톤") //default grade
+                .gradeId(1L)
                 .followerCount(0)
                 .followingCount(0)
                 .feedCount(0)

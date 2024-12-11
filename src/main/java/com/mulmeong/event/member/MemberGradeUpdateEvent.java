@@ -5,5 +5,5 @@ import lombok.Getter;
 @Getter
 public class MemberGradeUpdateEvent {
     private String memberUuid;
-    private String grade;
+    private Long gradeId;
 }
