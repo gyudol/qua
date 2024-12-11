@@ -7,18 +7,10 @@ import com.mulmeong.event.member.FollowCreateEvent;
 import com.mulmeong.event.member.MemberCreateEvent;
 import com.mulmeong.event.member.MemberGradeUpdateEvent;
 import com.mulmeong.event.report.ReportApproveEvent;
-import com.mulmeong.notification.common.exception.BaseException;
-import com.mulmeong.notification.common.response.BaseResponseStatus;
-import com.mulmeong.notification.document.NotificationHistory;
-import com.mulmeong.notification.document.NotificationStatus;
-import com.mulmeong.notification.document.NotificationType;
-import com.mulmeong.notification.infrastructure.NotificationStatusRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

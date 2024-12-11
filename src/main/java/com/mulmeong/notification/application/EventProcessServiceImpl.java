@@ -99,7 +99,7 @@ public class EventProcessServiceImpl implements EventProcessService {
     public void saveShortsRecommentEvent(ShortsRecommentCreateEvent message) {
         ShortsCommentDto shortsCommentDto = feignService.getShortsComment(message.getCommentUuid());
         String targetUuid = shortsCommentDto.getMemberUuid();
-        String linkToUuid = shortsCommentDto.getShortsUuid()
+        String linkToUuid = shortsCommentDto.getShortsUuid();
         if (checkNotificationStatus(targetUuid, NotificationType.RECOMMENT)) {
             NotificationHistory notificationHistory = notificationHistoryRepository.save(NotificationHistoryRequestDto
                     .shortsRecommentToDto(message, targetUuid, findMemberProfile(message.getMemberUuid()), linkToUuid)

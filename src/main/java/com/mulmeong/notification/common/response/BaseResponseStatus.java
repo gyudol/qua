@@ -3,7 +3,6 @@ package com.mulmeong.notification.common.response;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 
 @Getter
 @AllArgsConstructor
@@ -27,7 +26,7 @@ public enum BaseResponseStatus {
     NO_NOTIFICATION_HISTORY(HttpStatus.BAD_REQUEST, false, 4201, "회원의 알림 내역이 존재하지 않습니다."),
     NO_NOTIFICATION_HISTORY_AUTHORITY(HttpStatus.BAD_REQUEST, false, 3202, "알림 내역 접근 권한이 없습니다.");
 
-    private final HttpStatus httpStatus;
+    private final HttpStatus httpStatusCode;
     private final boolean isSuccess;
     private final int code;
     private final String message;

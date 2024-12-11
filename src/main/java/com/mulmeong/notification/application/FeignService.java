@@ -7,6 +7,9 @@ import com.mulmeong.notification.client.member.MemberClient;
 import com.mulmeong.notification.client.member.MemberDto;
 import com.mulmeong.notification.client.shorts.ShortsClient;
 import com.mulmeong.notification.client.shorts.ShortsDto;
+import com.mulmeong.notification.common.exception.BaseException;
+import com.mulmeong.notification.common.response.BaseResponse;
+import com.mulmeong.notification.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,7 @@ public class FeignService {
     private final FeedClient feedClient;
     private final ShortsClient shortsClient;
     private final CommentClient commentClient;
+
 
     MemberDto getCompactProfileByUuid(String memberUuid) {
         return memberClient.getCompactProfileByUuid(memberUuid).result();
