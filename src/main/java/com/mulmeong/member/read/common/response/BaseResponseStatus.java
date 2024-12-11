@@ -3,7 +3,6 @@ package com.mulmeong.member.read.common.response;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 
 @Getter
 @AllArgsConstructor
@@ -28,7 +27,7 @@ public enum BaseResponseStatus {
     NOT_FOUND_MEMBER(HttpStatus.BAD_REQUEST, false, 1100, "존재하지 않는 회원입니다.");
 
 
-    private final HttpStatusCode httpStatusCode;
+    private final HttpStatus httpStatusCode;
     private final boolean isSuccess;
     private final int code;
     private final String message;
