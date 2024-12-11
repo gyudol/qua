@@ -87,8 +87,8 @@ public class ContestServiceImpl implements ContestService {
 
         List<ContestResponseDto> contestResponseDtos = contestCursorPage.getContent().stream()
                 .map(contest -> {
-                    List<ContestWinnerDto> winners = requestDto.isStatus() ?
-                            Collections.emptyList() : // 현재 진행 중인 콘테스트는 수상자 null
+                    List<ContestWinnerDto> winners = requestDto.isStatus()
+                            ? Collections.emptyList() : // 현재 진행 중인 콘테스트는 수상자 null
                             contestResultRepository.findByContestIdOrderByRankingAsc(contest.getId()).stream()
                                     .map(ContestWinnerDto::toDto)
                                     .collect(Collectors.toList());
@@ -119,7 +119,7 @@ public class ContestServiceImpl implements ContestService {
     public void altContestStatus(ContestStatusEvent message) {
         Contest contest = contestRepository.findById(message.getContestId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_EXIST)
-        );
+                );
         log.info("id: {}", contest.getId());
         contestRepository.save(message.toEntity(contest));
     }
