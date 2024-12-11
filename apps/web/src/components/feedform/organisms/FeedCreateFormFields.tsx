@@ -1,11 +1,11 @@
-'use client';
-import React, { useState } from 'react';
-import { Switch } from '@repo/ui/shadcn/switch';
-import { Label } from '@repo/ui/shadcn/label';
-import { feedFormSchema } from '@/schema/FeedFormSchema';
-import type { CreateFeedType, FeedHashtag } from '@/types/request/requestType';
-import ImageUploader from '../molecule/ImageUploader';
-import CategorySelector from '../molecule/CategorySelector';
+"use client";
+import React, { useState } from "react";
+import { Switch } from "@repo/ui/shadcn/switch";
+import { Label } from "@repo/ui/shadcn/label";
+import { feedFormSchema } from "@/schema/FeedFormSchema";
+import type { CreateFeedType, FeedHashtag } from "@/types/request/requestType";
+import ImageUploader from "../molecule/ImageUploader";
+import CategorySelector from "../molecule/CategorySelector";
 
 function FeedCreateFormFields({
   payload,
@@ -19,29 +19,29 @@ function FeedCreateFormFields({
   const handleChange = (
     event: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = event.target;
 
     let updatedValue: unknown;
 
-    if (name === 'tags') {
+    if (name === "tags") {
       // 태그 처리
-      updatedValue = value.split(',').map((tag) => ({
+      updatedValue = value.split(",").map((tag) => ({
         name: tag.trim(),
       })); // FeedHashtag[] 변환
       setPayload((prev) => ({
         ...prev,
         hashtags: updatedValue as FeedHashtag[],
       }));
-    } else if (name === 'categoryName') {
+    } else if (name === "categoryName") {
       updatedValue = value;
       setPayload((prev) => ({ ...prev, categoryName: updatedValue as string }));
-    } else if (name === 'status') {
-      updatedValue = value === 'public' ? 'VISIBLE' : 'HIDDEN';
+    } else if (name === "status") {
+      updatedValue = value === "public" ? "VISIBLE" : "HIDDEN";
       setPayload((prev) => ({
         ...prev,
-        visibility: updatedValue as 'VISIBLE' | 'HIDDEN',
+        visibility: updatedValue as "VISIBLE" | "HIDDEN",
       }));
     } else {
       updatedValue = value;
@@ -61,7 +61,7 @@ function FeedCreateFormFields({
           ...acc,
           [issue.path[0]]: issue.message,
         }),
-        {}
+        {},
       );
       setErrors(validationErrors); // 에러 메시지 저장
     } else {
@@ -79,7 +79,7 @@ function FeedCreateFormFields({
         className="w-full h-[2.5rem] transition duration-300 rounded-[0.3rem] outline-none bg-white px-2 ring-1 ring-primary placeholder:text-xs placeholder:text-primary text-sm
         focus:bg-primary focus:ring-0 focus:ring-primary focus:ring-opacity-50 focus:text-white"
       />
-      {errors.title ? <p style={{ color: 'red' }}>{errors.title}</p> : null}
+      {errors.title ? <p style={{ color: "red" }}>{errors.title}</p> : null}
 
       <textarea
         id="post"
@@ -90,12 +90,12 @@ function FeedCreateFormFields({
         placeholder="내용을 입력해주세요"
         onChange={handleChange}
       />
-      {errors.content ? <p style={{ color: 'red' }}>{errors.content}</p> : null}
+      {errors.content ? <p style={{ color: "red" }}>{errors.content}</p> : null}
 
       <CategorySelector id="categoryName" name="categoryName" value="test" />
 
       {errors.categoryName ? (
-        <p style={{ color: 'red' }}>{errors.categoryName}</p>
+        <p style={{ color: "red" }}>{errors.categoryName}</p>
       ) : null}
 
       <input
@@ -107,7 +107,7 @@ function FeedCreateFormFields({
         placeholder="태그 (쉼표로 구분)"
         onChange={handleChange}
       />
-      {errors.tags ? <p style={{ color: 'red' }}>{errors.tags}</p> : null}
+      {errors.tags ? <p style={{ color: "red" }}>{errors.tags}</p> : null}
       <div className="flex items-center space-x-2">
         <Switch />
         <Label htmlFor="airplane-mode">Private Mode</Label>

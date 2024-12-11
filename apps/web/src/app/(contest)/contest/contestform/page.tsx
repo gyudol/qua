@@ -1,8 +1,8 @@
 import React from "react";
-// import ContestForm from "@/components/contestform/organisms/ContestForm";
+// import ContestFormFields from "@/components/contestform/organisms/ContestFormFields";
 
 function page() {
-  return <main>{/* <ContestForm /> */}</main>;
+  return <main>{/* <ContestFormFields /> */}</main>;
 }
 
 export default page;
