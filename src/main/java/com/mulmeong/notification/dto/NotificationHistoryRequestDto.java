@@ -25,6 +25,7 @@ public class NotificationHistoryRequestDto {
     private String sourceType;
     private String sourceUuid;
     private String kindUuid;
+    private String linkToUuid;
     private NotificationComment comment;
     private String content;
     private boolean isRead;
@@ -38,6 +39,7 @@ public class NotificationHistoryRequestDto {
                 .targetUuid(targetUuid)
                 .sourceUuid(sourceUuid)
                 .sourceType(sourceType)
+                .linkToUuid(linkToUuid)
                 .kindUuid(kindUuid)
                 .comment(comment.getComment())
                 .content(content)
@@ -55,6 +57,7 @@ public class NotificationHistoryRequestDto {
                 .targetUuid(followerUuid) //피드 생성한 사람을 팔로우하는 사람들
                 .notificationType(NotificationType.FEED)
                 .kindUuid(message.getFeedUuid())
+                .linkToUuid(message.getFeedUuid())
                 .comment(NotificationComment.FEED_CREATE)
                 .content(message.getTitle())
                 .sourceNickname(memberDto.getNickname())
@@ -70,6 +73,7 @@ public class NotificationHistoryRequestDto {
                 .targetUuid(followerUuid) //쇼츠 생성한 사람을 팔로우하는 사람들
                 .notificationType(NotificationType.SHORTS)
                 .kindUuid(message.getShortsUuid())
+                .linkToUuid(message.getShortsUuid())
                 .comment(NotificationComment.SHORTS_CREATE)
                 .content(message.getTitle())
                 .sourceNickname(memberDto.getNickname())
@@ -85,6 +89,7 @@ public class NotificationHistoryRequestDto {
                 .targetUuid(targetUuid) //피드 생성한 사람
                 .notificationType(NotificationType.COMMENT)
                 .kindUuid(message.getCommentUuid())
+                .linkToUuid(message.getFeedUuid())
                 .comment(NotificationComment.FEED_COMMENT_CREATE)
                 .content(message.getContent())
                 .sourceNickname(memberDto.getNickname())
@@ -93,13 +98,14 @@ public class NotificationHistoryRequestDto {
     }
 
     public static NotificationHistoryRequestDto feedRecommentToDto(
-            FeedRecommentCreateEvent message, String targetUuid, MemberDto memberDto) {
+            FeedRecommentCreateEvent message, String targetUuid, MemberDto memberDto, String getLinkToUuid) {
         return NotificationHistoryRequestDto.builder()
                 .sourceUuid(message.getMemberUuid()) //대댓글 작성한 사람
                 .sourceType("user")
                 .targetUuid(targetUuid)
                 .notificationType(NotificationType.RECOMMENT)
                 .kindUuid(message.getRecommentUuid())
+                .linkToUuid(getLinkToUuid)
                 .comment(NotificationComment.RECOMMENT_CREATE)
                 .content(message.getContent())
                 .sourceNickname(memberDto.getNickname())
@@ -112,9 +118,10 @@ public class NotificationHistoryRequestDto {
         return NotificationHistoryRequestDto.builder()
                 .sourceUuid(message.getMemberUuid()) //댓글 작성자
                 .sourceType("user")
-                .targetUuid(targetUuid) //쇼츠 작성자
+                .targetUuid(targetUuid)
                 .notificationType(NotificationType.COMMENT)
                 .kindUuid(message.getCommentUuid())
+                .linkToUuid(message.getShortsUuid())
                 .comment(NotificationComment.SHORTS_COMMENT_CREATE)
                 .content(message.getContent())
                 .sourceNickname(memberDto.getNickname())
@@ -123,13 +130,14 @@ public class NotificationHistoryRequestDto {
     }
 
     public static NotificationHistoryRequestDto shortsRecommentToDto(
-            ShortsRecommentCreateEvent message, String targetUuid, MemberDto memberDto) {
+            ShortsRecommentCreateEvent message, String targetUuid, MemberDto memberDto, String linkToUuid) {
         return NotificationHistoryRequestDto.builder()
                 .sourceUuid(message.getMemberUuid()) //대댓글 작성자
                 .sourceType("user")
                 .targetUuid(targetUuid) //댓글 작성자
                 .notificationType(NotificationType.RECOMMENT)
-                .kindUuid(message.getCommentUuid())
+                .kindUuid(message.getRecommentUuid())
+                .linkToUuid(linkToUuid)
                 .comment(NotificationComment.RECOMMENT_CREATE)
                 .content(message.getContent())
                 .sourceNickname(memberDto.getNickname())
@@ -138,7 +146,7 @@ public class NotificationHistoryRequestDto {
     }
 
     public static NotificationHistoryRequestDto likeToDto(
-            LikeCreateEvent message, String targetUuid, MemberDto memberDto) {
+            LikeCreateEvent message, String targetUuid, MemberDto memberDto, String linkToUuid) {
         NotificationComment comment = switch (message.getKind()) {
             case "feed" -> NotificationComment.FEED_LIKE_CREATE;
             case "shorts" -> NotificationComment.SHORTS_LIKE_CREATE;
@@ -157,8 +165,8 @@ public class NotificationHistoryRequestDto {
                 .sourceType("user")
                 .targetUuid(targetUuid) //피드, 쇼츠, 댓글, 대댓글 작성한 사람
                 .notificationType(notificationType)
-                .kindUuid(message.getKindUuid())
                 .comment(comment)
+                .linkToUuid(linkToUuid)
                 .sourceNickname(memberDto.getNickname())
                 .sourceProfileImage(memberDto.getProfileImageUrl())
                 .build();
@@ -171,6 +179,7 @@ public class NotificationHistoryRequestDto {
                 .targetUuid(message.getTargetUuid())
                 .notificationType(NotificationType.FOLLOW)
                 .comment(NotificationComment.FOLLOW_CREATE)
+                .linkToUuid(message.getTargetUuid())
                 .sourceNickname(memberDto.getNickname())
                 .sourceProfileImage(memberDto.getProfileImageUrl())
                 .build();
@@ -182,6 +191,7 @@ public class NotificationHistoryRequestDto {
                 .targetUuid(message.getMemberUuid())
                 .notificationType(NotificationType.GRADE)
                 .kindUuid(message.getGradeId().toString())
+                .linkToUuid(message.getMemberUuid())
                 .comment(NotificationComment.GRADE_UPDATE)
                 .build();
     }
@@ -192,7 +202,7 @@ public class NotificationHistoryRequestDto {
                 .sourceType("user")
                 .targetUuid(message.getTargetUuid())
                 .notificationType(NotificationType.CHAT)
-                .kindUuid(message.getChatRoomUuid())
+                .linkToUuid(message.getChatRoomUuid())
                 .comment(NotificationComment.CHAT_CREATE)
                 .content(message.getMessage())
                 .sourceNickname(memberDto.getNickname())
@@ -205,7 +215,7 @@ public class NotificationHistoryRequestDto {
                 .sourceType("admin")
                 .targetUuid(message.getMemberUuid())
                 .notificationType(NotificationType.CONTEST)
-                .kindUuid(message.getContestId().toString())
+                .linkToUuid(message.getContestId().toString())
                 .comment(NotificationComment.WIN_CONTEST)
                 .build();
     }
@@ -215,7 +225,7 @@ public class NotificationHistoryRequestDto {
                 .sourceType("admin")
                 .targetUuid(message.getMemberUuid())
                 .notificationType(NotificationType.REPORT)
-                .kindUuid(message.getTargetUuid())
+                .linkToUuid(message.getTargetUuid())
                 .comment(NotificationComment.REPORT_APPROVE)
                 .build();
     }

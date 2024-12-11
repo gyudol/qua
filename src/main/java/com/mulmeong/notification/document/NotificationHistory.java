@@ -21,7 +21,8 @@ public class NotificationHistory {
     private String notificationHistoryUuid;
     private String targetUuid; //notification 받는 사람
     private NotificationType notificationType; //notification 종류 id
-    private String kindUuid; //종류에 해당하는 uuid
+    private String kindUuid;
+    private String linkToUuid;
     private String comment; //알림 comment
     private String content;
     private String sourceType; //user or admin
