@@ -7,10 +7,12 @@ import lombok.Getter;
 @Builder
 public class ShortsRecommentDeleteEvent {
 
+    private String memberUuid;
     private String recommentUuid;
 
-    public static ShortsRecommentDeleteEvent toDto(String recommentUuid) {
+    public static ShortsRecommentDeleteEvent toDto(String recommentUuid, String memberUuid) {
         return ShortsRecommentDeleteEvent.builder()
+                .memberUuid(memberUuid)
                 .recommentUuid(recommentUuid)
                 .build();
     }
