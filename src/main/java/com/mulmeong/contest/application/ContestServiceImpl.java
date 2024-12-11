@@ -10,6 +10,7 @@ import com.mulmeong.contest.dto.in.PostRequestDto;
 import com.mulmeong.contest.dto.in.PostVoteRequestDto;
 import com.mulmeong.contest.dto.out.ContestResponseDto;
 
+import com.mulmeong.contest.dto.out.ContestWinnerDto;
 import com.mulmeong.contest.infrastructure.*;
 import com.mulmeong.event.contest.consume.ContestStatusEvent;
 import com.mulmeong.event.contest.consume.ContestVoteResultEvent;
@@ -19,6 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -77,7 +82,23 @@ public class ContestServiceImpl implements ContestService {
 
     @Override
     public CursorPage<ContestResponseDto> getContests(ContestQueryRequestDto requestDto) {
-        return contestCustomRepository.getContests(requestDto);
+
+        CursorPage<Contest> contestCursorPage = contestCustomRepository.getContests(requestDto);
+
+        List<ContestResponseDto> contestResponseDtos = contestCursorPage.getContent().stream()
+                .map(contest -> {
+                    List<ContestWinnerDto> winners = requestDto.isStatus()
+                            ? Collections.emptyList() : // 현재 진행 중인 콘테스트는 수상자 null
+                            contestResultRepository.findByContestIdOrderByRankingAsc(contest.getId()).stream()
+                                    .map(ContestWinnerDto::toDto)
+                                    .collect(Collectors.toList());
+
+                    // ContestResponseDto에 수상자 정보를 포함
+                    return ContestResponseDto.toDto(contest, winners);
+                })
+                .collect(Collectors.toList());
+
+        return CursorPage.toCursorPage(contestCursorPage, contestResponseDtos);
     }
 
     @Override
@@ -98,7 +119,7 @@ public class ContestServiceImpl implements ContestService {
     public void altContestStatus(ContestStatusEvent message) {
         Contest contest = contestRepository.findById(message.getContestId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_EXIST)
-        );
+                );
         log.info("id: {}", contest.getId());
         contestRepository.save(message.toEntity(contest));
     }
