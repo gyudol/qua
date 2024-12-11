@@ -51,10 +51,9 @@ function ImageUploader({
       return updated;
     });
 
-    const convertedMedia = (await MediaAssetConverter(
-      s3Url,
-      fileType,
-    )) as ShortsMedia;
+    const convertedMedia = {
+      ...(await MediaAssetConverter(s3Url, fileType)),
+    } as ShortsMedia;
 
     setPayload((prev) => {
       const updatedPayload = { ...prev };

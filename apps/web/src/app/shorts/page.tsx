@@ -3,7 +3,7 @@ import { ShortsSection } from "@/components/shorts/templates";
 
 export default function page() {
   return (
-    <CommonLayout.Contents>
+    <CommonLayout.Contents className="w-full h-full">
       <ShortsSection />
     </CommonLayout.Contents>
   );

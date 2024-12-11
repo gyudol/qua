@@ -1,5 +1,6 @@
 "use server";
 
+import { getServerSession } from "next-auth";
 import { toURLSearchParams } from "@/functions/utils";
 import type {
   Feed,
@@ -7,6 +8,7 @@ import type {
   GetMemberFeeds,
 } from "@/types/feed/feed-read-service";
 import type { FeedReq } from "@/types/feed/common";
+import { options } from "@/app/api/auth/[...nextauth]/authOption";
 import { getHeaders, processResponse } from "../common";
 
 const API_SERVER = process.env.BASE_API_URL;
@@ -37,7 +39,11 @@ export async function getFeed({ feedUuid }: FeedReq) {
 }
 
 export async function getMemberFeeds({ memberUuid, ...query }: GetMemberFeeds) {
-  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/${memberUuid}/feeds?${toURLSearchParams(query)}`;
+  const session = await getServerSession(options);
+
+  const URI = session?.user
+    ? `${API_SERVER}/${PREFIX}/auth/v1/members/${memberUuid}/feeds?${toURLSearchParams(query)}`
+    : `${API_SERVER}/${PREFIX}/v1/members/${memberUuid}/feeds?${toURLSearchParams(query)}`;
 
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),

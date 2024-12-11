@@ -10,7 +10,7 @@ export type GetShortsRecsReq = CommonPaginationReq;
 
 export interface GetMemberShortsesReq extends CommonPaginationReq {
   memberUuid: string;
-  sortBy: "latest" | "likes";
+  sortBy?: "latest" | "likes";
 }
 export interface GetMemberShortsRecsReq extends CommonPaginationReq {
   memberUuid: string;

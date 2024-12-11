@@ -9,7 +9,7 @@ type FeedReportButtonProps = Pick<Feed, "feedUuid">;
 
 export function FeedReportButton({ feedUuid }: FeedReportButtonProps) {
   function handleClick() {
-    toast.success("해당 게시글을 신고하였습니다.(아님)", {
+    toast.error("해당 게시글을 신고하였습니다.", {
       description: feedUuid,
     });
   }

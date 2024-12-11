@@ -4,7 +4,7 @@ import { revalidateTag } from "next/cache";
 import { getServerSession } from "next-auth";
 import type { ResponseType, ResultType } from "@/types/common";
 import { options } from "@/app/api/auth/[...nextauth]/authOption";
-import type { MemberSignInResType } from "@/types/member";
+import type { MemberSignInResType } from "@/types/member/common";
 
 interface ProcessResponseParam {
   res: Response;
@@ -20,6 +20,8 @@ export async function processResponse<T, IsPagination extends boolean>({
     IsPagination
   >;
   if (!isSuccess) {
+    // eslint-disable-next-line no-console -- for debugging
+    console.log(_rest);
     throw Error(result as string);
   }
 

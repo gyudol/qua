@@ -2,13 +2,15 @@ import { Separator } from "@repo/ui/shadcn/separator";
 import { FeedSortSelector } from "../atoms/FeedSortSelector";
 import { FeedViewTypeToggler } from "../atoms/FeedViewTypeToggler";
 
-export function FeedListOptionGroup() {
+interface FeedListOptionGroupProps {
+  noSort?: boolean;
+}
+
+export function FeedListOptionGroup({ noSort }: FeedListOptionGroupProps) {
   return (
     <>
       <div className="flex justify-between p-[1rem] items-center">
-        <div>
-          <FeedSortSelector />
-        </div>
+        <div>{noSort ? null : <FeedSortSelector />}</div>
         <div>
           <FeedViewTypeToggler />
         </div>

@@ -2,14 +2,15 @@
 
 import type { Shorts } from "@/types/shorts/shorts-read-service";
 import { useLikeService } from "@/hooks";
+import { useSessionContext } from "@/context/SessionContext";
 import {
   ShortsBookmarkButton,
   ShortsCommentButton,
   ShortsDislikeButton,
   ShortsLikeButton,
-  // ShortsMoreButton,
   ShortsSendButton,
 } from "../atoms";
+import { ShortsMoreOption } from "./ShortsMoreOption";
 
 type ShortsButtonGroupProps = Pick<
   Shorts,
@@ -28,6 +29,8 @@ export function ShortsButtonGroup({
     likeCount,
     dislikeCount,
   });
+  const { memberUuid } = useSessionContext();
+
   return (
     <div className="absolute bottom-12 right-3 flex flex-col gap-y-4 text-white">
       <ShortsLikeButton {...{ likeStatus, likeCount }} />
@@ -35,7 +38,7 @@ export function ShortsButtonGroup({
       <ShortsCommentButton {...{ commentCount }} />
       <ShortsBookmarkButton {...{ shortsUuid }} />
       <ShortsSendButton {...{ shortsUuid }} />
-      {/* <ShortsMoreButton /> */}
+      <ShortsMoreOption {...{ shortsUuid, memberUuid: memberUuid || "" }} />
     </div>
   );
 }

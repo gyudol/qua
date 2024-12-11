@@ -7,7 +7,7 @@ import {
 export function ProfileBadgeList() {
   const badges = [1, 2, 3, 4];
   return (
-    <ul className="flex p-[1rem] gap-[0.75rem] flex-wrap">
+    <ul className="grid grid-cols-6 p-[1rem] gap-[0.75rem] flex-wrap">
       <li>
         <ProfileBadgeAdd />
       </li>

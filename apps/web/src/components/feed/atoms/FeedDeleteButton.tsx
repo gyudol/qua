@@ -1,15 +1,25 @@
 "use client";
 
 import { Trash2 } from "lucide-react";
-import { toast } from "sonner";
+import { useRouter, useSearchParams } from "next/navigation";
 import type { Feed } from "@/types/contents";
+import { deleteFeed } from "@/actions/feed-service";
+import { useDeleteFeed } from "@/hooks";
+import { toURLSearchParams } from "@/functions/utils";
 import { ButtonWithAuth } from "../../common/atoms";
 
 type FeedDeleteButtonProps = Pick<Feed, "feedUuid">;
 
-export function FeedDeleteButton({ feedUuid: _ }: FeedDeleteButtonProps) {
+export function FeedDeleteButton({ feedUuid }: FeedDeleteButtonProps) {
+  const router = useRouter();
+  const searchParams = Object.fromEntries(useSearchParams().entries());
+  const { mutate } = useDeleteFeed({ feedUuid });
+
   function handleClick() {
-    toast.error("해당 게시글은 삭제되었습니다.(아님)");
+    void deleteFeed({ feedUuid }).then(() => {
+      mutate();
+      router.push(`?${toURLSearchParams({ ...searchParams })}`);
+    });
   }
 
   return (

@@ -1,5 +1,5 @@
 import { CommonLayout } from "@/components/common/atoms";
-import FeedListSection from "@/components/feed/templates/FeedListSection";
+import { FeedPageFeedListSection } from "@/components/feed/pages/FeedPageFeedListSection";
 import type { FeedViewType } from "@/types/feed/common";
 import type { GetFeedsReq } from "@/types/feed/feed-read-service";
 
@@ -17,7 +17,7 @@ export default function MainPage({
   const view = _view === "compact" ? "compact" : "card";
   return (
     <CommonLayout.Contents className="bg-white">
-      <FeedListSection
+      <FeedPageFeedListSection
         {...{
           sortBy,
           view,

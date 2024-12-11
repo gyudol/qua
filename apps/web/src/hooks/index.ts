@@ -1,5 +1,5 @@
 export * from "./comment-service";
-export * from "./feed-read-service";
+export * from "./feed-service";
 export * from "./member-read-service";
 export * from "./useSessionMemberUuid";
 

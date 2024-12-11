@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { Button } from '@repo/ui/shadcn/button';
-import { useRef, useState } from 'react';
-import type { CreateFeedType } from '@/types/request/requestType';
-import { createFeed } from '@/actions/feed';
-import FeedCreateFormFields from './FeedCreateFormFields';
+import { Button } from "@repo/ui/shadcn/button";
+import { useRef, useState } from "react";
+import type { CreateFeedType } from "@/types/request/requestType";
+import { createFeed } from "@/actions/feed-service";
+import FeedCreateFormFields from "./FeedCreateFormFields";
 
 function FeedWriteFrom() {
   const [payload, setPayload] = useState<CreateFeedType>({
-    memberUuid: 'test',
-    title: '',
-    content: '',
-    categoryName: '', // 기본값을 빈 문자열로 설정
-    visibility: 'VISIBLE', // 기본값
+    memberUuid: "test",
+    title: "",
+    content: "",
+    categoryName: "", // 기본값을 빈 문자열로 설정
+    visibility: "VISIBLE", // 기본값
     hashtags: [],
     mediaList: [],
   });
@@ -24,7 +24,7 @@ function FeedWriteFrom() {
     // console.log(payload);
     const res = await createFeed(payload);
     // eslint-disable-next-line no-alert -- alert 사용
-    if (res) alert('good'); // 피드 생성 API 호출
+    if (res) alert("good"); // 피드 생성 API 호출
   };
 
   return (
