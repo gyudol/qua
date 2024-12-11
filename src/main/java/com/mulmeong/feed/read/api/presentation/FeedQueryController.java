@@ -1,6 +1,7 @@
 package com.mulmeong.feed.read.api.presentation;
 
 import com.mulmeong.feed.read.api.application.FeedQueryService;
+import com.mulmeong.feed.read.api.domain.model.Hashtag;
 import com.mulmeong.feed.read.api.dto.in.FeedAuthorRequestDto;
 import com.mulmeong.feed.read.api.dto.in.FeedFilterRequestDto;
 import com.mulmeong.feed.read.api.dto.out.FeedResponseDto;
@@ -8,6 +9,7 @@ import com.mulmeong.feed.read.common.response.BaseResponse;
 import com.mulmeong.feed.read.common.utils.CursorPage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,7 +57,7 @@ public class FeedQueryController {
                 categoryName, hashtagName, sortBy, lastId, pageSize, pageNo)));
     }
 
-    @Operation(summary = "특정 사용자가 작성한 피드 목록 조회 (Guest가 요청시)",
+    @Operation(summary = "특정 사용자가 작성한 피드 목록 조회 API (Guest가 요청시)",
         description = """
             - Visibility = `VISIBLE`인 Feed만을 조회<br><br>
             - sortBy: `LATEST` / `LIKES` (대·소문자 구분하지 않음)<br><br>
@@ -70,6 +72,17 @@ public class FeedQueryController {
 
         return new BaseResponse<>(feedQueryService.getFeedsByAuthor(FeedAuthorRequestDto.toDto(
             authorUuid, false, sortBy, lastId, pageSize, pageNo)));
+    }
+
+    @Operation(summary = "랜덤 해시태그 목록 조회 API",
+        description = """
+                      (추후 계획: 유저 관심 태그와 유사한 해시태그 조회 API로 수정 예정)<br><br>
+                      - Size default: **30**""")
+    @GetMapping("/hashtags")
+    public BaseResponse<List<Hashtag>> getFeedHashtags(
+        @RequestParam(required = false, defaultValue = "30") Integer size) {
+
+        return new BaseResponse<>(feedQueryService.getFeedHashtags(size));
     }
 
 }

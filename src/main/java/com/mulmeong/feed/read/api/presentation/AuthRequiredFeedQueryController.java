@@ -23,7 +23,7 @@ public class AuthRequiredFeedQueryController {
 
     private final FeedQueryService feedQueryService;
 
-    @Operation(summary = "특정 사용자가 작성한 피드 목록 조회 (프로필 페이지의 Owner가 요청시)",
+    @Operation(summary = "특정 사용자가 작성한 피드 목록 조회 API (프로필 페이지의 Owner가 요청시)",
         description = """
             - 조건에 부합하는 모든 Feed를 조회<br><br>
             - sortBy: `LATEST` / `LIKES` (대·소문자 구분하지 않음)<br><br>
