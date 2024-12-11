@@ -2,165 +2,220 @@ package com.mulmeong.notification.application;
 
 import com.mulmeong.event.chat.ChattingCreateEvent;
 import com.mulmeong.event.contents.*;
+import com.mulmeong.event.member.MemberCreateEvent;
 import com.mulmeong.event.member.MemberGradeUpdateEvent;
+import com.mulmeong.notification.client.comment.FeedCommentDto;
+import com.mulmeong.notification.client.comment.FeedRecommentDto;
+import com.mulmeong.notification.client.member.MemberDto;
+import com.mulmeong.notification.common.exception.BaseException;
+import com.mulmeong.notification.common.response.BaseResponseStatus;
 import com.mulmeong.notification.document.NotificationHistory;
+import com.mulmeong.notification.document.NotificationStatus;
 import com.mulmeong.notification.dto.NotificationHistoryRequestDto;
 import com.mulmeong.notification.dto.NotificationStatusRequestDto;
 import com.mulmeong.event.contest.ContestVoteResultEvent;
 import com.mulmeong.event.member.FollowCreateEvent;
 import com.mulmeong.event.report.ReportApproveEvent;
-import com.mulmeong.notification.infrastructure.NotificationTypeRepository;
 import com.mulmeong.notification.document.NotificationType;
-import com.mulmeong.notification.dto.NotificationTypeRequestDto;
 import com.mulmeong.notification.infrastructure.NotificationHistoryRepository;
 import com.mulmeong.notification.infrastructure.NotificationStatusRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class EventProcessServiceImpl implements EventProcessService {
 
-    private final NotificationTypeRepository notificationTypeRepository;
     private final NotificationHistoryRepository notificationHistoryRepository;
     private final NotificationStatusRepository notificationStatusRepository;
+    private final FeignService feignService;
+    private final SseService sseService;
 
     @Override
-    public NotificationHistory saveFeedEvent(FeedCreatedFollowersEvent message) {
-        NotificationType notificationType = findByKind("feed");
-        notificationStatusRepository.save(NotificationStatusRequestDto
-                .toDto(notificationType.getId(), message.getMemberUuid())
-                .toDocument());
-        return notificationHistoryRepository.save(NotificationHistoryRequestDto
-                .feedToDto(notificationType.getId(), message)
-                .toDocument());
+    public void saveMemberNotificationStatus(MemberCreateEvent message) {
+        for (NotificationType type : NotificationType.values()) {
+            notificationStatusRepository.save(NotificationStatusRequestDto
+                    .toDto(type, message.getMemberUuid())
+                    .toDocument());
+        }
     }
 
     @Override
-    public NotificationHistory saveShortsEvent(ShortsCreatedFollowersEvent message) {
-        NotificationType notificationType = findByKind("shorts");
-        notificationStatusRepository.save(NotificationStatusRequestDto
-                .toDto(notificationType.getId(), message.getMemberUuid())
-                .toDocument());
-        return notificationHistoryRepository.save(NotificationHistoryRequestDto
-                .shortsToDto(notificationType.getId(), message)
-                .toDocument());
+    public void saveFeedEvent(FeedCreatedFollowersEvent message) {
+        List<NotificationHistory> notificationHistories = saveFeedHistoryEachFollowers(message);
+        notificationHistories.forEach(sseService::send);
     }
 
     @Override
-    public NotificationHistory saveFeedCommentEvent(FeedCommentCreateEvent message) {
-        NotificationType notificationType = findByKind("comment");
-        notificationStatusRepository.save(NotificationStatusRequestDto
-                .toDto(notificationType.getId(), message.getMemberUuid())
-                .toDocument());
-        return notificationHistoryRepository.save(NotificationHistoryRequestDto
-                .feedCommentToDto(notificationType.getId(), message)
-                .toDocument());
+    public void saveShortsEvent(ShortsCreatedFollowersEvent message) {
+        List<NotificationHistory> notificationHistories = saveShortsHistoryEachFollowers(message);
+        notificationHistories.forEach(sseService::send);
     }
 
     @Override
-    public NotificationHistory saveFeedRecommentEvent(FeedRecommentCreateEvent message) {
-        NotificationType notificationType = findByKind("recomment");
-        notificationStatusRepository.save(NotificationStatusRequestDto
-                .toDto(notificationType.getId(), message.getMemberUuid())
-                .toDocument());
-        return notificationHistoryRepository.save(NotificationHistoryRequestDto
-                .feedRecommentToDto(notificationType.getId(), message)
-                .toDocument());
+    public void saveFeedCommentEvent(FeedCommentCreateEvent message) {
+        String targetUuid = feignService.getSingleFeed(message.getFeedUuid()).getMemberUuid();
+        if (checkNotificationStatus(targetUuid, NotificationType.COMMENT)) {
+            NotificationHistory notificationHistory = notificationHistoryRepository.save(NotificationHistoryRequestDto
+                    .feedCommentToDto(message, targetUuid, findMemberProfile(message.getMemberUuid()))
+                    .toDocument());
+            sseService.send(notificationHistory);
+        }
     }
 
     @Override
-    public NotificationHistory saveShortsCommentEvent(ShortsCommentCreateEvent message) {
-        NotificationType notificationType = findByKind("comment");
-        notificationStatusRepository.save(NotificationStatusRequestDto
-                .toDto(notificationType.getId(), message.getMemberUuid())
-                .toDocument());
-        return notificationHistoryRepository.save(NotificationHistoryRequestDto
-                .shortsCommentToDto(notificationType.getId(), message)
-                .toDocument());
+    public void saveFeedRecommentEvent(FeedRecommentCreateEvent message) {
+        String targetUuid = feignService.getFeedComment(message.getCommentUuid()).getMemberUuid();
+        if (checkNotificationStatus(targetUuid, NotificationType.RECOMMENT)) {
+            NotificationHistory notificationHistory = notificationHistoryRepository.save(NotificationHistoryRequestDto
+                    .feedRecommentToDto(message, targetUuid, findMemberProfile(message.getMemberUuid()))
+                    .toDocument());
+            sseService.send(notificationHistory);
+        }
     }
 
     @Override
-    public NotificationHistory saveShortsRecommentEvent(ShortsRecommentCreateEvent message) {
-        NotificationType notificationType = findByKind("recomment");
-        notificationStatusRepository.save(NotificationStatusRequestDto
-                .toDto(notificationType.getId(), message.getMemberUuid())
-                .toDocument());
-        return notificationHistoryRepository.save(NotificationHistoryRequestDto
-                .shortsRecommentToDto(notificationType.getId(), message)
-                .toDocument());
+    public void saveShortsCommentEvent(ShortsCommentCreateEvent message) {
+        String targetUuid = feignService.getSingleShorts(message.getShortsUuid()).getMemberUuid();
+        if (checkNotificationStatus(targetUuid, NotificationType.COMMENT)) {
+            NotificationHistory notificationHistory = notificationHistoryRepository.save(NotificationHistoryRequestDto
+                    .shortsCommentToDto(message, targetUuid, findMemberProfile(message.getMemberUuid()))
+                    .toDocument());
+            sseService.send(notificationHistory);
+        }
     }
 
     @Override
-    public NotificationHistory saveLikeEvent(LikeCreateEvent message) {
-        NotificationType notificationType = findByKind("like");
-        notificationStatusRepository.save(NotificationStatusRequestDto
-                .toDto(notificationType.getId(), message.getMemberUuid())
-                .toDocument());
-        return notificationHistoryRepository.save(NotificationHistoryRequestDto
-                .likeToDto(notificationType.getId(), message)
-                .toDocument());
+    public void saveShortsRecommentEvent(ShortsRecommentCreateEvent message) {
+        String targetUuid = feignService.getShortsComment(message.getCommentUuid()).getMemberUuid();
+        if (checkNotificationStatus(targetUuid, NotificationType.RECOMMENT)) {
+            NotificationHistory notificationHistory = notificationHistoryRepository.save(NotificationHistoryRequestDto
+                    .shortsRecommentToDto(message, targetUuid, findMemberProfile(message.getMemberUuid()))
+                    .toDocument());
+            sseService.send(notificationHistory);
+        }
     }
 
     @Override
-    public NotificationHistory saveFollowEvent(FollowCreateEvent message) {
-        NotificationType notificationType = findByKind("follow");
-        notificationStatusRepository.save(NotificationStatusRequestDto
-                .toDto(notificationType.getId(), message.getTargetUuid())
-                .toDocument());
-        return notificationHistoryRepository.save(NotificationHistoryRequestDto
-                .followToDto(notificationType.getId(), message)
-                .toDocument());
+    public void saveLikeEvent(LikeCreateEvent message) {
+        String targetUuid = getTargetUuid(message);
+        if (checkNotificationStatus(targetUuid, NotificationType.LIKE)) {
+            NotificationHistory notificationHistory = notificationHistoryRepository.save(NotificationHistoryRequestDto
+                    .likeToDto(message, targetUuid, findMemberProfile(message.getMemberUuid()))
+                    .toDocument());
+            sseService.send(notificationHistory);
+        }
+
     }
 
     @Override
-    public NotificationHistory saveChattingEvent(ChattingCreateEvent message) {
-        NotificationType notificationType = findByKind("chat");
-        notificationStatusRepository.save(NotificationStatusRequestDto
-                .toDto(notificationType.getId(), message.getMemberUuid())
-                .toDocument());
-        return notificationHistoryRepository.save(NotificationHistoryRequestDto
-                .chatToDto(notificationType.getId(), message)
-                .toDocument());
+    public void saveFollowEvent(FollowCreateEvent message) {
+        if (checkNotificationStatus(message.getTargetUuid(), NotificationType.FOLLOW)) {
+            NotificationHistory notificationHistory = notificationHistoryRepository.save(NotificationHistoryRequestDto
+                    .followToDto(message, findMemberProfile(message.getSourceUuid()))
+                    .toDocument());
+            sseService.send(notificationHistory);
+        }
+
     }
 
     @Override
-    public NotificationHistory saveContestResultEvent(ContestVoteResultEvent message) {
-        NotificationType notificationType = findByKind("contest");
-        notificationStatusRepository.save(NotificationStatusRequestDto
-                .toDto(notificationType.getId(), message.getMemberUuid())
-                .toDocument());
-        return notificationHistoryRepository.save(NotificationHistoryRequestDto
-                .contestToDto(notificationType.getId(), message)
-                .toDocument());
+    public void saveChattingEvent(ChattingCreateEvent message) {
+        if (checkNotificationStatus(message.getTargetUuid(), NotificationType.CHAT)) {
+            NotificationHistory notificationHistory = notificationHistoryRepository.save(NotificationHistoryRequestDto
+                    .chatToDto(message, findMemberProfile(message.getMemberUuid()))
+                    .toDocument());
+            sseService.send(notificationHistory);
+        }
+
     }
 
     @Override
-    public NotificationHistory saveMemberGradeEvent(MemberGradeUpdateEvent message) {
-        NotificationType notificationType = findByKind("grade");
-        notificationStatusRepository.save(NotificationStatusRequestDto
-                .toDto(notificationType.getId(), message.getMemberUuid())
-                .toDocument());
-        return notificationHistoryRepository.save(NotificationHistoryRequestDto
-                .gradeToDto(notificationType.getId(), message)
-                .toDocument());
+    public void saveContestResultEvent(ContestVoteResultEvent message) {
+        if (checkNotificationStatus(message.getMemberUuid(), NotificationType.CONTEST)) {
+            NotificationHistory notificationHistory = notificationHistoryRepository.save(NotificationHistoryRequestDto
+                    .contestToDto(message)
+                    .toDocument());
+            sseService.send(notificationHistory);
+        }
     }
 
     @Override
-    public NotificationHistory saveReportEvent(ReportApproveEvent message) {
-        NotificationType notificationType = findByKind("report");
-        notificationStatusRepository.save(NotificationStatusRequestDto
-                .toDto(notificationType.getId(), message.getMemberUuid())
-                .toDocument());
-        return notificationHistoryRepository.save(NotificationHistoryRequestDto
-                .reportToDto(notificationType.getId(), message)
-                .toDocument());
+    public void saveMemberGradeEvent(MemberGradeUpdateEvent message) {
+        if (checkNotificationStatus(message.getMemberUuid(), NotificationType.GRADE)) {
+            NotificationHistory notificationHistory = notificationHistoryRepository.save(NotificationHistoryRequestDto
+                    .gradeToDto(message)
+                    .toDocument());
+            sseService.send(notificationHistory);
+        }
     }
 
-    private NotificationType findByKind(String kind) {
-        return notificationTypeRepository.findByKind(kind)
-                .orElseGet(() -> notificationTypeRepository.save(NotificationTypeRequestDto.toDto(kind).toDocument()));
+    @Override
+    public void saveReportEvent(ReportApproveEvent message) {
+        if (checkNotificationStatus(message.getMemberUuid(), NotificationType.REPORT)) {
+            NotificationHistory notificationHistory = notificationHistoryRepository.save(NotificationHistoryRequestDto
+                    .reportToDto(message)
+                    .toDocument());
+            sseService.send(notificationHistory);
+        }
+    }
+
+    private List<NotificationHistory> saveFeedHistoryEachFollowers(FeedCreatedFollowersEvent message) {
+        List<String> followerUuids = message.getFollowerUuids();
+        MemberDto memberDto = findMemberProfile(message.getMemberUuid());
+        return followerUuids.stream()
+                .filter(followerUuid -> checkNotificationStatus(followerUuid, NotificationType.FEED))
+                .map(followerUuid -> notificationHistoryRepository.save(NotificationHistoryRequestDto
+                        .feedToDto(message, followerUuid, memberDto)
+                        .toDocument()))
+                .collect(Collectors.toList());
+    }
+
+    private List<NotificationHistory> saveShortsHistoryEachFollowers(ShortsCreatedFollowersEvent message) {
+        List<String> followerUuids = message.getFollowerUuids();
+        MemberDto memberDto = findMemberProfile(message.getMemberUuid());
+        return followerUuids.stream()
+                .filter(followerUuid -> checkNotificationStatus(followerUuid, NotificationType.SHORTS))
+                .map(followerUuid -> notificationHistoryRepository.save(NotificationHistoryRequestDto
+                        .shortsToDto(message, followerUuid, memberDto)
+                        .toDocument()))
+                .collect(Collectors.toList());
+    }
+
+    private String getTargetUuid(LikeCreateEvent message) {
+        return switch (message.getKind()) {
+            case "feed" -> feignService.getSingleFeed(message.getKindUuid()).getMemberUuid();
+            case "shorts" -> feignService.getSingleShorts(message.getKindUuid()).getMemberUuid();
+            case "comment" -> {
+                FeedCommentDto feedComment = feignService.getFeedComment(message.getKindUuid());
+                yield (feedComment != null)
+                        ? feedComment.getMemberUuid()
+                        : feignService.getShortsComment(message.getKindUuid()).getMemberUuid();
+            }
+            case "recomment" -> {
+                FeedRecommentDto feedRecomment = feignService.getFeedRecomment(message.getKindUuid());
+                yield (feedRecomment != null)
+                        ? feedRecomment.getMemberUuid()
+                        : feignService.getShortsRecomment(message.getKindUuid()).getMemberUuid();
+            }
+            default -> null;
+        };
+    }
+
+    private boolean checkNotificationStatus(String targetUuid, NotificationType type) {
+        NotificationStatus notificationStatus = notificationStatusRepository
+                .findByMemberUuidAndNotificationType(targetUuid, type).orElseThrow(
+                        () -> new BaseException(BaseResponseStatus.NO_NOTIFICATION_STATUS)
+                );
+        return notificationStatus.isNotificationStatus();
+    }
+
+    MemberDto findMemberProfile(String memberUuid) {
+        return feignService.getCompactProfileByUuid(memberUuid);
     }
 }
