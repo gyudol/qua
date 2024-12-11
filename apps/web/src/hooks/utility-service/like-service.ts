@@ -1,13 +1,19 @@
 "use client";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import {
   getDislikeStatus,
+  getLikes,
   getLikeStatus,
   postDislike,
   postLike,
 } from "@/actions/utility-service";
-import type { KindReq } from "@/types/utility-service";
+import type { GetLikesReq, KindReq } from "@/types/utility-service";
 import { useSessionContext } from "@/context/SessionContext";
 
 interface UseLikeServiceReq extends KindReq {
@@ -132,4 +138,32 @@ export function useLikeService({
       mutation: dislikeStatusMutation,
     },
   };
+}
+
+export function useGetLikesInfiniteQuery({ ...query }: GetLikesReq) {
+  const { kind, pageNo, pageSize, nextCursor } = query;
+  return useInfiniteQuery({
+    queryKey: [
+      "like-service",
+      {
+        type: "likes",
+        query,
+      },
+    ],
+    queryFn: ({ pageParam }) => getLikes({ kind, ...pageParam }),
+    getNextPageParam: ({
+      hasNext,
+      ...nextQuery
+    }: {
+      pageNo: number;
+      pageSize: number;
+      nextCursor: string;
+      hasNext: boolean;
+    }) => (hasNext ? { ...nextQuery } : null),
+    initialPageParam: {
+      pageNo: pageNo || 1,
+      pageSize: pageSize || 10,
+      nextCursor: nextCursor || undefined,
+    },
+  });
 }

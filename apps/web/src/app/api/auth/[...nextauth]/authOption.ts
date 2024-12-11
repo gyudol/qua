@@ -2,8 +2,7 @@ import type { NextAuthOptions } from "next-auth";
 import KakaoProvider from "next-auth/providers/kakao";
 import NaverProvider from "next-auth/providers/naver";
 import type { CommonRes } from "@/types/common";
-import type { MemberSignInResType } from "@/types/member";
-import { getMemberNickname } from "@/actions/member-service";
+import type { MemberSignInResType } from "@/types/member/common";
 
 export const options: NextAuthOptions = {
   providers: [
@@ -43,9 +42,6 @@ export const options: NextAuthOptions = {
           user.memberUuid = data.memberUuid;
           user.accessToken = data.accessToken;
           user.refreshToken = data.refreshToken;
-          user.nickname = await getMemberNickname({
-            memberUuid: data.memberUuid,
-          });
 
           return true;
         } catch (error) {

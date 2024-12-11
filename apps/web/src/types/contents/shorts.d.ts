@@ -1,5 +1,5 @@
 import type { Datetime } from "../common";
-import type { Member } from "../member";
+import type { Member } from "../member/common";
 import type { ContentsStatistics, CUAt, Hashtag, Uuid } from "./common";
 
 export interface BaseShorts {

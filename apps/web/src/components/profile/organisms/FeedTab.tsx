@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { MemberProfile } from "@/types/member/member-read-service";
 import { useGetMemberFeedsInfiniteQuery, useInfiniteScroll } from "@/hooks";
 import { ContentsArticle } from "../molecules/ContentsArticle";
@@ -52,10 +53,9 @@ export function FeedTab({ memberUuid }: FeedTabProps) {
           }
 
           return (
-            <ContentsArticle
-              key={feedUuid}
-              {...{ title, media, contentsUuid: feedUuid }}
-            />
+            <Link key={feedUuid} href={`/feeds/${feedUuid}`}>
+              <ContentsArticle {...{ title, media, contentsUuid: feedUuid }} />
+            </Link>
           );
         }),
       )}

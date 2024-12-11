@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { MemberProfile } from "@/types/member/member-read-service";
 import { useGetMemberShortsesInfiniteQuery } from "@/hooks/shorts-service";
 import { useInfiniteScroll } from "@/hooks";
@@ -47,10 +48,11 @@ export function ShortsTab({ memberUuid }: ShortsTabProps) {
       {data.pages.map((page) =>
         page.content.map(({ shortsUuid, title, media }) => {
           return (
-            <ContentsArticle
-              key={shortsUuid}
-              {...{ title, media, contentsUuid: shortsUuid }}
-            />
+            <Link key={shortsUuid} href={`/shorts/${shortsUuid}`}>
+              <ContentsArticle
+                {...{ title, media, contentsUuid: shortsUuid }}
+              />
+            </Link>
           );
         }),
       )}

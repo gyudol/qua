@@ -1,31 +1,30 @@
 "use client";
 
 import React from "react";
-import { Separator } from "@repo/ui/shadcn/separator";
-import { useGetFeedsInfiniteQuery, useInfiniteScroll } from "@/hooks";
-import { FeedCardArticle } from "@/components/feed/organisms/FeedCardArticle";
-import type { GetFeedsReq } from "@/types/feed/feed-read-service";
+import type {
+  InfiniteData,
+  UseInfiniteQueryResult,
+} from "@tanstack/react-query";
+import { useInfiniteScroll } from "@/hooks";
+import type { Feed } from "@/types/feed/feed-read-service";
 import type { FeedViewType } from "@/types/feed/common";
+import type { Pagination } from "@/types/common";
 import { FeedListOptionGroup } from "../organisms/FeedListOptionGroup";
-import { FeedCompactArticle } from "../organisms/FeedCompactArticle";
+import { FeedArticle } from "../organisms/FeedArticle";
 
-interface FeedListSectionProps
-  extends Pick<GetFeedsReq, "categoryName" | "hashtagName" | "sortBy"> {
+interface FeedListSectionProps {
   view?: FeedViewType;
+  useInfiniteQueryResult: UseInfiniteQueryResult<
+    InfiniteData<Pagination<Feed>>
+  >;
 }
 
 export default function FeedListSection({
-  categoryName,
-  hashtagName,
-  sortBy,
   view,
+  useInfiniteQueryResult,
 }: FeedListSectionProps) {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useGetFeedsInfiniteQuery({
-      categoryName,
-      sortBy,
-      hashtagName,
-    });
+    useInfiniteQueryResult;
   const observerRef = useInfiniteScroll({
     hasNextPage,
     fetchNextPage,
@@ -39,21 +38,9 @@ export default function FeedListSection({
       <section className="flex flex-col pb-16 md:pb-16 md:pt-0">
         {data
           ? data.pages.map((page) =>
-              page.content.map((feed) => {
-                if (view === "compact")
-                  return (
-                    <React.Fragment key={feed.feedUuid}>
-                      <FeedCompactArticle {...feed} link />
-                      <Separator className="bg-[#EEE] h-[0.5rem]" />
-                    </React.Fragment>
-                  );
-                return (
-                  <React.Fragment key={feed.feedUuid}>
-                    <FeedCardArticle {...feed} link />
-                    <Separator className="bg-[#EEE] h-[0.5rem]" />
-                  </React.Fragment>
-                );
-              }),
+              page.content.map(({ feedUuid }) => (
+                <FeedArticle key={feedUuid} {...{ feedUuid, view }} />
+              )),
             )
           : null}
         <div ref={observerRef} className="">

@@ -1,5 +1,5 @@
 import type { CommonPaginationReq, Datetime } from "../common";
-import type { MemberReq, MemberUuid } from "../member";
+import type { MemberReq, MemberUuid } from "../member/common";
 
 interface Content {
   content: string;
