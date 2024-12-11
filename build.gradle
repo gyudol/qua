@@ -42,14 +42,31 @@ dependencies {
 
     // swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
+    implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    // QueryDSL
+    implementation 'com.querydsl:querydsl-core:5.0.0'
+    annotationProcessor 'com.querydsl:querydsl-apt:5.0.0'
+    annotationProcessor 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation('com.querydsl:querydsl-mongodb') {
+        exclude group: 'org.mongodb', module: 'mongo-java-driver'
+    }
+
     //test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+compileJava {
+    options.compilerArgs += [
+            "-processor", 'lombok.launch.AnnotationProcessorHider$AnnotationProcessor,org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor'
+    ]
 }
 
 dependencyManagement {
