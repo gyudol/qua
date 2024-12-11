@@ -60,7 +60,7 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
         }
 
         shortsRecommentRepository.delete(shortsRecomment);
-        eventPublisher.send(ShortsRecommentDeleteEvent.toDto(recommentUuid));
+        eventPublisher.send(ShortsRecommentDeleteEvent.toDto(recommentUuid, memberUuid));
     }
 
     @Override
