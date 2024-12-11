@@ -13,8 +13,4 @@ public interface ShortsBookmarkMongoRepository extends MongoRepository<ShortsBoo
 
     void deleteByMemberUuidAndShortsUuid(String memberUuid, String feedUuid);
 
-    List<ShortsBookmarkEntity> findByMemberUuidAndIdLessThanOrderByIdDesc(
-            String memberUuid, String lastId, Pageable pageable);
-
-    List<ShortsBookmarkEntity> findAllByMemberUuidOrderByIdDesc(String memberUuid, Pageable pageable);
 }
