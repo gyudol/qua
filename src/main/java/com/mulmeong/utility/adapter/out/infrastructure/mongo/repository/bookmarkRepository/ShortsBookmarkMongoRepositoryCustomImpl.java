@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class ShortsBookmarkMongoRepositoryCustomImpl implements ShortsBookmarkMongoRepositoryCustom{
+public class ShortsBookmarkMongoRepositoryCustomImpl implements ShortsBookmarkMongoRepositoryCustom {
 
     private static final int DEFAULT_PAGE_SIZE = 10;
     private static final int DEFAULT_PAGE_NUMBER = 0;
@@ -42,7 +42,8 @@ public class ShortsBookmarkMongoRepositoryCustomImpl implements ShortsBookmarkMo
         int currentPageSize = pageSize != null ? pageSize : DEFAULT_PAGE_SIZE;
         int offset = Math.max(0, (currentPage - 1) * currentPageSize);
 
-        SpringDataMongodbQuery<ShortsBookmarkEntity> query = new SpringDataMongodbQuery<>(mongoTemplate, ShortsBookmarkEntity.class);
+        SpringDataMongodbQuery<ShortsBookmarkEntity> query =
+                new SpringDataMongodbQuery<>(mongoTemplate, ShortsBookmarkEntity.class);
 
         query.where(builder)
                 .orderBy(shortsBookmarkEntity.id.desc())

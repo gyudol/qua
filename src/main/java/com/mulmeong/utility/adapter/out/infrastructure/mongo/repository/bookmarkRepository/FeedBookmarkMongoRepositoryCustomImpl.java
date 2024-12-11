@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class FeedBookmarkMongoRepositoryCustomImpl implements FeedBookmarkMongoRepositoryCustom{
+public class FeedBookmarkMongoRepositoryCustomImpl implements FeedBookmarkMongoRepositoryCustom {
 
     private static final int DEFAULT_PAGE_SIZE = 10;
     private static final int DEFAULT_PAGE_NUMBER = 0;
@@ -43,7 +43,8 @@ public class FeedBookmarkMongoRepositoryCustomImpl implements FeedBookmarkMongoR
         int currentPageSize = pageSize != null ? pageSize : DEFAULT_PAGE_SIZE;
         int offset = Math.max(0, (currentPage - 1) * currentPageSize);
 
-        SpringDataMongodbQuery<FeedBookmarkEntity> query = new SpringDataMongodbQuery<>(mongoTemplate, FeedBookmarkEntity.class);
+        SpringDataMongodbQuery<FeedBookmarkEntity> query =
+                new SpringDataMongodbQuery<>(mongoTemplate, FeedBookmarkEntity.class);
 
         query.where(builder)
                 .orderBy(feedBookmarkEntity.id.desc())

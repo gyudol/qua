@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class LikesMongoRepositoryCustomImpl implements LikesMongoRepositoryCustom{
+public class LikesMongoRepositoryCustomImpl implements LikesMongoRepositoryCustom {
 
     private static final int DEFAULT_PAGE_SIZE = 10;
     private static final int DEFAULT_PAGE_NUMBER = 0;
