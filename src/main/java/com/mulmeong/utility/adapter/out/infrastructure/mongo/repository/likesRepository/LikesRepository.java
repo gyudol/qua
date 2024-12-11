@@ -26,6 +26,7 @@ public class LikesRepository implements LikesPort {
 
     private final LikesMongoRepository likesMongoRepository;
     private final LikesEntityMapper likesEntityMapper;
+    private final LikesMongoRepositoryCustom likesMongoRepositoryCustom;
 
     @Override
     public void saveLikes(LikesResponseDto likesResponseDto) {
@@ -47,36 +48,17 @@ public class LikesRepository implements LikesPort {
     }
 
     @Override
-    public CursorPage<String> getLikes(String memberUuid, String kind, String lastId, int pageSize, int pageNo) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize + 1, Sort.by(Sort.Direction.DESC, "id"));
+    public CursorPage<String> getLikes(
+            String memberUuid, String kind, String lastId, int pageSize, int pageNo) {
 
-        List<LikesEntity> entities;
-        if (lastId != null) {
-            entities = likesMongoRepository.findByMemberUuidAndKindAndStatusAndIdLessThanOrderByIdDesc(
-                    memberUuid, kind, true, lastId, pageable);
-        } else {
-            entities = likesMongoRepository.findByMemberUuidAndKindAndStatusOrderByIdDesc(
-                    memberUuid, kind, true, pageable);
-        }
+        CursorPage<LikesEntity> cursorPage = likesMongoRepositoryCustom.getLikesEntity(
+                memberUuid, kind, lastId, pageSize, pageNo);
 
-        List<LikesEntity> pageData = entities.stream()
-                .limit(pageSize)
-                .toList();
-
-        List<String> kindUuids = pageData.stream()
+        List<String> kindUuids = cursorPage.getContent().stream()
                 .map(LikesEntity::getKindUuid)
                 .toList();
 
-        boolean hasNext = entities.size() > pageSize;
-        String nextCursor = hasNext ? pageData.get(entities.size() - 1).getId() : null;
-
-        return CursorPage.<String>builder()
-                .content(kindUuids)
-                .nextCursor(nextCursor)
-                .hasNext(hasNext)
-                .pageSize(pageSize)
-                .pageNo(pageNo)
-                .build();
+        return CursorPage.toCursorPage(cursorPage, kindUuids);
     }
 
 

@@ -13,8 +13,4 @@ public interface FeedBookmarkMongoRepository extends MongoRepository<FeedBookmar
 
     void deleteByMemberUuidAndFeedUuid(String memberUuid, String feedUuid);
 
-    List<FeedBookmarkEntity> findByMemberUuidAndIdLessThanOrderByIdDesc(
-            String memberUuid, String lastId, Pageable pageable);
-
-    List<FeedBookmarkEntity> findAllByMemberUuidOrderByIdDesc(String memberUuid, Pageable pageable);
 }
