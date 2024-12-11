@@ -2,35 +2,39 @@ package com.mulmeong.notification.application;
 
 import com.mulmeong.event.chat.ChattingCreateEvent;
 import com.mulmeong.event.contents.*;
+import com.mulmeong.event.member.MemberCreateEvent;
 import com.mulmeong.event.member.MemberGradeUpdateEvent;
 import com.mulmeong.event.contest.ContestVoteResultEvent;
 import com.mulmeong.event.member.FollowCreateEvent;
 import com.mulmeong.event.report.ReportApproveEvent;
 import com.mulmeong.notification.document.NotificationHistory;
 
+import java.util.List;
+
 public interface EventProcessService {
+    void saveMemberNotificationStatus(MemberCreateEvent message);
 
-    NotificationHistory saveFeedEvent(FeedCreatedFollowersEvent message);
+    void saveFeedEvent(FeedCreatedFollowersEvent message);
 
-    NotificationHistory saveShortsEvent(ShortsCreatedFollowersEvent message);
+    void saveShortsEvent(ShortsCreatedFollowersEvent message);
 
-    NotificationHistory saveFeedCommentEvent(FeedCommentCreateEvent message);
+    void saveFeedCommentEvent(FeedCommentCreateEvent message);
 
-    NotificationHistory saveFeedRecommentEvent(FeedRecommentCreateEvent message);
+    void saveFeedRecommentEvent(FeedRecommentCreateEvent message);
 
-    NotificationHistory saveShortsCommentEvent(ShortsCommentCreateEvent message);
+    void saveShortsCommentEvent(ShortsCommentCreateEvent message);
 
-    NotificationHistory saveShortsRecommentEvent(ShortsRecommentCreateEvent message);
+    void saveShortsRecommentEvent(ShortsRecommentCreateEvent message);
 
-    NotificationHistory saveLikeEvent(LikeCreateEvent message);
+    void saveLikeEvent(LikeCreateEvent message);
 
-    NotificationHistory saveFollowEvent(FollowCreateEvent message);
+    void saveFollowEvent(FollowCreateEvent message);
 
-    NotificationHistory saveChattingEvent(ChattingCreateEvent message);
+    void saveChattingEvent(ChattingCreateEvent message);
 
-    NotificationHistory saveContestResultEvent(ContestVoteResultEvent message);
+    void saveContestResultEvent(ContestVoteResultEvent message);
 
-    NotificationHistory saveMemberGradeEvent(MemberGradeUpdateEvent message);
+    void saveMemberGradeEvent(MemberGradeUpdateEvent message);
 
-    NotificationHistory saveReportEvent(ReportApproveEvent message);
+    void saveReportEvent(ReportApproveEvent message);
 }

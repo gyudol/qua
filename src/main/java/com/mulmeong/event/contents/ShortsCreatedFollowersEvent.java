@@ -13,4 +13,5 @@ public class ShortsCreatedFollowersEvent {
     private String shortsUuid;
     private String memberUuid;
     private List<String> followerUuids;
+    private String title;
 }
