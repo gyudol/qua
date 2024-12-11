@@ -1,16 +1,17 @@
-// "use server";
+"use server";
 
-// import type { Pagination } from "@/types/common";
-// import { commonPaginationRes } from "@/types/common/dummy";
-// import type { Contest } from "@/types/contest/contest";
+import type { CommonRes, Result } from "@/types/contest/contest";
+import { getHeaders } from "../common";
 
-// const API_SERVER = process.env.BASE_API_URL;
-// const PREFIX = "contest-service";
+const API_SERVER = process.env.BASE_API_URL;
+const PREFIX = "contest-service";
 
-// interface GetAllContestParam {
-//   pageSize: number;
-//   pageNo: number;
-// }
+export interface GetContestParam {
+  sortBy?: string; // 정렬 기준
+  nextCursor?: string; // 다음 페이지 커서
+  pageSize?: number; // 페이지 크기
+  pageNo?: number; // 페이지 번호
+}
 //콘테스트
 // export async function getMemberNickName() {
 //   const URI = `${API_SERVER}/${PREFIX}/v1/contest/{contestId}`;
@@ -49,30 +50,32 @@
 //   return data;
 // }
 
-//현재 진행중인 콘테스트 불러오기 api
-// export async function getContest(
-//   { pageSize, pageNo }: GetAllContestParam = { pageSize: 1, pageNo: 1 }
-// ) {
-//   const res: Response = await fetch(
-//     `${API_SERVER}/${PREFIX}/auth/v1/contests/view`,
-//     {
-//       method: "GET",
-//       cache: "no-cache",
-//     }
-//   );
+// 현재 진행중인 콘테스트 불러오기 api
+export async function getContest({
+  sortBy = "latest",
+  nextCursor,
+  pageSize = 1,
+  pageNo = 1,
+}: GetContestParam = {}): Promise<CommonRes<Result>> {
+  const queryParams = new URLSearchParams();
 
-//   const contest = (await res.json()) as Contest[];
+  // 파라미터 추가
+  if (sortBy) queryParams.append("sortBy", sortBy);
+  if (nextCursor) queryParams.append("nextCursor", nextCursor);
+  queryParams.append("pageSize", pageSize.toString());
+  queryParams.append("pageNo", pageNo.toString());
 
-//   const { isSuccess, result } = commonPaginationRes({
-//     content: contest,
-//     pageSize,
-//     pageNo,
-//   });
+  const url = `${API_SERVER}/${PREFIX}/auth/v1/contests/view?${queryParams.toString()}`;
 
-//   if (!isSuccess) {
-//     throw Error(result as string);
-//   }
+  const res: Response = await fetch(url, {
+    headers: await getHeaders(),
+    method: "GET",
+    cache: "no-cache",
+  });
 
-//   console.log(result);
-//   return result as Pagination<Contest>;
-// }
+  const data = (await res.json()) as CommonRes<Result>;
+
+  // console.log("데이터", data);
+  // console.log("데이터", data.result);
+  return data;
+}

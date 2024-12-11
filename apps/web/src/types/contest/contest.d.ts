@@ -1,3 +1,18 @@
+export interface CommonRes<T> {
+  httpStatus: {
+    error: boolean;
+    is4xxClientError: boolean;
+    is5xxServerError: boolean;
+    is1xxInformational: boolean;
+    is2xxSuccessful: boolean;
+    is3xxRedirection: boolean;
+  };
+  isSuccess: boolean;
+  message: string;
+  code: number;
+  result: T | string;
+}
+
 export interface ContestListRes {
   contestPostUuid: "string";
 }
@@ -6,20 +21,32 @@ export interface ContestId {
 }
 
 // 현재 콘테스트 타입
-export interface ContestContent {
-  contestId: number;
-  contestName: string;
-  imgUrl: string;
+interface Winner {
+  memberUuid: string;
+  postUuid: string;
+  badgeId: number;
+  voteCount: number;
+  ranking: string;
 }
 
-export interface Contest {
-  content: ContestContent[];
+// Contest 타입 정의
+interface Contest {
+  contestId: number;
+  contestName: string;
+  startDate: string;
+  endDate: string;
+  imgUrl: string;
+  winners: Winner[];
+}
+
+// Result 타입 정의
+interface Result {
+  content: Contest[];
   nextCursor: string;
   hasNext: boolean;
   pageSize: number;
   pageNo: number;
 }
-
 // 콘테스트 생성
 
 export interface MediaAsset {
