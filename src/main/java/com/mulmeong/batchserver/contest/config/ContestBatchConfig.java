@@ -133,7 +133,7 @@ public class ContestBatchConfig {
     }
 
     @Bean
-    public StepExecutionListener loggingStepExecutionListener() {
+    public StepExecutionListener contestLoggingStepExecutionListener() {
         return new StepExecutionListener() {
             @Override
             public void beforeStep(StepExecution stepExecution) {
