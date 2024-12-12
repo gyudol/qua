@@ -58,7 +58,7 @@ public class NotificationController {
                 ));
     }
 
-    @GetMapping("/members/{memberUuid}/notifications-status")
+    @GetMapping("/members/{memberUuid}/notification-status")
     @Operation(summary = "회원의 알림 종류 및 상태 조회", tags = {"Notification Service"},
             description = """
                     - kind : `feed` / `shorts` / `comment` / `recomment` / `follow` /
@@ -76,7 +76,7 @@ public class NotificationController {
         return new BaseResponse<>();
     }
 
-    @PostMapping("/members/notifications-status/{type}")
+    @PostMapping("/members/notification-status/{type}")
     @Operation(summary = "회원의 알림 토글 상태 변경", tags = {"Notification Service"},
             description = """
                     - kind : `feed` / `shorts` / `comment` / `recomment` / `follow` /
@@ -87,7 +87,7 @@ public class NotificationController {
         return new BaseResponse<>();
     }
 
-    @GetMapping("/members/notification/{historyUuid}")
+    @GetMapping("/members/notifications/{historyUuid}")
     @Operation(summary = "알림 내역 단건 조회", tags = {"Notification Service"})
     BaseResponse<NotificationHistoryResponseVo> getNotificationHistory(@PathVariable String historyUuid) {
         return new BaseResponse<>(
@@ -96,7 +96,7 @@ public class NotificationController {
     }
 
     //읽지 않은 알림 개수
-    @GetMapping("/members/{memberUuid}/notification/count")
+    @GetMapping("/members/{memberUuid}/notifications/count")
     @Operation(summary = "안읽은 알림 내역 정보(상태, 개수)", tags = {"Notification Service"})
     BaseResponse<ReadInfoVo> getReadInfo(@PathVariable String memberUuid) {
         return new BaseResponse<>(
