@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Member;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -23,7 +25,6 @@ public class FeignService {
     private final FeedClient feedClient;
     private final ShortsClient shortsClient;
     private final CommentClient commentClient;
-
 
     MemberDto getCompactProfileByUuid(String memberUuid) {
         return memberClient.getCompactProfileByUuid(memberUuid).result();

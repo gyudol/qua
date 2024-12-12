@@ -10,6 +10,7 @@ import com.mulmeong.notification.client.comment.ShortsCommentDto;
 import com.mulmeong.notification.client.comment.ShortsRecommentDto;
 import com.mulmeong.notification.client.feed.FeedDto;
 import com.mulmeong.notification.client.member.MemberDto;
+import com.mulmeong.notification.client.shorts.ShortsDto;
 import com.mulmeong.notification.common.exception.BaseException;
 import com.mulmeong.notification.common.response.BaseResponseStatus;
 import com.mulmeong.notification.document.NotificationHistory;
@@ -62,7 +63,8 @@ public class EventProcessServiceImpl implements EventProcessService {
 
     @Override
     public void saveFeedCommentEvent(FeedCommentCreateEvent message) {
-        String targetUuid = feignService.getSingleFeed(message.getFeedUuid()).getMemberUuid();
+        FeedDto feedDto = feignService.getSingleFeed(message.getFeedUuid());
+        String targetUuid = feedDto.getMemberUuid();
         if (checkNotificationStatus(targetUuid, NotificationType.COMMENT)) {
             NotificationHistory notificationHistory = notificationHistoryRepository.save(NotificationHistoryRequestDto
                     .feedCommentToDto(message, targetUuid, findMemberProfile(message.getMemberUuid()))
@@ -86,7 +88,8 @@ public class EventProcessServiceImpl implements EventProcessService {
 
     @Override
     public void saveShortsCommentEvent(ShortsCommentCreateEvent message) {
-        String targetUuid = feignService.getSingleShorts(message.getShortsUuid()).getMemberUuid();
+        ShortsDto shortsDto = feignService.getSingleShorts(message.getShortsUuid());
+        String targetUuid = shortsDto.getMemberUuid();
         if (checkNotificationStatus(targetUuid, NotificationType.COMMENT)) {
             NotificationHistory notificationHistory = notificationHistoryRepository.save(NotificationHistoryRequestDto
                     .shortsCommentToDto(message, targetUuid, findMemberProfile(message.getMemberUuid()))

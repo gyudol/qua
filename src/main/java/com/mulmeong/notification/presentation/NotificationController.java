@@ -7,6 +7,7 @@ import com.mulmeong.notification.dto.NotificationHistoryResponseDto;
 import com.mulmeong.notification.dto.NotificationStatusResponseDto;
 import com.mulmeong.notification.vo.NotificationHistoryResponseVo;
 import com.mulmeong.notification.vo.NotificationStatusResponseVo;
+import com.mulmeong.notification.vo.ReadInfoVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -76,7 +77,10 @@ public class NotificationController {
     }
 
     @PostMapping("/members/notifications-status/{type}")
-    @Operation(summary = "회원의 알림 토글 상태 변경", tags = {"Notification Service"})
+    @Operation(summary = "회원의 알림 토글 상태 변경", tags = {"Notification Service"},
+            description = """
+                    - kind : `feed` / `shorts` / `comment` / `recomment` / `follow` /
+                    `chat` / `grade` / `contest` / `report`""")
     BaseResponse<Void> updateNotificationStatus(
             @RequestHeader("Member-Uuid") String memberUuid, @PathVariable String type) {
         notificationService.updateNotificationStatus(memberUuid, type);
@@ -84,9 +88,19 @@ public class NotificationController {
     }
 
     @GetMapping("/members/notification/{historyUuid}")
+    @Operation(summary = "알림 내역 단건 조회", tags = {"Notification Service"})
     BaseResponse<NotificationHistoryResponseVo> getNotificationHistory(@PathVariable String historyUuid) {
         return new BaseResponse<>(
                 notificationService.getNotificationHistory(historyUuid).toVo()
+        );
+    }
+
+    //읽지 않은 알림 개수
+    @GetMapping("/members/{memberUuid}/notification/count")
+    @Operation(summary = "안읽은 알림 내역 정보(상태, 개수)", tags = {"Notification Service"})
+    BaseResponse<ReadInfoVo> getReadInfo(@PathVariable String memberUuid) {
+        return new BaseResponse<>(
+                notificationService.getNotReadNotificationHistory(memberUuid).toVo()
         );
     }
 }

@@ -4,6 +4,7 @@ import com.mulmeong.notification.common.utils.CursorPage;
 import com.mulmeong.notification.document.NotificationHistory;
 import com.mulmeong.notification.dto.NotificationHistoryResponseDto;
 import com.mulmeong.notification.dto.NotificationStatusResponseDto;
+import com.mulmeong.notification.dto.ReadInfoDto;
 
 import java.util.List;
 
@@ -23,4 +24,6 @@ public interface NotificationService {
     void updateNotificationHistoryRead(String memberUuid, String historyUuid);
 
     NotificationHistoryResponseDto getNotificationHistory(String notificationHistoryUuid);
+
+    ReadInfoDto getNotReadNotificationHistory(String memberUuid);
 }

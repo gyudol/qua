@@ -37,4 +37,6 @@ public interface EventProcessService {
     void saveMemberGradeEvent(MemberGradeUpdateEvent message);
 
     void saveReportEvent(ReportApproveEvent message);
+
+
 }

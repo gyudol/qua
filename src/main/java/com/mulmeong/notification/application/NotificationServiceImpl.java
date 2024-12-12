@@ -8,6 +8,7 @@ import com.mulmeong.notification.document.NotificationStatus;
 import com.mulmeong.notification.document.NotificationType;
 import com.mulmeong.notification.dto.NotificationHistoryResponseDto;
 import com.mulmeong.notification.dto.NotificationStatusResponseDto;
+import com.mulmeong.notification.dto.ReadInfoDto;
 import com.mulmeong.notification.infrastructure.NotificationCustom;
 import com.mulmeong.notification.infrastructure.NotificationHistoryRepository;
 import com.mulmeong.notification.infrastructure.NotificationStatusRepository;
@@ -93,6 +94,18 @@ public class NotificationServiceImpl implements NotificationService {
                 .findByNotificationHistoryUuid(notificationHistoryUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_NOTIFICATION_HISTORY));
         return NotificationHistoryResponseDto.toDto(notificationHistory);
+    }
+
+    @Override
+    public ReadInfoDto getNotReadNotificationHistory(String memberUuid) {
+        Integer notReadCount = notificationHistoryRepository
+                .countByTargetUuidAndIsRead(memberUuid, false);
+
+        if (notReadCount == 0) {
+            return ReadInfoDto.toDto(true, notReadCount);
+        } else {
+            return ReadInfoDto.toDto(false, notReadCount);
+        }
     }
 
 }
