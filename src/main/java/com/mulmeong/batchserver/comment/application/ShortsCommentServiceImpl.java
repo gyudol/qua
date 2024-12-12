@@ -1,7 +1,7 @@
-package com.mulmeong.batchserver.feed.application;
+package com.mulmeong.batchserver.comment.application;
 
-import com.mulmeong.batchserver.feed.domain.document.FeedRead;
-import com.mulmeong.batchserver.feed.infrastructure.repository.FeedReadRepository;
+import com.mulmeong.batchserver.comment.domain.document.ShortsComment;
+import com.mulmeong.batchserver.comment.infrastructure.repository.ShortsCommentReadRepository;
 import com.mulmeong.batchserver.utility.infrastructure.repository.DislikesRepository;
 import com.mulmeong.batchserver.utility.infrastructure.repository.LikesRepository;
 import com.mulmeong.event.utility.consume.DislikesCreateEvent;
@@ -13,27 +13,29 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class FeedServiceImpl implements FeedService{
+public class ShortsCommentServiceImpl implements ShortsCommentService {
 
-    private final FeedReadRepository feedReadRepository;
+    private final ShortsCommentReadRepository shortsCommentReadRepository;
     private final LikesRepository likesRepository;
     private final DislikesRepository dislikesRepository;
 
     @Override
     public void likeCountRenew(LikesCreateEvent message) {
 
-        FeedRead feedReadUpdate = feedReadRepository.findByFeedUuid(message.getKindUuid()).orElseThrow();
+        ShortsComment shortsReadUpdate = shortsCommentReadRepository.findByCommentUuid(message.getKindUuid()).orElseThrow();
         Long count = likesRepository.countByKindAndKindUuidAndStatus(message.getKind(), message.getKindUuid(), true);
         log.info("count: {}", count);
-        feedReadRepository.save(message.toFeedReadEntity(feedReadUpdate, count));
+        shortsCommentReadRepository.save(message.toShortsCommentReadEntity(shortsReadUpdate, count));
 
     }
 
     @Override
     public void dislikeCountRenew(DislikesCreateEvent message) {
-        FeedRead feedReadUpdate = feedReadRepository.findByFeedUuid(message.getKindUuid()).orElseThrow();
+
+        ShortsComment shortsReadUpdate = shortsCommentReadRepository.findByCommentUuid(message.getKindUuid()).orElseThrow();
         Long count = dislikesRepository.countByKindAndKindUuidAndStatus(message.getKind(), message.getKindUuid(), true);
         log.info("count: {}", count);
-        feedReadRepository.save(message.toFeedReadEntity(feedReadUpdate, count));
+        shortsCommentReadRepository.save(message.toShortsCommentReadEntity(shortsReadUpdate, count));
+
     }
 }

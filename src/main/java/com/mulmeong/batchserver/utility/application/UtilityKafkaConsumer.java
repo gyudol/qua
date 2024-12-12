@@ -1,5 +1,9 @@
 package com.mulmeong.batchserver.utility.application;
 
+import com.mulmeong.batchserver.comment.application.FeedCommentService;
+import com.mulmeong.batchserver.comment.application.FeedRecommentService;
+import com.mulmeong.batchserver.comment.application.ShortsCommentService;
+import com.mulmeong.batchserver.comment.application.ShortsRecommentService;
 import com.mulmeong.batchserver.feed.application.FeedService;
 import com.mulmeong.event.utility.consume.DislikesCreateEvent;
 import com.mulmeong.event.utility.consume.FeedCreateEvent;
@@ -16,6 +20,10 @@ public class UtilityKafkaConsumer {
 
     private final FollowService followService;
     private final FeedService feedService;
+    private final FeedCommentService feedCommentService;
+    private final FeedRecommentService feedRecommentService;
+    private final ShortsCommentService shortsCommentService;
+    private final ShortsRecommentService shortsRecommentService;
 
     @KafkaListener(topics = "${event.feed.pub.topics.feed-create.name}",
             containerFactory = "feedCreateListener")
@@ -30,14 +38,22 @@ public class UtilityKafkaConsumer {
         String kind = message.getKind();
         log.info("like message: {}", kind);
         switch (kind) {
-            case "FEED":
+            case "feed":
                 feedService.likeCountRenew(message);
                 break;
-            case "SHORTS":
+            case "shorts":
                 break;
-            case "COMMENT":
+            case "feed_comment":
+                feedCommentService.likeCountRenew(message);
                 break;
-            case "RECOMMENT":
+            case "feed_recomment":
+                feedRecommentService.likeCountRenew(message);
+                break;
+            case "shorts_comment":
+                shortsCommentService.likeCountRenew(message);
+                break;
+            case "shorts_recomment":
+                shortsRecommentService.likeCountRenew(message);
                 break;
         }
     }
@@ -48,14 +64,22 @@ public class UtilityKafkaConsumer {
         String kind = message.getKind();
         log.info("dislike message: {}", kind);
         switch (kind) {
-            case "FEED":
+            case "feed":
                 feedService.dislikeCountRenew(message);
                 break;
-            case "SHORTS":
+            case "shorts":
                 break;
-            case "COMMENT":
+            case "feedComment":
+                feedCommentService.dislikeCountRenew(message);
                 break;
-            case "RECOMMENT":
+            case "feedRecomment":
+                feedRecommentService.dislikeCountRenew(message);
+                break;
+            case "shortsComment":
+                shortsCommentService.dislikeCountRenew(message);
+                break;
+            case "shortsRecomment":
+                shortsRecommentService.dislikeCountRenew(message);
                 break;
         }
     }
