@@ -3,7 +3,6 @@ package com.mulmeong.feed.read.common.response;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 
 @Getter
 @AllArgsConstructor
@@ -32,7 +31,7 @@ public enum BaseResponseStatus {
     FEED_NOT_FOUND(HttpStatus.NOT_FOUND, false, 1004, "존재하지 않는 게시글 정보입니다."),
     HASHTAG_DUPLICATE_KEY(HttpStatus.CONFLICT, false, 1009, "해시태그가 이미 존재합니다.");
 
-    private final HttpStatusCode httpStatusCode;
+    private final HttpStatus httpStatusCode;
     private final boolean isSuccess;
     private final int code;
     private final String message;
