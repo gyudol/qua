@@ -24,7 +24,7 @@ public enum BaseResponseStatus {
 
     NO_NOTIFICATION_STATUS(HttpStatus.BAD_REQUEST, false, 4200, "회원의 알림 상태가 존재하지 않습니다."),
     NO_NOTIFICATION_HISTORY(HttpStatus.BAD_REQUEST, false, 4201, "회원의 알림 내역이 존재하지 않습니다."),
-    NO_NOTIFICATION_HISTORY_AUTHORITY(HttpStatus.BAD_REQUEST, false, 3202, "알림 내역 접근 권한이 없습니다.");
+    NO_NOTIFICATION_HISTORY_AUTHORITY(HttpStatus.BAD_REQUEST, false, 4202, "알림 내역 접근 권한이 없습니다.");
 
     private final HttpStatus httpStatusCode;
     private final boolean isSuccess;
