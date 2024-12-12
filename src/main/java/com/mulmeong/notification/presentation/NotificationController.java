@@ -95,7 +95,6 @@ public class NotificationController {
         );
     }
 
-    //읽지 않은 알림 개수
     @GetMapping("/members/{memberUuid}/notifications/count")
     @Operation(summary = "안읽은 알림 내역 정보(상태, 개수)", tags = {"Notification Service"})
     BaseResponse<ReadInfoVo> getReadInfo(@PathVariable String memberUuid) {
