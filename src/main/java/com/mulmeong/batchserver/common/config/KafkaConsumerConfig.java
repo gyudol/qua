@@ -5,6 +5,7 @@ import com.mulmeong.batchserver.common.exception.BaseException;
 import com.mulmeong.event.utility.consume.DislikesCreateEvent;
 import com.mulmeong.event.utility.consume.FeedCreateEvent;
 import com.mulmeong.event.utility.consume.LikesCreateEvent;
+import com.mulmeong.event.utility.consume.ShortsCreateEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,6 +42,11 @@ public class KafkaConsumerConfig {
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, FeedCreateEvent> feedCreateListener() {
         return kafkaListenerContainerFactory(FeedCreateEvent.class);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ShortsCreateEvent> shortsCreateListener() {
+        return kafkaListenerContainerFactory(ShortsCreateEvent.class);
     }
 
     @Bean

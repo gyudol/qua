@@ -8,6 +8,7 @@ import com.mulmeong.batchserver.feed.application.FeedService;
 import com.mulmeong.event.utility.consume.DislikesCreateEvent;
 import com.mulmeong.event.utility.consume.FeedCreateEvent;
 import com.mulmeong.event.utility.consume.LikesCreateEvent;
+import com.mulmeong.event.utility.consume.ShortsCreateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -30,6 +31,13 @@ public class UtilityKafkaConsumer {
     public void feedCreated(FeedCreateEvent message) {
         log.info("feed create message: {}", message.getFeedUuid());
         followService.createFeedFollowerAlert(message);
+    }
+
+    @KafkaListener(topics = "${event.shorts.pub.topics.shorts-create.name}",
+            containerFactory = "shortsCreateListener")
+    public void shortsCreated(ShortsCreateEvent message) {
+        log.info("feed create message: {}", message.getShortsUuid());
+        followService.createShortsFollowerAlert(message);
     }
 
     @KafkaListener(topics = "${event.utility.pub.topics.like-create.name}",

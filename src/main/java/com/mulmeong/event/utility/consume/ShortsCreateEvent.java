@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @Getter
 @NoArgsConstructor
-public class FeedCreateEvent {
+public class ShortsCreateEvent {
 
-    private String feedUuid;
+    private String shortsUuid;
     private String memberUuid;
     private String title;
 
