@@ -11,4 +11,5 @@ public interface ShortsCommentReadRepository extends MongoRepository<ShortsComme
 
     Optional<ShortsComment> findByCommentUuid(String commentUuid);
 
+    long countByShortsUuid(String shortsUuid);
 }
