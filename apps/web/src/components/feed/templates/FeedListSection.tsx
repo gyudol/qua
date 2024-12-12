@@ -11,6 +11,7 @@ import type { FeedViewType } from "@/types/feed/common";
 import type { Pagination } from "@/types/common";
 import { FeedListOptionGroup } from "../organisms/FeedListOptionGroup";
 import { FeedArticle } from "../organisms/FeedArticle";
+import { Kitty } from "@/components/common/icons";
 
 interface FeedListSectionProps {
   view?: FeedViewType;
@@ -35,7 +36,7 @@ export default function FeedListSection({
     <div className="relative">
       <FeedListOptionGroup />
 
-      <section className="flex flex-col pb-16 md:pb-16 md:pt-0">
+      <section className="flex flex-col pb-1">
         {data
           ? data.pages.map((page) =>
               page.content.map(({ feedUuid }) => (
@@ -43,8 +44,15 @@ export default function FeedListSection({
               )),
             )
           : null}
-        <div ref={observerRef} className="">
-          {isFetchingNextPage ? "로딩중" : null}
+        <div
+          ref={observerRef}
+          className="flex gap-4 justify-center items-center text-teal-400"
+        >
+          {isFetchingNextPage ? (
+            <>
+              로딩중 <Kitty />
+            </>
+          ) : null}
         </div>
       </section>
     </div>

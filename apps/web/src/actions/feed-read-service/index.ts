@@ -6,9 +6,11 @@ import type {
   Feed,
   GetFeedsReq,
   GetMemberFeeds,
+  GetRandomHashtags,
 } from "@/types/feed/feed-read-service";
 import type { FeedReq } from "@/types/feed/common";
 import { options } from "@/app/api/auth/[...nextauth]/authOption";
+import type { Hashtag } from "@/types/contents";
 import { getHeaders, processResponse } from "../common";
 
 const API_SERVER = process.env.BASE_API_URL;
@@ -52,4 +54,16 @@ export async function getMemberFeeds({ memberUuid, ...query }: GetMemberFeeds) {
   });
 
   return processResponse<Feed, true>({ res });
+}
+
+export async function getRandomHashtags({ ...query }: GetRandomHashtags) {
+  const URI = `${API_SERVER}/${PREFIX}/v1/hashtags?${toURLSearchParams(query)}`;
+
+  const res: Response = await fetch(URI, {
+    headers: await getHeaders(),
+    method: "GET",
+    cache: "no-cache",
+  });
+
+  return processResponse<Hashtag[], false>({ res });
 }

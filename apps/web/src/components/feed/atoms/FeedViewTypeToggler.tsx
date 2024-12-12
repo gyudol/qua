@@ -1,6 +1,6 @@
 "use client";
 
-import { Rows2, Rows4 } from "lucide-react";
+import { LayoutGrid, List } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toURLSearchParams } from "@/functions/utils";
 
@@ -11,8 +11,8 @@ export function FeedViewTypeToggler() {
   const { view } = searchParams;
 
   const views = [
-    { value: "card", Icon: Rows2 },
-    { value: "compact", Icon: Rows4 },
+    { value: "compact", Icon: List },
+    { value: "card", Icon: LayoutGrid },
   ];
 
   function handleClick(value: string) {

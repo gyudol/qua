@@ -16,6 +16,10 @@ export interface GetMemberFeeds extends CommonPaginationReq {
   sortBy?: "latest" | "likes";
 }
 
+export interface GetRandomHashtags {
+  size: number;
+}
+
 export interface Feed {
   feedUuid: string;
   memberUuid: string;

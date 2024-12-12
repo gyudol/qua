@@ -44,6 +44,14 @@ body {
   display: none;
 }
 
+@layer components {
+  .animate-deepblue {
+    animation: gradient-bg 3s infinite;
+    background: linear-gradient(35deg, #a3e1ef, #7bd3e5, #0a99b7);
+    background-size: 200% 100%;
+  }
+}
+
 @keyframes gradient-bg {
   0% {
     background-position: 0% 50%;
@@ -103,16 +111,16 @@ body {
 
 @keyframes back-and-forth-2 {
   0% {
-    transform: translateX(-10%); /* 화면 왼쪽 밖 시작, 정방향 */
+    transform: translateX(-100%); /* 화면 왼쪽 밖 시작, 정방향 */
   }
   50% {
-    transform: translateX(210%); /* 화면 오른쪽 밖, 정방향 */
+    transform: translateX(100%); /* 화면 오른쪽 밖, 정방향 */
   }
   51% {
-    transform: translateX(210%); /* 뒤집기 시작 */
+    transform: translateX(100%); /* 뒤집기 시작 */
   }
   100% {
-    transform: translateX(-10%); /* 다시 화면 왼쪽 밖으로, 뒤집힌 방향 */
+    transform: translateX(-100%); /* 다시 화면 왼쪽 밖으로, 뒤집힌 방향 */
   }
 }
 

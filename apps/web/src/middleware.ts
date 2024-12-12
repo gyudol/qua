@@ -4,19 +4,21 @@ import { getToken } from "next-auth/jwt";
 
 const routes = {
   signIn: "/sign-in",
-  signup: "/sign-up",
-  mypage: "/mypage",
-  testAccountSignIn: "/test-account-sign-in",
+  signOut: "/sign-out",
+  writeFeed: "/feeds/write",
+  writeShorts: "/shortss/write",
+  mypage: "/my",
 };
 
 const FALLBACK_URL = "/";
 
-const withAuthList = [routes.mypage];
-const withoutAuthList = [
-  routes.signIn,
-  routes.signup,
-  routes.testAccountSignIn,
+const withAuthList = [
+  routes.mypage,
+  routes.signOut,
+  routes.writeFeed,
+  routes.writeShorts,
 ];
+const withoutAuthList = [routes.signIn];
 
 const withAuth = (req: NextRequest, token: boolean) => {
   const url = req.nextUrl.clone();

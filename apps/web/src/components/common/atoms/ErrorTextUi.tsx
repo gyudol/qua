@@ -17,7 +17,7 @@ function ErrorTextUi({
     // 클라이언트에서만 랜덤 값 설정
     setAnimationValues({
       duration: `${Math.random() * 10 + 20}s`,
-      delay: `${Math.random() * 3}s`,
+      delay: `${Math.random() * 30}s`,
     });
   }, []);
 

@@ -19,7 +19,7 @@ function CommentDrawer({ feedUuid }: { feedUuid: string }) {
           variant="default"
           className="
           w-full md:max-w-md 
-          py-[1.7rem] absolute bottom-[5rem] bg-teal-300 !rounded-t-xl border-[1px] !border-teal-400"
+          py-[1.7rem] absolute bottom-[4rem] bg-teal-300 !rounded-t-xl border-[1px] !border-teal-400"
         >
           댓글 작성하기
         </Button>
