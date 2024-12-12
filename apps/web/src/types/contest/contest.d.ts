@@ -12,14 +12,6 @@ export interface CommonRes<T> {
   code: number;
   result: T | string;
 }
-
-export interface ContestListRes {
-  contestPostUuid: "string";
-}
-export interface ContestId {
-  contestId: "string";
-}
-
 // 현재 콘테스트 타입
 interface Winner {
   memberUuid: string;
@@ -29,7 +21,6 @@ interface Winner {
   ranking: string;
 }
 
-// Contest 타입 정의
 interface Contest {
   contestId: number;
   contestName: string;
@@ -38,8 +29,6 @@ interface Contest {
   imgUrl: string;
   winners: Winner[];
 }
-
-// Result 타입 정의
 interface Result {
   content: Contest[];
   nextCursor: string;
@@ -47,6 +36,7 @@ interface Result {
   pageSize: number;
   pageNo: number;
 }
+
 // 콘테스트 생성
 
 export interface MediaAsset {

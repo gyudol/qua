@@ -1,7 +1,9 @@
 "use server";
 
 import type { CommonRes, Result } from "@/types/contest/contest";
-import { getHeaders } from "../common";
+import { toURLSearchParams } from "@/functions/utils";
+import type { Pagination } from "@/types/common";
+import { getHeaders, processResponse } from "../common";
 
 const API_SERVER = process.env.BASE_API_URL;
 const PREFIX = "contest-service";
@@ -26,25 +28,6 @@ export interface GetContestParam {
 //   console.error(`HTTP 에러 발생: ${res.status} - ${res.status}`);
 
 //   const data = (await res.json()) as CommonRes<ContestListRes>;
-//   console.log("데이터", data);
-
-//   return data;
-// }
-
-//콘테스트 참여 api 로직
-// export async function contestPost() {
-//   const URI = `${API_SERVER}/${PREFIX}/auth/v1/contests/{contestId}/apply`;
-//   console.log("API 호출 시작: ", URI);
-
-//   const res: Response = await fetch(URI, {
-//     headers: await getHeaders(),
-//     method: "POST",
-//     cache: "no-cache",
-//   });
-//   console.error(`HTTP 에러 발생: ${res.status} - ${res.statusText}`);
-//   console.error(`HTTP 에러 발생: ${res.status} - ${res.status}`);
-
-// const data = (await res.json()) as CommonRes<ContestId>;
 //   console.log("데이터", data);
 
 //   return data;
@@ -78,4 +61,37 @@ export async function getContest({
   // console.log("데이터", data);
   // console.log("데이터", data.result);
   return data;
+}
+
+//콘테스트 참여 api 로직
+// export async function contestPost() {
+//   const URI = `${API_SERVER}/${PREFIX}/auth/v1/contests/{contestId}/apply`;
+
+//   const res: Response = await fetch(URI, {
+//     headers: await getHeaders(),
+//     method: "POST",
+//     cache: "no-cache",
+//   });
+//   console.error(`HTTP 에러 발생: ${res.status} - ${res.statusText}`);
+//   console.error(`HTTP 에러 발생: ${res.status} - ${res.status}`);
+
+//   const data = (await res.json()) as CommonRes<MediaType>;
+//   console.log("데이터", data);
+
+//   return data;
+// }
+
+// 지난 콘테스트 api
+export async function getContestHistory({
+  ...query
+}: GetContestParam = {}): Promise<Pagination<Result>> {
+  const url = `${API_SERVER}/${PREFIX}/auth/v1/contests/history?${toURLSearchParams(query)}`;
+
+  const res: Response = await fetch(url, {
+    headers: await getHeaders(),
+    method: "GET",
+    cache: "no-cache",
+  });
+
+  return processResponse<Result, true>({ res });
 }

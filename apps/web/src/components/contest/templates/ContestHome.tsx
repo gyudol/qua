@@ -1,13 +1,10 @@
-// ContestHome.tsx
 import React from "react";
 import { getContest } from "@/actions/contest/contest";
 import type { Result } from "@/types/contest/contest";
 import ContestMain from "../organisms/ContestMain";
 
 async function ContestHome() {
-  // API 호출하여 데이터 가져오기
   const contestData = await getContest();
-  // 데이터가 성공적으로 가져왔는지 확인
   if (
     !contestData.isSuccess ||
     !contestData.result ||
