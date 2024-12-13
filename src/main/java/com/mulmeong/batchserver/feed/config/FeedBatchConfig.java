@@ -1,7 +1,6 @@
 package com.mulmeong.batchserver.feed.config;
 
 import com.mulmeong.batchserver.comment.infrastructure.repository.FeedCommentReadRepository;
-import com.mulmeong.batchserver.contest.config.ContestBatchConfig;
 import com.mulmeong.batchserver.feed.domain.document.FeedRead;
 import com.mulmeong.batchserver.feed.infrastructure.repository.FeedReadRepository;
 import com.mulmeong.batchserver.utility.infrastructure.repository.DislikesRepository;
@@ -37,7 +36,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 @RequiredArgsConstructor
 public class FeedBatchConfig {
 
-    private static final Logger log = LoggerFactory.getLogger(ContestBatchConfig.class);
+    private static final Logger log = LoggerFactory.getLogger(FeedBatchConfig.class);
     private final PlatformTransactionManager transactionManager;
     private final FeedReadRepository feedReadRepository;
     private final LikesRepository likesRepository;
@@ -60,13 +59,12 @@ public class FeedBatchConfig {
     @Bean
     public Job feedRenewJob() {
         return new JobBuilder("feedRenew", jobRepository)
-                .start(feedLikeRenewStep())
-                .next(feedCommentCountRenewStep())
+                .start(feedRenewStep())
                 .build();
     }
 
     @Bean
-    public Step feedLikeRenewStep() {
+    public Step feedRenewStep() {
         return new StepBuilder("feedLikeRenewStep", jobRepository)
                 .<FeedRead, FeedRead>chunk(10, transactionManager)
                 .reader(feedReader())
@@ -76,28 +74,13 @@ public class FeedBatchConfig {
                 .build();
     }
 
-    @Bean
-    public Step feedCommentCountRenewStep() {
-        return new StepBuilder("feedCommentCountRenewStep", jobRepository)
-                .<FeedRead, FeedRead>chunk(10, transactionManager)
-                .reader(feedAllReader())
-                .processor(feedCommentCountProcessor())
-                .writer(feedCommentCountWriter())
-                .listener(feedLoggingStepExecutionListener())
-                .build();
-    }
 
     @Bean
     @StepScope
     public ItemReader<FeedRead> feedReader() {
         return new IteratorItemReader<>(
                 feedReadMongoTemplate.find(
-                        new Query(
-                                new Criteria().orOperator(
-                                        Criteria.where("likeCount").gte(10L),
-                                        Criteria.where("dislikeCount").gte(10L)
-                                )
-                        ),
+                        new Query(),
                         FeedRead.class
                 )
         );
@@ -110,6 +93,8 @@ public class FeedBatchConfig {
             long actualLikeCount = likesRepository.countByKindAndKindUuidAndStatus("feed", feedRead.getFeedUuid(), true);
             // 실제 싫어요 수
             long actualDislikeCount = dislikesRepository.countByKindAndKindUuidAndStatus("feed", feedRead.getFeedUuid(), true);
+
+            long actualCommentCount = feedCommentReadRepository.countByFeedUuid(feedRead.getFeedUuid());
 
 
             log.info("Processing feed: {}, Updated like count: {}, Updated dislike count: {}",
@@ -128,50 +113,6 @@ public class FeedBatchConfig {
                     .likeCount(actualLikeCount)
                     .dislikeCount(actualDislikeCount)
                     .netLikes(actualLikeCount - actualDislikeCount)
-                    .commentCount(feedRead.getCommentCount())
-                    .createdAt(feedRead.getCreatedAt())
-                    .updatedAt(feedRead.getUpdatedAt())
-                    .build();
-        };
-    }
-
-    @Bean
-    public ItemWriter<FeedRead> feedWriter() {
-        return feedReadRepository::saveAll;
-    }
-
-    @Bean
-    @StepScope
-    public ItemReader<FeedRead> feedAllReader() {
-        return new IteratorItemReader<>(
-                feedReadMongoTemplate.find(
-                        new Query(),
-                        FeedRead.class
-                )
-        );
-    }
-
-    @Bean
-    public ItemProcessor<FeedRead, FeedRead> feedCommentCountProcessor() {
-        return feedRead -> {
-
-            long actualCommentCount = feedCommentReadRepository.countByFeedUuid(feedRead.getFeedUuid());
-
-            log.info("Processing feed: {}, Updated comment count: {}", feedRead.getFeedUuid(), actualCommentCount);
-
-            return FeedRead.builder()
-                    .id(feedRead.getId())
-                    .feedUuid(feedRead.getFeedUuid())
-                    .memberUuid(feedRead.getMemberUuid())
-                    .title(feedRead.getTitle())
-                    .content(feedRead.getContent())
-                    .categoryName(feedRead.getCategoryName())
-                    .visibility(feedRead.getVisibility())
-                    .hashtags(feedRead.getHashtags())
-                    .mediaList(feedRead.getMediaList())
-                    .likeCount(feedRead.getLikeCount())
-                    .dislikeCount(feedRead.getDislikeCount())
-                    .netLikes(feedRead.getNetLikes())
                     .commentCount(actualCommentCount)
                     .createdAt(feedRead.getCreatedAt())
                     .updatedAt(feedRead.getUpdatedAt())
@@ -180,7 +121,7 @@ public class FeedBatchConfig {
     }
 
     @Bean
-    public ItemWriter<FeedRead> feedCommentCountWriter() {
+    public ItemWriter<FeedRead> feedWriter() {
         return feedReadRepository::saveAll;
     }
 
