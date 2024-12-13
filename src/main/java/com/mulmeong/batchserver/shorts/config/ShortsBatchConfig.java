@@ -1,14 +1,13 @@
 package com.mulmeong.batchserver.shorts.config;
 
 import com.mulmeong.batchserver.comment.infrastructure.repository.ShortsCommentReadRepository;
-import com.mulmeong.batchserver.contest.config.ContestBatchConfig;
+import com.mulmeong.batchserver.feed.domain.document.FeedRead;
 import com.mulmeong.batchserver.shorts.domain.document.ShortsRead;
 import com.mulmeong.batchserver.shorts.infrastructure.repository.ShortsReadRepository;
 import com.mulmeong.batchserver.utility.infrastructure.repository.DislikesRepository;
 import com.mulmeong.batchserver.utility.infrastructure.repository.LikesRepository;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.*;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -33,17 +32,18 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @EnableScheduling
-@EnableBatchProcessing
+@EnableBatchProcessing(dataSourceRef = "contestDataSource", transactionManagerRef = "contestTransactionManager")
 @RequiredArgsConstructor
+@Slf4j
 public class ShortsBatchConfig {
 
-    private static final Logger log = LoggerFactory.getLogger(ContestBatchConfig.class);
     private final PlatformTransactionManager transactionManager;
     private final ShortsReadRepository shortsReadRepository;
     private final LikesRepository likesRepository;
     private final DislikesRepository dislikesRepository;
     private final ShortsCommentReadRepository shortsCommentReadRepository;
-    private final @Qualifier("shortsReadMongoTemplate") MongoTemplate shortsReadMongoTemplate;
+    @Qualifier("shortsReadMongoTemplate")
+    private final MongoTemplate shortsReadMongoTemplate;
     private final JobRepository jobRepository;
     private final JobLauncher jobLauncher;
 
@@ -61,7 +61,6 @@ public class ShortsBatchConfig {
     public Job shortsRenewJob() {
         return new JobBuilder("shortsRenew", jobRepository)
                 .start(shortsLikeRenewStep())
-                .next(shortsCommentCountRenewStep())
                 .build();
     }
 
@@ -76,28 +75,13 @@ public class ShortsBatchConfig {
                 .build();
     }
 
-    @Bean
-    public Step shortsCommentCountRenewStep() {
-        return new StepBuilder("shortsCommentCountRenewStep", jobRepository)
-                .<ShortsRead, ShortsRead>chunk(10, transactionManager)
-                .reader(shortsAllReader())
-                .processor(shortsCommentCountProcessor())
-                .writer(shortsCommentCountWriter())
-                .listener(shortsLoggingStepExecutionListener())
-                .build();
-    }
 
     @Bean
     @StepScope
     public ItemReader<ShortsRead> shortsReader() {
         return new IteratorItemReader<>(
                 shortsReadMongoTemplate.find(
-                        new Query(
-                                new Criteria().orOperator(
-                                        Criteria.where("likeCount").gte(10L),
-                                        Criteria.where("dislikeCount").gte(10L)
-                                )
-                        ),
+                        new Query(),
                         ShortsRead.class
                 )
         );
@@ -110,6 +94,8 @@ public class ShortsBatchConfig {
             long actualLikeCount = likesRepository.countByKindAndKindUuidAndStatus("shorts", shortsRead.getShortsUuid(), true);
             // 실제 싫어요 수
             long actualDislikeCount = dislikesRepository.countByKindAndKindUuidAndStatus("shorts", shortsRead.getShortsUuid(), true);
+
+            long actualCommentCount = shortsCommentReadRepository.countByShortsUuid(shortsRead.getShortsUuid());
 
 
             log.info("Processing shorts: {}, Updated like count: {}, Updated dislike count: {}",
@@ -127,7 +113,7 @@ public class ShortsBatchConfig {
                     .likeCount(actualLikeCount)
                     .dislikeCount(actualDislikeCount)
                     .netLikes(actualLikeCount - actualDislikeCount)
-                    .commentCount(shortsRead.getCommentCount())
+                    .commentCount(actualCommentCount)
                     .createdAt(shortsRead.getCreatedAt())
                     .updatedAt(shortsRead.getUpdatedAt())
                     .build();
@@ -139,48 +125,6 @@ public class ShortsBatchConfig {
         return shortsReadRepository::saveAll;
     }
 
-    @Bean
-    @StepScope
-    public ItemReader<ShortsRead> shortsAllReader() {
-        return new IteratorItemReader<>(
-                shortsReadMongoTemplate.find(
-                        new Query(),
-                        ShortsRead.class
-                )
-        );
-    }
-
-    @Bean
-    public ItemProcessor<ShortsRead, ShortsRead> shortsCommentCountProcessor() {
-        return shortsRead -> {
-
-            long actualCommentCount = shortsCommentReadRepository.countByShortsUuid(shortsRead.getShortsUuid());
-
-            log.info("Processing shorts: {}, Updated comment count: {}", shortsRead.getShortsUuid(), actualCommentCount);
-
-            return ShortsRead.builder()
-                    .id(shortsRead.getId())
-                    .shortsUuid(shortsRead.getShortsUuid())
-                    .memberUuid(shortsRead.getMemberUuid())
-                    .title(shortsRead.getTitle())
-                    .playtime(shortsRead.getPlaytime())
-                    .visibility(shortsRead.getVisibility())
-                    .hashtags(shortsRead.getHashtags())
-                    .media(shortsRead.getMedia())
-                    .likeCount(shortsRead.getLikeCount())
-                    .dislikeCount(shortsRead.getDislikeCount())
-                    .netLikes(shortsRead.getNetLikes())
-                    .commentCount(actualCommentCount)
-                    .createdAt(shortsRead.getCreatedAt())
-                    .updatedAt(shortsRead.getUpdatedAt())
-                    .build();
-        };
-    }
-
-    @Bean
-    public ItemWriter<ShortsRead> shortsCommentCountWriter() {
-        return shortsReadRepository::saveAll;
-    }
 
     @Bean
     public StepExecutionListener shortsLoggingStepExecutionListener() {

@@ -17,10 +17,10 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 )
 public class ShortsMongoConfig {
 
-    @Value("${spring.data.mongodb.contest.dbname}")
+    @Value("${spring.data.mongodb.shorts.dbname}")
     private String DB_NAME;
 
-    @Value("${spring.data.mongodb.feed.uri}")
+    @Value("${spring.data.mongodb.shorts.uri}")
     private String shortsMongoUri;
 
     @Bean(name = "shortsReadMongoTemplate")

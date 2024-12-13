@@ -21,7 +21,7 @@ import java.util.HashMap;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = "com.mulmeong.batchserver.contest.infrastructure.repository",
+        basePackages = "com.mulmeong.batchserver.contest.infrastructure.repository.mysql",
         entityManagerFactoryRef = "contestEntityManagerFactory",
         transactionManagerRef = "contestTransactionManager"
 )

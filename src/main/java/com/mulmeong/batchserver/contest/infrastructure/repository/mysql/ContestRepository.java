@@ -1,4 +1,4 @@
-package com.mulmeong.batchserver.contest.infrastructure.repository;
+package com.mulmeong.batchserver.contest.infrastructure.repository.mysql;
 
 import com.mulmeong.batchserver.contest.domain.entity.Contest;
 import org.springframework.data.jpa.repository.JpaRepository;

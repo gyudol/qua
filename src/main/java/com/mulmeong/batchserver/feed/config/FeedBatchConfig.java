@@ -3,11 +3,11 @@ package com.mulmeong.batchserver.feed.config;
 import com.mulmeong.batchserver.comment.infrastructure.repository.FeedCommentReadRepository;
 import com.mulmeong.batchserver.feed.domain.document.FeedRead;
 import com.mulmeong.batchserver.feed.infrastructure.repository.FeedReadRepository;
+import com.mulmeong.batchserver.shorts.domain.document.ShortsRead;
 import com.mulmeong.batchserver.utility.infrastructure.repository.DislikesRepository;
 import com.mulmeong.batchserver.utility.infrastructure.repository.LikesRepository;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.*;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -23,20 +23,19 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import java.util.List;
+
 
 @Configuration
-@EnableScheduling
-@EnableBatchProcessing
+@EnableBatchProcessing(dataSourceRef = "contestDataSource", transactionManagerRef = "contestTransactionManager")
 @RequiredArgsConstructor
+@Slf4j
 public class FeedBatchConfig {
 
-    private static final Logger log = LoggerFactory.getLogger(FeedBatchConfig.class);
     private final PlatformTransactionManager transactionManager;
     private final FeedReadRepository feedReadRepository;
     private final LikesRepository likesRepository;
@@ -74,7 +73,6 @@ public class FeedBatchConfig {
                 .build();
     }
 
-
     @Bean
     @StepScope
     public ItemReader<FeedRead> feedReader() {
@@ -85,6 +83,7 @@ public class FeedBatchConfig {
                 )
         );
     }
+
 
     @Bean
     public ItemProcessor<FeedRead, FeedRead> feedProcessor() {
