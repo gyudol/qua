@@ -1,4 +1,5 @@
 import { Bookmark } from "lucide-react";
+import { cn } from "@repo/ui/lib/utils";
 import { ButtonWithAuth } from "@/components/common/atoms";
 import {
   useShortsBookmarkMutation,
@@ -15,18 +16,22 @@ export function ShortsBookmarkButton({
   const { mutate } = useShortsBookmarkMutation({ shortsUuid });
 
   return (
-    <ButtonWithAuth
-      type="button"
-      onClick={() => mutate(!data)}
-      className="flex gap-[0.5rem] items-center"
-    >
-      <span>
+    <div className="flex flex-col items-center">
+      <ButtonWithAuth
+        className={cn(
+          "flex justify-center items-center",
+          "size-[3rem] rounded-full",
+          "bg-[rgba(0,0,0,0.20)]",
+        )}
+        onClick={() => mutate(!data)}
+      >
         <Bookmark
-          className="m-[0.25rem] text-slate-400"
-          size="1.25rem"
-          fill={data ? "#B1B1B1" : "none"}
+          size="1.5rem"
+          stroke="none"
+          className={data ? "fill-white" : "stroke-white"}
         />
-      </span>
-    </ButtonWithAuth>
+      </ButtonWithAuth>
+      <span className="text-sm text-white">저장</span>
+    </div>
   );
 }

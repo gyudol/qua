@@ -9,9 +9,9 @@ import { useInfiniteScroll } from "@/hooks";
 import type { Feed } from "@/types/feed/feed-read-service";
 import type { FeedViewType } from "@/types/feed/common";
 import type { Pagination } from "@/types/common";
+import { Kitty } from "@/components/common/icons";
 import { FeedListOptionGroup } from "../organisms/FeedListOptionGroup";
 import { FeedArticle } from "../organisms/FeedArticle";
-import { Kitty } from "@/components/common/icons";
 
 interface FeedListSectionProps {
   view?: FeedViewType;

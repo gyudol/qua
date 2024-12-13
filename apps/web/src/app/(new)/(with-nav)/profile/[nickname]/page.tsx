@@ -1,12 +1,7 @@
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import { options } from "@/app/api/auth/[...nextauth]/authOption";
-import { ProfilePage } from "@/components/profile/page";
-import { getMemberNickname } from "@/actions/member-service";
+import { Separator } from "@repo/ui/shadcn/separator";
 import PageContainer from "@/components/@new/layouts/containers/PageContainer";
 import { getMemberProfileByNickname } from "@/actions/member-read-service";
 import { MemberProfileImage } from "@/components/profile/atoms/MemberProfileImage";
-import { Separator } from "@repo/ui/shadcn/separator";
 import { formatToNumAbbrs } from "@/functions/utils";
 
 export default async function page({
