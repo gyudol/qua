@@ -33,7 +33,7 @@ public record BaseResponse<T>(HttpStatus httpStatus, Boolean isSuccess, String m
      * @param status 응답 상태
      */
     public BaseResponse(BaseResponseStatus status) {
-        this(status.getHttpStatusCode(), false, status.getMessage(), status.getCode(),
+        this(status.getHttpStatus(), false, status.getMessage(), status.getCode(),
             TypeCaster.castMessage(status.getMessage()));
     }
 
@@ -44,7 +44,7 @@ public record BaseResponse<T>(HttpStatus httpStatus, Boolean isSuccess, String m
      * @param message 에러 메시지
      */
     public BaseResponse(BaseResponseStatus status, String message) {
-        this(status.getHttpStatusCode(), false, message, status.getCode(),
+        this(status.getHttpStatus(), false, message, status.getCode(),
             TypeCaster.castMessage(status.getMessage()));
     }
 
