@@ -37,32 +37,16 @@ public class FeignService {
         return commentClient.getFeedComment(commentUuid).result();
     }
 
-    boolean checkExistFeedComment(String commentUuid) {
-        return commentClient.existByFeedCommentUuid(commentUuid);
-    }
-
     FeedRecommentDto getFeedRecomment(String recommentUuid) {
         return commentClient.getFeedRecomment(recommentUuid).result();
-    }
-
-    boolean checkExistFeedRecomment(String recommentUuid) {
-        return commentClient.existByFeedRecommentUuid(recommentUuid);
     }
 
     ShortsCommentDto getShortsComment(String commentUuid) {
         return commentClient.getShortsComment(commentUuid).result();
     }
 
-    boolean checkExistShortsComment(String commentUuid) {
-        return commentClient.existByShortsCommentUuid(commentUuid);
-    }
-
     ShortsRecommentDto getShortsRecomment(String recommentUuid) {
         return commentClient.getShortsRecomment(recommentUuid).result();
-    }
-
-    boolean checkExistShortsRecomment(String recommentUuid) {
-        return commentClient.existByShortsRecommentUuid(recommentUuid);
     }
 
 }

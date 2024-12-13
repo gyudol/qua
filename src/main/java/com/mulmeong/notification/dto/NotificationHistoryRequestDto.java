@@ -150,14 +150,15 @@ public class NotificationHistoryRequestDto {
         NotificationComment comment = switch (message.getKind()) {
             case "feed" -> NotificationComment.FEED_LIKE_CREATE;
             case "shorts" -> NotificationComment.SHORTS_LIKE_CREATE;
-            case "comment", "recomment" -> NotificationComment.COMMENT_LIKE_CREATE;
+            case "feed_comment", "shorts_comment", "feed_recomment", "shorts_recomment" ->
+                    NotificationComment.COMMENT_LIKE_CREATE;
             default -> null;
         };
         NotificationType notificationType = switch (message.getKind()) {
             case "feed" -> NotificationType.FEED;
             case "shorts" -> NotificationType.SHORTS;
-            case "comment" -> NotificationType.COMMENT;
-            case "recomment" -> NotificationType.RECOMMENT;
+            case "feed_comment", "shorts_comment" -> NotificationType.COMMENT;
+            case "feed_recomment", "shorts_recomment" -> NotificationType.RECOMMENT;
             default -> null;
         };
         return NotificationHistoryRequestDto.builder()

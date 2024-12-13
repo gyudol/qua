@@ -212,20 +212,10 @@ public class EventProcessServiceImpl implements EventProcessService {
         return switch (message.getKind()) {
             case "feed" -> feignService.getSingleFeed(message.getKindUuid()).getMemberUuid();
             case "shorts" -> feignService.getSingleShorts(message.getKindUuid()).getMemberUuid();
-            case "comment" -> {
-                if (feignService.checkExistFeedComment(message.getKindUuid())) {
-                    yield feignService.getFeedComment(message.getKindUuid()).getMemberUuid();
-                } else {
-                    yield feignService.getShortsComment(message.getKindUuid()).getMemberUuid();
-                }
-            }
-            case "recomment" -> {
-                if (feignService.checkExistFeedRecomment(message.getKindUuid())) {
-                    yield feignService.getFeedRecomment(message.getKindUuid()).getMemberUuid();
-                } else {
-                    yield feignService.getShortsRecomment(message.getKindUuid()).getMemberUuid();
-                }
-            }
+            case "feed_comment" -> feignService.getFeedComment(message.getKindUuid()).getMemberUuid();
+            case "feed_recomment" -> feignService.getFeedRecomment(message.getKindUuid()).getMemberUuid();
+            case "shorts_comment" -> feignService.getShortsComment(message.getKindUuid()).getMemberUuid();
+            case "shorts_recomment" -> feignService.getShortsRecomment(message.getKindUuid()).getMemberUuid();
             default -> null;
         };
     }
@@ -234,22 +224,15 @@ public class EventProcessServiceImpl implements EventProcessService {
         return switch (message.getKind()) {
             case "feed" -> feignService.getSingleFeed(message.getKindUuid()).getFeedUuid();
             case "shorts" -> feignService.getSingleShorts(message.getKindUuid()).getShortsUuid();
-            case "comment" -> {
-                if (feignService.checkExistFeedComment(message.getKindUuid())) {
-                    FeedCommentDto feedComment = feignService.getFeedComment(message.getKindUuid());
-                    yield feedComment.getFeedUuid();
-                } else {
-                    yield feignService.getShortsComment(message.getKindUuid()).getShortsUuid();
-                }
+            case "feed_comment" -> feignService.getFeedComment(message.getKindUuid()).getFeedUuid();
+            case "feed_recomment" -> {
+                FeedRecommentDto feedRecomment = feignService.getFeedRecomment(message.getKindUuid());
+                yield feignService.getFeedComment(feedRecomment.getCommentUuid()).getFeedUuid();
             }
-            case "recomment" -> {
-                if (feignService.checkExistFeedRecomment(message.getKindUuid())) {
-                    FeedRecommentDto feedRecomment = feignService.getFeedRecomment(message.getKindUuid());
-                    yield feignService.getFeedComment(feedRecomment.getCommentUuid()).getFeedUuid();
-                } else {
-                    ShortsRecommentDto shortsRecomment = feignService.getShortsRecomment(message.getKindUuid());
-                    yield feignService.getShortsComment(shortsRecomment.getCommentUuid()).getShortsUuid();
-                }
+            case "shorts_comment" -> feignService.getShortsComment(message.getKindUuid()).getShortsUuid();
+            case "shorts_recomment" -> {
+                ShortsRecommentDto shortsRecomment = feignService.getShortsRecomment(message.getKindUuid());
+                yield feignService.getShortsComment(shortsRecomment.getCommentUuid()).getShortsUuid();
             }
             default -> null;
         };

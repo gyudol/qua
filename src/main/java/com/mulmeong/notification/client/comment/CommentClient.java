@@ -11,25 +11,13 @@ public interface CommentClient {
     @GetMapping("/feeds/comments/{commentUuid}")
     BaseResponse<FeedCommentDto> getFeedComment(@PathVariable String commentUuid);
 
-    @GetMapping("/feeds/comments/exist/{commentUuid}")
-    boolean existByFeedCommentUuid(@PathVariable String commentUuid);
-
     @GetMapping("/feeds/comments/recomments/{recommentUuid}")
     BaseResponse<FeedRecommentDto> getFeedRecomment(@PathVariable String recommentUuid);
-
-    @GetMapping("/feeds/comments/recomments/exist/{recommentUuid}")
-    boolean existByFeedRecommentUuid(@PathVariable String recommentUuid);
 
     @GetMapping("/shorts/comments/{commentUuid}")
     BaseResponse<ShortsCommentDto> getShortsComment(@PathVariable String commentUuid);
 
-    @GetMapping("/shorts/comments/exist/{commentUuid}")
-    boolean existByShortsCommentUuid(@PathVariable String commentUuid);
-
     @GetMapping("/shorts/comments/recomments/{recommentUuid}")
     BaseResponse<ShortsRecommentDto> getShortsRecomment(@PathVariable String recommentUuid);
-
-    @GetMapping("/shorts/comments/recomments/exist/{recommentUuid}")
-    boolean existByShortsRecommentUuid(@PathVariable String recommentUuid);
 
 }
