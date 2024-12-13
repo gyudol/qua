@@ -65,6 +65,9 @@ public class EventProcessServiceImpl implements EventProcessService {
     public void saveFeedCommentEvent(FeedCommentCreateEvent message) {
         FeedDto feedDto = feignService.getSingleFeed(message.getFeedUuid());
         String targetUuid = feedDto.getMemberUuid();
+        if (targetUuid.equals(message.getMemberUuid())) {
+            return;
+        }
         if (checkNotificationStatus(targetUuid, NotificationType.COMMENT)) {
             NotificationHistory notificationHistory = notificationHistoryRepository.save(NotificationHistoryRequestDto
                     .feedCommentToDto(message, targetUuid, findMemberProfile(message.getMemberUuid()))
@@ -76,11 +79,15 @@ public class EventProcessServiceImpl implements EventProcessService {
     @Override
     public void saveFeedRecommentEvent(FeedRecommentCreateEvent message) {
         FeedCommentDto feedCommentDto = feignService.getFeedComment(message.getCommentUuid());
-        String targetUuid = feedCommentDto.getMemberUuid();
-        String linkToUuid = feedCommentDto.getFeedUuid();
+        String feedUuid = feedCommentDto.getFeedUuid();
+        FeedDto feedDto = feignService.getSingleFeed(feedUuid);
+        String targetUuid = feedDto.getMemberUuid();
+        if (targetUuid.equals(message.getMemberUuid())) {
+            return;
+        }
         if (checkNotificationStatus(targetUuid, NotificationType.RECOMMENT)) {
             NotificationHistory notificationHistory = notificationHistoryRepository.save(NotificationHistoryRequestDto
-                    .feedRecommentToDto(message, targetUuid, findMemberProfile(message.getMemberUuid()), linkToUuid)
+                    .feedRecommentToDto(message, targetUuid, findMemberProfile(message.getMemberUuid()), feedUuid)
                     .toDocument());
             sseService.send(notificationHistory);
         }
@@ -90,6 +97,9 @@ public class EventProcessServiceImpl implements EventProcessService {
     public void saveShortsCommentEvent(ShortsCommentCreateEvent message) {
         ShortsDto shortsDto = feignService.getSingleShorts(message.getShortsUuid());
         String targetUuid = shortsDto.getMemberUuid();
+        if (targetUuid.equals(message.getMemberUuid())) {
+            return;
+        }
         if (checkNotificationStatus(targetUuid, NotificationType.COMMENT)) {
             NotificationHistory notificationHistory = notificationHistoryRepository.save(NotificationHistoryRequestDto
                     .shortsCommentToDto(message, targetUuid, findMemberProfile(message.getMemberUuid()))
@@ -101,11 +111,15 @@ public class EventProcessServiceImpl implements EventProcessService {
     @Override
     public void saveShortsRecommentEvent(ShortsRecommentCreateEvent message) {
         ShortsCommentDto shortsCommentDto = feignService.getShortsComment(message.getCommentUuid());
-        String targetUuid = shortsCommentDto.getMemberUuid();
-        String linkToUuid = shortsCommentDto.getShortsUuid();
+        String shortsUuid = shortsCommentDto.getShortsUuid();
+        ShortsDto shortsDto = feignService.getSingleShorts(shortsUuid);
+        String targetUuid = shortsDto.getMemberUuid();
+        if (targetUuid.equals(message.getMemberUuid())) {
+            return;
+        }
         if (checkNotificationStatus(targetUuid, NotificationType.RECOMMENT)) {
             NotificationHistory notificationHistory = notificationHistoryRepository.save(NotificationHistoryRequestDto
-                    .shortsRecommentToDto(message, targetUuid, findMemberProfile(message.getMemberUuid()), linkToUuid)
+                    .shortsRecommentToDto(message, targetUuid, findMemberProfile(message.getMemberUuid()), shortsUuid)
                     .toDocument());
             sseService.send(notificationHistory);
         }
@@ -142,7 +156,6 @@ public class EventProcessServiceImpl implements EventProcessService {
                     .toDocument());
             sseService.send(notificationHistory);
         }
-
     }
 
     @Override
@@ -202,16 +215,18 @@ public class EventProcessServiceImpl implements EventProcessService {
             case "feed" -> feignService.getSingleFeed(message.getKindUuid()).getMemberUuid();
             case "shorts" -> feignService.getSingleShorts(message.getKindUuid()).getMemberUuid();
             case "comment" -> {
-                FeedCommentDto feedComment = feignService.getFeedComment(message.getKindUuid());
-                yield (feedComment != null)
-                        ? feedComment.getMemberUuid()
-                        : feignService.getShortsComment(message.getKindUuid()).getMemberUuid();
+                if (feignService.checkExistFeedComment(message.getKindUuid())) {
+                    yield feignService.getFeedComment(message.getKindUuid()).getMemberUuid();
+                } else {
+                    yield feignService.getShortsComment(message.getKindUuid()).getMemberUuid();
+                }
             }
             case "recomment" -> {
-                FeedRecommentDto feedRecomment = feignService.getFeedRecomment(message.getKindUuid());
-                yield (feedRecomment != null)
-                        ? feedRecomment.getMemberUuid()
-                        : feignService.getShortsRecomment(message.getKindUuid()).getMemberUuid();
+                if (feignService.checkExistFeedRecomment(message.getKindUuid())) {
+                    yield feignService.getFeedRecomment(message.getKindUuid()).getMemberUuid();
+                } else {
+                    yield feignService.getShortsRecomment(message.getKindUuid()).getMemberUuid();
+                }
             }
             default -> null;
         };
@@ -222,17 +237,21 @@ public class EventProcessServiceImpl implements EventProcessService {
             case "feed" -> feignService.getSingleFeed(message.getKindUuid()).getFeedUuid();
             case "shorts" -> feignService.getSingleShorts(message.getKindUuid()).getShortsUuid();
             case "comment" -> {
-                FeedCommentDto feedComment = feignService.getFeedComment(message.getKindUuid());
-                yield (feedComment != null)
-                        ? feedComment.getFeedUuid()
-                        : feignService.getShortsComment(message.getKindUuid()).getShortsUuid();
+                if (feignService.checkExistFeedComment(message.getKindUuid())) {
+                    FeedCommentDto feedComment = feignService.getFeedComment(message.getKindUuid());
+                    yield feedComment.getFeedUuid();
+                } else {
+                    yield feignService.getShortsComment(message.getKindUuid()).getShortsUuid();
+                }
             }
             case "recomment" -> {
-                FeedRecommentDto feedRecomment = feignService.getFeedRecomment(message.getKindUuid());
-                ShortsRecommentDto shortsRecomment = feignService.getShortsRecomment(message.getKindUuid());
-                yield (feedRecomment != null)
-                        ? feignService.getFeedComment(feedRecomment.getCommentUuid()).getFeedUuid()
-                        : feignService.getShortsComment(shortsRecomment.getCommentUuid()).getShortsUuid();
+                if (feignService.checkExistFeedRecomment(message.getKindUuid())) {
+                    FeedRecommentDto feedRecomment = feignService.getFeedRecomment(message.getKindUuid());
+                    yield feignService.getFeedComment(feedRecomment.getCommentUuid()).getFeedUuid();
+                } else {
+                    ShortsRecommentDto shortsRecomment = feignService.getShortsRecomment(message.getKindUuid());
+                    yield feignService.getShortsComment(shortsRecomment.getCommentUuid()).getShortsUuid();
+                }
             }
             default -> null;
         };

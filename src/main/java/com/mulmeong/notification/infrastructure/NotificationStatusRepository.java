@@ -14,4 +14,6 @@ public interface NotificationStatusRepository extends MongoRepository<Notificati
             String memberUuid, NotificationType notificationType);
 
     List<NotificationStatus> findAllByMemberUuid(String memberUuid);
+
+    boolean existsByMemberUuid(String memberUuid);
 }
