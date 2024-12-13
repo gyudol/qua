@@ -80,8 +80,7 @@ public class EventProcessServiceImpl implements EventProcessService {
     public void saveFeedRecommentEvent(FeedRecommentCreateEvent message) {
         FeedCommentDto feedCommentDto = feignService.getFeedComment(message.getCommentUuid());
         String feedUuid = feedCommentDto.getFeedUuid();
-        FeedDto feedDto = feignService.getSingleFeed(feedUuid);
-        String targetUuid = feedDto.getMemberUuid();
+        String targetUuid = feedCommentDto.getMemberUuid();
         if (targetUuid.equals(message.getMemberUuid())) {
             return;
         }
@@ -112,8 +111,7 @@ public class EventProcessServiceImpl implements EventProcessService {
     public void saveShortsRecommentEvent(ShortsRecommentCreateEvent message) {
         ShortsCommentDto shortsCommentDto = feignService.getShortsComment(message.getCommentUuid());
         String shortsUuid = shortsCommentDto.getShortsUuid();
-        ShortsDto shortsDto = feignService.getSingleShorts(shortsUuid);
-        String targetUuid = shortsDto.getMemberUuid();
+        String targetUuid = shortsCommentDto.getMemberUuid(); //댓글 작성자
         if (targetUuid.equals(message.getMemberUuid())) {
             return;
         }
