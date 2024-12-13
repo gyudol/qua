@@ -1,18 +1,6 @@
-"use client";
-
 import { ChevronLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
 import Bubbles from "../../features/Bubbles";
-
-function BackButton({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
-  const onClick = () => router.back();
-  return (
-    <button type="button" {...{ onClick }}>
-      {children}
-    </button>
-  );
-}
+import BackButton from "../../common/BackButton";
 
 export default function TitleHeader({
   title,

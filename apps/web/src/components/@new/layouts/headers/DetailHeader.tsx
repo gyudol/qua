@@ -1,17 +1,5 @@
-"use client";
-
 import { Pencil, XIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
-
-function BackButton({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
-  const onClick = () => router.back();
-  return (
-    <button type="button" {...{ onClick }}>
-      {children}
-    </button>
-  );
-}
+import BackButton from "../../common/BackButton";
 
 export default function DetailHeader({ title }: { title?: string }) {
   return (
