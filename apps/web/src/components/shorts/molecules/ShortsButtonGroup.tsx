@@ -32,7 +32,7 @@ export function ShortsButtonGroup({
   const { memberUuid } = useSessionContext();
 
   return (
-    <div className="absolute bottom-12 right-3 flex flex-col gap-y-4 text-white">
+    <div className="absolute bottom-12 right-3 z-10 flex flex-col gap-y-4 text-white">
       <ShortsLikeButton {...{ likeStatus, likeCount }} />
       <ShortsDislikeButton {...{ dislikeStatus, dislikeCount }} />
       <ShortsCommentButton {...{ commentCount }} />

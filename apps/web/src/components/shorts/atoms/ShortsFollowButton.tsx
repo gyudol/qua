@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@repo/ui/lib/utils";
 import { useSessionContext } from "@/context/SessionContext";
 import {
   useFollowMutation,
@@ -28,10 +29,15 @@ export function ShortsFollowButton({ memberUuid }: ShortsFollowButtonProp) {
   return (
     <button
       type="button"
-      className={`px-[1rem] py-[0.25rem] rounded-xl text-white ${followStatus ? "bg-slate-400" : "bg-teal-400"}`}
+      className={cn(
+        "w-[5rem] py-[0.25rem] rounded-xl",
+        followStatus
+          ? "bg-[rgba(255,255,255,0.20)] text-white"
+          : "bg-white text-black",
+      )}
       onClick={handleClick}
     >
-      {followStatus ? "언팔로우" : "팔로우"}
+      {followStatus ? "구독중" : "구독"}
     </button>
   );
 }

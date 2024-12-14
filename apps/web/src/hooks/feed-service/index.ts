@@ -6,10 +6,16 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { getFeed, getFeeds, getMemberFeeds } from "@/actions/feed-read-service";
+import {
+  getFeed,
+  getFeeds,
+  getMemberFeeds,
+  getRandomHashtags,
+} from "@/actions/feed-read-service";
 import type {
   GetFeedsReq,
   GetMemberFeeds,
+  GetRandomHashtags,
 } from "@/types/feed/feed-read-service";
 import type { FeedReq } from "@/types/feed/common";
 import { deleteFeed } from "@/actions/feed-service";
@@ -96,5 +102,12 @@ export function useDeleteFeed({ feedUuid }: FeedReq) {
     onSettled: async () => {
       await QC.invalidateQueries({ queryKey });
     },
+  });
+}
+
+export function useGetRamdomHashtags({ size }: GetRandomHashtags) {
+  return useQuery({
+    queryKey: [],
+    queryFn: () => getRandomHashtags({ size }),
   });
 }

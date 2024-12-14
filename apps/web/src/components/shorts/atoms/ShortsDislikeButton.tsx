@@ -1,6 +1,8 @@
 import type { UseMutationResult } from "@tanstack/react-query";
 import { ThumbsDown } from "lucide-react";
+import { cn } from "@repo/ui/lib/utils";
 import { ButtonWithAuth } from "@/components/common/atoms";
+import { formatToNumAbbrs } from "@/functions/utils";
 
 interface ShortsDislikeButtonProps {
   dislikeCount: number;
@@ -23,19 +25,27 @@ export function ShortsDislikeButton({
   dislikeStatus,
 }: ShortsDislikeButtonProps) {
   return (
-    <ButtonWithAuth
-      className="flex gap-[0.5rem] items-center"
-      onClick={() => dislikeStatus.mutation.mutate()}
-    >
-      <span>
+    <div className="flex flex-col items-center">
+      <ButtonWithAuth
+        className={cn(
+          "flex justify-center items-center",
+          "size-[3rem] rounded-full",
+          "bg-[rgba(0,0,0,0.20)]",
+        )}
+        onClick={() => dislikeStatus.mutation.mutate()}
+      >
         <ThumbsDown
-          size="1.25rem"
-          className={dislikeStatus.data ? "text-pink-300" : "text-slate-400"}
+          size="1.5rem"
+          stroke="none"
+          className={dislikeStatus.data ? "fill-white" : "stroke-white"}
         />
+      </ButtonWithAuth>
+
+      <span className="text-sm text-white">
+        {formatToNumAbbrs(
+          Number(dislikeCount) + Number(dislikeStatus.data || 0),
+        )}
       </span>
-      <span className="text-sm text-slate-400">
-        {Number(dislikeCount) + Number(dislikeStatus.data || 0)}
-      </span>
-    </ButtonWithAuth>
+    </div>
   );
 }

@@ -36,21 +36,26 @@ function ShortsWriteForm() {
   };
 
   return (
-    <form
-      ref={formRef}
-      className="w-full h-[90%] flex flex-col gap-2 relative"
-      onSubmit={(event) => {
-        void onSubmit(event);
-      }}
-    >
-      <ShortsCreateFormFields payload={payload} setPayload={setPayload} />
-      <Button
-        type="submit"
-        className="w-[90%] md:w-2/5 text-[1rem] bg-[#47D0BF] py-[25px] rounded-lg text-white text-center mb-20 fixed bottom-10 left-1/2 translate-x-[-50%]"
+    <section className="size-full flex justify-center items-center">
+      <form
+        ref={formRef}
+        className="px-[1rem] py-[2rem] size-full flex flex-col gap-2"
+        onSubmit={(event) => {
+          void onSubmit(event);
+        }}
       >
-        Upload now
-      </Button>
-    </form>
+        <ShortsCreateFormFields payload={payload} setPayload={setPayload} />
+        <Button
+          type="submit"
+          className="
+        w-full text-[1rem] 
+        bg-teal-400 py-[25px] 
+        rounded-lg text-white"
+        >
+          Upload now
+        </Button>
+      </form>
+    </section>
   );
 }
 

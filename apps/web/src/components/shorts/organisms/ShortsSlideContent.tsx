@@ -14,7 +14,7 @@ export function ShortsSlideContent({
 
   return (
     <>
-      <div className="w-full flex items-center">
+      <div className="w-full h-full flex items-center">
         <ShortsVideo {...{ src, isActive }} />
       </div>
       <ShortsButtonGroup {...shorts} />

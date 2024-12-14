@@ -1,7 +1,7 @@
 "use client";
 
 import Hls from "hls.js";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 interface ShortsVideoProp {
   src: string;
@@ -10,7 +10,6 @@ interface ShortsVideoProp {
 
 export default function ShortsVideo({ src, isActive }: ShortsVideoProp) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [aspectRatio, setAspectRatio] = useState(16 / 9); // 기본 비율
 
   const togglePlayPause = () => {
     const video = videoRef.current;
@@ -51,21 +50,12 @@ export default function ShortsVideo({ src, isActive }: ShortsVideoProp) {
     }
   }, [isActive]);
 
-  const handleMetadataLoaded = () => {
-    if (videoRef.current) {
-      const videoWidth = videoRef.current.videoWidth;
-      const videoHeight = videoRef.current.videoHeight;
-      setAspectRatio(videoWidth / videoHeight); // 비율 계산
-    }
-  };
-
   return (
-    <figure className={`w-full aspect-[${aspectRatio}]`}>
+    <figure className="size-full">
       <video
         ref={videoRef}
         className="w-full h-full object-cover"
         preload="metadata"
-        onLoadedMetadata={handleMetadataLoaded}
         onClick={() => togglePlayPause()}
         autoPlay
         muted

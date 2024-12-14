@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
 :root {
   --theme-color: #47d0bf
     /* --foreground-rgb: 0, 0, 0;
@@ -34,6 +42,14 @@ body {
 }
 ::-webkit-scrollbar {
   display: none;
+}
+
+@layer components {
+  .animate-deepblue {
+    animation: gradient-bg 3s infinite;
+    background: linear-gradient(35deg, #a3e1ef, #7bd3e5, #0a99b7);
+    background-size: 200% 100%;
+  }
 }
 
 @keyframes gradient-bg {
@@ -95,16 +111,16 @@ body {
 
 @keyframes back-and-forth-2 {
   0% {
-    transform: translateX(-10%); /* 화면 왼쪽 밖 시작, 정방향 */
+    transform: translateX(-100%); /* 화면 왼쪽 밖 시작, 정방향 */
   }
   50% {
-    transform: translateX(210%); /* 화면 오른쪽 밖, 정방향 */
+    transform: translateX(100%); /* 화면 오른쪽 밖, 정방향 */
   }
   51% {
-    transform: translateX(210%); /* 뒤집기 시작 */
+    transform: translateX(100%); /* 뒤집기 시작 */
   }
   100% {
-    transform: translateX(-10%); /* 다시 화면 왼쪽 밖으로, 뒤집힌 방향 */
+    transform: translateX(-100%); /* 다시 화면 왼쪽 밖으로, 뒤집힌 방향 */
   }
 }
 
