@@ -38,9 +38,9 @@ export function RecommentEditInput({
 
   return (
     <div
-      className={`w-full p-[0.25rem] bg-white ring-2 ${isFocused ? " ring-teal-400" : "ring-teal-100"}`}
+      className={`w-full p-2 bg-white border-[1px] rounded-lg overflow-hidden ${isFocused ? " border-teal-400" : "border-teal-100"}`}
     >
-      <div className="h-[3rem]">
+      <div className="h-[3rem] ">
         <textarea
           className="w-full h-full resize-none focus:outline-none"
           placeholder="답글 수정..."

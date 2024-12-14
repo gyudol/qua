@@ -2,7 +2,7 @@ import { cn } from "@repo/ui/lib/utils";
 import { Jua } from "next/font/google";
 import { MoreHorizontal } from "lucide-react";
 import { CommonLayout, GoBackButton } from "@/components/common/atoms";
-import { Profile } from "@/components/@legacy/profile/molecules";
+import { MemberProfileImage } from "@/components/profile/atoms/MemberProfileImage";
 
 const jua = Jua({ weight: "400", subsets: ["latin"] });
 
@@ -28,7 +28,10 @@ export function ChatroomHeader({ chatroomUuid }: ChatroomHeaderProp) {
         <GoBackButton fill="var(--theme-color)" />
         <div className="flex flex-1 gap-[20px]">
           <div className="flex">
-            <Profile.Picture src={profileImageUrl} alt={nickname} />
+            <MemberProfileImage
+              {...{ profileImageUrl, nickname, size: "3rem" }}
+              link
+            />
           </div>
           <div className="flex-1 flex flex-col">
             <div className={cn("h-auto font-bold", jua.className)}>

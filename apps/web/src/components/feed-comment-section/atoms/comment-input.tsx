@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import type { ChangeEvent } from "react";
-import { useState } from "react";
-import { usePostFeedCommentMutation } from "@/hooks/comment-service";
-import { useSessionContext } from "@/context/SessionContext";
-import { ButtonWithAuth } from "@/components/common/atoms";
+import type { ChangeEvent } from 'react';
+import { useState } from 'react';
+import { usePostFeedCommentMutation } from '@/hooks/comment-service';
+import { useSessionContext } from '@/context/SessionContext';
+import { ButtonWithAuth } from '@/components/common/atoms';
 
 interface CommentInputProps {
   feedUuid: string;
@@ -15,7 +15,7 @@ export function CommentInput({ feedUuid }: CommentInputProps) {
   const mutation = usePostFeedCommentMutation({ feedUuid });
 
   const lengthLimit = 1000;
-  const [content, setContent] = useState<string>("");
+  const [content, setContent] = useState<string>('');
   const [isFocused, setIsFocused] = useState<boolean>(false);
 
   function handleChange(e: ChangeEvent<HTMLTextAreaElement>) {
@@ -25,24 +25,24 @@ export function CommentInput({ feedUuid }: CommentInputProps) {
   function handlePost() {
     if (!memberUuid) return;
     mutation.mutate({ content, memberUuid });
-    setContent("");
+    setContent('');
     setIsFocused(false);
   }
 
   function handleCancle() {
-    setContent("");
+    setContent('');
     setIsFocused(false);
   }
 
   return (
     <div
-      className={`w-full p-[0.25rem] bg-white ring-2 ${isFocused ? " ring-teal-400" : "ring-teal-100"}`}
+      className={`w-full p-[0.25rem] !rounded-lg border-[1px] ${isFocused ? ' border-teal-400' : 'border-teal-100'}`}
     >
       <div
-        className={`transition-all duration-200 ${isFocused ? "h-[8rem]" : "h-[3rem]"}`}
+        className={`transition-all duration-200 ${isFocused ? 'h-[8rem]' : 'h-[2rem]'}`}
       >
         <textarea
-          className="w-full h-full resize-none focus:outline-none"
+          className="w-full h-full resize-none focus:outline-none placeholder:text-sm text-sm p-2"
           placeholder="댓글 추가..."
           value={content}
           onChange={handleChange}
@@ -51,22 +51,20 @@ export function CommentInput({ feedUuid }: CommentInputProps) {
         />
       </div>
       {isFocused ? (
-        <div className="flex justify-between items-center h-[2rem] ">
-          <div>
-            <span className="text-sm text-slate-400">
-              {content.length}/{lengthLimit}
-            </span>
-          </div>
-          <div className="flex gap-[0.25rem]">
+        <div className="flex justify-between items-center">
+          <p className="p-2 text-xs text-slate-400">
+            {content.length} / {lengthLimit}
+          </p>
+          <div className="flex gap-[0.25rem] p-2">
             <button
-              className="px-4 py-1 text-sm text-slate-400 bg-slate-200 rounded-full"
+              className="px-4 py-1 text-sm text-slate-400 bg-slate-200 !rounded-md"
               type="button"
               onClick={() => handleCancle()}
             >
               취소
             </button>
             <ButtonWithAuth
-              className="px-4 py-1 text-sm text-white bg-teal-400 rounded-full"
+              className="px-4 py-1 text-sm text-white bg-teal-400 !rounded-md"
               type="button"
               onClick={() => handlePost()}
             >

@@ -1,25 +1,37 @@
-import { cn } from "@repo/ui/lib/utils";
 import { Bookmark } from "lucide-react";
-import { useState } from "react";
+import { cn } from "@repo/ui/lib/utils";
+import { ButtonWithAuth } from "@/components/common/atoms";
+import {
+  useShortsBookmarkMutation,
+  useShortsBookmarkStatusQuery,
+} from "@/hooks/utility-service/bookmark-service";
+import type { Shorts } from "@/types/shorts/shorts-read-service";
 
-export function ShortsBookmarkButton() {
-  const [isBookmarked, setIsBookmarked] = useState(false);
+type ShortsBookmarkButtonProps = Pick<Shorts, "shortsUuid">;
 
-  const handleClick = () => {
-    setIsBookmarked((wasBookmarked) => !wasBookmarked);
-  };
+export function ShortsBookmarkButton({
+  shortsUuid,
+}: ShortsBookmarkButtonProps) {
+  const { data } = useShortsBookmarkStatusQuery({ shortsUuid });
+  const { mutate } = useShortsBookmarkMutation({ shortsUuid });
 
   return (
-    <button
-      type="button"
-      className={cn("p-2 rounded-full bg-gray-800 bg-opacity-50")}
-      onClick={() => handleClick()}
-    >
-      <Bookmark
-        stroke={isBookmarked ? "white" : "white"}
-        fill={isBookmarked ? "white" : "none"}
-        className="w-6 h-6"
-      />
-    </button>
+    <div className="flex flex-col items-center">
+      <ButtonWithAuth
+        className={cn(
+          "flex justify-center items-center",
+          "size-[3rem] rounded-full",
+          "bg-[rgba(0,0,0,0.20)]",
+        )}
+        onClick={() => mutate(!data)}
+      >
+        <Bookmark
+          size="1.5rem"
+          stroke="none"
+          className={data ? "fill-white" : "stroke-white"}
+        />
+      </ButtonWithAuth>
+      <span className="text-sm text-white">저장</span>
+    </div>
   );
 }

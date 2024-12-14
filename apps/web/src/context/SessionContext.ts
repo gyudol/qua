@@ -5,6 +5,7 @@ import { createContext, useContext } from "react";
 export interface SessionContextType {
   isAuthenticated: boolean;
   memberUuid?: string;
+  nickname?: string;
 }
 
 export const SessionContext = createContext<SessionContextType>({

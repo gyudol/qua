@@ -51,17 +51,19 @@ export default function ShortsVideo({ src, isActive }: ShortsVideoProp) {
   }, [isActive]);
 
   return (
-    <video
-      width="100%"
-      ref={videoRef}
-      preload="metadata"
-      onClick={() => togglePlayPause()}
-      autoPlay
-      muted
-      loop
-    >
-      <source src={src} />
-      <track kind="captions" default />
-    </video>
+    <figure className="size-full">
+      <video
+        ref={videoRef}
+        className="w-full h-full object-cover"
+        preload="metadata"
+        onClick={() => togglePlayPause()}
+        autoPlay
+        muted
+        loop
+      >
+        <source src={src} />
+        <track kind="captions" default />
+      </video>
+    </figure>
   );
 }

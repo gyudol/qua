@@ -14,16 +14,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@repo/ui/shadcn/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useCommentDrawerContext } from "@/context/DrawerContext";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { CommentSection } from "@/components/shorts-comment-section/templates";
-import type { ShortsComment } from "@/types/comment/comment-read-service";
 
-type ShortsCommentDrawerProps = Pick<ShortsComment, "shortsUuid">;
-
-export default function ShortsCommentDrawer({
-  shortsUuid,
-}: ShortsCommentDrawerProps) {
+export default function ShortsCommentDrawer() {
   const { open, commentTarget, setOpen } = useCommentDrawerContext();
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -35,12 +31,17 @@ export default function ShortsCommentDrawer({
           if (setOpen) setOpen((prev) => !prev);
         }}
       >
-        <DialogContent className="w-full max-w-[600px] h-[50%] mx-auto p-20">
-          <DialogHeader>
-            <DialogTitle>댓글창</DialogTitle>
-            <DialogDescription>{commentTarget?.targetUuid}</DialogDescription>
-          </DialogHeader>
-          <CommentSection {...{ shortsUuid }} />
+        <DialogContent className="min-h-[30rem]">
+          <VisuallyHidden>
+            <DialogHeader>
+              <DialogTitle>댓글창</DialogTitle>
+              <DialogDescription>{commentTarget?.targetUuid}</DialogDescription>
+            </DialogHeader>
+          </VisuallyHidden>
+
+          <CommentSection
+            {...{ shortsUuid: commentTarget?.targetUuid || "" }}
+          />
         </DialogContent>
       </Dialog>
     );
@@ -53,11 +54,13 @@ export default function ShortsCommentDrawer({
       }}
     >
       <DrawerContent className="w-full max-w-[600px] h-[50%] mx-auto">
-        <DrawerHeader>
-          <DrawerTitle>댓글창</DrawerTitle>
-          <DrawerDescription>{commentTarget?.targetUuid}</DrawerDescription>
-        </DrawerHeader>
-        <CommentSection {...{ shortsUuid }} />
+        <VisuallyHidden>
+          <DrawerHeader>
+            <DrawerTitle>댓글창</DrawerTitle>
+            <DrawerDescription>{commentTarget?.targetUuid}</DrawerDescription>
+          </DrawerHeader>
+        </VisuallyHidden>
+        <CommentSection {...{ shortsUuid: commentTarget?.targetUuid || "" }} />
       </DrawerContent>
     </Drawer>
   );

@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
 :root {
   --theme-color: #47d0bf
     /* --foreground-rgb: 0, 0, 0;
@@ -27,13 +35,21 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb)); */
-  background-image: url('/background.png');
+  background-image: url("/background.png");
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
 }
 ::-webkit-scrollbar {
   display: none;
+}
+
+@layer components {
+  .animate-deepblue {
+    animation: gradient-bg 3s infinite;
+    background: linear-gradient(35deg, #a3e1ef, #7bd3e5, #0a99b7);
+    background-size: 200% 100%;
+  }
 }
 
 @keyframes gradient-bg {
@@ -78,6 +94,66 @@ body {
   }
 }
 
+@keyframes back-and-forth {
+  0% {
+    transform: translateX(-60%); /* 화면 왼쪽 밖 시작, 정방향 */
+  }
+  50% {
+    transform: translateX(180%); /* 화면 오른쪽 밖, 정방향 */
+  }
+  51% {
+    transform: translateX(180%); /* 뒤집기 시작 */
+  }
+  100% {
+    transform: translateX(-60%); /* 다시 화면 왼쪽 밖으로, 뒤집힌 방향 */
+  }
+}
+
+@keyframes back-and-forth-2 {
+  0% {
+    transform: translateX(-100%); /* 화면 왼쪽 밖 시작, 정방향 */
+  }
+  50% {
+    transform: translateX(100%); /* 화면 오른쪽 밖, 정방향 */
+  }
+  51% {
+    transform: translateX(100%); /* 뒤집기 시작 */
+  }
+  100% {
+    transform: translateX(-100%); /* 다시 화면 왼쪽 밖으로, 뒤집힌 방향 */
+  }
+}
+
+@keyframes flipping {
+  0% {
+    transform: scaleX(1); /* 화면 왼쪽 밖 시작, 정방향 */
+  }
+  50% {
+    transform: scaleX(1); /* 화면 오른쪽 밖, 정방향 */
+  }
+  51% {
+    transform: scaleX(-1); /* 뒤집기 시작 */
+  }
+  100% {
+    transform: scaleX(-1); /* 다시 화면 왼쪽 밖으로, 뒤집힌 방향 */
+  }
+}
+
+@keyframes flipping-2 {
+  0% {
+    transform: scaleX(1); /* 화면 왼쪽 밖 시작, 정방향 */
+  }
+  50% {
+    transform: scaleX(1); /* 화면 오른쪽 밖, 정방향 */
+  }
+  51% {
+    transform: scaleX(-1); /* 뒤집기 시작 */
+  }
+  100% {
+    transform: scaleX(-1); /* 다시 화면 왼쪽 밖으로, 뒤집힌 방향 */
+  }
+}
+
 @keyframes up-down {
   0% {
     transform: translateY(-3px); /* 시작 위치 */
@@ -119,16 +195,32 @@ body {
   animation: swim-2 30s linear infinite; /* 15초 동안 양방향 이동 반복 */
 }
 
+.animate-back-and-forth {
+  animation: back-and-forth linear infinite; /* 15초 동안 양방향 이동 반복 */
+}
+
+.animate-back-and-forth-2 {
+  animation: back-and-forth-2 30s linear infinite; /* 15초 동안 양방향 이동 반복 */
+}
+
+.animate-flipping {
+  animation: flipping linear infinite; /* 15초 동안 양방향 이동 반복 */
+}
+
+.animate-flipping-2 {
+  animation: flipping-2 30s linear infinite; /* 15초 동안 양방향 이동 반복 */
+}
+
 @keyframes bubble {
   0% {
-    transform: translateY(0) scale(0.2); /* 물고기 근처에서 시작 */
+    transform: translateY(0) scale(0.1); /* 물고기 근처에서 시작 */
     opacity: 0; /* 시작 시 반투명 */
   }
   50% {
     opacity: 1; /* 중간에서 선명해짐 */
   }
   100% {
-    transform: translateY(-100px) scale(0.7); /* 위로 떠오르며 커짐 */
+    transform: translateY(-100px) scale(0.3); /* 위로 떠오르며 커짐 */
     opacity: 0; /* 사라짐 */
   }
 }

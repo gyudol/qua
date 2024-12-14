@@ -16,7 +16,7 @@ import {
 import type { CommentReq } from "@/types/comment/common";
 import type { ShortsComment as RShortsComment } from "@/types/comment/comment-read-service";
 import type { ShortsComment } from "@/types/comment/comment-service";
-import type { ShortsReq } from "@/types/shorts-service";
+import type { ShortsReq } from "@/types/shorts/common";
 
 export function useGetShortsCommentsInfiniteQuery({ shortsUuid }: ShortsReq) {
   return useInfiniteQuery({

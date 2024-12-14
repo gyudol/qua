@@ -30,11 +30,11 @@ export function DislikeButton({
     >
       <span>
         <ThumbsDown
-          size="1.25rem"
+          size="1rem"
           className={dislikeStatus.data ? "text-pink-300" : "text-slate-400"}
         />
       </span>
-      <span className="text-sm text-slate-400">
+      <span className="text-xs text-slate-400">
         {formatToNumAbbrs(
           Number(dislikeCount) + Number(dislikeStatus.data || 0),
         )}

@@ -1,29 +1,31 @@
 "use client";
 
-import { useGetFeedsInfiniteQuery, useInfiniteScroll } from "@/hooks";
-import { FeedCardArticle } from "@/components/feed/organisms/FeedCardArticle";
-import type { GetFeedsReq } from "@/types/feed/feed-read-service";
+import React from "react";
+import type {
+  InfiniteData,
+  UseInfiniteQueryResult,
+} from "@tanstack/react-query";
+import { useInfiniteScroll } from "@/hooks";
+import type { Feed } from "@/types/feed/feed-read-service";
 import type { FeedViewType } from "@/types/feed/common";
+import type { Pagination } from "@/types/common";
+import { Kitty } from "@/components/common/icons";
 import { FeedListOptionGroup } from "../organisms/FeedListOptionGroup";
-import { FeedCompactArticle } from "../organisms/FeedCompactArticle";
+import { FeedArticle } from "../organisms/FeedArticle";
 
-interface FeedListSectionProps
-  extends Pick<GetFeedsReq, "categoryName" | "hashtagName" | "sortBy"> {
+interface FeedListSectionProps {
   view?: FeedViewType;
+  useInfiniteQueryResult: UseInfiniteQueryResult<
+    InfiniteData<Pagination<Feed>>
+  >;
 }
 
 export default function FeedListSection({
-  categoryName,
-  hashtagName,
-  sortBy,
   view,
+  useInfiniteQueryResult,
 }: FeedListSectionProps) {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useGetFeedsInfiniteQuery({
-      categoryName,
-      sortBy,
-      hashtagName,
-    });
+    useInfiniteQueryResult;
   const observerRef = useInfiniteScroll({
     hasNextPage,
     fetchNextPage,
@@ -34,16 +36,23 @@ export default function FeedListSection({
     <div className="relative">
       <FeedListOptionGroup />
 
-      <section className="flex flex-col pb-16 md:pb-16 md:pt-0">
-        {data?.pages.map((page) =>
-          page.content.map((feed) => {
-            if (view === "compact")
-              return <FeedCompactArticle key={feed.feedUuid} {...feed} link />;
-            return <FeedCardArticle key={feed.feedUuid} {...feed} link />;
-          }),
-        )}
-        <div ref={observerRef} className="">
-          {isFetchingNextPage ? "로딩중" : null}
+      <section className="flex flex-col pb-1">
+        {data
+          ? data.pages.map((page) =>
+              page.content.map(({ feedUuid }) => (
+                <FeedArticle key={feedUuid} {...{ feedUuid, view }} />
+              )),
+            )
+          : null}
+        <div
+          ref={observerRef}
+          className="flex gap-4 justify-center items-center text-teal-400"
+        >
+          {isFetchingNextPage ? (
+            <>
+              로딩중 <Kitty />
+            </>
+          ) : null}
         </div>
       </section>
     </div>

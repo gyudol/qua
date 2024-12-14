@@ -16,7 +16,7 @@ import {
   postFeedBookmark,
   postShortsBookmark,
 } from "@/actions/utility-service";
-import type { ShortsReq } from "@/types/shorts-service";
+import type { ShortsReq } from "@/types/shorts/common";
 import type {
   GetFeedBookmarksReq,
   GetShortsBookmarksReq,
@@ -49,7 +49,7 @@ export function useShortsBookmarksInfiniteQuery({
     initialPageParam: {
       pageNo: pageNo || 1,
       pageSize: pageSize || 10,
-      nextCursor: nextCursor || "",
+      nextCursor: nextCursor || undefined,
     },
   });
 }
@@ -121,7 +121,7 @@ export function useFeedBookmarksInfiniteQuery({
     initialPageParam: {
       pageNo: pageNo || 1,
       pageSize: pageSize || 10,
-      nextCursor: nextCursor || "",
+      nextCursor: nextCursor || undefined,
     },
   });
 }

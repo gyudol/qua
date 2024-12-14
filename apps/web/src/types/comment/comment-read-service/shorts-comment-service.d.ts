@@ -1,4 +1,4 @@
-import type { ShortsReq, ShortsUuid } from "@/types/shorts-service";
+import type { ShortsReq, ShortsUuid } from "@/types/shorts/common";
 import type { BaseComment, GetCommentsReq } from "../common";
 
 export interface GetShortsCommentsReq extends GetCommentsReq, ShortsReq {}

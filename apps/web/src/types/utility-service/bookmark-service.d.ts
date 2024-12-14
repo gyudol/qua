@@ -1,6 +1,6 @@
 import type { CommonPaginationReq } from "../common";
 import type { FeedReq } from "../feed/common";
-import type { ShortsReq } from "../shorts-service";
+import type { ShortsReq } from "../shorts/common";
 
 export type GetShortsBookmarksReq = CommonPaginationReq;
 export type GetFeedBookmarksReq = CommonPaginationReq;

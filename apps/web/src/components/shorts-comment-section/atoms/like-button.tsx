@@ -27,11 +27,11 @@ export function LikeButton({ likeCount, likeStatus }: ShortsLikeButtonProps) {
     >
       <span>
         <ThumbsUp
-          size="1.25rem"
+          size="1rem"
           className={likeStatus.data ? "text-sky-300" : "text-slate-400"}
         />
       </span>
-      <span className="text-sm text-slate-400">
+      <span className="text-xs text-slate-400">
         {formatToNumAbbrs(Number(likeCount) + Number(likeStatus.data || 0))}
       </span>
     </ButtonWithAuth>

@@ -23,9 +23,8 @@ export interface MemberCompactProfile {
   memberUuid: string;
   nickname: string;
   profileImageUrl: string;
-  point: number;
-  grade: string;
-  equippedBadge: Badge;
+  gradeId: number;
+  equippedBadgeId: number;
 }
 
 export interface MemberProfileStat {

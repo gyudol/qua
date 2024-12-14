@@ -1,4 +1,3 @@
-import { Separator } from "@repo/ui/shadcn/separator";
 import type { Feed } from "@/types/feed/feed-read-service";
 import { FeedHeader } from "../molecules/FeedHeader";
 import { FeedBody } from "../molecules/FeedBody";
@@ -26,27 +25,22 @@ export function FeedCardArticle({
   link,
 }: FeedCardArticleProps) {
   return (
-    <>
-      <article className="p-[1rem]">
-        <FeedHeader
-          {...{
-            feedUuid,
-            memberUuid,
-            createdAt,
-            updatedAt,
-            title,
-            categoryName,
-            link,
-          }}
-        />
-        <FeedBody {...{ feedUuid, content, link }} />
-        <FeedGallery {...{ feedUuid, mediaList, link }} />
-        <FeedButtonGroup
-          {...{ feedUuid, likeCount, dislikeCount, commentCount }}
-        />
-        <FeedFooter {...{ categoryName, hashtags }} />
-      </article>
-      <Separator className="bg-[#EEE] h-[0.5rem]" />
-    </>
+    <article className="px-[1rem] py-[1.5rem] flex flex-col space-y-3">
+      <FeedHeader
+        {...{
+          feedUuid,
+          memberUuid,
+          createdAt,
+          updatedAt,
+          link,
+        }}
+      />
+      <FeedGallery {...{ feedUuid, mediaList, link }} />
+      <FeedBody {...{ feedUuid, content, link, title, categoryName }} />
+      <FeedButtonGroup
+        {...{ feedUuid, likeCount, dislikeCount, commentCount }}
+      />
+      <FeedFooter {...{ categoryName, hashtags }} />
+    </article>
   );
 }

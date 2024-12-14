@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Select,
   SelectContent,
@@ -6,9 +6,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@repo/ui/shadcn/select';
-import type { CategoryListType } from '@/types/admin/admin-service';
-import { getCategoryData } from '@/actions/admin-service/initalData';
+} from "@repo/ui/shadcn/select";
+import type { Category } from "@/types/admin";
+import { getAllCategories } from "@/actions/admin-service";
 
 export default function CategorySelector({
   changeHandler,
@@ -21,12 +21,12 @@ export default function CategorySelector({
   name?: string;
   value?: string;
 }) {
-  const [category, setCategory] = useState<CategoryListType[]>([]);
-  const [selectedValue, setSelectedValue] = useState<string>(value || '');
+  const [category, setCategory] = useState<Category[]>([]);
+  const [selectedValue, setSelectedValue] = useState<string>(value || "");
 
   useEffect(() => {
     const fetchCategory = async () => {
-      const categoryData = await getCategoryData();
+      const categoryData = await getAllCategories();
       setCategory(categoryData);
     };
     void fetchCategory();
@@ -50,7 +50,7 @@ export default function CategorySelector({
         text-primary text-xs font-medium
         focus:border-2 focus:ring-opacity-1 focus:ring-primary focus:shadow-none
         "
-        style={{ borderRadius: '0.3rem', fontSize: '0.875rem' }}
+        style={{ borderRadius: "0.3rem", fontSize: "0.875rem" }}
         id={id}
         name={name}
       >
@@ -58,12 +58,12 @@ export default function CategorySelector({
       </SelectTrigger>
       <SelectContent className="border-[1px] border-primary outline-none rounded-lg p-0 m-0">
         <SelectGroup className="border-none outline-none p-0 ring-0">
-          {category.map((item: CategoryListType) => (
+          {category.map((item: Category) => (
             <SelectItem
               key={item.categoryId}
               value={item.categoryName}
               className="text-xs bg-white text-primary hover:!bg-primary/60 hover:rounded-lg transition-all"
-              style={{ borderRadius: '0.3rem' }}
+              style={{ borderRadius: "0.3rem" }}
             >
               {item.categoryName}
             </SelectItem>

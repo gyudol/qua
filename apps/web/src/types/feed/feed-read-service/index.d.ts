@@ -1,6 +1,7 @@
 import type { CommonPaginationReq, Datetime } from "@/types/common";
 import type { Hashtag } from "@/types/contents";
-import type { FeedReq, ImageMedia, VideoMedia } from "../common";
+import type { ImageMedia, VideoMedia } from "@/types/media";
+import type { FeedReq } from "../common";
 
 export interface GetFeedsReq extends CommonPaginationReq {
   categoryName?: string;
@@ -13,6 +14,15 @@ export type GetFeedReq = FeedReq;
 export interface GetMemberFeeds extends CommonPaginationReq {
   memberUuid: string;
   sortBy?: "latest" | "likes";
+}
+
+export interface SearchFeedsReq
+  extends Omit<CommonPaginationReq, "nextCursor"> {
+  keyword: string;
+}
+
+export interface GetRandomHashtags {
+  size: number;
 }
 
 export interface Feed {

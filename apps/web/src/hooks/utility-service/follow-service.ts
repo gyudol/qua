@@ -83,7 +83,7 @@ export function useFollowingsInfiniteQuery({
     initialPageParam: {
       pageNo: pageNo || 1,
       pageSize: pageSize || 10,
-      nextCursor: nextCursor || "",
+      nextCursor: nextCursor || undefined,
     },
   });
 }
@@ -115,7 +115,7 @@ export function useFollowersInfiniteQuery({
     initialPageParam: {
       pageNo: pageNo || 1,
       pageSize: pageSize || 10,
-      nextCursor: nextCursor || "",
+      nextCursor: nextCursor || undefined,
     },
   });
 }

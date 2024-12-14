@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useLikeService } from "@/hooks";
-import type { Feed } from "@/types/feed/feed-read-service";
-import { FeedLikeButton } from "../atoms/FeedLikeButton";
-import { FeedDislikeButton } from "../atoms/FeedDislikeButton";
-import { FeedCommentButton } from "../atoms/FeedCommentButton";
-import { FeedSendButton } from "../atoms/FeedSendButton";
-import { FeedBookmarkButton } from "../atoms/FeedBookmarkButton";
+import { useLikeService } from '@/hooks';
+import type { Feed } from '@/types/feed/feed-read-service';
+import { FeedLikeButton } from '../atoms/FeedLikeButton';
+import { FeedDislikeButton } from '../atoms/FeedDislikeButton';
+import { FeedCommentButton } from '../atoms/FeedCommentButton';
+import { FeedSendButton } from '../atoms/FeedSendButton';
+import { FeedBookmarkButton } from '../atoms/FeedBookmarkButton';
 
 type FeedButtonGroupProps = Pick<
   Feed,
-  "feedUuid" | "likeCount" | "dislikeCount" | "commentCount"
+  'feedUuid' | 'likeCount' | 'dislikeCount' | 'commentCount'
 >;
 
 export function FeedButtonGroup({
@@ -20,7 +20,7 @@ export function FeedButtonGroup({
   commentCount,
 }: FeedButtonGroupProps) {
   const { likeStatus, dislikeStatus } = useLikeService({
-    kind: "feed",
+    kind: 'feed',
     kindUuid: feedUuid,
     likeCount,
     dislikeCount,
@@ -28,7 +28,7 @@ export function FeedButtonGroup({
 
   return (
     <div className="flex justify-between items-center py-[0.5rem]">
-      <div className="flex gap-[0.5rem]">
+      <div className="flex gap-[1.5rem]">
         <FeedLikeButton {...{ likeCount, likeStatus }} />
         <FeedDislikeButton {...{ dislikeCount, dislikeStatus }} />
         <FeedCommentButton {...{ feedUuid, commentCount }} />

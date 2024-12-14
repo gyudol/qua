@@ -1,18 +1,21 @@
-'use client';
+"use client";
 
-import { Button } from '@repo/ui/shadcn/button';
-import { useRef, useState } from 'react';
-import type { CreateFeedType } from '@/types/request/requestType';
-import { createFeed } from '@/actions/feed';
-import FeedCreateFormFields from './FeedCreateFormFields';
+import { Button } from "@repo/ui/shadcn/button";
+import { useRef, useState } from "react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import type { CreateFeedType } from "@/types/request/requestType";
+import { createFeed } from "@/actions/feed-service";
+import FeedCreateFormFields from "./FeedCreateFormFields";
 
 function FeedWriteFrom() {
+  const router = useRouter();
   const [payload, setPayload] = useState<CreateFeedType>({
-    memberUuid: 'test',
-    title: '',
-    content: '',
-    categoryName: '', // 기본값을 빈 문자열로 설정
-    visibility: 'VISIBLE', // 기본값
+    memberUuid: "test",
+    title: "",
+    content: "",
+    categoryName: "", // 기본값을 빈 문자열로 설정
+    visibility: "VISIBLE", // 기본값
     hashtags: [],
     mediaList: [],
   });
@@ -21,28 +24,34 @@ function FeedWriteFrom() {
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault(); // 기본 form 제출 방지
-    // console.log(payload);
-    const res = await createFeed(payload);
-    // eslint-disable-next-line no-alert -- alert 사용
-    if (res) alert('good'); // 피드 생성 API 호출
+
+    await createFeed(payload);
+
+    toast.success("성공적으로 피드가 생성되었습니다.");
+    router.push("/");
   };
 
   return (
-    <form
-      ref={formRef}
-      className="w-full h-[90%] flex flex-col gap-2 relative"
-      onSubmit={(event) => {
-        void onSubmit(event);
-      }}
-    >
-      <FeedCreateFormFields payload={payload} setPayload={setPayload} />
-      <Button
-        type="submit"
-        className="w-[90%] md:w-2/5 text-[1rem] bg-[#47D0BF] py-[25px] rounded-lg text-white text-center mb-20 fixed bottom-10 left-1/2 translate-x-[-50%]"
+    <section className="size-full flex justify-center items-center">
+      <form
+        ref={formRef}
+        className="px-[1rem] py-[2rem] size-full flex flex-col gap-2"
+        onSubmit={(event) => {
+          void onSubmit(event);
+        }}
       >
-        Upload now
-      </Button>
-    </form>
+        <FeedCreateFormFields payload={payload} setPayload={setPayload} />
+        <Button
+          type="submit"
+          className="
+        w-full text-[1rem] 
+        bg-teal-400 py-[25px] 
+        rounded-lg text-white"
+        >
+          Upload now
+        </Button>
+      </form>
+    </section>
   );
 }
 

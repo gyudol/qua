@@ -27,7 +27,7 @@ const GbnbListItemInfos: GbnbListItemProp[] = [
   { name: "Search", href: "/search", Icon: Search },
   { name: "CreatePost", href: "/post", Icon: Post },
   { name: "Shorts", href: "/shorts", Icon: Shorts },
-  { name: "Mypage", href: "/me", Icon: Mypage },
+  { name: "Mypage", href: "/profile/me", Icon: Mypage },
 ];
 
 export default function CommonGbnb() {

@@ -1,5 +1,5 @@
 import type { CommonPaginationReq } from "../common";
-import type { MemberReq } from "../member";
+import type { MemberReq } from "../member/common";
 
 interface KindReq {
   kind: string;

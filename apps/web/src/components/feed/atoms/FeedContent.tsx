@@ -21,5 +21,11 @@ interface ContentProps extends PropsWithChildren {
 }
 
 function Content({ children, className }: ContentProps) {
-  return <p className={`text-gray-600 ${className}`}>{children}</p>;
+  return (
+    <p
+      className={`text-gray-600 text-sm px-1 ${className} whitespace-pre-line`}
+    >
+      {children}
+    </p>
+  );
 }

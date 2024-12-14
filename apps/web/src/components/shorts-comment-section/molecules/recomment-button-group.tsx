@@ -27,7 +27,7 @@ export function RecommentButtonGroup({
 
   return (
     <>
-      <ul className="flex gap-[0.5rem] items-center">
+      <ul className="flex gap-[1rem] items-center">
         <li>
           <LikeButton
             {...{
