@@ -1,11 +1,11 @@
 package com.mulmeong.notification.common.response;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 
 import static com.mulmeong.notification.common.response.BaseResponseStatus.SUCCESS;
 
-public record BaseResponse<T>(HttpStatusCode httpStatus, Boolean isSuccess, String message, int code, T result) {
+
+public record BaseResponse<T>(HttpStatus httpStatus, Boolean isSuccess, String message, int code, T result) {
 
     // 필요값 : Http 상태코드, 성공여부, 메시지, 에러코드, 결과값
 
@@ -31,7 +31,7 @@ public record BaseResponse<T>(HttpStatusCode httpStatus, Boolean isSuccess, Stri
      * @param status 요청 상태
      */
     public BaseResponse(BaseResponseStatus status) {
-        this(status.getHttpStatusCode(), false, status.getMessage(), status.getCode(), null);
+        this(status.getHttpStatusCode(), false, status.getMessage(), status.getCode(), (T) status.getMessage());
     }
 
     /**

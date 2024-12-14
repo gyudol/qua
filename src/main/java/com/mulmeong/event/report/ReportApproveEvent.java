@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Getter
 @NoArgsConstructor
-public class ReportCreateEvent {
+public class ReportApproveEvent {
     private String memberUuid;
     private String targetUuid;
     private ReportType reportType;
@@ -17,6 +17,6 @@ public class ReportCreateEvent {
         FEED,
         SHORTS,
         COMMENT,
-        RECOMMENT,
+        RECOMMENT
     }
 }

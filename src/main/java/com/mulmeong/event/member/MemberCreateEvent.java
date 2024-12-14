@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Getter
 @NoArgsConstructor
-public class MemberGradeUpdateEvent {
+public class MemberCreateEvent {
     private String memberUuid;
-    private Long gradeId;
 }
