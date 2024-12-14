@@ -1,4 +1,4 @@
-package com.mulmeong.notification;
+package com.mulmeong;
 
 import org.junit.jupiter.api.Test;
 
