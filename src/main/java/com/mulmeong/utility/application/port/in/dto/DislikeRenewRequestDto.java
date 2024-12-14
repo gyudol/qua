@@ -6,14 +6,14 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class DislikesRenewRequestDto {
+public class DislikeRenewRequestDto {
 
     private String kind;
     private String kindUuid;
     private Long dislikeCount;
 
     @Builder
-    public DislikesRenewRequestDto(
+    public DislikeRenewRequestDto(
             String kind,
             String kindUuid,
             Long dislikeCount

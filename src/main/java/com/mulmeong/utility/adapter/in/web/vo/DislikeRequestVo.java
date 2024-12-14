@@ -1,8 +1,7 @@
 package com.mulmeong.utility.adapter.in.web.vo;
 
 import com.mulmeong.utility.application.port.in.dto.DislikeRequestDto;
-import com.mulmeong.utility.application.port.in.dto.DislikesRenewRequestDto;
-import com.mulmeong.utility.application.port.in.dto.LikesRenewRequestDto;
+import com.mulmeong.utility.application.port.in.dto.DislikeRenewRequestDto;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -23,8 +22,8 @@ public class DislikeRequestVo {
                 .build();
     }
 
-    public DislikesRenewRequestDto toValid() {
-        return DislikesRenewRequestDto.builder()
+    public DislikeRenewRequestDto toValid() {
+        return DislikeRenewRequestDto.builder()
                 .kind(kind)
                 .kindUuid(kindUuid)
                 .dislikeCount(dislikeCount)

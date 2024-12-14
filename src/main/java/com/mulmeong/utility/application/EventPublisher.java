@@ -1,8 +1,9 @@
 package com.mulmeong.utility.application;
 
-import com.mulmeong.event.produce.DislikesCreateEvent;
+import com.mulmeong.event.produce.DislikeRenewCreateEvent;
 import com.mulmeong.event.produce.FollowCreateEvent;
-import com.mulmeong.event.produce.LikesCreateEvent;
+import com.mulmeong.event.produce.LikeCreateEvent;
+import com.mulmeong.event.produce.LikeRenewCreateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +19,8 @@ public class EventPublisher {
 
     @Value("${event.utility.pub.topics.like-create.name}")
     private String likeCreateEventTopic;
+    @Value("${event.utility.pub.topics.like-renew-create.name}")
+    private String likeRenewCreateEventTopic;
     @Value("${event.utility.pub.topics.dislike-create.name}")
     private String dislikeCreateEventTopic;
     @Value("${event.utility.pub.topics.follow-create.name}")
@@ -29,13 +32,18 @@ public class EventPublisher {
         kafkaTemplate.send(topic, event);
     }
 
-    public void sendLikedEvent(LikesCreateEvent event) {
+    public void sendLikedEvent(LikeCreateEvent event) {
         kafkaTemplate.send(likeCreateEventTopic, event);
         log.info("like topic: {}", likeCreateEventTopic);
     }
 
+    public void sendLikedRenewEvent(LikeRenewCreateEvent event) {
+        kafkaTemplate.send(likeRenewCreateEventTopic, event);
+        log.info("like topic: {}", likeRenewCreateEventTopic);
+    }
 
-    public void sendDislikedEvent(DislikesCreateEvent event) {
+
+    public void sendDislikedEvent(DislikeRenewCreateEvent event) {
         kafkaTemplate.send(dislikeCreateEventTopic, event);
         log.info("dislike topic: {}", dislikeCreateEventTopic);
     }

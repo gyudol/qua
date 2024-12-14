@@ -7,14 +7,14 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class LikesCreateEvent {
+public class LikeRenewCreateEvent {
 
     private String kind;
     private String kindUuid;
     private Long likeCount;
 
-    public static LikesCreateEvent toDto(LikesRenewRequestDto requestDto) {
-        return LikesCreateEvent.builder()
+    public static LikeRenewCreateEvent toDto(LikesRenewRequestDto requestDto) {
+        return LikeRenewCreateEvent.builder()
                 .kind(requestDto.getKind())
                 .kindUuid(requestDto.getKindUuid())
                 .likeCount(requestDto.getLikeCount())

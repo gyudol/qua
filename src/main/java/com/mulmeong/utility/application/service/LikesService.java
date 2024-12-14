@@ -1,6 +1,7 @@
 package com.mulmeong.utility.application.service;
 
-import com.mulmeong.event.produce.LikesCreateEvent;
+import com.mulmeong.event.produce.LikeCreateEvent;
+import com.mulmeong.event.produce.LikeRenewCreateEvent;
 import com.mulmeong.utility.application.EventPublisher;
 import com.mulmeong.utility.application.mapper.LikesDtoMapper;
 import com.mulmeong.utility.application.port.in.LikesUseCase;
@@ -45,6 +46,7 @@ public class LikesService implements LikesUseCase {
                     .status(true) // 기본적으로 좋아요
                     .build();
             likesPort.saveLikes(likesDtoMapper.toDto(newLikes)); // 새 리액션 저장
+            eventPublisher.sendLikedEvent(LikeCreateEvent.toDto(likesRequestDto));
         }
 
     }
@@ -64,7 +66,7 @@ public class LikesService implements LikesUseCase {
     @Override
     public void renewValidate(LikesRenewRequestDto requestDto) {
         if (requestDto.getLikeCount() < 10) {
-            eventPublisher.sendLikedEvent(LikesCreateEvent.toDto(requestDto));
+            eventPublisher.sendLikedRenewEvent(LikeRenewCreateEvent.toDto(requestDto));
         }
     }
 

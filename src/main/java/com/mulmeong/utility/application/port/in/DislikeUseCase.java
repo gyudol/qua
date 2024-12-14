@@ -2,7 +2,7 @@ package com.mulmeong.utility.application.port.in;
 
 import com.mulmeong.utility.application.port.in.dto.DislikeListRequestDto;
 import com.mulmeong.utility.application.port.in.dto.DislikeRequestDto;
-import com.mulmeong.utility.application.port.in.dto.DislikesRenewRequestDto;
+import com.mulmeong.utility.application.port.in.dto.DislikeRenewRequestDto;
 
 import java.util.List;
 
@@ -14,6 +14,6 @@ public interface DislikeUseCase {
 
     List<String> getDislikes(DislikeListRequestDto dislikeListRequestDto);
 
-    void renewValidate(DislikesRenewRequestDto requestDto);
+    void renewValidate(DislikeRenewRequestDto requestDto);
 }
 
