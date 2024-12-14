@@ -1,12 +1,11 @@
 package com.mulmeong.batchserver.contest.config;
 
-import com.mulmeong.batchserver.application.EventPublisher;
-import com.mulmeong.batchserver.contest.entity.contest.Contest;
-import com.mulmeong.batchserver.contest.infrastructure.repository.ContestRepository;
+import com.mulmeong.batchserver.contest.application.ContestKafkaPublisher;
+import com.mulmeong.batchserver.contest.domain.entity.Contest;
+import com.mulmeong.batchserver.contest.infrastructure.repository.mysql.ContestRepository;
 import com.mulmeong.event.contest.produce.ContestVoteUpdateEvent;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.*;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -17,6 +16,7 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -33,12 +33,13 @@ import java.util.stream.Collectors;
 @EnableScheduling
 @EnableBatchProcessing(dataSourceRef = "contestDataSource", transactionManagerRef = "contestTransactionManager")
 @RequiredArgsConstructor
+@Slf4j
 public class ContestBatchConfig {
-    private static final Logger log = LoggerFactory.getLogger(ContestBatchConfig.class);
     private final ContestRepository contestRepository;
     private final RedisTemplate<String, String> redisTemplate;
+    @Qualifier("contestTransactionManager")
     private final PlatformTransactionManager transactionManager;
-    private final EventPublisher eventPublisher;
+    private final ContestKafkaPublisher contestKafkaPublisher;
     private static final String VOTE_COUNT_KEY = "contest:%d:post:votes";
     private final JobRepository jobRepository;
     private final JobLauncher jobLauncher;
@@ -121,7 +122,7 @@ public class ContestBatchConfig {
             for (List<ContestVoteUpdateEvent> eventList : items) {
                 for (ContestVoteUpdateEvent event : eventList) {
                     // 이벤트 발행
-                    eventPublisher.send(event);
+                    contestKafkaPublisher.send(event);
 
                     // Redis에서 해당 포스트의 데이터 삭제
                     Long contestId = event.getContestId();
@@ -133,7 +134,7 @@ public class ContestBatchConfig {
     }
 
     @Bean
-    public StepExecutionListener loggingStepExecutionListener() {
+    public StepExecutionListener contestLoggingStepExecutionListener() {
         return new StepExecutionListener() {
             @Override
             public void beforeStep(StepExecution stepExecution) {

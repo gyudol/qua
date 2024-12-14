@@ -38,6 +38,7 @@ public class SwaggerConfig {
                 .addSecurityItem(securityRequirement)
                 .components(components)
                 .addServersItem(new Server().url("/batch-service"));
+        //.addServersItem(new Server().url("/"));
     }
 
 }

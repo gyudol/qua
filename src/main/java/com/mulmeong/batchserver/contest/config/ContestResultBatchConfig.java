@@ -1,25 +1,23 @@
 package com.mulmeong.batchserver.contest.config;
 
-import com.mulmeong.batchserver.application.EventPublisher;
-import com.mulmeong.batchserver.contest.entity.contest.Contest;
-import com.mulmeong.batchserver.contest.entity.contest.ContestPost;
-import com.mulmeong.batchserver.contest.entity.contestRead.ContestPostRead;
-import com.mulmeong.batchserver.contest.infrastructure.repository.ContestPostRepository;
-import com.mulmeong.batchserver.contest.infrastructure.repository.ContestPostReadRepository;
-import com.mulmeong.batchserver.contest.infrastructure.repository.ContestRepository;
+import com.mulmeong.batchserver.contest.application.ContestKafkaPublisher;
+import com.mulmeong.batchserver.contest.domain.entity.Contest;
+import com.mulmeong.batchserver.contest.domain.entity.ContestPost;
+import com.mulmeong.batchserver.contest.domain.document.ContestPostRead;
+import com.mulmeong.batchserver.contest.infrastructure.repository.mysql.ContestPostRepository;
+import com.mulmeong.batchserver.contest.infrastructure.repository.mongo.ContestPostReadRepository;
+import com.mulmeong.batchserver.contest.infrastructure.repository.mysql.ContestRepository;
 import com.mulmeong.event.contest.produce.ContestStatusEvent;
 import com.mulmeong.event.contest.produce.ContestVoteRecordEvent;
 import com.mulmeong.event.contest.produce.ContestVoteResultEvent;
 import com.mulmeong.event.contest.produce.ContestVoteUpdateEvent;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
-import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
@@ -28,8 +26,10 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -44,15 +44,16 @@ import java.util.stream.Collectors;
 @EnableScheduling
 @EnableBatchProcessing(dataSourceRef = "contestDataSource", transactionManagerRef = "contestTransactionManager")
 @RequiredArgsConstructor
+@Slf4j
 public class ContestResultBatchConfig {
 
-    private static final Logger log = LoggerFactory.getLogger(ContestBatchConfig.class);
     private final ContestRepository contestRepository;
     private final ContestPostRepository contestPostRepository;
     private final ContestPostReadRepository contestPostReadRepository;
     private final RedisTemplate<String, String> redisTemplate;
+    @Qualifier("contestTransactionManager")
     private final PlatformTransactionManager transactionManager;
-    private final EventPublisher eventPublisher;
+    private final ContestKafkaPublisher contestKafkaPublisher;
     private static final String VOTE_COUNT_KEY = "contest:%d:post:votes";
     private static final String VOTER_SET_KEY = "contest:%d:post:%s:voters";
     private final JobRepository jobRepository;
@@ -141,7 +142,7 @@ public class ContestResultBatchConfig {
                 for (ContestVoteUpdateEvent event : eventList) {
                     // 이벤트 발행
                     log.info("1st send: {}", event);
-                    eventPublisher.send(event);
+                    contestKafkaPublisher.send(event);
 
                     // Redis에서 해당 포스트의 데이터 삭제
                     Long contestId = event.getContestId();
@@ -196,7 +197,7 @@ public class ContestResultBatchConfig {
                 for (ContestVoteRecordEvent event : eventList) {
                     // 이벤트 발행
                     log.info("2nd send: {}", event);
-                    eventPublisher.send(event);
+                    contestKafkaPublisher.send(event);
 
                     // Redis에서 해당 포스트의 데이터 삭제
                     Long contestId = event.getContestId();
@@ -240,7 +241,7 @@ public class ContestResultBatchConfig {
                         post.getMemberUuid(),
                         post.getPostUuid(),
                         contest.getBadgeId(),
-                        post.getVoteCount(),
+                        Long.valueOf(post.getVoteCount()),
                         ranking));
                 ranking++;
             }
@@ -259,7 +260,7 @@ public class ContestResultBatchConfig {
                 for (ContestVoteResultEvent event : eventList) {
                     // 이벤트 발행
                     log.info("3rd send: {}", event);
-                    eventPublisher.send(event);
+                    contestKafkaPublisher.send(event);
                 }
             }
         };
@@ -293,7 +294,7 @@ public class ContestResultBatchConfig {
                 for (ContestStatusEvent event : eventList) {
                     // 이벤트 발행
                     log.info("4th send: {}", event);
-                    eventPublisher.send(event);
+                    contestKafkaPublisher.send(event);
                 }
             }
         };

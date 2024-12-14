@@ -21,6 +21,8 @@ public class TestController {
     private final JobLauncher jobLauncher;
     private final Job voteResultJob;
     private final Job voteRenewJob;
+    private final Job feedRenewJob;
+    private final Job shortsRenewJob;
 
 
     @Operation(summary = "투표수 갱신 테스트", description = "현재 스케줄러 설정 시간 5분, 해당 api로 테스트 가능")
@@ -50,6 +52,42 @@ public class TestController {
                 .toJobParameters();
         try {
             jobLauncher.run(voteResultJob, jobParameters);
+        } catch (JobExecutionAlreadyRunningException
+                 | JobRestartException
+                 | JobInstanceAlreadyCompleteException
+                 | JobParametersInvalidException e) {
+            throw new RuntimeException(e);
+        }
+        return new BaseResponse<>();
+    }
+
+    @Operation(summary = "피드 갱신 테스트", description = "좋아요, 싫어요 10개 이상일 경우 5분마다 갱신, 댓글은 상관 없이 5분 마다 갱신")
+    @GetMapping("/feedRenewTest")
+    public BaseResponse<Void> runFeedRenewJob() {
+
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addLong("time", System.currentTimeMillis())
+                .toJobParameters();
+        try {
+            jobLauncher.run(feedRenewJob, jobParameters);
+        } catch (JobExecutionAlreadyRunningException
+                 | JobRestartException
+                 | JobInstanceAlreadyCompleteException
+                 | JobParametersInvalidException e) {
+            throw new RuntimeException(e);
+        }
+        return new BaseResponse<>();
+    }
+
+    @Operation(summary = "쇼츠 갱신 테스트", description = "좋아요, 싫어요 10개 이상일 경우 5분마다 갱신, 댓글은 상관 없이 5분 마다 갱신")
+    @GetMapping("/shortsRenewTest")
+    public BaseResponse<Void> runShortsRenewJob() {
+
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addLong("time", System.currentTimeMillis())
+                .toJobParameters();
+        try {
+            jobLauncher.run(shortsRenewJob, jobParameters);
         } catch (JobExecutionAlreadyRunningException
                  | JobRestartException
                  | JobInstanceAlreadyCompleteException
