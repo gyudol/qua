@@ -4,15 +4,14 @@ import BackButton from "../../common/BackButton";
 export default function DetailHeader({ title }: { title?: string }) {
   return (
     <>
-      <div className="w-full min-h-[4rem]" />
+      <div className="w-full min-h-[4.5rem]" />
       <header
         className="
       absolute top-0  z-30
-      w-full  h-[4rem] bg
+      w-full  h-[4.5rem]
       flex    flex-row
-      px-4    
+      px-4    shadow-md
       justify-between items-center
-      shadow-md
       "
       >
         <div className="w-full flex flex-row justify-between">

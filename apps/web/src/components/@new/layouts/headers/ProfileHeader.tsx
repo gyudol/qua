@@ -19,25 +19,24 @@ export default async function ProfileHeader({
 
   return (
     <>
-      <div className="w-full min-h-[4rem]" />
+      <div className="w-full min-h-[4.5rem]" />
       <header
         className="
       absolute top-0  z-30
-      w-full  h-[4rem] bg
+      w-full  h-[4.5rem]
       flex    flex-row
-      px-4    
+      px-4    shadow-md
       justify-between items-center
-      shadow-md
       "
       >
         <BackButton>
-          <ChevronLeft className="stroke-teal-400" />
+          <ChevronLeft className="" />
         </BackButton>
         <h1 className="text-[0rem]">QUA</h1>
         <div className="w-full flex flex-row justify-between">
-          <div className="text-teal-400 text-[1.25rem] font-semibold flex gap-4 items-center">
-            <div className="flex gap-2 items-center">
-              <p className="text-lg">{nickname}</p>
+          <div className="flex gap-2 items-center">
+            <p className="text-lg font-bold">{nickname}</p>
+            <div className="flex">
               <figure className="relative size-[1.5rem]">
                 <Image
                   src={`https://media.qua.world/${grade.imageUrl}`}

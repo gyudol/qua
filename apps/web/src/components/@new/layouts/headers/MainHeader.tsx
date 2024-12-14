@@ -5,11 +5,11 @@ import { SidebarButton } from "../bars/Sidebar";
 export default function MainHeader() {
   return (
     <>
-      <div className="w-full min-h-[5rem]" />
+      <div className="w-full min-h-[4.5rem]" />
       <header
         className="
       absolute top-0  z-30
-      w-full  h-[5rem] bg
+      w-full  h-[4.5rem]
       flex    flex-row
       px-4    shadow-md
       justify-between items-center

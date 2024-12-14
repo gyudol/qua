@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { getMemberProfileByUuid } from "@/actions/member-read-service";
 import { options } from "@/app/api/auth/[...nextauth]/authOption";
-import ProfilePage from "@/components/@new/profile/ProfilePage";
+import ProfileInfoPage from "@/components/@new/profile/ProfileInfoPage";
 
 export default async function page() {
   const session = await getServerSession(options);
@@ -10,5 +10,5 @@ export default async function page() {
   const { memberUuid } = session.user as { memberUuid: string };
   const profile = await getMemberProfileByUuid({ memberUuid });
 
-  return <ProfilePage {...profile} my />;
+  return <ProfileInfoPage {...profile} my />;
 }
