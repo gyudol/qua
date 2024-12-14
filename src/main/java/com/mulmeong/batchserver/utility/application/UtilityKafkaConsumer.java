@@ -4,6 +4,8 @@ import com.mulmeong.batchserver.comment.application.FeedCommentService;
 import com.mulmeong.batchserver.comment.application.FeedRecommentService;
 import com.mulmeong.batchserver.comment.application.ShortsCommentService;
 import com.mulmeong.batchserver.comment.application.ShortsRecommentService;
+import com.mulmeong.batchserver.common.exception.BaseException;
+import com.mulmeong.batchserver.common.response.BaseResponseStatus;
 import com.mulmeong.batchserver.feed.application.FeedService;
 import com.mulmeong.event.utility.consume.DislikesCreateEvent;
 import com.mulmeong.event.utility.consume.FeedCreateEvent;
@@ -63,6 +65,8 @@ public class UtilityKafkaConsumer {
             case "shorts_recomment":
                 shortsRecommentService.likeCountRenew(message);
                 break;
+            default:
+                throw new BaseException(BaseResponseStatus.NOT_EXIST);
         }
     }
 
@@ -89,6 +93,8 @@ public class UtilityKafkaConsumer {
             case "shortsRecomment":
                 shortsRecommentService.dislikeCountRenew(message);
                 break;
+            default:
+                throw new BaseException(BaseResponseStatus.NOT_EXIST);
         }
     }
 

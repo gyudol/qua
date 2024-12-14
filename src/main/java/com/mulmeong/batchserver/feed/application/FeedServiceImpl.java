@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class FeedServiceImpl implements FeedService{
+public class FeedServiceImpl implements FeedService {
 
     private final FeedReadRepository feedReadRepository;
     private final LikesRepository likesRepository;

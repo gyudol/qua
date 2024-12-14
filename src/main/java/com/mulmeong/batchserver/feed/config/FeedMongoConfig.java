@@ -20,7 +20,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 public class FeedMongoConfig {
 
     @Value("${spring.data.mongodb.feed.dbname}")
-    private String DB_NAME;
+    private String dbName;
 
     @Value("${spring.data.mongodb.feed.uri}")
     private String feedMongoUri;
@@ -28,7 +28,7 @@ public class FeedMongoConfig {
     @Bean(name = "feedReadMongoTemplate")
     public MongoTemplate feedMongoTemplate() {
         MongoClient mongoClient = MongoClients.create(feedMongoUri);
-        MongoDatabaseFactory factory = new SimpleMongoClientDatabaseFactory(mongoClient, DB_NAME);
+        MongoDatabaseFactory factory = new SimpleMongoClientDatabaseFactory(mongoClient, dbName);
         return new MongoTemplate(factory);
     }
 

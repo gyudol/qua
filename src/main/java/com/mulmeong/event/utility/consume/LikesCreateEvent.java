@@ -19,7 +19,7 @@ public class LikesCreateEvent {
     private String kindUuid;
     private Long likeCount;
 
-    public FeedRead toFeedReadEntity(FeedRead feed, Long LikeCount) {
+    public FeedRead toFeedReadEntity(FeedRead feed, Long likeCount) {
         return FeedRead.builder()
                 .id(feed.getId())
                 .feedUuid(feed.getFeedUuid())
@@ -30,9 +30,9 @@ public class LikesCreateEvent {
                 .visibility(feed.getVisibility())
                 .hashtags(feed.getHashtags())
                 .mediaList(feed.getMediaList())
-                .likeCount(LikeCount)
+                .likeCount(likeCount)
                 .dislikeCount(feed.getDislikeCount())
-                .netLikes(LikeCount - feed.getDislikeCount())
+                .netLikes(likeCount - feed.getDislikeCount())
                 .commentCount(feed.getCommentCount())
                 .createdAt(feed.getCreatedAt())
                 .updatedAt(feed.getUpdatedAt())

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class FeedRecommentServiceImpl implements FeedRecommentService{
+public class FeedRecommentServiceImpl implements FeedRecommentService {
 
     private final FeedRecommentReadRepository feedRecommentReadRepository;
     private final LikesRepository likesRepository;
@@ -22,7 +22,8 @@ public class FeedRecommentServiceImpl implements FeedRecommentService{
     @Override
     public void likeCountRenew(LikesCreateEvent message) {
 
-        FeedRecomment feedRecommentReadUpdate = feedRecommentReadRepository.findByRecommentUuid(message.getKindUuid()).orElseThrow();
+        FeedRecomment feedRecommentReadUpdate = feedRecommentReadRepository
+                .findByRecommentUuid(message.getKindUuid()).orElseThrow();
         Long count = likesRepository.countByKindAndKindUuidAndStatus(message.getKind(), message.getKindUuid(), true);
         log.info("count: {}", count);
         feedRecommentReadRepository.save(message.toFeedRecommentReadEntity(feedRecommentReadUpdate, count));
@@ -32,7 +33,8 @@ public class FeedRecommentServiceImpl implements FeedRecommentService{
     @Override
     public void dislikeCountRenew(DislikesCreateEvent message) {
 
-        FeedRecomment feedRecommentReadUpdate = feedRecommentReadRepository.findByRecommentUuid(message.getKindUuid()).orElseThrow();
+        FeedRecomment feedRecommentReadUpdate = feedRecommentReadRepository
+                .findByRecommentUuid(message.getKindUuid()).orElseThrow();
         Long count = dislikesRepository.countByKindAndKindUuidAndStatus(message.getKind(), message.getKindUuid(), true);
         log.info("count: {}", count);
         feedRecommentReadRepository.save(message.toFeedRecommentReadEntity(feedRecommentReadUpdate, count));

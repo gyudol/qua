@@ -42,7 +42,7 @@ public class FeedCommentBatchConfig {
     private final LikesRepository likesRepository;
     private final DislikesRepository dislikesRepository;
     @Qualifier("commentReadMongoTemplate")
-    private final  MongoTemplate commentReadMongoTemplate;
+    private final MongoTemplate commentReadMongoTemplate;
     private final JobRepository jobRepository;
     private final JobLauncher jobLauncher;
 
@@ -102,9 +102,11 @@ public class FeedCommentBatchConfig {
     public ItemProcessor<FeedComment, FeedComment> feedCommentProcessor() {
         return feedComment -> {
             // 실제 좋아요 수
-            long actualLikeCount = likesRepository.countByKindAndKindUuidAndStatus("feed_comment", feedComment.getCommentUuid(), true);
+            long actualLikeCount = likesRepository
+                    .countByKindAndKindUuidAndStatus("feed_comment", feedComment.getCommentUuid(), true);
             // 실제 싫어요 수
-            long actualDislikeCount = dislikesRepository.countByKindAndKindUuidAndStatus("feed_comment", feedComment.getCommentUuid(), true);
+            long actualDislikeCount = dislikesRepository
+                    .countByKindAndKindUuidAndStatus("feed_comment", feedComment.getCommentUuid(), true);
 
             long actualRecommentCount = feedRecommentReadRepository.countByCommentUuid(feedComment.getCommentUuid());
 
@@ -158,9 +160,11 @@ public class FeedCommentBatchConfig {
     public ItemProcessor<FeedRecomment, FeedRecomment> feedRecommentProcessor() {
         return feedRecomment -> {
             // 실제 좋아요 수
-            long actualLikeCount = likesRepository.countByKindAndKindUuidAndStatus("feed_recomment", feedRecomment.getRecommentUuid(), true);
+            long actualLikeCount = likesRepository
+                    .countByKindAndKindUuidAndStatus("feed_recomment", feedRecomment.getRecommentUuid(), true);
             // 실제 싫어요 수
-            long actualDislikeCount = dislikesRepository.countByKindAndKindUuidAndStatus("feed_recomment", feedRecomment.getRecommentUuid(), true);
+            long actualDislikeCount = dislikesRepository
+                    .countByKindAndKindUuidAndStatus("feed_recomment", feedRecomment.getRecommentUuid(), true);
 
             log.info("Processing feed recomment: {}, Updated like count: {}, Updated dislike count: {}",
                     feedRecomment.getRecommentUuid(), actualLikeCount, actualDislikeCount);

@@ -22,7 +22,8 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
     @Override
     public void likeCountRenew(LikesCreateEvent message) {
 
-        ShortsRecomment shortsRecommentReadUpdate = shortsReommentReadRepository.findByRecommentUuid(message.getKindUuid()).orElseThrow();
+        ShortsRecomment shortsRecommentReadUpdate = shortsReommentReadRepository
+                .findByRecommentUuid(message.getKindUuid()).orElseThrow();
         Long count = likesRepository.countByKindAndKindUuidAndStatus(message.getKind(), message.getKindUuid(), true);
         log.info("count: {}", count);
         shortsReommentReadRepository.save(message.toShortsRecommentReadEntity(shortsRecommentReadUpdate, count));
@@ -32,7 +33,8 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
     @Override
     public void dislikeCountRenew(DislikesCreateEvent message) {
 
-        ShortsRecomment shortsRecommentReadUpdate = shortsReommentReadRepository.findByRecommentUuid(message.getKindUuid()).orElseThrow();
+        ShortsRecomment shortsRecommentReadUpdate = shortsReommentReadRepository
+                .findByRecommentUuid(message.getKindUuid()).orElseThrow();
         Long count = dislikesRepository.countByKindAndKindUuidAndStatus(message.getKind(), message.getKindUuid(), true);
         log.info("count: {}", count);
         shortsReommentReadRepository.save(message.toShortsRecommentReadEntity(shortsRecommentReadUpdate, count));

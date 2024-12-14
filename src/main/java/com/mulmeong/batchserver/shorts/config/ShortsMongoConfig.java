@@ -18,7 +18,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 public class ShortsMongoConfig {
 
     @Value("${spring.data.mongodb.shorts.dbname}")
-    private String DB_NAME;
+    private String dbName;
 
     @Value("${spring.data.mongodb.shorts.uri}")
     private String shortsMongoUri;
@@ -26,7 +26,7 @@ public class ShortsMongoConfig {
     @Bean(name = "shortsReadMongoTemplate")
     public MongoTemplate contestMongoTemplate() {
         MongoClient mongoClient = MongoClients.create(shortsMongoUri);
-        MongoDatabaseFactory factory = new SimpleMongoClientDatabaseFactory(mongoClient, DB_NAME);
+        MongoDatabaseFactory factory = new SimpleMongoClientDatabaseFactory(mongoClient, dbName);
         return new MongoTemplate(factory);
     }
 

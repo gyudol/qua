@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
@@ -21,7 +20,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 public class ContestMongoConfig {
 
     @Value("${spring.data.mongodb.contest.dbname}")
-    private String DB_NAME;
+    private String dbName;
 
     @Value("${spring.data.mongodb.contest.uri}")
     private String contestMongoUri;
@@ -29,12 +28,13 @@ public class ContestMongoConfig {
     @Bean(name = "contestReadMongoTemplate")
     public MongoTemplate contestReadMongoTemplate() {
         MongoClient mongoClient = MongoClients.create(contestMongoUri);
-        MongoDatabaseFactory factory = new SimpleMongoClientDatabaseFactory(mongoClient, DB_NAME);
+        MongoDatabaseFactory factory = new SimpleMongoClientDatabaseFactory(mongoClient, dbName);
         return new MongoTemplate(factory);
     }
 
     @Bean
-    public GridFsTemplate gridFsTemplate(@Qualifier("contestReadMongoTemplate") MongoTemplate mongoTemplate) throws Exception {
+    public GridFsTemplate gridFsTemplate(
+            @Qualifier("contestReadMongoTemplate") MongoTemplate mongoTemplate) throws Exception {
         return new GridFsTemplate(mongoTemplate.getMongoDatabaseFactory(), mongoTemplate.getConverter());
     }
 

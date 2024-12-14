@@ -91,9 +91,11 @@ public class ShortsBatchConfig {
     public ItemProcessor<ShortsRead, ShortsRead> shortsProcessor() {
         return shortsRead -> {
             // 실제 좋아요 수
-            long actualLikeCount = likesRepository.countByKindAndKindUuidAndStatus("shorts", shortsRead.getShortsUuid(), true);
+            long actualLikeCount = likesRepository
+                    .countByKindAndKindUuidAndStatus("shorts", shortsRead.getShortsUuid(), true);
             // 실제 싫어요 수
-            long actualDislikeCount = dislikesRepository.countByKindAndKindUuidAndStatus("shorts", shortsRead.getShortsUuid(), true);
+            long actualDislikeCount = dislikesRepository
+                    .countByKindAndKindUuidAndStatus("shorts", shortsRead.getShortsUuid(), true);
 
             long actualCommentCount = shortsCommentReadRepository.countByShortsUuid(shortsRead.getShortsUuid());
 

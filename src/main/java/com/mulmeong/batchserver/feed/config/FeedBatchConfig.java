@@ -3,7 +3,6 @@ package com.mulmeong.batchserver.feed.config;
 import com.mulmeong.batchserver.comment.infrastructure.repository.FeedCommentReadRepository;
 import com.mulmeong.batchserver.feed.domain.document.FeedRead;
 import com.mulmeong.batchserver.feed.infrastructure.repository.FeedReadRepository;
-import com.mulmeong.batchserver.shorts.domain.document.ShortsRead;
 import com.mulmeong.batchserver.utility.infrastructure.repository.DislikesRepository;
 import com.mulmeong.batchserver.utility.infrastructure.repository.LikesRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +25,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.PlatformTransactionManager;
-
-import java.util.List;
 
 
 @Configuration
@@ -89,9 +86,11 @@ public class FeedBatchConfig {
     public ItemProcessor<FeedRead, FeedRead> feedProcessor() {
         return feedRead -> {
             // 실제 좋아요 수
-            long actualLikeCount = likesRepository.countByKindAndKindUuidAndStatus("feed", feedRead.getFeedUuid(), true);
+            long actualLikeCount = likesRepository
+                    .countByKindAndKindUuidAndStatus("feed", feedRead.getFeedUuid(), true);
             // 실제 싫어요 수
-            long actualDislikeCount = dislikesRepository.countByKindAndKindUuidAndStatus("feed", feedRead.getFeedUuid(), true);
+            long actualDislikeCount = dislikesRepository
+                    .countByKindAndKindUuidAndStatus("feed", feedRead.getFeedUuid(), true);
 
             long actualCommentCount = feedCommentReadRepository.countByFeedUuid(feedRead.getFeedUuid());
 

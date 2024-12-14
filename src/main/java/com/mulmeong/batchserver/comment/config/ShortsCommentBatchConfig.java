@@ -103,11 +103,14 @@ public class ShortsCommentBatchConfig {
     public ItemProcessor<ShortsComment, ShortsComment> shortsCommentProcessor() {
         return shortsComment -> {
             // 실제 좋아요 수
-            long actualLikeCount = likesRepository.countByKindAndKindUuidAndStatus("shorts_comment", shortsComment.getCommentUuid(), true);
+            long actualLikeCount = likesRepository
+                    .countByKindAndKindUuidAndStatus("shorts_comment", shortsComment.getCommentUuid(), true);
             // 실제 싫어요 수
-            long actualDislikeCount = dislikesRepository.countByKindAndKindUuidAndStatus("shorts_comment", shortsComment.getCommentUuid(), true);
+            long actualDislikeCount = dislikesRepository
+                    .countByKindAndKindUuidAndStatus("shorts_comment", shortsComment.getCommentUuid(), true);
 
-            long actualRecommentCount = shortsRecommentReadRepository.countByCommentUuid(shortsComment.getCommentUuid());
+            long actualRecommentCount = shortsRecommentReadRepository
+                    .countByCommentUuid(shortsComment.getCommentUuid());
 
             String cursor = String.format("%010d", actualLikeCount)
                     + String.format("%010d", 1000000000 - actualDislikeCount)
@@ -160,9 +163,11 @@ public class ShortsCommentBatchConfig {
     public ItemProcessor<ShortsRecomment, ShortsRecomment> shortsRecommentProcessor() {
         return shortsRecomment -> {
             // 실제 좋아요 수
-            long actualLikeCount = likesRepository.countByKindAndKindUuidAndStatus("shorts_recomment", shortsRecomment.getRecommentUuid(), true);
+            long actualLikeCount = likesRepository
+                    .countByKindAndKindUuidAndStatus("shorts_recomment", shortsRecomment.getRecommentUuid(), true);
             // 실제 싫어요 수
-            long actualDislikeCount = dislikesRepository.countByKindAndKindUuidAndStatus("shorts_recomment", shortsRecomment.getRecommentUuid(), true);
+            long actualDislikeCount = dislikesRepository
+                    .countByKindAndKindUuidAndStatus("shorts_recomment", shortsRecomment.getRecommentUuid(), true);
 
             log.info("Processing shorts recomment: {}, Updated like count: {}, Updated dislike count: {}",
                     shortsRecomment.getRecommentUuid(), actualLikeCount, actualDislikeCount);

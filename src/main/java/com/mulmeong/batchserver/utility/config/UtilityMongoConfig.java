@@ -18,7 +18,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 public class UtilityMongoConfig {
 
     @Value("${spring.data.mongodb.utility.dbname}")
-    private String DB_NAME;
+    private String dbName;
 
     @Value("${spring.data.mongodb.utility.uri}")
     private String utilityMongoUri;
@@ -26,7 +26,7 @@ public class UtilityMongoConfig {
     @Bean(name = "utilityReadMongoTemplate")
     public MongoTemplate utilityMongoTemplate() {
         MongoClient mongoClient = MongoClients.create(utilityMongoUri);
-        MongoDatabaseFactory factory = new SimpleMongoClientDatabaseFactory(mongoClient, DB_NAME);
+        MongoDatabaseFactory factory = new SimpleMongoClientDatabaseFactory(mongoClient, dbName);
         return new MongoTemplate(factory);
     }
 

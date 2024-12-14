@@ -24,7 +24,8 @@ public class FeedCommentServiceImpl implements FeedCommentService {
 
         FeedComment feedReadUpdate = feedCommentReadRepository.findByCommentUuid(message.getKindUuid()).orElseThrow();
         log.info("feedUuid: {}", feedReadUpdate.getFeedUuid());
-        Long count = likesRepository.countByKindAndKindUuidAndStatus(message.getKind(), message.getKindUuid(), true);
+        Long count = likesRepository.countByKindAndKindUuidAndStatus(
+                message.getKind(), message.getKindUuid(), true);
         log.info("count: {}", count);
         feedCommentReadRepository.save(message.toFeedCommentReadEntity(feedReadUpdate, count));
 
@@ -34,7 +35,8 @@ public class FeedCommentServiceImpl implements FeedCommentService {
     public void dislikeCountRenew(DislikesCreateEvent message) {
 
         FeedComment feedReadUpdate = feedCommentReadRepository.findByCommentUuid(message.getKindUuid()).orElseThrow();
-        Long count = dislikesRepository.countByKindAndKindUuidAndStatus(message.getKind(), message.getKindUuid(), true);
+        Long count = dislikesRepository.countByKindAndKindUuidAndStatus(
+                message.getKind(), message.getKindUuid(), true);
         log.info("count: {}", count);
         feedCommentReadRepository.save(message.toFeedCommentReadEntity(feedReadUpdate, count));
 

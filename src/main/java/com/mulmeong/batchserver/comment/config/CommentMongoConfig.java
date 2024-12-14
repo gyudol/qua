@@ -20,17 +20,15 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 public class CommentMongoConfig {
 
     @Value("${spring.data.mongodb.comment.dbname}")
-    private String DB_NAME;
+    private String dbName;
 
     @Value("${spring.data.mongodb.comment.uri}")
     private String commentMongoUri;
 
     @Bean(name = "commentReadMongoTemplate")
     public MongoTemplate commentMongoTemplate() {
-        log.info("1111 : " + DB_NAME);
-        log.info("2222 : " + commentMongoUri);
         MongoClient mongoClient = MongoClients.create(commentMongoUri);
-        MongoDatabaseFactory factory = new SimpleMongoClientDatabaseFactory(mongoClient, DB_NAME);
+        MongoDatabaseFactory factory = new SimpleMongoClientDatabaseFactory(mongoClient, dbName);
         return new MongoTemplate(factory);
     }
 

@@ -22,7 +22,8 @@ public class ShortsCommentServiceImpl implements ShortsCommentService {
     @Override
     public void likeCountRenew(LikesCreateEvent message) {
 
-        ShortsComment shortsReadUpdate = shortsCommentReadRepository.findByCommentUuid(message.getKindUuid()).orElseThrow();
+        ShortsComment shortsReadUpdate = shortsCommentReadRepository
+                .findByCommentUuid(message.getKindUuid()).orElseThrow();
         Long count = likesRepository.countByKindAndKindUuidAndStatus(message.getKind(), message.getKindUuid(), true);
         log.info("count: {}", count);
         shortsCommentReadRepository.save(message.toShortsCommentReadEntity(shortsReadUpdate, count));
@@ -32,7 +33,8 @@ public class ShortsCommentServiceImpl implements ShortsCommentService {
     @Override
     public void dislikeCountRenew(DislikesCreateEvent message) {
 
-        ShortsComment shortsReadUpdate = shortsCommentReadRepository.findByCommentUuid(message.getKindUuid()).orElseThrow();
+        ShortsComment shortsReadUpdate = shortsCommentReadRepository
+                .findByCommentUuid(message.getKindUuid()).orElseThrow();
         Long count = dislikesRepository.countByKindAndKindUuidAndStatus(message.getKind(), message.getKindUuid(), true);
         log.info("count: {}", count);
         shortsCommentReadRepository.save(message.toShortsCommentReadEntity(shortsReadUpdate, count));
