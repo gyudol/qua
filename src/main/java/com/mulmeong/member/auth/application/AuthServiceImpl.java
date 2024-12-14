@@ -8,6 +8,7 @@ import com.mulmeong.member.auth.dto.out.NewAccessTokenResponseDto;
 import com.mulmeong.member.auth.dto.out.SignUpAndInResponseDto;
 import com.mulmeong.member.auth.infrastructure.MemberRepository;
 import com.mulmeong.member.auth.util.RandomNicknameUtil;
+import com.mulmeong.member.auth.util.RandomProfileImageUtil;
 import com.mulmeong.member.common.config.kafka.EventPublisher;
 import com.mulmeong.member.common.exception.BaseException;
 import com.mulmeong.member.common.jwt.properties.JwtProperties;
@@ -35,6 +36,7 @@ public class AuthServiceImpl implements AuthService {
     private static final String TOKEN_PREFIX = "refreshToken";
 
     private final RandomNicknameUtil randomNicknameUtil;
+    private final RandomProfileImageUtil randomProfileImageUtil;
     private final EventPublisher eventPublisher;
 
 
@@ -60,7 +62,8 @@ public class AuthServiceImpl implements AuthService {
 
         /* 회원이 아닌 경우 => 회원가입, Read-DB 반영 Kafka 이벤트 발행 */
         // entity로 변환하며 uuid, 랜덤 닉네임 할당
-        Member signUpMember = memberRepository.save(requestDto.toEntity(randomNicknameUtil));
+        Member signUpMember = memberRepository.save(requestDto.toEntity(randomNicknameUtil, randomProfileImageUtil));
+        log.info("회원가입 완료 : {}", signUpMember);
         eventPublisher.send(MemberCreateEvent.from(signUpMember));
 
         return respondSignIn(signUpMember, true);

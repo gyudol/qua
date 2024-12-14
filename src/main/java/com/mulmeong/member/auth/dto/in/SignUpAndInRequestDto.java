@@ -3,14 +3,16 @@ package com.mulmeong.member.auth.dto.in;
 import com.mulmeong.member.auth.domain.Member;
 import com.mulmeong.member.auth.domain.OauthProvider;
 import com.mulmeong.member.auth.util.RandomNicknameUtil;
+import com.mulmeong.member.auth.util.RandomProfileImageUtil;
 import com.mulmeong.member.auth.vo.in.SignUpAndSignInRequestVo;
 import com.mulmeong.member.common.exception.BaseException;
 import com.mulmeong.member.common.response.BaseResponseStatus;
-import org.springframework.beans.factory.annotation.Value;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.UUID;
 
+@Slf4j
 @Getter
 @Setter
 @ToString
@@ -20,9 +22,6 @@ public class SignUpAndInRequestDto {
     private String oauthId;
     private String oauthProvider;
     private String email;
-
-    @Value("${defaultProfileImage.url}")
-    private String defaultProfileImage;
 
     public static SignUpAndInRequestDto toDto(SignUpAndSignInRequestVo requestVo) {
 
@@ -38,14 +37,14 @@ public class SignUpAndInRequestDto {
                 .build();
     }
 
-    public Member toEntity(RandomNicknameUtil randomNicknameUtil) {
+    public Member toEntity(RandomNicknameUtil randomNicknameUtil, RandomProfileImageUtil randomProfileImageUtil) {
         return Member.builder()
                 .memberUuid(UUID.randomUUID().toString())
                 .oauthId(oauthId)
                 .oauthProvider(oauthProvider)
                 .email(email)
                 .nickname(randomNicknameUtil.generateNickname()) // 랜덤 닉네임(경우의수 840억)
-                .profileImageUrl(defaultProfileImage)
+                .profileImageUrl(randomProfileImageUtil.getRandomProfileImage())
                 .build();
     }
 

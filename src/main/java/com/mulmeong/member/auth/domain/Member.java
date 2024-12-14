@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
+import lombok.ToString;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedDate;
@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+@ToString
 @DynamicInsert
 @Getter
 @NoArgsConstructor
@@ -50,7 +51,6 @@ public class Member {
     private LocalDateTime createdAt;
 
     @Comment("프로필 이미지 URL")
-    @ColumnDefault("'image/198af19d-bbc6-4252-a632-d1a1ccd5c659.webp'")
     @Column(length = 2083)
     private String profileImageUrl;
 
