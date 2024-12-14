@@ -61,3 +61,25 @@ interface MediaContest {
 }
 
 // 콘테스트 리스트
+
+interface Asset {
+  mediaUrl: string;
+  description: string;
+}
+
+// Media 타입 정의
+interface MediaList {
+  mediaUuid: string;
+  mediaType: "IMAGE" | "VIDEO";
+  assets: Asset;
+}
+
+// 전체 데이터 구조 타입 정의
+interface ContestPostList {
+  postUuid: string;
+  contestId: number;
+  memberUuid: string;
+  media: MediaList;
+  createdAt: string;
+  voteCount: number;
+}

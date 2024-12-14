@@ -14,6 +14,7 @@ export interface GetContestParam {
   pageSize?: number; // 페이지 크기
   pageNo?: number; // 페이지 번호
 }
+
 // 현재 진행중인 콘테스트 불러오기 api
 export async function getContest({ ...query }: GetContestParam = {}) {
   const url = `${API_SERVER}/${PREFIX}/v1/contests/view?${toURLSearchParams(query)}`;
@@ -60,16 +61,3 @@ export async function getContestHistory({ ...query }: GetContestParam = {}) {
   // console.log("히스토리", res.type);
   return processResponse<Contest, true>({ res });
 }
-
-// 콘테스트 리스트 조회 api
-// export async function getContestList({ ...query }: GetContestParam = {}) {
-//   const url = `${API_SERVER}/${PREFIX}/auth/v1/contests/history?${toURLSearchParams(query)}`;
-
-//   const res: Response = await fetch(url, {
-//     headers: await getHeaders(),
-//     method: "GET",
-//     cache: "no-cache",
-//   });
-
-//   return processResponse<ContestList, true>({ res });
-// }

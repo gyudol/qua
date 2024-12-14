@@ -25,7 +25,6 @@ function ContestWriteForm({ contestId }: ContestFormProps) {
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault(); // 기본 form 제출 방지
 
-    // console.log("제출", payload);
     await contestPost(payload as MediaContest); // 타입 강제 변환
   };
 

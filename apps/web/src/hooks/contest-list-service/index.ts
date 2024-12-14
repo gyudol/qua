@@ -1,9 +1,9 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import type { GetContestParam } from "@/actions/contest/contest";
-import { getContestHistory } from "@/actions/contest/contest";
+import type { GetContestListParam } from "@/actions/contest-read-service";
+import { getContestList } from "@/actions/contest-read-service";
 
-export function useGetContestInfiniteQuery({ ...query }: GetContestParam) {
-  const { sortBy, pageNo, pageSize, nextCursor } = query;
+export function useGetContestInfiniteQuery({ ...query }: GetContestListParam) {
+  const { contestId, sortBy, pageNo, pageSize, nextCursor } = query;
   return useInfiniteQuery({
     queryKey: [
       "contest-service",
@@ -11,7 +11,8 @@ export function useGetContestInfiniteQuery({ ...query }: GetContestParam) {
         query,
       },
     ],
-    queryFn: ({ pageParam }) => getContestHistory({ sortBy, ...pageParam }),
+    queryFn: ({ pageParam }) =>
+      getContestList({ contestId, sortBy, ...pageParam }),
     getNextPageParam: ({
       hasNext,
       ...nextQuery
@@ -23,25 +24,26 @@ export function useGetContestInfiniteQuery({ ...query }: GetContestParam) {
     }) => (hasNext ? { ...nextQuery } : null),
     initialPageParam: {
       pageNo: pageNo || 1,
-      pageSize: pageSize || 10,
+      pageSize: pageSize || 8,
       nextCursor: nextCursor || "",
     },
   });
 }
 
-export function useGetConstestHistoryInfiniteQuery({
+export function useGetConstestListInfiniteQuery({
   ...query
-}: GetContestParam) {
-  const { sortBy, pageNo, pageSize, nextCursor } = query;
+}: GetContestListParam) {
+  const { contestId, sortBy, pageNo, pageSize, nextCursor } = query;
   return useInfiniteQuery({
     queryKey: [
       "contest-service",
       {
-        kind: "conest-history",
+        kind: "conest-List",
         query,
       },
     ],
-    queryFn: ({ pageParam }) => getContestHistory({ sortBy, ...pageParam }),
+    queryFn: ({ pageParam }) =>
+      getContestList({ contestId, sortBy, ...pageParam }),
     getNextPageParam: ({
       hasNext,
       ...nextQuery
