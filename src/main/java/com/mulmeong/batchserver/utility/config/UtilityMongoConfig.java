@@ -17,7 +17,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 )
 public class UtilityMongoConfig {
 
-    @Value("${spring.data.mongodb.utility.dbname}")
+    @Value("${spring.data.mongodb.utility.database}")
     private String dbName;
 
     @Value("${spring.data.mongodb.utility.uri}")

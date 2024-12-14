@@ -7,9 +7,9 @@ import com.mulmeong.batchserver.comment.application.ShortsRecommentService;
 import com.mulmeong.batchserver.common.exception.BaseException;
 import com.mulmeong.batchserver.common.response.BaseResponseStatus;
 import com.mulmeong.batchserver.feed.application.FeedService;
-import com.mulmeong.event.utility.consume.DislikesCreateEvent;
+import com.mulmeong.event.utility.consume.DislikeRenewCreateEvent;
 import com.mulmeong.event.utility.consume.FeedCreateEvent;
-import com.mulmeong.event.utility.consume.LikesCreateEvent;
+import com.mulmeong.event.utility.consume.LikeRenewCreateEvent;
 import com.mulmeong.event.utility.consume.ShortsCreateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,9 +42,9 @@ public class UtilityKafkaConsumer {
         followService.createShortsFollowerAlert(message);
     }
 
-    @KafkaListener(topics = "${event.utility.pub.topics.like-create.name}",
-            containerFactory = "likeCreateListener")
-    public void likesCreated(LikesCreateEvent message) {
+    @KafkaListener(topics = "${event.utility.pub.topics.like-renew-create.name}",
+            containerFactory = "likeRenewCreateListener")
+    public void likesRenewCreated(LikeRenewCreateEvent message) {
         String kind = message.getKind();
         log.info("like message: {}", kind);
         switch (kind) {
@@ -70,9 +70,9 @@ public class UtilityKafkaConsumer {
         }
     }
 
-    @KafkaListener(topics = "${event.utility.pub.topics.dislike-create.name}",
-            containerFactory = "dislikeCreateListener")
-    public void dislikesCreated(DislikesCreateEvent message) {
+    @KafkaListener(topics = "${event.utility.pub.topics.dislike-renew-create.name}",
+            containerFactory = "dislikeRenewCreateListener")
+    public void dislikesCreated(DislikeRenewCreateEvent message) {
         String kind = message.getKind();
         log.info("dislike message: {}", kind);
         switch (kind) {

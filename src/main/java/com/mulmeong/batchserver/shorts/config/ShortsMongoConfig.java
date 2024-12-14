@@ -17,7 +17,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 )
 public class ShortsMongoConfig {
 
-    @Value("${spring.data.mongodb.shorts.dbname}")
+    @Value("${spring.data.mongodb.shorts.database}")
     private String dbName;
 
     @Value("${spring.data.mongodb.shorts.uri}")

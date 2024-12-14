@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 
 @Configuration
 @EnableScheduling
-@EnableBatchProcessing(dataSourceRef = "contestDataSource", transactionManagerRef = "contestTransactionManager")
+@EnableBatchProcessing
 @RequiredArgsConstructor
 @Slf4j
 public class ContestResultBatchConfig {
@@ -51,7 +51,6 @@ public class ContestResultBatchConfig {
     private final ContestPostRepository contestPostRepository;
     private final ContestPostReadRepository contestPostReadRepository;
     private final RedisTemplate<String, String> redisTemplate;
-    @Qualifier("contestTransactionManager")
     private final PlatformTransactionManager transactionManager;
     private final ContestKafkaPublisher contestKafkaPublisher;
     private static final String VOTE_COUNT_KEY = "contest:%d:post:votes";

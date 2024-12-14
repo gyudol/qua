@@ -19,7 +19,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 )
 public class ContestMongoConfig {
 
-    @Value("${spring.data.mongodb.contest.dbname}")
+    @Value("${spring.data.mongodb.contest.database}")
     private String dbName;
 
     @Value("${spring.data.mongodb.contest.uri}")

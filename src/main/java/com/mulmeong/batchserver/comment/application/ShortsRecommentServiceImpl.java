@@ -4,8 +4,8 @@ import com.mulmeong.batchserver.comment.domain.document.ShortsRecomment;
 import com.mulmeong.batchserver.comment.infrastructure.repository.ShortsRecommentReadRepository;
 import com.mulmeong.batchserver.utility.infrastructure.repository.DislikesRepository;
 import com.mulmeong.batchserver.utility.infrastructure.repository.LikesRepository;
-import com.mulmeong.event.utility.consume.DislikesCreateEvent;
-import com.mulmeong.event.utility.consume.LikesCreateEvent;
+import com.mulmeong.event.utility.consume.DislikeRenewCreateEvent;
+import com.mulmeong.event.utility.consume.LikeRenewCreateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
     private final DislikesRepository dislikesRepository;
 
     @Override
-    public void likeCountRenew(LikesCreateEvent message) {
+    public void likeCountRenew(LikeRenewCreateEvent message) {
 
         ShortsRecomment shortsRecommentReadUpdate = shortsReommentReadRepository
                 .findByRecommentUuid(message.getKindUuid()).orElseThrow();
@@ -31,7 +31,7 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
     }
 
     @Override
-    public void dislikeCountRenew(DislikesCreateEvent message) {
+    public void dislikeCountRenew(DislikeRenewCreateEvent message) {
 
         ShortsRecomment shortsRecommentReadUpdate = shortsReommentReadRepository
                 .findByRecommentUuid(message.getKindUuid()).orElseThrow();

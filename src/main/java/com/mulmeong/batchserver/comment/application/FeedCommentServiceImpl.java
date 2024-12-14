@@ -4,8 +4,8 @@ import com.mulmeong.batchserver.comment.domain.document.FeedComment;
 import com.mulmeong.batchserver.comment.infrastructure.repository.FeedCommentReadRepository;
 import com.mulmeong.batchserver.utility.infrastructure.repository.DislikesRepository;
 import com.mulmeong.batchserver.utility.infrastructure.repository.LikesRepository;
-import com.mulmeong.event.utility.consume.DislikesCreateEvent;
-import com.mulmeong.event.utility.consume.LikesCreateEvent;
+import com.mulmeong.event.utility.consume.DislikeRenewCreateEvent;
+import com.mulmeong.event.utility.consume.LikeRenewCreateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class FeedCommentServiceImpl implements FeedCommentService {
     private final DislikesRepository dislikesRepository;
 
     @Override
-    public void likeCountRenew(LikesCreateEvent message) {
+    public void likeCountRenew(LikeRenewCreateEvent message) {
 
         FeedComment feedReadUpdate = feedCommentReadRepository.findByCommentUuid(message.getKindUuid()).orElseThrow();
         log.info("feedUuid: {}", feedReadUpdate.getFeedUuid());
@@ -32,7 +32,7 @@ public class FeedCommentServiceImpl implements FeedCommentService {
     }
 
     @Override
-    public void dislikeCountRenew(DislikesCreateEvent message) {
+    public void dislikeCountRenew(DislikeRenewCreateEvent message) {
 
         FeedComment feedReadUpdate = feedCommentReadRepository.findByCommentUuid(message.getKindUuid()).orElseThrow();
         Long count = dislikesRepository.countByKindAndKindUuidAndStatus(
