@@ -23,11 +23,12 @@ public class SseServiceImpl implements SseService {
 
     private final EmitterRepository emitterRepository;
     private final FeignService feignService;
+    private static final Long DEFAULT_TIMEOUT = 15L * 60 * 1000; //15분으로 설정
 
     @Override
     public SseEmitter subscribe(String memberUuid, String lastEventId) {
         String emitterId = makeTimeIncludeId(memberUuid); //사용자의 실시간 연결 식별
-        SseEmitter emitter = emitterRepository.save(emitterId, new SseEmitter(0L));
+        SseEmitter emitter = emitterRepository.save(emitterId, new SseEmitter(DEFAULT_TIMEOUT));
         emitter.onCompletion(() -> emitterRepository.deleteById(emitterId)); //sse 연결이 정상적으로 완료되었을 때
         emitter.onTimeout(() -> emitterRepository.deleteById(emitterId)); //sse  연결이 타임아웃되었을 때
         String eventId = makeTimeIncludeId(memberUuid); //전송하는 각 이벤트를 식별하는 id
