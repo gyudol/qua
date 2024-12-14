@@ -1,8 +1,8 @@
 "use server";
 
-import type { CommonRes, Result } from "@/types/contest/contest";
+import type { Contest, MediaContest } from "@/types/contest/contest";
 import { toURLSearchParams } from "@/functions/utils";
-import type { Pagination } from "@/types/common";
+import type { EmptyObject } from "@/types/common";
 import { getHeaders, processResponse } from "../common";
 
 const API_SERVER = process.env.BASE_API_URL;
@@ -14,84 +14,62 @@ export interface GetContestParam {
   pageSize?: number; // 페이지 크기
   pageNo?: number; // 페이지 번호
 }
-//콘테스트
-// export async function getMemberNickName() {
-//   const URI = `${API_SERVER}/${PREFIX}/v1/contest/{contestId}`;
-//   console.log("API 호출 시작: ", URI);
+// 현재 진행중인 콘테스트 불러오기 api
+export async function getContest({ ...query }: GetContestParam = {}) {
+  const url = `${API_SERVER}/${PREFIX}/v1/contests/view?${toURLSearchParams(query)}`;
 
-//   const res: Response = await fetch(URI, {
+  const res = await fetch(url, {
+    headers: await getHeaders(),
+    method: "GET",
+    cache: "no-cache",
+  });
+
+  // console.log("데이터", res);
+  return processResponse<Contest, true>({ res });
+}
+
+// 콘테스트 참여 api 로직
+export async function contestPost({ contestId, media }: MediaContest) {
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/contests/${contestId}/apply`;
+  const res: Response = await fetch(URI, {
+    headers: await getHeaders(),
+    method: "POST",
+    cache: "no-cache",
+    body: JSON.stringify({ media }),
+  });
+
+  return processResponse<EmptyObject, false>({ res });
+}
+
+// 지난 콘테스트 api
+export async function getContestHistory({ ...query }: GetContestParam = {}) {
+  const url = `${API_SERVER}/${PREFIX}/v1/contests/history?${toURLSearchParams(query)}`;
+
+  // console.log(url);
+
+  const res: Response = await fetch(url, {
+    headers: await getHeaders(),
+    method: "GET",
+    cache: "no-cache",
+  });
+
+  // console.log("히스토리", res.status);
+  // console.log("히스토리", res.body);
+  // console.log("히스토리", res.headers);
+  // console.log("히스토리", res.url);
+  // console.log("히스토리", res.type);
+  return processResponse<Contest, true>({ res });
+}
+
+// 콘테스트 리스트 조회 api
+// export async function getContestList({ ...query }: GetContestParam = {}) {
+//   const url = `${API_SERVER}/${PREFIX}/auth/v1/contests/history?${toURLSearchParams(query)}`;
+
+//   const res: Response = await fetch(url, {
 //     headers: await getHeaders(),
 //     method: "GET",
 //     cache: "no-cache",
 //   });
-//   console.error(`HTTP 에러 발생: ${res.status} - ${res.statusText}`);
-//   console.error(`HTTP 에러 발생: ${res.status} - ${res.status}`);
 
-//   const data = (await res.json()) as CommonRes<ContestListRes>;
-//   console.log("데이터", data);
-
-//   return data;
+//   return processResponse<ContestList, true>({ res });
 // }
-
-// 현재 진행중인 콘테스트 불러오기 api
-export async function getContest({
-  sortBy = "latest",
-  nextCursor,
-  pageSize = 1,
-  pageNo = 1,
-}: GetContestParam = {}): Promise<CommonRes<Result>> {
-  const queryParams = new URLSearchParams();
-
-  // 파라미터 추가
-  if (sortBy) queryParams.append("sortBy", sortBy);
-  if (nextCursor) queryParams.append("nextCursor", nextCursor);
-  queryParams.append("pageSize", pageSize.toString());
-  queryParams.append("pageNo", pageNo.toString());
-
-  const url = `${API_SERVER}/${PREFIX}/auth/v1/contests/view?${queryParams.toString()}`;
-
-  const res: Response = await fetch(url, {
-    headers: await getHeaders(),
-    method: "GET",
-    cache: "no-cache",
-  });
-
-  const data = (await res.json()) as CommonRes<Result>;
-
-  // console.log("데이터", data);
-  // console.log("데이터", data.result);
-  return data;
-}
-
-//콘테스트 참여 api 로직
-// export async function contestPost() {
-//   const URI = `${API_SERVER}/${PREFIX}/auth/v1/contests/{contestId}/apply`;
-
-//   const res: Response = await fetch(URI, {
-//     headers: await getHeaders(),
-//     method: "POST",
-//     cache: "no-cache",
-//   });
-//   console.error(`HTTP 에러 발생: ${res.status} - ${res.statusText}`);
-//   console.error(`HTTP 에러 발생: ${res.status} - ${res.status}`);
-
-//   const data = (await res.json()) as CommonRes<MediaType>;
-//   console.log("데이터", data);
-
-//   return data;
-// }
-
-// 지난 콘테스트 api
-export async function getContestHistory({
-  ...query
-}: GetContestParam = {}): Promise<Pagination<Result>> {
-  const url = `${API_SERVER}/${PREFIX}/auth/v1/contests/history?${toURLSearchParams(query)}`;
-
-  const res: Response = await fetch(url, {
-    headers: await getHeaders(),
-    method: "GET",
-    cache: "no-cache",
-  });
-
-  return processResponse<Result, true>({ res });
-}

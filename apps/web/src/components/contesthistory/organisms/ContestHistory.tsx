@@ -1,23 +1,34 @@
 "use client";
 import React, { useState } from "react";
+import type { Winner } from "@/types/contest/contest";
 
-function ContestCard() {
+interface ContestHistoryProps {
+  winners: Winner[];
+  imgUrl: string;
+  endDate: string;
+  startDate: string;
+  contestName: string;
+}
+
+function ContestHistory({
+  winners,
+  // imgUrl,
+  endDate,
+  startDate,
+  contestName,
+}: ContestHistoryProps) {
   const [showDetails, setShowDetails] = useState(false);
   const [showWinners, setShowWinners] = useState(false);
-
-  const winners = [
-    { ranking: 1, nickname: "엄현식", voteCount: 120 },
-    { ranking: 2, nickname: "주성광", voteCount: 100 },
-    { ranking: 3, nickname: "김규찬", voteCount: 90 },
-  ];
 
   return (
     <div className="bg-slate-400 p-4 text-white rounded-xl mt-5">
       {!showDetails ? (
         <div className="flex justify-between items-center text-nowrap">
-          <h2 className="text-xl font-semibold">구피 컵</h2>
+          <h2 className="text-xl font-semibold">{contestName}</h2>
           <div className="flex items-center space-x-4 text-[0.8rem]">
-            <p>2024.12.12 ~ 2024.12.15</p>
+            <p>
+              {startDate} ~ {endDate}
+            </p>
           </div>
           <button
             type="button"
@@ -30,16 +41,23 @@ function ContestCard() {
       ) : (
         <div className="relative border border-gray-300 rounded-lg shadow-md p-6 bg-white max-w-md mx-auto mt-5">
           <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-[#47D0BF] text-white font-semibold text-sm py-1 px-4 rounded-full shadow-md">
-            구피 컵
+            {contestName}
           </div>
           <div className="mb-6">
             <div className="flex justify-between items-center text-sm text-gray-600 border-b pb-4 mb-4">
               <p className="font-medium">진행 기간</p>
-              <p>24.12.19 ~ 24.12.25</p>
+              <p>
+                {startDate} ~ {endDate}
+              </p>
             </div>
             <div className="mb-4 h-60 w-full bg-gray-300 flex items-center justify-center rounded-lg">
-              {/* <Image></Image> */}
-              <span className="text-gray-500">이미지 자리</span>
+              {/* <Image
+                src={imgUrl}
+                alt={contestName}
+                width={500}
+                height={500}
+                className="object-cover w-full h-full"
+              /> */}
             </div>
           </div>
           <div className="flex flex-col gap-4 mt-4">
@@ -65,7 +83,7 @@ function ContestCard() {
                       className="flex justify-between items-center text-black bg-gray-50 p-3 rounded-lg shadow-sm"
                     >
                       <span className="font-medium text-gray-800">
-                        {winner.ranking}. {winner.nickname}
+                        {winner.ranking}. {contestName}
                       </span>
                       <span className="text-gray-600 font-semibold">
                         {winner.voteCount} 투표 수
@@ -94,4 +112,4 @@ function ContestCard() {
   );
 }
 
-export default ContestCard;
+export default ContestHistory;

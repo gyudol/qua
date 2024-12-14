@@ -1,10 +1,10 @@
 import React from "react";
-import ContestHistory from "@/components/contesthistory/organisms/ContestHistory";
+import ContestHistoryMain from "@/components/contesthistory/templates/ContestHistoryMain";
 
 function page() {
   return (
     <div className="w-full px-4 flex flex-col gap-4">
-      <ContestHistory />
+      <ContestHistoryMain />
     </div>
   );
 }

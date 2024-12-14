@@ -12,7 +12,7 @@ export interface CommonRes<T> {
   code: number;
   result: T | string;
 }
-// 현재 콘테스트 타입
+// 현재 콘테스트 불러오기
 interface Winner {
   memberUuid: string;
   postUuid: string;
@@ -29,42 +29,35 @@ interface Contest {
   imgUrl: string;
   winners: Winner[];
 }
-interface Result {
-  content: Contest[];
-  nextCursor: string;
-  hasNext: boolean;
-  pageSize: number;
-  pageNo: number;
-}
-
 // 콘테스트 생성
-
-export interface MediaAsset {
+interface MediaAsset {
   mediaUrl: string;
   description: string;
 }
-
-export interface ImageMedia {
-  media: {
-    mediaUuid: string;
-    mediaType: "IMAGE";
-    assets: {
-      IMAGE: MediaAsset;
-    };
-  };
+interface VideoAssets {
+  VIDEO_THUMBNAIL: MediaAsset;
+  STREAMING_360: MediaAsset;
+  STREAMING_540: MediaAsset;
+  STREAMING_720: MediaAsset;
+  VIDEO_MP4: MediaAsset;
+}
+interface ImageAssets {
+  IMAGE: MediaAsset;
+}
+interface VideoMedia {
+  mediaUuid: string;
+  mediaType: "VIDEO";
+  assets: VideoAssets;
+}
+interface ImageMedia {
+  mediaUuid: string;
+  mediaType: "IMAGE";
+  assets: ImageAssets;
+}
+type Media = VideoMedia | ImageMedia;
+interface MediaContest {
+  contestId: number;
+  media: Media;
 }
 
-export interface VideoMedia {
-  media: {
-    mediaUuid: string;
-    mediaType: "VIDEO";
-    assets: {
-      VIDEO_THUMBNAIL: MediaAsset;
-      STREAMING_360: MediaAsset;
-      STREAMING_540: MediaAsset;
-      STREAMING_720: MediaAsset;
-      VIDEO_MP4: MediaAsset;
-    };
-  };
-}
-export type MediaType = ImageMedia | VideoMedia;
+// 콘테스트 리스트

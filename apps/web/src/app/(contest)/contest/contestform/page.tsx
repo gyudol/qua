@@ -1,12 +1,16 @@
-import React from "react";
-import ContestFormFields from "@/components/contestform/organisms/ContestFormFields";
+import { getContest } from "@/actions/contest/contest";
+import ContestWriteForm from "@/components/contestform/organisms/ContestWriteForm";
 
-function page() {
+export default async function Page() {
+  const response = await getContest({ sortBy: "latest", pageSize: 1 });
+
+  // `contestId` 목록 추출
+  const contestItems = response.content.map((content) => content.contestId);
+  const firstContestId = contestItems[0];
+  // console.log("id", contestItems);
   return (
-    <main>
-      <ContestFormFields />
-    </main>
+    <div>
+      <ContestWriteForm contestId={firstContestId} />
+    </div>
   );
 }
-
-export default page;

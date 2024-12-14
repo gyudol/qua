@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import type { Contest } from "@/types/contest/contest";
 import Caution from "../atoms/Caution";
 
@@ -9,8 +9,6 @@ interface ContestMainProps {
 }
 
 function ContestMain({ contests }: ContestMainProps) {
-  const defaultImage = "/default-image.jpg"; // 기본 이미지 경로
-
   return (
     <div>
       <div className="flex justify-center items-center mt-5">
@@ -70,18 +68,13 @@ function ContestMain({ contests }: ContestMainProps) {
       {contests.length > 0 && (
         <div className="w-full my-5">
           <div className="mb-4 h-60 w-full bg-gray-300 flex items-center justify-center rounded-lg overflow-hidden">
-            <Image
-              src={
-                contests[0].imgUrl.startsWith("http") ||
-                contests[0].imgUrl.startsWith("/")
-                  ? contests[0].imgUrl
-                  : defaultImage
-              }
-              alt={contests[0].contestName || "기본 이미지"}
+            {/* <Image
+              src={contests[0].imgUrl}
+              alt={contests[0].contestsName}
               width={500}
               height={500}
               className="object-cover w-full h-full"
-            />
+            /> */}
           </div>
         </div>
       )}
