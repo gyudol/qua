@@ -68,7 +68,7 @@ public class NotificationController {
                 .stream().map(NotificationStatusResponseDto::toVo).toList());
     }
 
-    @PostMapping("/members/notifications/{historyUuid}")
+    @PutMapping("/members/notifications/{historyUuid}")
     @Operation(summary = "회원의 알림 읽었을 때 상태 변경", tags = {"Notification Service"})
     BaseResponse<Void> updateNotificationHistory(
             @RequestHeader("Member-Uuid") String memberUuid, @PathVariable String historyUuid) {
@@ -76,7 +76,7 @@ public class NotificationController {
         return new BaseResponse<>();
     }
 
-    @PostMapping("/members/notification-status/{type}")
+    @PutMapping("/members/notification-status/{type}")
     @Operation(summary = "회원의 알림 토글 상태 변경", tags = {"Notification Service"},
             description = """
                     - kind : `feed` / `shorts` / `comment` / `recomment` / `follow` /
