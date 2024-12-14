@@ -1,38 +1,44 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Switch } from '@repo/ui/shadcn/switch';
-import { Label } from '@repo/ui/shadcn/label';
-import { XIcon } from 'lucide-react';
-import { feedFormSchema } from '@/schema/FeedFormSchema';
-import type { CreateFeedType, FeedHashtag } from '@/types/request/requestType';
-import { QuaInputUI } from '@/components/common/atoms/QuaInputUi';
-import { QuaTextAreaUI } from '@/components/common/atoms/QuaTextAreaUi';
-import ErrorTextUi from '@/components/common/atoms/ErrorTextUi';
-import ImageUploader from '../molecule/ImageUploader';
-import CategorySelector from '../molecule/CategorySelector';
+import React, { useState } from "react";
+import { Switch } from "@repo/ui/shadcn/switch";
+import { Label } from "@repo/ui/shadcn/label";
+import { XIcon } from "lucide-react";
+import { feedFormSchema } from "@/schema/FeedFormSchema";
+import type { CreateFeedType, FeedHashtag } from "@/types/request/requestType";
+import { QuaInputUI } from "@/components/common/atoms/QuaInputUi";
+import { QuaTextAreaUI } from "@/components/common/atoms/QuaTextAreaUi";
+import ErrorTextUi from "@/components/common/atoms/ErrorTextUi";
+import ImageUploader from "../molecule/ImageUploader";
+import CategorySelector from "../molecule/CategorySelector";
 
 function FeedCreateFormFields({
   payload,
   setPayload,
+  errors,
+  setErrors,
 }: {
   payload: CreateFeedType;
   setPayload: React.Dispatch<React.SetStateAction<CreateFeedType>>;
+  errors: Record<string, string>;
+  setErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
 }) {
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [tagsInput, setTagsInput] = useState<string>('');
+  const [tagsInput, setTagsInput] = useState<string>("");
   const [isComposing, setIsComposing] = useState<boolean>(false);
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
 
-  const validatePayload = (updatedPayload: CreateFeedType) => {
+  const validatePayload = (updatedPayload: CreateFeedType, name?: string) => {
     const res = feedFormSchema.safeParse(updatedPayload); // Zod 스키마 검증
     if (!res.success) {
       const validationErrors = res.error.issues.reduce(
-        (acc, issue) => ({
-          ...acc,
-          [issue.path[0]]: issue.message,
-        }),
-        {}
+        (acc, issue) => {
+          if (issue.path[0] !== name) return acc;
+          return {
+            ...acc,
+            [issue.path[0]]: issue.message,
+          };
+        },
+        name ? { ...errors, [name]: "" } : errors,
       );
       setErrors(validationErrors); // 에러 메시지 저장
     } else {
@@ -43,13 +49,13 @@ function FeedCreateFormFields({
   const handleChange = (
     event: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = event.target;
     // console.log('name', name, value);
     // console.log('payload', payload);
 
-    if (name === 'tags') {
+    if (name === "tags") {
       setTagsInput(value); // 태그 입력 필드 값만 업데이트
     } else {
       const updatedPayload = {
@@ -57,16 +63,16 @@ function FeedCreateFormFields({
         [name]: value,
       };
       setPayload(updatedPayload); // payload 업데이트
-      validatePayload(updatedPayload); // Zod 스키마로 검증
+      validatePayload(updatedPayload, name); // Zod 스키마로 검증
     }
   };
 
   const handleAddTag = () => {
-    if (tagsInput.trim() === '') return;
+    if (tagsInput.trim() === "") return;
 
     const newTag = { name: tagsInput.trim() };
     if (payload.hashtags.some((tag) => tag.name === newTag.name)) {
-      setTagsInput(''); // 중복 태그는 추가하지 않음
+      setTagsInput(""); // 중복 태그는 추가하지 않음
       return;
     }
 
@@ -78,7 +84,7 @@ function FeedCreateFormFields({
       hashtags: updatedTags,
     };
 
-    setTagsInput(''); // 입력 필드 초기화
+    setTagsInput(""); // 입력 필드 초기화
     setPayload(updatedPayload); // payload 업데이트
     validatePayload(updatedPayload); // Zod 스키마로 검증
   };
@@ -96,7 +102,7 @@ function FeedCreateFormFields({
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (isComposing) return;
-    if (event.key === 'Enter' || event.key === ',') {
+    if (event.key === "Enter" || event.key === ",") {
       event.preventDefault(); // 기본 동작 방지
       handleAddTag(); // 태그 추가
     }
@@ -109,7 +115,7 @@ function FeedCreateFormFields({
       categoryName,
     };
     setPayload(updatedPayload);
-    validatePayload(updatedPayload);
+    validatePayload(updatedPayload, "categoryName");
   };
 
   const handleVisibilityChange = (checked: boolean) => {
@@ -117,7 +123,7 @@ function FeedCreateFormFields({
     setIsPrivate(checked);
     const updatedPayload: CreateFeedType = {
       ...payload,
-      visibility: checked ? 'HIDDEN' : 'VISIBLE',
+      visibility: checked ? "HIDDEN" : "VISIBLE",
     };
     setPayload(updatedPayload);
     validatePayload(updatedPayload);
@@ -176,12 +182,12 @@ function FeedCreateFormFields({
             <div
               key={`index-${tag.name}`}
               className="bg-primary text-white text-xs px-2 py-[0.25rem] flex items-center gap-2 opacity-80"
-              style={{ borderRadius: '0.35rem' }}
+              style={{ borderRadius: "0.35rem" }}
               onClick={() => handleDeleteTag(index)}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
+                if (e.key === "Enter" || e.key === " ") {
                   handleDeleteTag(index);
                 }
               }}
@@ -200,7 +206,7 @@ function FeedCreateFormFields({
           checked={isPrivate}
         />
         <Label htmlFor="airplane-mode" className="text-primary text-xs">
-          private mode {isPrivate ? 'on' : 'off'}
+          private mode {isPrivate ? "on" : "off"}
         </Label>
       </div>
       <ImageUploader setPayload={setPayload} />

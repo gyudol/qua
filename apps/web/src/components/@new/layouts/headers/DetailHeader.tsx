@@ -1,7 +1,7 @@
-import { Pencil, XIcon } from "lucide-react";
+import { XIcon } from "lucide-react";
 import BackButton from "../../common/BackButton";
 
-export default function DetailHeader({ title }: { title?: string }) {
+export default function DetailHeader({ title }: { title?: React.ReactNode }) {
   return (
     <>
       <div className="w-full min-h-[4.5rem]" />
@@ -14,9 +14,8 @@ export default function DetailHeader({ title }: { title?: string }) {
       justify-between items-center
       "
       >
-        <div className="w-full flex flex-row justify-between">
+        <div className="w-full flex flex-row justify-between items-center">
           <div className="text-teal-400 text-[1.25rem] font-semibold flex gap-4 items-center">
-            <Pencil />
             {title}
           </div>
           <h1 className="text-[0rem]">QUA</h1>

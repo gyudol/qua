@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { MemberProfile } from "@/types/member/member-read-service";
+import { Fish } from "lucide-react";
 
 interface MemberProfileImageProps
   extends Pick<MemberProfile, "profileImageUrl" | "nickname"> {
@@ -29,7 +30,7 @@ type ProfileImageProps = Pick<
 >;
 
 function ProfileImage({ size, profileImageUrl, nickname }: ProfileImageProps) {
-  return (
+  return profileImageUrl ? (
     <figure className="relative" style={{ width: size, height: size }}>
       <Image
         className="rounded-full"
@@ -39,5 +40,12 @@ function ProfileImage({ size, profileImageUrl, nickname }: ProfileImageProps) {
         fill
       />
     </figure>
+  ) : (
+    <div
+      className="rounded-full bg-teal-400 flex justify-center items-center"
+      style={{ width: size, height: size }}
+    >
+      <Fish className="fill-white" />
+    </div>
   );
 }

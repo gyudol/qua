@@ -162,7 +162,7 @@ export function useGetLikesInfiniteQuery({ ...query }: GetLikesReq) {
     }) => (hasNext ? { ...nextQuery } : null),
     initialPageParam: {
       pageNo: pageNo || 1,
-      pageSize: pageSize || 10,
+      pageSize: pageSize || 12,
       nextCursor: nextCursor || undefined,
     },
   });

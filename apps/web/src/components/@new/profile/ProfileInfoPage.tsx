@@ -23,7 +23,7 @@ export default async function ProfileInfoPage({
   my,
 }: MemberProfile & { my?: boolean }) {
   const [equippedBadge, grade] = await Promise.all([
-    getBadge({ badgeId: equippedBadgeId }),
+    equippedBadgeId ? getBadge({ badgeId: equippedBadgeId }) : null,
     getGrade({ gradeId }),
   ]);
 
@@ -51,13 +51,15 @@ export default async function ProfileInfoPage({
                 fill
               />
             </figure>
-            <figure className="relative size-[1.5rem]">
-              <Image
-                src={`https://media.qua.world/${equippedBadge.imageUrl}`}
-                alt={nickname}
-                fill
-              />
-            </figure>
+            {equippedBadge ? (
+              <figure className="relative size-[1.5rem]">
+                <Image
+                  src={`https://media.qua.world/${equippedBadge.imageUrl}`}
+                  alt={nickname}
+                  fill
+                />
+              </figure>
+            ) : null}
           </div>
         </div>
         {my ? (
@@ -93,7 +95,7 @@ async function GradeAndPointSection({
   ]);
 
   return (
-    <section className="w-full py-[2rem] px-[5rem] flex justify-center items-center">
+    <section className="w-full py-[2rem] px-[3rem] flex justify-center items-center">
       <div className="w-full flex flex-col items-center gap-2">
         <div className="w-full flex gap-[2rem] items-center">
           <div className="flex-1 flex gap-2 items-center">
@@ -139,7 +141,7 @@ async function BadgeListItem({
             fill
           />
         </figure>
-        <div className="w-full">
+        <div className="flex-1">
           <div className="flex justify-between items-center">
             <div className="font-bold text-[1.2rem]">{badge.name}</div>
             {equipped || my ? (
@@ -171,7 +173,7 @@ async function BadgeAndInterestsSection({
   my,
 }: {
   memberUuid: string;
-  equippedBadgeId: number;
+  equippedBadgeId: number | null;
   my?: boolean;
 }) {
   const badges = await getAllMemberBadges({ memberUuid });
@@ -187,12 +189,14 @@ async function BadgeAndInterestsSection({
           ) : null}
         </div>
         <ul className="w-full flex flex-col">
-          <li className="w-full">
-            <BadgeListItem {...{ badgeId: equippedBadgeId, my }} equipped />
-          </li>
+          {equippedBadgeId ? (
+            <li className="w-full">
+              <BadgeListItem {...{ badgeId: equippedBadgeId, my }} equipped />
+            </li>
+          ) : null}
           {badges
             .filter(({ equipped }) => !equipped)
-            .slice(0, 2)
+            .slice(0, equippedBadgeId ? 2 : 3)
             .map(({ badgeId }) => (
               <BadgeListItem key={badgeId} {...{ badgeId, my }} />
             ))}
