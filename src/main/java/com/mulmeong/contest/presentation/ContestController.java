@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @Tag(name = "contest", description = "콘테스트 공통")
-@RequestMapping("/auth/v1/contests")
+@RequestMapping("/v1/contests")
 public class ContestController {
 
     private final ContestService contestService;
@@ -33,7 +33,7 @@ public class ContestController {
     ) {
 
         return new BaseResponse<>(contestService.getContests(
-                ContestQueryRequestDto.toDto(true, sortBy, lastId, pageNo, pageSize)));
+                ContestQueryRequestDto.toDto(true, sortBy, lastId, pageSize, pageNo)));
     }
 
     @Operation(summary = "과거 콘테스트 조회", description = "마감 된 콘테스트 목록 조회(최신순(latest), 과거순(oldest))")
@@ -46,6 +46,6 @@ public class ContestController {
     ) {
 
         return new BaseResponse<>(contestService.getContests(
-                ContestQueryRequestDto.toDto(false, sortBy, lastId, pageNo, pageSize)));
+                ContestQueryRequestDto.toDto(false, sortBy, lastId, pageSize, pageNo)));
     }
 }
