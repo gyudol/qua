@@ -27,7 +27,7 @@ public enum BaseResponseStatus {
     NOT_EXIST_POST(HttpStatus.NOT_FOUND, false, 3001, "존재하지 않는 포스트입니다");
 
 
-    private final HttpStatusCode httpStatusCode;
+    private final HttpStatus httpStatusCode;
     private final boolean isSuccess;
     private final int code;
     private final String message;
