@@ -35,8 +35,8 @@ public class ShortsCommentServiceImpl implements ShortsCommentService {
 
     @Override
     public void createShortsComment(ShortsCommentCreateEvent message) {
-        ShortsComment shortsComment = message.toEntity();
-        shortsCommentRepository.save(shortsComment);
+        ShortsComment shortsComment = shortsCommentRepository.save(message.toEntity());
+        buildCursor(shortsComment);
     }
 
     @Override
@@ -65,9 +65,6 @@ public class ShortsCommentServiceImpl implements ShortsCommentService {
             Integer pageSize,
             Integer pageNo) {
 
-        List<String> cursors = shortsCommentRepository.findByShortsUuid(shortsUuid).stream()
-                .map(this::buildCursor)
-                .toList();
         CursorPage<ShortsComment> cursorPage = shortsCommentRepositoryCustom.getShortsComments(
                 shortsUuid, sortBy, lastId, pageSize, pageNo);
 
@@ -75,16 +72,15 @@ public class ShortsCommentServiceImpl implements ShortsCommentService {
                 .map(ShortsCommentResponseDto::toDto).toList());
     }
 
-    public String buildCursor(ShortsComment comment) {
+    public void buildCursor(ShortsComment comment) {
 
         String cursor = String.format("%010d", comment.getLikeCount())
-                + String.format("%010d", 1000000000 - comment.getDislikeCount())
+                + String.format("%010d", 1000000000L - comment.getDislikeCount())
                 + String.format("%010d", comment.getRecommentCount())
                 + comment.getId(); // ID 추가
 
         Query query = new Query(Criteria.where("commentUuid").is(comment.getCommentUuid()));
         Update update = new Update().set("customCursor", cursor);
         mongoTemplate.updateFirst(query, update, ShortsComment.class);
-        return cursor;
     }
 }

@@ -84,18 +84,18 @@ public class KafkaConsumerConfig {
         return kafkaListenerContainerFactory(ShortsRecommentDeleteEvent.class);
     }
 
-    @Bean
+
     public <T> ConsumerFactory<String, T> consumerFactory(Class<T> messageType) {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-        props.put(JsonDeserializer.TRUSTED_PACKAGES, "com.mulmeong.event.comment");
-        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, messageType);
+        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, messageType.getName());
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
-    @Bean
+
     public <T> ConcurrentKafkaListenerContainerFactory<String, T> kafkaListenerContainerFactory(Class<T> messageType) {
         ConcurrentKafkaListenerContainerFactory<String, T> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
