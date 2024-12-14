@@ -22,9 +22,9 @@ export interface Badge {
 export interface MemberCompactProfile {
   memberUuid: string;
   nickname: string;
-  profileImageUrl: string;
+  profileImageUrl: string | null;
   gradeId: number;
-  equippedBadgeId: number;
+  equippedBadgeId: number | null;
 }
 
 export interface MemberProfileStat {

@@ -40,7 +40,7 @@ export default function page({
               id="tag"
               name="tag"
               type="text"
-              className="flex-1 bg-slate-200 focus:outline-none"
+              className="w-full bg-slate-200 focus:outline-none"
               placeholder="검색어를 입력하세요"
               defaultValue={tag}
             />

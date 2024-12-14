@@ -45,10 +45,15 @@ export function FeedCompactHeader({
               link
             />
           </div>
-          <Link href={`/profile/${nickname}`} className="mr-[1rem] text-nowrap">
-            {nickname}
-          </Link>
-          <PostedAt {...{ createdAt, updatedAt }} />
+          <div className="flex flex-wrap">
+            <Link
+              href={`/profile/${nickname}`}
+              className="mr-[1rem] text-nowrap"
+            >
+              {nickname}
+            </Link>
+            <PostedAt {...{ createdAt, updatedAt }} />
+          </div>
         </div>
         <div>
           <FeedMoreOption {...{ feedUuid, memberUuid }} />

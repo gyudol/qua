@@ -12,7 +12,7 @@ interface ShortsFollowButtonProp {
 }
 
 export function ShortsFollowButton({ memberUuid }: ShortsFollowButtonProp) {
-  const { isAuthenticated } = useSessionContext();
+  const { memberUuid: sessionUuid, isAuthenticated } = useSessionContext();
 
   const { data: followStatus } = useFollowStatusQuery({
     targetUuid: memberUuid,
@@ -26,18 +26,20 @@ export function ShortsFollowButton({ memberUuid }: ShortsFollowButtonProp) {
     if (isAuthenticated) mutate(!followStatus);
   }
 
+  if (sessionUuid === memberUuid) return null;
+
   return (
     <button
       type="button"
       className={cn(
-        "w-[5rem] py-[0.25rem] rounded-xl",
+        "w-[6rem] py-[0.25rem] rounded-xl",
         followStatus
           ? "bg-[rgba(255,255,255,0.20)] text-white"
           : "bg-white text-black",
       )}
       onClick={handleClick}
     >
-      {followStatus ? "구독중" : "구독"}
+      {followStatus ? "Following" : "Follow"}
     </button>
   );
 }

@@ -26,13 +26,14 @@ export function CommentSection({ feedUuid }: CommentSectionProps) {
   return (
     <section
       id="comment"
-      className="flex flex-col m-[1rem] overflow-auto relative min-h-[10rem]"
+      className="flex flex-col p-[1rem] overflow-auto relative min-h-[10rem]"
     >
-      <div className="fixed w-full top-5 left-0 py-4 px-4 bg-white z-[100]">
+      {/* <div className="fixed w-full top-5 left-0 py-4 px-4 bg-white z-[100]"> */}
+      <div className="w-full py-[1rem] bg-white">
         <CommentInput {...{ feedUuid }} />
       </div>
       {newCommentList?.length || data?.pages[0].content.length ? (
-        <div className="mt-[4rem]">
+        <div>
           {newCommentList?.map((comment) => (
             <CommentView key={comment.commentUuid} {...comment} justNow />
           ))}

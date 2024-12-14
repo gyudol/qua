@@ -32,10 +32,10 @@ export default async function ProfilePage({
   gradeId,
   my,
 }: MemberProfile & { my?: boolean }) {
-  const [hashtags, equippedBadge, grade] = await Promise.all([
+  const [hashtags, grade, equippedBadge] = await Promise.all([
     getHashtagInterests({ memberUuid }),
-    getBadge({ badgeId: equippedBadgeId }),
     getGrade({ gradeId }),
+    equippedBadgeId ? getBadge({ badgeId: equippedBadgeId }) : null,
   ]);
 
   return (
@@ -79,15 +79,17 @@ export default async function ProfilePage({
                 fill
               />
             </figure>
-            <figure className="relative size-[1.5rem]">
-              <Image
-                src={`https://media.qua.world/${equippedBadge.imageUrl}`}
-                alt={nickname}
-                fill
-              />
-            </figure>
+            {equippedBadge ? (
+              <figure className="relative size-[1.5rem]">
+                <Image
+                  src={`https://media.qua.world/${equippedBadge.imageUrl}`}
+                  alt={nickname}
+                  fill
+                />
+              </figure>
+            ) : null}
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             {hashtags.map(({ name }) => (
               <Link key={name} href={`/search?tag=${name}`}>
                 <div className="bg-teal-400 text-white text-xs px-2 py-1 rounded-lg">
@@ -98,10 +100,16 @@ export default async function ProfilePage({
           </div>
         </div>
         <div className="w-full flex gap-[1rem]">
-          <ProfileFollowButton {...{ memberUuid }} />
-          <Link href={`/profile/${nickname}/info`}>
-            <div className="size-[3rem] flex justify-center items-center border-2 border-teal-400 rounded-lg">
+          {!my ? <ProfileFollowButton {...{ memberUuid }} /> : null}
+          <Link
+            href={`/profile/${nickname}/info`}
+            className={my ? "w-full" : "w-[3rem]"}
+          >
+            <div className="w-full h-[3rem] flex gap-2 justify-center items-center border-2 border-teal-400 rounded-lg">
               <Info className="stroke-teal-400" />
+              {my ? (
+                <span className="text-teal-400 font-bold">상세 정보</span>
+              ) : null}
             </div>
           </Link>
         </div>

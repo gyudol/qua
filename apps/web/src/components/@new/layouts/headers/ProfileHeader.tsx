@@ -13,7 +13,7 @@ export default async function ProfileHeader({
     nickname,
   });
   const [equippedBadge, grade] = await Promise.all([
-    getBadge({ badgeId: equippedBadgeId }),
+    equippedBadgeId ? getBadge({ badgeId: equippedBadgeId }) : null,
     getGrade({ gradeId }),
   ]);
 
@@ -44,13 +44,15 @@ export default async function ProfileHeader({
                   fill
                 />
               </figure>
-              <figure className="relative size-[1.5rem]">
-                <Image
-                  src={`https://media.qua.world/${equippedBadge.imageUrl}`}
-                  alt={nickname}
-                  fill
-                />
-              </figure>
+              {equippedBadge ? (
+                <figure className="relative size-[1.5rem]">
+                  <Image
+                    src={`https://media.qua.world/${equippedBadge.imageUrl}`}
+                    alt={nickname}
+                    fill
+                  />
+                </figure>
+              ) : null}
             </div>
           </div>
         </div>
