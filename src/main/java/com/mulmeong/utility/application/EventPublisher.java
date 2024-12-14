@@ -21,8 +21,8 @@ public class EventPublisher {
     private String likeCreateEventTopic;
     @Value("${event.utility.pub.topics.like-renew-create.name}")
     private String likeRenewCreateEventTopic;
-    @Value("${event.utility.pub.topics.dislike-create.name}")
-    private String dislikeCreateEventTopic;
+    @Value("${event.utility.pub.topics.dislike-renew-create.name}")
+    private String dislikeRenewCreateEventTopic;
     @Value("${event.utility.pub.topics.follow-create.name}")
     private String followCreateEventTopic;
 
@@ -44,8 +44,8 @@ public class EventPublisher {
 
 
     public void sendDislikedEvent(DislikeRenewCreateEvent event) {
-        kafkaTemplate.send(dislikeCreateEventTopic, event);
-        log.info("dislike topic: {}", dislikeCreateEventTopic);
+        kafkaTemplate.send(dislikeRenewCreateEventTopic, event);
+        log.info("dislike topic: {}", dislikeRenewCreateEventTopic);
     }
 
     public void sendFollowEvent(FollowCreateEvent event) {
