@@ -17,7 +17,7 @@ export default async function page({
   if (session?.user) {
     const { memberUuid } = session.user as { memberUuid: string };
     const sessionNickname = await getMemberNickname({ memberUuid });
-    if (nickname === sessionNickname) redirect("/my");
+    if (nickname === sessionNickname) redirect("/my/info");
   }
 
   const profile = await getMemberProfileByNickname({ nickname });

@@ -16,6 +16,11 @@ export interface GetMemberFeeds extends CommonPaginationReq {
   sortBy?: "latest" | "likes";
 }
 
+export interface SearchFeedsReq
+  extends Omit<CommonPaginationReq, "nextCursor"> {
+  keyword: string;
+}
+
 export interface GetRandomHashtags {
   size: number;
 }

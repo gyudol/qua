@@ -10,14 +10,15 @@ import { useGetRamdomHashtags } from "@/hooks";
 import type { Hashtag } from "@/types/contents";
 import { useSidebarContext } from "../../context/SidebarContext";
 import Bubbles from "../../features/Bubbles";
+import Aquarium from "../../features/Aquarium";
 
 function CategoryListItem({ categoryName, viewType }: Category) {
   return (
     <Link href={`/category/${categoryName}?view=${viewType.toLowerCase()}`}>
       <span
         className="
-        py-1  px-2  rounded-lg
-      bg-cyan-700
+        py-1  px-2  rounded-2xl
+        bg-[rgba(255,255,255,0.3)]
       text-white text-md font-bold
         "
       >
@@ -44,8 +45,8 @@ function HashtagListItem({ name }: Hashtag) {
     <Link href={`/search?tag=${name}`}>
       <span
         className="
-        py-1  px-2  rounded-lg
-      bg-cyan-700
+        py-1  px-2  rounded-2xl
+      bg-[rgba(255,255,255,0.3)]
       text-white text-md font-bold
         "
       >
@@ -57,7 +58,7 @@ function HashtagListItem({ name }: Hashtag) {
 
 function HashtagList({ hashtags }: { hashtags: Hashtag[] }) {
   return (
-    <ul className="flex gap-2 flex-wrap">
+    <ul className="flex gap-3 flex-wrap">
       {hashtags.map(({ name }) => (
         <li key={name}>
           <HashtagListItem {...{ name }} />
@@ -77,7 +78,7 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        "absolute z-50 size-full p-[2rem] transition-all",
+        "absolute z-50 size-full p-[2rem] transition-all overflow-hidden",
         "flex flex-col justify-between",
         isOpen ? "translate-x" : "-translate-x-full",
       )}
@@ -105,8 +106,11 @@ export function Sidebar() {
           <CategoryList {...{ categories }} />
         ) : null}
       </header>
+      <div className="relative flex-1">
+        <Aquarium />
+      </div>
 
-      <footer className="flex flex-col gap-[0.5rem]">
+      <footer className="z-[150] flex flex-col gap-[0.5rem]">
         <h2 className="text-[1.5rem] font-bold text-white">#Hashtag</h2>
         {hashtagsStat === "success" ? <HashtagList {...{ hashtags }} /> : null}
       </footer>

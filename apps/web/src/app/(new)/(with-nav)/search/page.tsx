@@ -42,7 +42,7 @@ export default function page({
               type="text"
               className="flex-1 bg-slate-200 focus:outline-none"
               placeholder="검색어를 입력하세요"
-              value={tag}
+              defaultValue={tag}
             />
           </div>
         </form>

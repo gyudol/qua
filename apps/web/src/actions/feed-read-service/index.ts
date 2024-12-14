@@ -7,6 +7,7 @@ import type {
   GetFeedsReq,
   GetMemberFeeds,
   GetRandomHashtags,
+  SearchFeedsReq,
 } from "@/types/feed/feed-read-service";
 import type { FeedReq } from "@/types/feed/common";
 import { options } from "@/app/api/auth/[...nextauth]/authOption";
@@ -66,4 +67,16 @@ export async function getRandomHashtags({ ...query }: GetRandomHashtags) {
   });
 
   return processResponse<Hashtag[], false>({ res });
+}
+
+export async function searchFeeds({ keyword, ...query }: SearchFeedsReq) {
+  const URI = `${API_SERVER}/${PREFIX}/v1/search/feeds/${keyword}?${toURLSearchParams(query)}`;
+
+  const res: Response = await fetch(URI, {
+    headers: await getHeaders(),
+    method: "GET",
+    cache: "no-cache",
+  });
+
+  return processResponse<Feed, true>({ res });
 }
