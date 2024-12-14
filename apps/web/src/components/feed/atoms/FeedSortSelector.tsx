@@ -38,7 +38,7 @@ export function FeedSortSelector() {
       <SelectContent className="border-none outline-none text-teal-400">
         <SelectGroup>
           <SelectLabel>Sort by</SelectLabel>
-          <SelectItem value="latest">New</SelectItem>
+          <SelectItem value="latest">Latest</SelectItem>
           <SelectItem value="likes">Like</SelectItem>
         </SelectGroup>
       </SelectContent>

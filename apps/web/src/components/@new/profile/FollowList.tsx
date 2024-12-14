@@ -5,7 +5,10 @@ import type {
   UseInfiniteQueryResult,
 } from "@tanstack/react-query";
 import { useInfiniteScroll, useMemberCompactProfile } from "@/hooks";
-import { useFollowersInfiniteQuery } from "@/hooks/utility-service/follow-service";
+import {
+  useFollowersInfiniteQuery,
+  useFollowingsInfiniteQuery,
+} from "@/hooks/utility-service/follow-service";
 import type { Pagination } from "@/types/common";
 import { MemberProfileImage } from "@/components/profile/atoms/MemberProfileImage";
 import ProfileFollowButton from "./ProfileFollowButton";
@@ -18,7 +21,7 @@ export function FollowerListSection({ memberUuid }: { memberUuid: string }) {
 }
 
 export function FollowingListSection({ memberUuid }: { memberUuid: string }) {
-  const useInfiniteQueryResult = useFollowersInfiniteQuery({ memberUuid });
+  const useInfiniteQueryResult = useFollowingsInfiniteQuery({ memberUuid });
   return <FollowListSection {...{ useInfiniteQueryResult }} />;
 }
 
@@ -74,7 +77,7 @@ function FollowListItem({ targetUuid }: { targetUuid: string }) {
           <div className="flex gap-1">
             <p className="text">{nickname}</p>
             <GradeMark {...{ gradeId, size: "1.5rem" }} />
-            <BadgeMark {...{ badgeId, size: "1.5rem" }} />
+            {badgeId ? <BadgeMark {...{ badgeId, size: "1.5rem" }} /> : null}
           </div>
         </div>
         <div className="w-[8rem] h-[2.5rem] flex">

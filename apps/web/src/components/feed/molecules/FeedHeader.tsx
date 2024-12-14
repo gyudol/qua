@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Fish } from "lucide-react";
 import { PostedAt, Skeleton } from "@/components/common/atoms";
 import { useMemberCompactProfile } from "@/hooks";
 import type { Feed } from "@/types/feed/feed-read-service";
@@ -18,14 +19,17 @@ export function FeedHeader({
   createdAt,
   updatedAt,
 }: FeedHeaderProps) {
-  const {
-    data: member,
-    status,
-    error,
-  } = useMemberCompactProfile({ memberUuid });
-  if (status === "error") throw Error(error.message);
-  const profileImageUrl = member?.profileImageUrl;
-  const nickname = member?.nickname;
+  const { data: member, status } = useMemberCompactProfile({ memberUuid });
+
+  let profileImageUrl, nickname;
+
+  if (status === "error") {
+    profileImageUrl = undefined;
+    nickname = "알 수 없는 사용자";
+  } else {
+    profileImageUrl = member?.profileImageUrl;
+    nickname = member?.nickname;
+  }
 
   return (
     <header className="flex flex-col mb-[0.25rem] h-[2.4rem]">
@@ -38,7 +42,9 @@ export function FeedHeader({
                 link
               />
             ) : (
-              <Skeleton className="size-[2.4rem] rounded-full" />
+              <div className="size-[2.4rem] rounded-full bg-teal-400 flex justify-center items-center">
+                <Fish className="fill-white" />
+              </div>
             )}
           </div>
           <div className="flex flex-col">
