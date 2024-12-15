@@ -1,4 +1,4 @@
-import type { Hashtag } from '../contents';
+import type { Hashtag } from "../contents";
 
 export interface FeedHashtag {
   name: string; // 해시태그 이름
@@ -42,7 +42,7 @@ export interface CreateFeedType {
   title: string; // 피드 제목
   content: string; // 피드 내용
   categoryName: string; // 카테고리 이름 (일반 문자열)
-  visibility: 'VISIBLE' | 'HIDDEN'; // 공개 여부
+  visibility: "VISIBLE" | "HIDDEN"; // 공개 여부
   hashtags: FeedHashtag[]; // 해시태그 목록
   mediaList: MediaListType[]; // 미디어 목록
 }
