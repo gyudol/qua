@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import java.util.Objects;
+
 @Configuration
 @Slf4j
 @EnableMongoRepositories(
@@ -18,9 +20,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
         mongoTemplateRef = "feedReadMongoTemplate"
 )
 public class FeedMongoConfig {
-
-    @Value("${spring.data.mongodb.feed.database}")
-    private String dbName;
 
     @Value("${spring.data.mongodb.feed.uri}")
     private String feedMongoUri;
@@ -34,7 +33,7 @@ public class FeedMongoConfig {
 
         MongoClient mongoClient = MongoClients.create(mongoClientSettings);
 
-        return new MongoTemplate(mongoClient, dbName);
+        return new MongoTemplate(mongoClient, Objects.requireNonNull(connectionString.getDatabase()));
 
     }
 

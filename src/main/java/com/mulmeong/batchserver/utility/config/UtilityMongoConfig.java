@@ -12,15 +12,14 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import java.util.Objects;
+
 @Configuration
 @EnableMongoRepositories(
         basePackages = "com.mulmeong.batchserver.utility.infrastructure.repository",
         mongoTemplateRef = "utilityReadMongoTemplate"
 )
 public class UtilityMongoConfig {
-
-    @Value("${spring.data.mongodb.utility.database}")
-    private String dbName;
 
     @Value("${spring.data.mongodb.utility.uri}")
     private String utilityMongoUri;
@@ -34,7 +33,7 @@ public class UtilityMongoConfig {
 
         MongoClient mongoClient = MongoClients.create(mongoClientSettings);
 
-        return new MongoTemplate(mongoClient, dbName);
+        return new MongoTemplate(mongoClient, Objects.requireNonNull(connectionString.getDatabase()));
 
     }
 
