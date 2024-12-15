@@ -1,5 +1,7 @@
 package com.mulmeong.batchserver.utility.config;
 
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,9 +27,15 @@ public class UtilityMongoConfig {
 
     @Bean(name = "utilityReadMongoTemplate")
     public MongoTemplate utilityMongoTemplate() {
-        MongoClient mongoClient = MongoClients.create(utilityMongoUri);
-        MongoDatabaseFactory factory = new SimpleMongoClientDatabaseFactory(mongoClient, dbName);
-        return new MongoTemplate(factory);
+        ConnectionString connectionString = new ConnectionString(utilityMongoUri);
+        MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
+                .applyConnectionString(connectionString)
+                .build();
+
+        MongoClient mongoClient = MongoClients.create(mongoClientSettings);
+
+        return new MongoTemplate(mongoClient, dbName);
+
     }
 
 }

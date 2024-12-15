@@ -1,5 +1,7 @@
 package com.mulmeong.batchserver.contest.config;
 
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,9 +29,15 @@ public class ContestMongoConfig {
 
     @Bean(name = "contestReadMongoTemplate")
     public MongoTemplate contestReadMongoTemplate() {
-        MongoClient mongoClient = MongoClients.create(contestMongoUri);
-        MongoDatabaseFactory factory = new SimpleMongoClientDatabaseFactory(mongoClient, dbName);
-        return new MongoTemplate(factory);
+        ConnectionString connectionString = new ConnectionString(contestMongoUri);
+        MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
+                .applyConnectionString(connectionString)
+                .build();
+
+        MongoClient mongoClient = MongoClients.create(mongoClientSettings);
+
+        return new MongoTemplate(mongoClient, dbName);
+
     }
 
     @Bean

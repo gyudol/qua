@@ -1,5 +1,7 @@
 package com.mulmeong.batchserver.comment.config;
 
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +29,15 @@ public class CommentMongoConfig {
 
     @Bean(name = "commentReadMongoTemplate")
     public MongoTemplate commentMongoTemplate() {
-        MongoClient mongoClient = MongoClients.create(commentMongoUri);
-        MongoDatabaseFactory factory = new SimpleMongoClientDatabaseFactory(mongoClient, dbName);
-        return new MongoTemplate(factory);
+        ConnectionString connectionString = new ConnectionString(commentMongoUri);
+        MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
+                .applyConnectionString(connectionString)
+                .build();
+
+        MongoClient mongoClient = MongoClients.create(mongoClientSettings);
+
+        return new MongoTemplate(mongoClient, dbName);
+
     }
 
 }

@@ -1,5 +1,7 @@
 package com.mulmeong.batchserver.shorts.config;
 
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,9 +27,15 @@ public class ShortsMongoConfig {
 
     @Bean(name = "shortsReadMongoTemplate")
     public MongoTemplate contestMongoTemplate() {
-        MongoClient mongoClient = MongoClients.create(shortsMongoUri);
-        MongoDatabaseFactory factory = new SimpleMongoClientDatabaseFactory(mongoClient, dbName);
-        return new MongoTemplate(factory);
+        ConnectionString connectionString = new ConnectionString(shortsMongoUri);
+        MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
+                .applyConnectionString(connectionString)
+                .build();
+
+        MongoClient mongoClient = MongoClients.create(mongoClientSettings);
+
+        return new MongoTemplate(mongoClient, dbName);
+
     }
 
 }
