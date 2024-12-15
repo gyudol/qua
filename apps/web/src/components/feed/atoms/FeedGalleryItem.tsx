@@ -55,13 +55,11 @@ export function FeedGalleryItem({ media, className }: FeedGalleryItemProps) {
   if (mediaType === "IMAGE") {
     const { mediaUrl, description } = assets.IMAGE;
     return (
-      <figure className={`${className}`}>
+      <figure className={`w-full aspect-square ${className}`}>
         <Image
           alt={description}
           className="object-cover"
-          height={800}
-          priority
-          width={800}
+          fill
           src={`https://media.qua.world/${mediaUrl}`}
         />
       </figure>

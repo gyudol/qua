@@ -10,6 +10,7 @@ import { MemberProfileImage } from "@/components/profile/atoms/MemberProfileImag
 import PageContainer from "../layouts/containers/PageContainer";
 import ProfileFollowButton from "./ProfileFollowButton";
 import ContentsSection from "./ContentsSeciton";
+import ProfileLogoutButton from "./ProfileLogoutButton";
 
 function ProfileStat({ count, label }: { count: number; label: string }) {
   return (
@@ -100,16 +101,14 @@ export default async function ProfilePage({
           </div>
         </div>
         <div className="w-full flex gap-[1rem]">
-          {!my ? <ProfileFollowButton {...{ memberUuid }} /> : null}
-          <Link
-            href={`/profile/${nickname}/info`}
-            className={my ? "w-full" : "w-[3rem]"}
-          >
+          {!my ? (
+            <ProfileFollowButton {...{ memberUuid }} />
+          ) : (
+            <ProfileLogoutButton />
+          )}
+          <Link href={`/profile/${nickname}/info`} className="w-[3rem]">
             <div className="w-full h-[3rem] flex gap-2 justify-center items-center border-2 border-teal-400 rounded-lg">
               <Info className="stroke-teal-400" />
-              {my ? (
-                <span className="text-teal-400 font-bold">상세 정보</span>
-              ) : null}
             </div>
           </Link>
         </div>
