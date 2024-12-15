@@ -12,7 +12,7 @@ export async function getAllGrade() {
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "no-cache",
+    cache: "force-cache",
   });
 
   return processResponse<Grade[], false>({ res });
@@ -24,7 +24,7 @@ export async function getGrade({ gradeId }: GetGradeReq) {
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "no-cache",
+    cache: "force-cache",
   });
 
   return processResponse<Grade, false>({ res });

@@ -3,12 +3,14 @@
 import { Button } from "@repo/ui/shadcn/button";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import type { PostShortsReq } from "@/types/shorts/shorts-service";
 import { postShorts } from "@/actions/shorts-service";
 import { useSessionContext } from "@/context/SessionContext";
 import ShortsCreateFormFields from "./ShortsCreateFormFields";
 
 function ShortsWriteForm() {
+  const router = useRouter();
   const { memberUuid } = useSessionContext();
   const [payload, setPayload] = useState<
     Omit<PostShortsReq, "media"> & Partial<Pick<PostShortsReq, "media">>
@@ -31,6 +33,7 @@ function ShortsWriteForm() {
     try {
       await postShorts({ ...(payload as PostShortsReq) });
       toast.success("성공적으로 업로드되었습니다.");
+      router.push("/");
     } catch (error) {
       toast.error((error as Error).message);
     }

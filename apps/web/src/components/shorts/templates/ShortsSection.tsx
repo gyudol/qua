@@ -6,13 +6,28 @@ import { useState } from "react";
 import { CommentDrawerContextProvider } from "@/provider/CommentDrawerContextProvider";
 import { useCommentDrawerContext } from "@/context/DrawerContext";
 import { useGetShortsRecsInfiniteQuery } from "@/hooks/shorts-service";
+import { useInfiniteScroll } from "@/hooks";
 import ShortsCommentDrawer from "../organisms/ShortsCommentDrawer";
 import { ShortsSlideContent } from "../organisms/ShortsSlideContent";
 
 function ShortsSwiper() {
-  const { data, status, error } = useGetShortsRecsInfiniteQuery({});
+  const {
+    data,
+    status,
+    error,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useGetShortsRecsInfiniteQuery({
+    pageSize: 10,
+  });
 
   const { setCommentTarget } = useCommentDrawerContext();
+  const observerRef = useInfiniteScroll({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
 
   const [activeIndex, setActiveIndex] = useState(0); // 현재 활성 슬라이드 인덱스
   const handleSlideChange = (swiper: SwiperClass) => {
@@ -37,14 +52,20 @@ function ShortsSwiper() {
       onSlideChange={handleSlideChange}
       className="size-full bg-black"
     >
-      {data.pages.map((page) =>
-        page.content.map((shorts, index) => (
+      {data.pages.map((page, pageIndex) =>
+        page.content.map((shorts, shortsIndex, arr) => (
           <SwiperSlide
             key={shorts.shortsUuid}
             aria-description={shorts.shortsUuid}
             className="size-full flex justify-center items-center relative overflow-hidden"
           >
-            <ShortsSlideContent {...shorts} isActive={index === activeIndex} />
+            {arr.length === shortsIndex + 4 ? (
+              <div ref={observerRef} className="w-full" />
+            ) : null}
+            <ShortsSlideContent
+              {...shorts}
+              isActive={pageIndex * 10 + shortsIndex === activeIndex}
+            />
           </SwiperSlide>
         )),
       )}

@@ -21,8 +21,8 @@ export async function getHashtagInterests({ memberUuid }: GetHashtagInterests) {
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "no-cache",
-    next: { tags: [`hasttag-interests-${memberUuid}`] },
+    cache: "force-cache",
+    next: { tags: [`hashtag-interests-${memberUuid}`] },
   });
 
   return processResponse<HashtagInterestsItem[], false>({ res });
@@ -43,7 +43,7 @@ export async function putHashtagInterests({
 
   return processResponse<HashtagInterestsItem[], false>({
     res,
-    revalidatedTags: [`hasttag-interests-${memberUuid}`],
+    revalidatedTags: [`hashtag-interests-${memberUuid}`],
   });
 }
 
@@ -62,7 +62,7 @@ export async function postHashtagInterests({
 
   return processResponse<HashtagInterestsItem[], false>({
     res,
-    revalidatedTags: [`hasttag-interests-${memberUuid}`],
+    revalidatedTags: [`hashtag-interests-${memberUuid}`],
   });
 }
 
@@ -74,7 +74,7 @@ export async function getCategoryInterests({
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "no-cache",
+    cache: "force-cache",
   });
 
   return processResponse<CategoryInterestsItem[], false>({ res });

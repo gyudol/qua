@@ -9,7 +9,10 @@ import "swiper/css";
 import MobileContainer from "@/components/@new/layouts/containers/MobileContainer";
 import { getMemberNickname } from "@/actions/member-service";
 import Bubbles from "@/components/@new/features/Bubbles";
+import Aquarium from "@/components/@new/features/Aquarium";
 import { options } from "../api/auth/[...nextauth]/authOption";
+
+export const revalidate = 10;
 
 export const metadata: Metadata = {
   title: {
@@ -49,6 +52,7 @@ export default async function RootLayout({
         >
           <QueryClientProvider>
             {/* 모바일 바깥 시작 */}
+            <Aquarium />
             <Bubbles count={200} />
             {/* <Aquarium/> */}
             <MobileContainer>

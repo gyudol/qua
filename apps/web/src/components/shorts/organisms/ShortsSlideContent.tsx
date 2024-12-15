@@ -11,6 +11,7 @@ export function ShortsSlideContent({
   ...shorts
 }: ShortsSlideContentProps) {
   const src = `https://media.qua.world/${shorts.media.assets.STREAMING_720.mediaUrl}`;
+  // const src = `https://media.qua.world/${shorts.media.assets.VIDEO_MP4.mediaUrl}`;
 
   return (
     <>

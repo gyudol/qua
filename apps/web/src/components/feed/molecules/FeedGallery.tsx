@@ -1,8 +1,13 @@
-import Link from 'next/link';
-import type { Feed } from '@/types/feed/feed-read-service';
-import { FeedGalleryItem } from '../atoms/FeedGalleryItem';
+"use client";
 
-interface FeedGalleryProps extends Pick<Feed, 'feedUuid' | 'mediaList'> {
+import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import type { Feed } from "@/types/feed/feed-read-service";
+import { FeedGalleryItem } from "../atoms/FeedGalleryItem";
+import "swiper/css/pagination";
+
+interface FeedGalleryProps extends Pick<Feed, "feedUuid" | "mediaList"> {
   link?: boolean;
 }
 
@@ -10,25 +15,29 @@ export function FeedGallery({ feedUuid, mediaList, link }: FeedGalleryProps) {
   if (mediaList.length === 0) return null;
 
   return (
-    <div className="">
+    <Swiper className="size-full" modules={[Pagination]} pagination>
       {mediaList.map((media) => {
         if (link)
           return (
-            <Link href={`/feeds/${feedUuid}`} key={media.mediaUuid}>
-              <FeedGalleryItem
-                media={media}
-                className="rounded-lg overflow-hidden"
-              />
-            </Link>
+            <SwiperSlide key={media.mediaUuid}>
+              <Link href={`/feeds/${feedUuid}`}>
+                <FeedGalleryItem
+                  media={media}
+                  className="rounded-lg overflow-hidden"
+                />
+              </Link>
+            </SwiperSlide>
           );
         return (
-          <FeedGalleryItem
-            key={media.mediaUuid}
-            media={media}
-            className="rounded-lg overflow-hidden"
-          />
+          <SwiperSlide key={media.mediaUuid}>
+            <FeedGalleryItem
+              key={media.mediaUuid}
+              media={media}
+              className="rounded-lg overflow-hidden"
+            />
+          </SwiperSlide>
         );
       })}
-    </div>
+    </Swiper>
   );
 }

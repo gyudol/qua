@@ -19,8 +19,7 @@ export async function getAllCategories() {
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "no-cache",
-    // next: { revalidate: 3600 },
+    cache: "force-cache",
   });
 
   return processResponse<Category[], false>({ res });
@@ -32,8 +31,7 @@ export async function getCategory({ categoryId }: GetCategoryReq) {
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "no-cache",
-    // next: { revalidate: 3600 },
+    cache: "force-cache",
   });
 
   return processResponse<Category, false>({ res });
@@ -45,9 +43,7 @@ export async function putCategory({ categoryId, ...body }: PutCategoryReq) {
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "PUT",
-    cache: "no-cache",
     body: JSON.stringify(body),
-    // next: { revalidate: 3600 },
   });
 
   return processResponse<EmptyObject, false>({ res });
@@ -59,9 +55,7 @@ export async function postCategory({ categoryId, ...body }: PostCategoryReq) {
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "POST",
-    cache: "no-cache",
     body: JSON.stringify(body),
-    // next: { revalidate: 3600 },
   });
 
   return processResponse<EmptyObject, false>({ res });
@@ -74,7 +68,6 @@ export async function deleteCategory({ categoryId }: DeleteCategoryReq) {
     headers: await getHeaders(),
     method: "DELETE",
     cache: "no-cache",
-    // next: { revalidate: 3600 },
   });
 
   return processResponse<EmptyObject, false>({ res });
