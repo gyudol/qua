@@ -20,11 +20,12 @@ function ContestFormFields({
   }, [payload]);
 
   return (
-    <fieldset className="w-full flex flex-col gap-5 h-full">
-      <ul className="border-2 border-dashed p-5 list-disc list-inside text-left mt-5 rounded-lg">
-        <li className="pl-6">이미지만 업로드 가능합니다.</li>
-        <li className="pl-6">관상어 관련 이미지만 업로드 가능합니다.</li>
-        <li className="pl-6">이쁜 사진을 자랑해주세요</li>
+    <fieldset className="w-full flex flex-col gap-5 h-full px-5">
+      <ul className="border-2 border-dashed p-4 list-disc list-inside text-left mt-5 rounded-lg">
+        <li className="pl-2">이미지와 동영상만 업로드 가능합니다.</li>
+        <li className="pl-2">
+          관상어 관련 이미지, 동영상만 업로드 가능합니다.
+        </li>
       </ul>
 
       <ContestUploader setPayload={setPayload} />

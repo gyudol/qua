@@ -17,6 +17,10 @@ function Caution() {
               <span className="text-[#47D0BF] mr-3 mt-1">✔</span>
               <p>투표는 1인당 1번 하실 수 있습니다.</p>
             </li>
+            <li className="flex items-start text-gray-700 font-medium bg-gray-100 border border-gray-300 rounded p-4">
+              <span className="text-[#47D0BF] mr-3 mt-1">✔</span>
+              <p>우승 상품은 QUA만의 배지를 드립니다~!.</p>
+            </li>
           </ul>
         </div>
       </div>

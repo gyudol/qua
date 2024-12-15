@@ -1,8 +1,12 @@
 "use server";
 
-import type { Contest, MediaContest } from "@/types/contest/contest";
+import type {
+  Contest,
+  ContestPostVote,
+  MediaContest,
+} from "@/types/contest/contest";
 import { toURLSearchParams } from "@/functions/utils";
-import type { EmptyObject } from "@/types/common";
+import type { CommonRes, EmptyObject } from "@/types/common";
 import { getHeaders, processResponse } from "../common";
 
 const API_SERVER = process.env.BASE_API_URL;
@@ -60,4 +64,20 @@ export async function getContestHistory({ ...query }: GetContestParam = {}) {
   // console.log("히스토리", res.url);
   // console.log("히스토리", res.type);
   return processResponse<Contest, true>({ res });
+}
+
+// 콘테스트 투표 api 로직
+export async function contestPostVote(data: ContestPostVote) {
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/contests/posts/vote`;
+  const res: Response = await fetch(URI, {
+    headers: await getHeaders(),
+    method: "POST",
+    body: JSON.stringify(data),
+    cache: "no-cache",
+  });
+
+  const responseData = (await res.json()) as CommonRes<ContestPostVote>;
+  // console.log("데이터", responseData);
+
+  return responseData;
 }

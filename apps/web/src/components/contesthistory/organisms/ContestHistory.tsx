@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
 import type { Winner } from "@/types/contest/contest";
 
 interface ContestHistoryProps {
@@ -12,7 +13,7 @@ interface ContestHistoryProps {
 
 function ContestHistory({
   winners,
-  // imgUrl,
+  imgUrl,
   endDate,
   startDate,
   contestName,
@@ -51,13 +52,14 @@ function ContestHistory({
               </p>
             </div>
             <div className="mb-4 h-60 w-full bg-gray-300 flex items-center justify-center rounded-lg">
-              {/* <Image
+              <Image
                 src={imgUrl}
                 alt={contestName}
                 width={500}
                 height={500}
                 className="object-cover w-full h-full"
-              /> */}
+                unoptimized
+              />
             </div>
           </div>
           <div className="flex flex-col gap-4 mt-4">
@@ -74,18 +76,18 @@ function ContestHistory({
             {showWinners ? (
               <div className="mt-4 bg-white border border-gray-200 rounded-lg shadow-md p-5">
                 <h3 className="text-lg font-semibold mb-4 text-gray-800 text-center">
-                  Top 3 Winners
+                  🏆 Top 3 Winners
                 </h3>
                 <div className="space-y-3">
                   {winners.map((winner) => (
                     <div
                       key={winner.ranking}
-                      className="flex justify-between items-center text-black bg-gray-50 p-3 rounded-lg shadow-sm"
+                      className="flex justify-between items-center text-black bg-gray-100 p-4 rounded-lg shadow-sm"
                     >
-                      <span className="font-medium text-gray-800">
+                      <span className="font-medium text-gray-900 text-sm sm:text-base">
                         {winner.ranking}. {contestName}
                       </span>
-                      <span className="text-gray-600 font-semibold">
+                      <span className="text-[#47D0BF] font-bold text-sm sm:text-base">
                         {winner.voteCount} 투표 수
                       </span>
                     </div>
@@ -94,7 +96,6 @@ function ContestHistory({
               </div>
             ) : null}
 
-            {/* 접기 버튼 */}
             <button
               type="button"
               className="mt-2 bg-gray-300 text-gray-700 font-medium py-3 px-6 rounded-lg shadow hover:bg-gray-400 transition-all duration-300"

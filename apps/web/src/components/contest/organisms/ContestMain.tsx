@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-// import Image from "next/image";
+import Image from "next/image";
 import type { Contest } from "@/types/contest/contest";
 import Caution from "../atoms/Caution";
 
@@ -50,13 +50,13 @@ function ContestMain({ contests }: ContestMainProps) {
             <div className="flex gap-4">
               <Link
                 href="/contest/contesthistory"
-                className="bg-[#47D0BF] text-white font-semibold text-lg py-2 px-2 rounded-lg hover:bg-[#3bb3a5] flex-1 text-center shadow-sm transition whitespace-nowrap"
+                className="bg-[#47D0BF] text-white font-semibold text-base sm:text-lg py-2 px-2 rounded-lg hover:bg-[#3bb3a5] flex-1 text-center shadow-sm transition whitespace-nowrap"
               >
                 지난 콘테스트 보기
               </Link>
               <Link
                 href="/contest/contestform"
-                className="bg-[#47D0BF] text-white font-semibold text-lg py-2 px-2 rounded-lg hover:bg-[#3bb3a5] flex-1 text-center shadow-sm transition whitespace-nowrap"
+                className="bg-[#47D0BF] text-white font-semibold text-base sm:text-lg py-2 px-2 rounded-lg hover:bg-[#3bb3a5] flex-1 text-center shadow-sm transition whitespace-nowrap"
               >
                 콘테스트 참여하기
               </Link>
@@ -68,13 +68,14 @@ function ContestMain({ contests }: ContestMainProps) {
       {contests.length > 0 && (
         <div className="w-full my-5">
           <div className="mb-4 h-60 w-full bg-gray-300 flex items-center justify-center rounded-lg overflow-hidden">
-            {/* <Image
+            <Image
               src={contests[0].imgUrl}
-              alt={contests[0].contestsName}
+              alt={contests[0].contestName}
               width={500}
               height={500}
               className="object-cover w-full h-full"
-            /> */}
+              unoptimized
+            />
           </div>
         </div>
       )}

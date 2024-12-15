@@ -83,3 +83,10 @@ interface ContestPostList {
   createdAt: string;
   voteCount: number;
 }
+
+// 콘테스트 포스트 vote
+
+interface ContestPostVote {
+  contestId: number;
+  postUuid: string;
+}
