@@ -28,7 +28,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 
 @Configuration
-@EnableBatchProcessing(dataSourceRef = "contestDataSource", transactionManagerRef = "contestTransactionManager")
+@EnableBatchProcessing
 @RequiredArgsConstructor
 @Slf4j
 public class FeedBatchConfig {

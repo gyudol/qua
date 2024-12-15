@@ -19,7 +19,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 )
 public class FeedMongoConfig {
 
-    @Value("${spring.data.mongodb.feed.dbname}")
+    @Value("${spring.data.mongodb.feed.database}")
     private String dbName;
 
     @Value("${spring.data.mongodb.feed.uri}")

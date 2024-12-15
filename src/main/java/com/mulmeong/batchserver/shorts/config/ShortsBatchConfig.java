@@ -32,7 +32,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @EnableScheduling
-@EnableBatchProcessing(dataSourceRef = "contestDataSource", transactionManagerRef = "contestTransactionManager")
+@EnableBatchProcessing
 @RequiredArgsConstructor
 @Slf4j
 public class ShortsBatchConfig {

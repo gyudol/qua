@@ -13,13 +13,14 @@ import lombok.NoArgsConstructor;
 @Data
 @Getter
 @NoArgsConstructor
-public class LikesCreateEvent {
+public class DislikeRenewCreateEvent {
 
     private String kind;
     private String kindUuid;
-    private Long likeCount;
+    private Long dislikeCount;
 
-    public FeedRead toFeedReadEntity(FeedRead feed, Long likeCount) {
+
+    public FeedRead toFeedReadEntity(FeedRead feed, Long dislikeCount) {
         return FeedRead.builder()
                 .id(feed.getId())
                 .feedUuid(feed.getFeedUuid())
@@ -30,16 +31,16 @@ public class LikesCreateEvent {
                 .visibility(feed.getVisibility())
                 .hashtags(feed.getHashtags())
                 .mediaList(feed.getMediaList())
-                .likeCount(likeCount)
-                .dislikeCount(feed.getDislikeCount())
-                .netLikes(likeCount - feed.getDislikeCount())
+                .likeCount(feed.getLikeCount())
+                .dislikeCount(dislikeCount)
+                .netLikes(feed.getLikeCount() - dislikeCount)
                 .commentCount(feed.getCommentCount())
                 .createdAt(feed.getCreatedAt())
                 .updatedAt(feed.getUpdatedAt())
                 .build();
     }
 
-    public ShortsRead toShortsReadEntity(ShortsRead shorts, Long likeCount) {
+    public ShortsRead toShortsReadEntity(ShortsRead shorts, Long dislikeCount) {
         return ShortsRead.builder()
                 .id(shorts.getId())
                 .shortsUuid(shorts.getShortsUuid())
@@ -47,19 +48,20 @@ public class LikesCreateEvent {
                 .title(shorts.getTitle())
                 .playtime(shorts.getPlaytime())
                 .visibility(shorts.getVisibility())
+                .hashtags(shorts.getHashtags())
                 .media(shorts.getMedia())
-                .likeCount(likeCount)
-                .dislikeCount(shorts.getDislikeCount())
-                .netLikes(likeCount - shorts.getDislikeCount())
+                .likeCount(shorts.getLikeCount())
+                .dislikeCount(dislikeCount)
+                .netLikes(shorts.getLikeCount() - dislikeCount)
                 .commentCount(shorts.getCommentCount())
                 .createdAt(shorts.getCreatedAt())
                 .updatedAt(shorts.getUpdatedAt())
                 .build();
     }
 
-    public FeedComment toFeedCommentReadEntity(FeedComment feedComment, Long likeCount) {
-        String cursor = String.format("%010d", likeCount)
-                + String.format("%010d", 1000000000 - feedComment.getDislikeCount())
+    public FeedComment toFeedCommentReadEntity(FeedComment feedComment, Long dislikeCount) {
+        String cursor = String.format("%010d", feedComment.getLikeCount())
+                + String.format("%010d", 1000000000 - dislikeCount)
                 + String.format("%010d", feedComment.getRecommentCount())
                 + feedComment.getId();
         return FeedComment.builder()
@@ -71,16 +73,17 @@ public class LikesCreateEvent {
                 .isDeleted(feedComment.isDeleted())
                 .createdAt(feedComment.getCreatedAt())
                 .updatedAt(feedComment.getUpdatedAt())
-                .likeCount(likeCount)
-                .dislikeCount(feedComment.getDislikeCount())
+                .likeCount(feedComment.getLikeCount())
+                .dislikeCount(dislikeCount)
                 .recommentCount(feedComment.getRecommentCount())
                 .customCursor(cursor)
                 .build();
     }
 
-    public ShortsComment toShortsCommentReadEntity(ShortsComment shortsComment, Long likeCount) {
-        String cursor = String.format("%010d", likeCount)
-                + String.format("%010d", 1000000000 - shortsComment.getDislikeCount())
+
+    public ShortsComment toShortsCommentReadEntity(ShortsComment shortsComment, Long dislikeCount) {
+        String cursor = String.format("%010d", shortsComment.getLikeCount())
+                + String.format("%010d", 1000000000 - dislikeCount)
                 + String.format("%010d", shortsComment.getRecommentCount())
                 + shortsComment.getId();
         return ShortsComment.builder()
@@ -91,14 +94,14 @@ public class LikesCreateEvent {
                 .isDeleted(shortsComment.isDeleted())
                 .createdAt(shortsComment.getCreatedAt())
                 .updatedAt(shortsComment.getUpdatedAt())
-                .likeCount(likeCount)
-                .dislikeCount(shortsComment.getDislikeCount())
+                .likeCount(shortsComment.getLikeCount())
+                .dislikeCount(dislikeCount)
                 .recommentCount(shortsComment.getRecommentCount())
                 .customCursor(cursor)
                 .build();
     }
 
-    public FeedRecomment toFeedRecommentReadEntity(FeedRecomment feedRecomment, Long likeCount) {
+    public FeedRecomment toFeedRecommentReadEntity(FeedRecomment feedRecomment, Long dislikeCount) {
         return FeedRecomment.builder()
                 .id(feedRecomment.getId())
                 .memberUuid(feedRecomment.getMemberUuid())
@@ -107,12 +110,12 @@ public class LikesCreateEvent {
                 .content(feedRecomment.getContent())
                 .createdAt(feedRecomment.getCreatedAt())
                 .updatedAt(feedRecomment.getUpdatedAt())
-                .likeCount(likeCount)
-                .dislikeCount(feedRecomment.getDislikeCount())
+                .likeCount(feedRecomment.getLikeCount())
+                .dislikeCount(dislikeCount)
                 .build();
     }
 
-    public ShortsRecomment toShortsRecommentReadEntity(ShortsRecomment shortsRecomment, Long likeCount) {
+    public ShortsRecomment toShortsRecommentReadEntity(ShortsRecomment shortsRecomment, Long dislikeCount) {
         return ShortsRecomment.builder()
                 .id(shortsRecomment.getId())
                 .memberUuid(shortsRecomment.getMemberUuid())
@@ -121,8 +124,8 @@ public class LikesCreateEvent {
                 .content(shortsRecomment.getContent())
                 .createdAt(shortsRecomment.getCreatedAt())
                 .updatedAt(shortsRecomment.getUpdatedAt())
-                .likeCount(likeCount)
-                .dislikeCount(shortsRecomment.getDislikeCount())
+                .likeCount(shortsRecomment.getLikeCount())
+                .dislikeCount(dislikeCount)
                 .build();
     }
 }

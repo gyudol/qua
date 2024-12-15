@@ -19,7 +19,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @Slf4j
 public class CommentMongoConfig {
 
-    @Value("${spring.data.mongodb.comment.dbname}")
+    @Value("${spring.data.mongodb.comment.database}")
     private String dbName;
 
     @Value("${spring.data.mongodb.comment.uri}")
