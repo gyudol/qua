@@ -3,13 +3,13 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { UploadCloud, XCircleIcon } from "lucide-react";
-import type { CreateFeedType } from "@/types/request/requestType";
 import {
   deleteFileFromS3,
   uploadFileToS3,
 } from "@/actions/common/awsMediaUploader";
 import { MediaAssetConverter } from "@/functions/utils/mediaListConverter";
 import { UuidConverter } from "@/functions/utils/uuidConverter";
+import type { Media, MediaContest } from "@/types/contest/contest";
 
 export interface PreviewImageType {
   s3Url: string;
@@ -20,7 +20,11 @@ export interface PreviewImageType {
 function ImageUploader({
   setPayload,
 }: {
-  setPayload: React.Dispatch<React.SetStateAction<CreateFeedType>>;
+  setPayload: React.Dispatch<
+    React.SetStateAction<
+      Omit<MediaContest, "media"> & Partial<Pick<MediaContest, "media">>
+    >
+  >;
 }) {
   const mediaRef = useRef<HTMLInputElement>(null);
   const [mediaList, setMediaList] = useState<PreviewImageType[]>(
@@ -41,17 +45,18 @@ function ImageUploader({
     const s3Url = await uploadFileToS3(file, uniqueFileName);
 
     if (!s3Url) return;
-    setMediaList((prev) => {
-      const updated = [...prev];
-      updated.push({ s3Url, fileType, uniqueUuid });
+    setMediaList(() => {
+      const updated = [{ s3Url, fileType, uniqueUuid }];
       return updated;
     });
 
-    const convertedMedia = await MediaAssetConverter(s3Url, fileType);
+    const convertedMedia = {
+      ...(await MediaAssetConverter(s3Url, fileType)),
+    } as Media;
 
     setPayload((prev) => {
       const updatedPayload = { ...prev };
-      updatedPayload.mediaList = [...prev.mediaList, convertedMedia];
+      updatedPayload.media = convertedMedia;
       return updatedPayload;
     });
   };
@@ -74,9 +79,7 @@ function ImageUploader({
 
       setPayload((prev) => {
         const updatedPayload = { ...prev };
-        updatedPayload.mediaList = prev.mediaList.filter(
-          (media) => media.mediaUuid !== uniqueUuid,
-        );
+        updatedPayload.media = undefined;
         return updatedPayload;
       });
       // input file 초기화
@@ -106,7 +109,7 @@ function ImageUploader({
         id="feedImg"
         name="feedImg"
         className="hidden"
-        accept="image/*,video/*"
+        accept="video/*image/*"
         multiple
         onChange={(e) => {
           void handleFeedImage(e);
@@ -123,8 +126,8 @@ function ImageUploader({
                 src={previewMedia.s3Url}
                 alt={`Preview ${previewMedia.fileType}`}
                 className="w-full h-full object-cover"
-                width={150}
-                height={120}
+                width={200}
+                height={180}
               />
             ) : (
               <video width="100%" preload="metadata" autoPlay muted>
