@@ -1,3 +1,4 @@
+import ContestSwiper from "@/components/@new/contest/ContestSwiper";
 import PageContainer from "@/components/@new/layouts/containers/PageContainer";
 import { FeedPageFeedListSection } from "@/components/feed/pages/FeedPageFeedListSection";
 import type { FeedViewType } from "@/types/feed/common";
@@ -15,6 +16,7 @@ export default function page({
   const view = _view === "compact" ? "compact" : "card";
   return (
     <PageContainer>
+      <ContestSwiper />
       <FeedPageFeedListSection {...{ sortBy, view }} />
     </PageContainer>
   );

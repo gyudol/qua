@@ -12,6 +12,8 @@ import Bubbles from "@/components/@new/features/Bubbles";
 import Aquarium from "@/components/@new/features/Aquarium";
 import { options } from "../api/auth/[...nextauth]/authOption";
 
+export const revalidate = 10;
+
 export const metadata: Metadata = {
   title: {
     default: "꾸아 관상어 전문 SNS",

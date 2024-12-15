@@ -44,7 +44,7 @@ export function useGetFeedsInfiniteQuery({ ...query }: GetFeedsReq) {
     }) => (hasNext ? { ...nextQuery } : null),
     initialPageParam: {
       pageNo: pageNo || 1,
-      pageSize: pageSize || 12,
+      pageSize: pageSize || 6,
       nextCursor: nextCursor || undefined,
     },
   });
@@ -86,7 +86,7 @@ export function useGetMemberFeedsInfiniteQuery({ ...query }: GetMemberFeeds) {
     }) => (hasNext ? { ...nextQuery } : null),
     initialPageParam: {
       pageNo: pageNo || 1,
-      pageSize: pageSize || 12,
+      pageSize: pageSize || 9,
       nextCursor: nextCursor || undefined,
     },
   });

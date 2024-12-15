@@ -2,7 +2,7 @@ import type { UseMutationResult } from "@tanstack/react-query";
 import { ThumbsDown } from "lucide-react";
 import { cn } from "@repo/ui/lib/utils";
 import { ButtonWithAuth } from "@/components/common/atoms";
-import { formatToNumAbbrs } from "@/functions/utils";
+// import { formatToNumAbbrs } from "@/functions/utils";
 
 interface ShortsDislikeButtonProps {
   dislikeCount: number;
@@ -21,7 +21,7 @@ interface ShortsDislikeButtonProps {
 }
 
 export function ShortsDislikeButton({
-  dislikeCount,
+  // dislikeCount,
   dislikeStatus,
 }: ShortsDislikeButtonProps) {
   return (
@@ -42,9 +42,10 @@ export function ShortsDislikeButton({
       </ButtonWithAuth>
 
       <span className="text-sm text-white">
-        {formatToNumAbbrs(
+        싫어요
+        {/* {formatToNumAbbrs(
           Number(dislikeCount) + Number(dislikeStatus.data || 0),
-        )}
+        )} */}
       </span>
     </div>
   );
