@@ -1,10 +1,10 @@
 import React from "react";
-import MainHeader from "@/components/@new/layouts/headers/MainHeader";
+import DetailHeader from "@/components/@new/layouts/headers/DetailHeader";
 
 export default function layout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <MainHeader />
+      <DetailHeader />
       {children}
     </>
   );

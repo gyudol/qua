@@ -2,6 +2,7 @@
 
 import type { ChangeEvent } from "react";
 import { useState } from "react";
+import { toast } from "sonner";
 import { usePostShortsCommentMutation } from "@/hooks/comment-service";
 import { useSessionContext } from "@/context/SessionContext";
 import { ButtonWithAuth } from "@/components/common/atoms";
@@ -24,6 +25,7 @@ export function CommentInput({ shortsUuid }: CommentInputProps) {
 
   function handlePost() {
     if (!memberUuid) return;
+    if (content === "") return toast.error("내용을 입력해주세요");
     mutation.mutate({ content, memberUuid });
     setContent("");
     setIsFocused(false);
