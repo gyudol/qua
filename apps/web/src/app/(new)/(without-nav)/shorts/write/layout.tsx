@@ -10,7 +10,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
           title: (
             <>
               <Pencil />
-              피드 작성
+              쇼츠 작성
             </>
           ),
         }}

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { MemberProfile } from "@/types/member/member-read-service";
 import { Fish } from "lucide-react";
+import type { MemberProfile } from "@/types/member/member-read-service";
 
 interface MemberProfileImageProps
   extends Pick<MemberProfile, "profileImageUrl" | "nickname"> {

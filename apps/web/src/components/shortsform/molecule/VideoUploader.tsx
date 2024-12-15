@@ -120,7 +120,7 @@ function ImageUploader({
         {mediaList.map((previewMedia: PreviewImageType) => (
           <li
             key={previewMedia.s3Url}
-            className="relative col-span-1 w-full h-[150px] bg-gray-200 rounded-lg flex items-start justify-left text-gray-400 border-[1px] border-primary overflow-hidden"
+            className="relative col-span-1 w-full aspect-[9/16] bg-gray-200 rounded-lg flex items-start justify-left text-gray-400 border-[1px] border-primary overflow-hidden"
           >
             {previewMedia.fileType === "IMAGE" ? (
               <Image
