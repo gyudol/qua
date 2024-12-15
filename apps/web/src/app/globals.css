@@ -51,6 +51,10 @@ body {
   display: none;
 }
 
+.swiper .swiper-pagination-bullet {
+  background-color: #fff;
+}
+
 @layer components {
   .animate-deepblue {
     animation: gradient-bg 3s infinite;

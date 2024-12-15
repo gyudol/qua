@@ -16,7 +16,7 @@ export async function getMemberNickname({
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "no-cache",
+    cache: "force-cache",
   });
 
   return processResponse<string, false>({ res });

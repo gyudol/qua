@@ -15,13 +15,13 @@ interface RandomFishState {
   style: Record<string, string | number>;
   animation: {
     animationDuration: string;
-    animationDelay: string;
+    // animationDelay: string;
   };
 }
 
 function Aquarium({
   count = 10,
-  size = 80,
+  size = 150,
   speed = 20,
 }: {
   count?: number;
@@ -48,11 +48,11 @@ function RandomFish({ size: _size, speed }: { size: number; speed: number }) {
         top: `${10 + Math.random() * 80}%`,
         right: `${Math.random() * 90}%`,
         zIndex: -(distance * 100),
-        // filter: `blur(${Math.floor(distance * 5)}px)`,
+        filter: `blur(${Math.floor(distance)}px)`,
       },
       animation: {
-        animationDuration: `${Math.random() * speed + 30}s`,
-        animationDelay: `${Math.random() * 10}s`,
+        animationDuration: `${Math.random() * speed + speed}s`,
+        // animationDelay: `${Math.random() * 10}s`,
       },
     });
   }, [_size, speed]);

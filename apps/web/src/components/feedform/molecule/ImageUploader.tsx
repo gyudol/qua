@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import React, { useState, useRef } from 'react';
-import Image from 'next/image';
-import { UploadCloud, XCircleIcon } from 'lucide-react';
-import type { CreateFeedType } from '@/types/request/requestType';
+import React, { useState, useRef } from "react";
+import Image from "next/image";
+import { UploadCloud, XCircleIcon } from "lucide-react";
+import type { CreateFeedType } from "@/types/request/requestType";
 import {
   deleteFileFromS3,
   uploadFileToS3,
-} from '@/actions/common/awsMediaUploader';
-import { MediaAssetConverter } from '@/functions/utils/mediaListConverter';
-import { UuidConverter } from '@/functions/utils/uuidConverter';
+} from "@/actions/common/awsMediaUploader";
+import { MediaAssetConverter } from "@/functions/utils/mediaListConverter";
+import { UuidConverter } from "@/functions/utils/uuidConverter";
 
 export interface PreviewImageType {
   s3Url: string;
@@ -24,7 +24,7 @@ function ImageUploader({
 }) {
   const mediaRef = useRef<HTMLInputElement>(null);
   const [mediaList, setMediaList] = useState<PreviewImageType[]>(
-    [] as PreviewImageType[]
+    [] as PreviewImageType[],
   );
 
   const handleFeedImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,8 +33,8 @@ function ImageUploader({
     if (!files || files.length === 0) return;
 
     const file = files[0];
-    const fileType = file.type.startsWith('image') ? 'IMAGE' : 'VIDEO';
-    const fileExtention = file.name.split('.').pop();
+    const fileType = file.type.startsWith("image") ? "IMAGE" : "VIDEO";
+    const fileExtention = file.name.split(".").pop();
     const uniqueUuid = UuidConverter();
     const uniqueFileName = `${uniqueUuid}.${fileExtention}`;
 
@@ -59,12 +59,12 @@ function ImageUploader({
   const handleDeleteImage = async (
     uniqueUuid: string,
     s3Url: string,
-    fileType: string
+    fileType: string,
   ) => {
     try {
       if (s3Url && fileType) {
         const res = await deleteFileFromS3(s3Url);
-        if (!res) throw new Error('Failed to delete from S3');
+        if (!res) throw new Error("Failed to delete from S3");
       }
 
       setMediaList((prev) => {
@@ -75,13 +75,13 @@ function ImageUploader({
       setPayload((prev) => {
         const updatedPayload = { ...prev };
         updatedPayload.mediaList = prev.mediaList.filter(
-          (media) => media.mediaUuid !== uniqueUuid
+          (media) => media.mediaUuid !== uniqueUuid,
         );
         return updatedPayload;
       });
       // input file 초기화
       if (mediaRef.current) {
-        mediaRef.current.value = '';
+        mediaRef.current.value = "";
       }
     } catch (error) {
       // console.error("Error deleting image:", error);
@@ -118,7 +118,7 @@ function ImageUploader({
             key={previewMedia.s3Url}
             className="relative col-span-1 w-full h-[150px] bg-gray-200 rounded-lg flex items-start justify-left text-gray-400 border-[1px] border-primary overflow-hidden"
           >
-            {previewMedia.fileType === 'IMAGE' ? (
+            {previewMedia.fileType === "IMAGE" ? (
               <Image
                 src={previewMedia.s3Url}
                 alt={`Preview ${previewMedia.fileType}`}
@@ -138,7 +138,7 @@ function ImageUploader({
                 void handleDeleteImage(
                   previewMedia.uniqueUuid,
                   previewMedia.s3Url,
-                  previewMedia.fileType
+                  previewMedia.fileType,
                 )
               } // fileType 전달
               className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity"

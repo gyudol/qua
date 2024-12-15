@@ -33,7 +33,7 @@ function ProfileImage({ size, profileImageUrl, nickname }: ProfileImageProps) {
   return profileImageUrl ? (
     <figure className="relative" style={{ width: size, height: size }}>
       <Image
-        className="rounded-full"
+        className="rounded-full bg-gradient-to-tr from-white to-teal-400"
         sizes={size}
         src={`https://media.qua.world/${profileImageUrl}`}
         alt={nickname}

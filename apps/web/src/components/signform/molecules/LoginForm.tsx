@@ -8,13 +8,13 @@ import {
   NaverButton,
 } from "@/components/common/icons";
 
-function SignInForm() {
+function SignInForm({ callbackUrl }: { callbackUrl?: string }) {
   const handleKakaoSignIn = () => {
-    signIn("kakao", { callbackUrl: "/" }).catch(() => null);
+    signIn("kakao", { callbackUrl: callbackUrl || "/" }).catch(() => null);
   };
 
   const handleNaverSignIn = () => {
-    signIn("naver", { callbackUrl: "/" }).catch(() => null);
+    signIn("naver", { callbackUrl: callbackUrl || "/" }).catch(() => null);
   };
 
   return (
