@@ -6,7 +6,7 @@ const routes = {
   signIn: "/sign-in",
   signOut: "/sign-out",
   writeFeed: "/feeds/write",
-  writeShorts: "/shortss/write",
+  writeShorts: "/shorts/write",
   mypage: "/my",
 };
 
