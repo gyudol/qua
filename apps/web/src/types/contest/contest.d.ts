@@ -79,7 +79,7 @@ interface ContestPostList {
   postUuid: string;
   contestId: number;
   memberUuid: string;
-  media: MediaList;
+  media: Media;
   createdAt: string;
   voteCount: number;
 }

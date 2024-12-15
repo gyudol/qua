@@ -1,6 +1,11 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import React from "react";
 
 function ContestFilter() {
+  const router = useRouter();
+
   return (
     <div className="flex justify-between items-center mb-5">
       <div className="flex items-baseline gap-2">
@@ -10,15 +15,17 @@ function ContestFilter() {
         <button
           type="button"
           className="hover:text-black hover:underline transition"
+          onClick={() => router.push("?sortBy=LATEST")}
         >
-          랜덤보기
+          최신순
         </button>
         <span className="text-gray-400">·</span>
         <button
           type="button"
           className="hover:text-black hover:underline transition"
+          onClick={() => router.push("?sortBy=VOTES")}
         >
-          제목순보기
+          투표순
         </button>
       </div>
     </div>

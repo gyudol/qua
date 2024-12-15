@@ -15,7 +15,7 @@ function Caution() {
             </li>
             <li className="flex items-start text-gray-700 font-medium bg-gray-100 border border-gray-300 rounded p-4">
               <span className="text-[#47D0BF] mr-3 mt-1">✔</span>
-              <p>투표는 1인당 1번 하실 수 있습니다.</p>
+              <p>투표는 작품당 1번만 하실 수 있습니다.</p>
             </li>
             <li className="flex items-start text-gray-700 font-medium bg-gray-100 border border-gray-300 rounded p-4">
               <span className="text-[#47D0BF] mr-3 mt-1">✔</span>

@@ -22,10 +22,11 @@ function ContestFormFields({
   return (
     <fieldset className="w-full flex flex-col gap-5 h-full px-5">
       <ul className="border-2 border-dashed p-4 list-disc list-inside text-left mt-5 rounded-lg">
-        <li className="pl-2">이미지와 동영상만 업로드 가능합니다.</li>
+        {/* <li className="pl-2">이미지와 동영상만 업로드 가능합니다.</li>
         <li className="pl-2">
           관상어 관련 이미지, 동영상만 업로드 가능합니다.
-        </li>
+        </li> */}
+        <li className="pl-2">관상어 관련 이미지만 업로드 가능합니다.</li>
       </ul>
 
       <ContestUploader setPayload={setPayload} />

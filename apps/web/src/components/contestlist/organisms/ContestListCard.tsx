@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import type { ContestPostList, ContestPostVote } from "@/types/contest/contest";
 import { contestPostVote } from "@/actions/contest/contest";
+import type { ContestPostList, ContestPostVote } from "@/types/contest/contest";
 
 function ContestCard({
   media,
@@ -36,22 +36,21 @@ function ContestCard({
 
   return (
     <div className="flex flex-col">
-      <div className="relative h-[200px] overflow-hidden round-t-lg">
+      <div className="relative w-full aspect-square overflow-hidden round-t-lg">
         <div className="bg-slate-300 w-full h-full">
           {media.mediaType === "IMAGE" ? (
             <Image
-              src={media.assets.mediaUrl}
-              alt={media.assets.description || "Contest Image"}
+              src={`https://media.qua.world/${media.assets.IMAGE.mediaUrl}`}
+              alt={media.assets.IMAGE.description || "Contest Image"}
               className="w-full h-full object-cover rounded-lg"
-              width={300}
-              height={300}
-              unoptimized
+              objectFit="cover"
+              fill
             />
           ) : (
             <video
               className="w-full h-full object-cover rounded-lg"
               controls
-              src={media.assets.mediaUrl}
+              src={`https://media.qua.wolrd/${media.assets.VIDEO_MP4.mediaUrl}`}
             >
               <track
                 kind="captions"

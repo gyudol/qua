@@ -7,6 +7,12 @@ const routes = {
   signOut: "/sign-out",
   writeFeed: "/feeds/write",
   writeShorts: "/shorts/write",
+  contest: [
+    "/contest",
+    "/contest/contestform",
+    "/contest/contesthistory",
+    "/contest/contestlist",
+  ],
   mypage: "/my",
 };
 
@@ -17,6 +23,7 @@ const withAuthList = [
   routes.signOut,
   routes.writeFeed,
   routes.writeShorts,
+  ...routes.contest,
 ];
 const withoutAuthList = [routes.signIn];
 

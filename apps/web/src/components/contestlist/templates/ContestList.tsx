@@ -6,9 +6,20 @@ import { useGetConstestListInfiniteQuery } from "@/hooks/contest-list-service";
 import ContestCard from "../organisms/ContestListCard";
 import ContestFilter from "../atoms/ContestFilter";
 
-export default function ContestList({ contestId }: { contestId: number }) {
+export default function ContestList({
+  contestId,
+  sortBy,
+}: {
+  contestId: number;
+  sortBy?: "LATEST" | "VOTES";
+}) {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useGetConstestListInfiniteQuery({ contestId, pageSize: 8, pageNo: 1 });
+    useGetConstestListInfiniteQuery({
+      contestId,
+      pageSize: 80,
+      pageNo: 1,
+      sortBy,
+    });
   const observerRef = useInfiniteScroll({
     hasNextPage,
     fetchNextPage,

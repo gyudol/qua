@@ -3,6 +3,7 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { UploadCloud, XCircleIcon } from "lucide-react";
+import { toast } from "sonner";
 import {
   deleteFileFromS3,
   uploadFileToS3,
@@ -10,6 +11,7 @@ import {
 import { MediaAssetConverter } from "@/functions/utils/mediaListConverter";
 import { UuidConverter } from "@/functions/utils/uuidConverter";
 import type { Media, MediaContest } from "@/types/contest/contest";
+import { validateContestImg } from "@/actions/contest/contest";
 
 export interface PreviewImageType {
   s3Url: string;
@@ -45,6 +47,9 @@ function ImageUploader({
     const s3Url = await uploadFileToS3(file, uniqueFileName);
 
     if (!s3Url) return;
+    const isFish = await validateContestImg({ imgUrl: s3Url });
+    if (!isFish) return toast.error("관상어 관련 이미지만 업로드 가능합니다!");
+
     setMediaList(() => {
       const updated = [{ s3Url, fileType, uniqueUuid }];
       return updated;
@@ -109,7 +114,8 @@ function ImageUploader({
         id="feedImg"
         name="feedImg"
         className="hidden"
-        accept="video/*image/*"
+        // accept="video/*image/*"
+        accept="image/*"
         multiple
         onChange={(e) => {
           void handleFeedImage(e);

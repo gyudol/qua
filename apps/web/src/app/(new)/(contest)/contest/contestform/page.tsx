@@ -1,4 +1,5 @@
 import { getContest } from "@/actions/contest/contest";
+import PageContainer from "@/components/@new/layouts/containers/PageContainer";
 import ContestWriteForm from "@/components/contestform/organisms/ContestWriteForm";
 
 export default async function Page() {
@@ -9,8 +10,8 @@ export default async function Page() {
   const firstContestId = contestItems[0];
   // console.log("id", contestItems);
   return (
-    <div>
+    <PageContainer>
       <ContestWriteForm contestId={firstContestId} />
-    </div>
+    </PageContainer>
   );
 }

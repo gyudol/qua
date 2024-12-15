@@ -81,3 +81,16 @@ export async function contestPostVote(data: ContestPostVote) {
 
   return responseData;
 }
+
+export async function validateContestImg({ ...query }: { imgUrl: string }) {
+  const url = `${API_SERVER}/${PREFIX}/admin/v1/contests/validate?${toURLSearchParams(query)}`;
+
+  const res = await fetch(url, {
+    headers: await getHeaders(),
+    method: "GET",
+    cache: "no-cache",
+  });
+
+  // console.log("데이터", res);
+  return processResponse<boolean, false>({ res });
+}
