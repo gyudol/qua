@@ -44,6 +44,12 @@ export default function FeedListSection({
               )),
             )
           : null}
+        {data?.pages[0].content.length ? null : (
+          <div className="h-[20rem] flex gap-2 justify-center items-center font-bold">
+            피드가 없어요
+            <Kitty />
+          </div>
+        )}
         <div
           ref={observerRef}
           className="flex gap-4 justify-center items-center text-teal-400"

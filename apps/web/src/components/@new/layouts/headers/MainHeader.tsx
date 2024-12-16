@@ -1,4 +1,5 @@
 import { Bell, Globe } from "lucide-react";
+import Link from "next/link";
 import { Kitty, Logo } from "@/components/common/icons";
 import { SidebarButton } from "../bars/Sidebar";
 
@@ -23,7 +24,9 @@ export default function MainHeader() {
         <div className="flex flex-row gap-x-4 items-center">
           <Globe size="1.5rem" className="stroke-teal-400" />
           <Bell size="1.5rem" className="stroke-teal-400" />
-          <Kitty />
+          <Link href="/chat/rooms">
+            <Kitty />
+          </Link>
         </div>
       </header>
     </>

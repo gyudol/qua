@@ -1,3 +1,5 @@
+import type { Datetime } from "../common";
+
 export interface PutLastReadReq {
   roomUuid: string;
 }
@@ -10,7 +12,7 @@ export interface DeleteChatroomReq {
   roomUuid: string;
 }
 
-export interface GetChatroomByCounterPartUuidReq {
+export interface PostChatroomByCounterPartUuidReq {
   counterPartUuid: string;
 }
 
@@ -31,7 +33,7 @@ export interface ChatroomInfo {
   unreadCount: number;
 }
 
-export interface CouterPartChatroomInfo {
+export interface CounterPartChatroomInfo {
   roomUuid: string;
   participants: ChatroomParticipant[];
   createdAt: string;
@@ -39,6 +41,25 @@ export interface CouterPartChatroomInfo {
   newRoom: boolean;
 }
 
-// 챠탕 매사자 전송운 그냥 쌩 문자열
+// ---------------------------------------------
 
-export type MessageType = "TEXT";
+export interface PostChatReq {
+  roomUuid: string;
+  message: string;
+}
+
+export interface GetChatHistoryReq {
+  roomUuid: string;
+}
+
+export interface GetChatStreamReq {
+  roomUuid: string;
+}
+
+export interface Chat {
+  roomUuid: string;
+  messageType: "TEXT";
+  message: string;
+  senderId: string;
+  createdAt: Datetime;
+}

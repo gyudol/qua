@@ -7,13 +7,20 @@ import {
 import { MoreHorizontal } from "lucide-react";
 import { useSessionContext } from "@/context/SessionContext";
 import type { Feed } from "@/types/feed/feed-read-service";
+import type { MemberProfile } from "@/types/member/member-read-service";
 import { FeedReportButton } from "../atoms/FeedReportButton";
 // import { FeedEditButton } from '../atoms/FeedEditButton';
 import { FeedDeleteButton } from "../atoms/FeedDeleteButton";
+import { FeedChatButton } from "../atoms/FeedChatButton";
 
-type FeedMoreOptionProps = Pick<Feed, "feedUuid" | "memberUuid">;
+type FeedMoreOptionProps = Pick<Feed, "feedUuid" | "memberUuid"> &
+  Partial<Pick<MemberProfile, "nickname">>;
 
-export function FeedMoreOption({ feedUuid, memberUuid }: FeedMoreOptionProps) {
+export function FeedMoreOption({
+  feedUuid,
+  memberUuid,
+  nickname,
+}: FeedMoreOptionProps) {
   const { memberUuid: sessionUuid } = useSessionContext();
 
   return (
@@ -23,9 +30,16 @@ export function FeedMoreOption({ feedUuid, memberUuid }: FeedMoreOptionProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="rounded-lg shadow-xl">
         {sessionUuid !== memberUuid ? (
-          <DropdownMenuItem className="py-0 text-xs">
-            <FeedReportButton {...{ feedUuid }} />
-          </DropdownMenuItem>
+          <>
+            {nickname ? (
+              <DropdownMenuItem className="py-0 text-xs">
+                <FeedChatButton {...{ nickname }} />
+              </DropdownMenuItem>
+            ) : null}
+            <DropdownMenuItem className="py-0 text-xs">
+              <FeedReportButton {...{ feedUuid }} />
+            </DropdownMenuItem>
+          </>
         ) : (
           <>
             {/* <DropdownMenuItem>

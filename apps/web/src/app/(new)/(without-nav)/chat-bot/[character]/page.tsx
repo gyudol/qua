@@ -10,11 +10,13 @@ export default function page({
   params: { character: ChatbotCharacter };
 }) {
   return (
-    <PageContainer>
-      <div className="relative size-full bg-zinc-100">
-        <ChatbotChatContainer {...{ character }} />
-        <ChatbotChatInputSection {...{ character }} />
-      </div>
-    </PageContainer>
+    <>
+      <PageContainer>
+        <div className="relative size-full bg-zinc-100">
+          <ChatbotChatContainer {...{ character }} />
+        </div>
+      </PageContainer>
+      <ChatbotChatInputSection {...{ character }} />
+    </>
   );
 }

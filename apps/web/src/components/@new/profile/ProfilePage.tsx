@@ -92,7 +92,7 @@ export default async function ProfilePage({
           </div>
           <div className="flex gap-2 flex-wrap">
             {hashtags.map(({ name }) => (
-              <Link key={name} href={`/search?tag=${name}`}>
+              <Link key={name} href={`/search?keyword=#${name}`}>
                 <div className="bg-teal-400 text-white text-xs px-2 py-1 rounded-lg">
                   #{name}
                 </div>

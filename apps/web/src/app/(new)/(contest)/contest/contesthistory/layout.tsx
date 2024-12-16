@@ -1,5 +1,5 @@
-import DetailHeader from "@/components/@new/layouts/headers/DetailHeader";
 import { PartyPopper } from "lucide-react";
+import DetailHeader from "@/components/@new/layouts/headers/DetailHeader";
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (

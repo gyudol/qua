@@ -2,17 +2,26 @@ import { List, Search, UserRound, Video } from "lucide-react";
 import PageContainer from "@/components/@new/layouts/containers/PageContainer";
 import { FeedPageFeedListSection } from "@/components/feed/pages/FeedPageFeedListSection";
 import { Kitty } from "@/components/common/icons";
+import { SearchPageFeedListSection } from "@/components/feed/pages/SearchPageFeedListSection";
 
 export default function page({
-  searchParams: { tag: _tag, sortBy: _sortBy, view: _view },
+  searchParams: { keyword: _keyword, sortBy: _sortBy, view: _view },
 }: {
   searchParams: {
-    tag?: string;
+    keyword?: string;
     sortBy?: string;
     view?: string;
   };
 }) {
-  const tag = _tag ? decodeURI(_tag) : undefined;
+  const decodedKeyword = _keyword ? decodeURI(_keyword) : undefined;
+  const tag =
+    decodedKeyword && decodedKeyword.startsWith("#")
+      ? decodedKeyword.slice(1, decodedKeyword.length)
+      : undefined;
+  const keyword =
+    decodedKeyword && !decodedKeyword.startsWith("#")
+      ? decodedKeyword
+      : undefined;
   const sortBy = _sortBy === "likes" ? "likes" : "latest";
   const view = _view === "compact" ? "compact" : "card";
 
@@ -37,12 +46,12 @@ export default function page({
               <Search className="stroke-slate-600" />
             </button>
             <input
-              id="tag"
-              name="tag"
+              id="keyword"
+              name="keyword"
               type="text"
               className="w-full bg-slate-200 focus:outline-none"
               placeholder="검색어를 입력하세요"
-              defaultValue={tag}
+              defaultValue={decodedKeyword}
             />
           </div>
         </form>
@@ -78,6 +87,16 @@ export default function page({
             </ul>
           </div>
         </section>
+        {!keyword && !tag ? (
+          <div className="size-full flex justify-center items-center">
+            <div className="flex flex-col items-center gap-4">
+              <Kitty width={100} height={100} />
+              <p>검색 결과가 없습니다.</p>
+            </div>
+          </div>
+        ) : null}
+
+        {keyword ? <SearchPageFeedListSection {...{ keyword }} /> : null}
 
         {tag ? (
           <FeedPageFeedListSection
@@ -87,14 +106,7 @@ export default function page({
               hashtagName: tag,
             }}
           />
-        ) : (
-          <div className="size-full flex justify-center items-center">
-            <div className="flex flex-col items-center gap-4">
-              <Kitty width={100} height={100} />
-              <p>검색 결과가 없습니다.</p>
-            </div>
-          </div>
-        )}
+        ) : null}
       </PageContainer>
     </>
   );
