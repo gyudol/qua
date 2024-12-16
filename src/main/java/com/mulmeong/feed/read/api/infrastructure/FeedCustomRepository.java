@@ -23,7 +23,7 @@ import org.springframework.stereotype.Repository;
 public class FeedCustomRepository {     // QueryDSL Repository
 
     private static final int DEFAULT_PAGE_SIZE = 20;
-    private static final int DEFAULT_PAGE_NUMBER = 0;
+    private static final int DEFAULT_PAGE_NUMBER = 1;
 
     private final MongoTemplate mongoTemplate;
     private final QFeed feed = QFeed.feed;
@@ -58,7 +58,10 @@ public class FeedCustomRepository {     // QueryDSL Repository
     private CursorPage<FeedResponseDto> getFeedsWithPagination(BasePaginationRequestDto requestDto,
         BooleanBuilder builder) {
 
-        Optional.ofNullable(requestDto.getLastId()).ifPresent(id -> builder.and(feed.id.lt(id)));
+        if (requestDto.getSortType().equals(SortType.LATEST)) {
+            Optional.ofNullable(requestDto.getLastId())
+                .ifPresent(id -> builder.and(feed.id.loe(id)));
+        }
 
         int curPageNo = Optional.ofNullable(requestDto.getPageNo()).orElse(DEFAULT_PAGE_NUMBER);
         int curPageSize = Optional.ofNullable(requestDto.getPageSize()).orElse(DEFAULT_PAGE_SIZE);
@@ -83,7 +86,7 @@ public class FeedCustomRepository {     // QueryDSL Repository
         }
 
         return new CursorPage<>(content.stream().map(FeedResponseDto::fromDocument).toList(),
-            nextCursor, hasNext, content.size(), requestDto.getPageNo());
+            nextCursor, hasNext, content.size(), curPageNo);
     }
 
     private OrderSpecifier<?> determineSortOrder(QFeed feed, SortType sortType) {
