@@ -42,7 +42,7 @@ public class SwaggerConfig {
                 .addServersItem(new Server().url("/utility-service"));
 
         //test
-        //.addServersItem(new Server().url("/"));
+        //        .addServersItem(new Server().url("/"));
 
     }
 }

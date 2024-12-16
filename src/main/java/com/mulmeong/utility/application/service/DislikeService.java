@@ -1,9 +1,12 @@
 package com.mulmeong.utility.application.service;
 
+import com.mulmeong.event.produce.DislikeRenewCreateEvent;
+import com.mulmeong.utility.application.EventPublisher;
 import com.mulmeong.utility.application.mapper.DislikeDtoMapper;
 import com.mulmeong.utility.application.port.in.DislikeUseCase;
 import com.mulmeong.utility.application.port.in.dto.DislikeListRequestDto;
 import com.mulmeong.utility.application.port.in.dto.DislikeRequestDto;
+import com.mulmeong.utility.application.port.in.dto.DislikeRenewRequestDto;
 import com.mulmeong.utility.application.port.out.DislikePort;
 import com.mulmeong.utility.application.port.out.dto.DislikeEntityResponseDto;
 import com.mulmeong.utility.domain.model.Dislike;
@@ -22,6 +25,7 @@ public class DislikeService implements DislikeUseCase {
 
     private final DislikePort dislikePort;
     private final DislikeDtoMapper dislikeDtoMapper;
+    private final EventPublisher eventPublisher;
 
     @Override
     public void dislike(DislikeRequestDto dislikeRequestDto) {
@@ -59,6 +63,13 @@ public class DislikeService implements DislikeUseCase {
         return dislikedEntities.stream()
                 .map(DislikeEntityResponseDto::getKindUuid)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void renewValidate(DislikeRenewRequestDto requestDto) {
+        if (requestDto.getDislikeCount() < 10) {
+            eventPublisher.sendDislikedEvent(DislikeRenewCreateEvent.toDto(requestDto));
+        }
     }
 
 }

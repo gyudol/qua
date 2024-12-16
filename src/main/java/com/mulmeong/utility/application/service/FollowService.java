@@ -1,5 +1,7 @@
 package com.mulmeong.utility.application.service;
 
+import com.mulmeong.event.produce.FollowCreateEvent;
+import com.mulmeong.utility.application.EventPublisher;
 import com.mulmeong.utility.application.port.in.FollowUseCase;
 import com.mulmeong.utility.application.port.in.dto.FollowRequestDto;
 import com.mulmeong.utility.application.port.out.FollowPort;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class FollowService implements FollowUseCase {
 
     private final FollowPort followPort;
+    private final EventPublisher eventPublisher;
 
     @Override
     public void follow(FollowRequestDto followRequestDto) {
@@ -23,6 +26,7 @@ public class FollowService implements FollowUseCase {
         if (followPort.existsBySourceUuidAndTargetUuid(followRequestDto)) {
             throw  new BaseException(BaseResponseStatus.DUPLICATE_FOLLOW);
         } else {
+            eventPublisher.sendFollowEvent(FollowCreateEvent.toDto(followRequestDto));
             followPort.saveFollow(followRequestDto);
         }
     }
