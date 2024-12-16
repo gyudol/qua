@@ -11,11 +11,13 @@ import {
   getFeeds,
   getMemberFeeds,
   getRandomHashtags,
+  searchFeeds,
 } from "@/actions/feed-read-service";
 import type {
   GetFeedsReq,
   GetMemberFeeds,
   GetRandomHashtags,
+  SearchFeedsReq,
 } from "@/types/feed/feed-read-service";
 import type { FeedReq } from "@/types/feed/common";
 import { deleteFeed } from "@/actions/feed-service";
@@ -35,13 +37,19 @@ export function useGetFeedsInfiniteQuery({ ...query }: GetFeedsReq) {
       getFeeds({ categoryName, hashtagName, sortBy, ...pageParam }),
     getNextPageParam: ({
       hasNext,
-      ...nextQuery
+      pageNo: prevPageNo,
+      ...pageParams
     }: {
       pageNo: number;
       pageSize: number;
-      nextCursor: string;
+      nextCursor?: string;
       hasNext: boolean;
-    }) => (hasNext ? { ...nextQuery } : null),
+    }) => {
+      if (!hasNext) return null;
+      return sortBy === "likes"
+        ? { pageNo: prevPageNo + 1, ...pageParams }
+        : { pageNo, ...pageParams };
+    },
     initialPageParam: {
       pageNo: pageNo || 1,
       pageSize: pageSize || 6,
@@ -109,5 +117,39 @@ export function useGetRamdomHashtags({ size }: GetRandomHashtags) {
   return useQuery({
     queryKey: [],
     queryFn: () => getRandomHashtags({ size }),
+  });
+}
+
+export function useSearchFeedsInfiniteQuery({
+  keyword,
+  ...query
+}: SearchFeedsReq) {
+  const { pageNo, pageSize } = query;
+  return useInfiniteQuery({
+    queryKey: [
+      "feed-service",
+      {
+        kind: "feeds",
+        query,
+      },
+    ],
+    queryFn: ({ pageParam }) => searchFeeds({ keyword, ...pageParam }),
+    getNextPageParam: ({
+      hasNext,
+      pageNo: prevPageNo,
+      ...pageParams
+    }: {
+      pageNo: number;
+      pageSize: number;
+      nextCursor?: string;
+      hasNext: boolean;
+    }) => {
+      if (!hasNext) return null;
+      return { pageNo: prevPageNo + 1, ...pageParams };
+    },
+    initialPageParam: {
+      pageNo: pageNo || 1,
+      pageSize: pageSize || 6,
+    },
   });
 }

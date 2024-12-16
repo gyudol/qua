@@ -21,7 +21,6 @@ export async function getChatbotChat({
   message,
 }: GetChatbotChatReq) {
   const URI = `${API_SERVER}/${PREFIX}/auth/v1/chatrooms/chatbot?${toURLSearchParams({ character, message })}`;
-
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
@@ -29,7 +28,7 @@ export async function getChatbotChat({
     // next: { revalidate: 3600 },
   });
 
-  return processResponse<ChatbotChatRecord, false>({ res });
+  return (await res.json()) as ChatbotChatRecord;
 }
 
 export async function getChatbotChatList() {

@@ -63,7 +63,13 @@ export function FeedHeader({
           </div>
         </div>
         <div>
-          <FeedMoreOption {...{ feedUuid, memberUuid }} />
+          <FeedMoreOption
+            {...{
+              feedUuid,
+              memberUuid,
+              nickname: status === "success" ? nickname : undefined,
+            }}
+          />
         </div>
       </div>
     </header>

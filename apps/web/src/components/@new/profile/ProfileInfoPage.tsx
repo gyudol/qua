@@ -208,7 +208,7 @@ async function BadgeAndInterestsSection({
         </div>
         <div className="flex gap-2 flex-wrap">
           {interests.map(({ name }) => (
-            <Link key={name} href={`/search?tag=${name}`}>
+            <Link key={name} href={`/search?keyword=#${name}`}>
               <div className="border-2 border-teal-400 text-teal-400 font-bold text px-2 py-1 rounded-2xl">
                 #{name}
               </div>

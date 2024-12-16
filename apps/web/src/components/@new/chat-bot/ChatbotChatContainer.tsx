@@ -1,7 +1,8 @@
 "use client";
 
 import { Send } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { cn } from "@repo/ui/lib/utils";
 import { useInfiniteScroll } from "@/hooks";
 import {
   useGetChatbotChatMutation,
@@ -17,16 +18,27 @@ export default function ChatbotChatContainer({
 }: {
   character: ChatbotCharacter;
 }) {
-  const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
-    useGetChatbotHistoryByCharacterInfiniteQuery({ character, pageSize: 30 });
+  const ref = useRef<HTMLDivElement | null>(null);
+  const { data, hasNextPage, isFetchingNextPage, fetchNextPage, status } =
+    useGetChatbotHistoryByCharacterInfiniteQuery({ character, pageSize: 10 });
+
   const observerRef = useInfiniteScroll({
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
   });
 
+  useEffect(() => {
+    if (status === "success" && ref.current) {
+      ref.current.scrollTop = ref.current.scrollHeight;
+    }
+  }, [status]);
+
   return (
-    <div className="w-full flex flex-col-reverse">
+    <div
+      ref={ref}
+      className="w-full flex flex-col-reverse p-[1rem] gap-4 bg-zinc-100"
+    >
       <div ref={observerRef} />
       {data?.pages[0].content.length
         ? data.pages.map((page) =>
@@ -39,8 +51,28 @@ export default function ChatbotChatContainer({
   );
 }
 
-function ChatbotChat({ message }: ChatbotChatRecord) {
-  return <div>{message}</div>;
+function ChatbotChat({ message, role }: ChatbotChatRecord) {
+  return (
+    <div
+      className={cn(
+        "w-full flex",
+        role === "assistant" ? "flex-row" : "flex-row-reverse",
+      )}
+    >
+      <div
+        className={cn(
+          "max-w-[80%] p-2",
+          "border ",
+          "rounded-lg shadow-md",
+          role === "assistant"
+            ? "flex-row rounded-tl-none bg-white border-zinc-200"
+            : "flex-row-reverse rounded-tr-none bg-teal-400 text-white border-teal-400",
+        )}
+      >
+        {message}
+      </div>
+    </div>
+  );
 }
 
 export function ChatbotChatInputSection({
@@ -63,33 +95,36 @@ export function ChatbotChatInputSection({
   }
 
   return (
-    <section
-      className="
+    <>
+      <div className="h-[7rem]" />
+      <section
+        className="
       w-full absolute bottom-0 
       pt-[1rem] px-[1rem] pb-[2rem]
       flex gap-2 justify-between items-end bg-white
       "
-    >
-      <textarea
-        className="
+      >
+        <textarea
+          className="
         flex-1 resize-none border-2 
         focus:outline-none
         p-[0.75rem]
         border-teal-400 rounded-2xl"
-        style={{ height: `${(1 + line) * heightPerLine}rem` }}
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
-      <button
-        type="button"
-        className="
+          style={{ height: `${(1 + line) * heightPerLine}rem` }}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+        <button
+          type="button"
+          className="
       flex justify-center items-center
       p-3  bg-teal-400 rounded-full"
-        {...{ onClick }}
-      >
-        <Send className="stroke-white" />
-      </button>
-      {/* <textarea className="size-full resize-none" /> */}
-    </section>
+          {...{ onClick }}
+        >
+          <Send className="stroke-white" />
+        </button>
+        {/* <textarea className="size-full resize-none" /> */}
+      </section>
+    </>
   );
 }
