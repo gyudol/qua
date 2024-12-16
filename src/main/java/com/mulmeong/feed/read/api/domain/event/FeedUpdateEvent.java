@@ -1,5 +1,6 @@
 package com.mulmeong.feed.read.api.domain.event;
 
+import com.mulmeong.feed.read.api.domain.document.ElasticFeed;
 import com.mulmeong.feed.read.api.domain.document.Feed;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -32,6 +33,26 @@ public class FeedUpdateEvent {
             .commentCount(existingFeed.getCommentCount())
             .createdAt(existingFeed.getCreatedAt())
             .updatedAt(updatedAt)
+            .build();
+    }
+
+    public ElasticFeed toElasticFeedDocument(ElasticFeed existingElasticFeed) {
+        return ElasticFeed.builder()
+            .id(existingElasticFeed.getId())
+            .feedUuid(feedUuid)
+            .memberUuid(existingElasticFeed.getMemberUuid())
+            .title(title)
+            .content(content)
+            .categoryName(categoryName)
+            .visibility(existingElasticFeed.getVisibility())
+            .hashtags(existingElasticFeed.getHashtags())
+            .mediaList(existingElasticFeed.getMediaList())
+            .likeCount(existingElasticFeed.getLikeCount())
+            .dislikeCount(existingElasticFeed.getDislikeCount())
+            .netLikes(existingElasticFeed.getNetLikes())
+            .commentCount(existingElasticFeed.getCommentCount())
+            .createdAt(existingElasticFeed.getCreatedAt())
+            .updatedAt(updatedAt.toString())
             .build();
     }
 

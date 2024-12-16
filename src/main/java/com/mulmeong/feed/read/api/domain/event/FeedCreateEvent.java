@@ -1,5 +1,6 @@
 package com.mulmeong.feed.read.api.domain.event;
 
+import com.mulmeong.feed.read.api.domain.document.ElasticFeed;
 import com.mulmeong.feed.read.api.domain.document.Feed;
 import com.mulmeong.feed.read.api.domain.entity.FeedHashtag;
 import com.mulmeong.feed.read.api.domain.model.Hashtag;
@@ -50,6 +51,25 @@ public class FeedCreateEvent {
                 .name(hashtag.getName())
                 .build())
             .toList();
+    }
+
+    public ElasticFeed toElasticFeedDocument() {
+        return ElasticFeed.builder()
+            .feedUuid(feedUuid)
+            .memberUuid(memberUuid)
+            .title(title)
+            .content(content)
+            .categoryName(categoryName)
+            .visibility(visibility)
+            .hashtags(hashtags)
+            .mediaList(mediaList)
+            .likeCount(0L)
+            .dislikeCount(0L)
+            .netLikes(0L)
+            .commentCount(0L)
+            .createdAt(createdAt.toString())
+            .updatedAt(updatedAt.toString())
+            .build();
     }
 
 }
