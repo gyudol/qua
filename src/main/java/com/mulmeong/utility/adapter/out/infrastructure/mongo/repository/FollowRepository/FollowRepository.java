@@ -2,6 +2,7 @@ package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository.FollowR
 
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.FeedBookmarkEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.FollowEntity;
+import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.LikesEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.mapper.FollowEntityMapper;
 import com.mulmeong.utility.application.port.in.dto.FollowRequestDto;
 import com.mulmeong.utility.application.port.out.FollowPort;
@@ -25,6 +26,7 @@ public class FollowRepository implements FollowPort {
 
     private final FollowMongoRepository followMongoRepository;
     private final FollowEntityMapper followEntityMapper;
+    private final FollowMongoRepositoryCustom followMongoRepositoryCustom;
 
     @Override
     public boolean existsBySourceUuidAndTargetUuid(FollowRequestDto followRequestDto) {
@@ -52,67 +54,25 @@ public class FollowRepository implements FollowPort {
 
     @Override
     public CursorPage<String> getFollowers(String memberUuid, String lastId, int pageSize, int pageNo) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id"));
+        CursorPage<FollowEntity> cursorPage = followMongoRepositoryCustom.getFollowers(
+                memberUuid, lastId, pageSize, pageNo);
 
-        List<FollowEntity> entities;
-        if (lastId != null) {
-            entities = followMongoRepository.findByTargetUuidAndIdLessThanOrderByIdDesc(
-                    memberUuid, lastId, pageable);
-        } else {
-            entities = followMongoRepository.findByTargetUuidOrderByIdDesc(
-                    memberUuid, pageable);
-        }
-
-        List<FollowEntity> pageData = entities.stream()
-                .limit(pageSize)
-                .toList();
-
-        List<String> followerUuids = pageData.stream()
+        List<String> sourceUuid = cursorPage.getContent().stream()
                 .map(FollowEntity::getSourceUuid)
                 .toList();
 
-        boolean hasNext = entities.size() > pageSize;
-        String nextCursor = hasNext ? pageData.get(pageData.size() - 1).getId() : null;
-
-        return CursorPage.<String>builder()
-                .content(followerUuids)
-                .nextCursor(nextCursor)
-                .hasNext(hasNext)
-                .pageSize(pageSize)
-                .pageNo(pageNo)
-                .build();
+        return CursorPage.toCursorPage(cursorPage, sourceUuid);
     }
 
     @Override
     public CursorPage<String> getFollowings(String memberUuid, String lastId, int pageSize, int pageNo) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id"));
+        CursorPage<FollowEntity> cursorPage = followMongoRepositoryCustom.getFollowings(
+                memberUuid, lastId, pageSize, pageNo);
 
-        List<FollowEntity> entities;
-        if (lastId != null) {
-            entities = followMongoRepository.findBySourceUuidAndIdLessThanOrderByIdDesc(
-                    memberUuid, lastId, pageable);
-        } else {
-            entities = followMongoRepository.findBySourceUuidOrderByIdDesc(
-                    memberUuid, pageable);
-        }
-
-        List<FollowEntity> pageData = entities.stream()
-                .limit(pageSize)
-                .toList();
-
-        List<String> followerUuids = pageData.stream()
+        List<String> targetUuid = cursorPage.getContent().stream()
                 .map(FollowEntity::getTargetUuid)
                 .toList();
 
-        boolean hasNext = entities.size() > pageSize;
-        String nextCursor = hasNext ? pageData.get(pageData.size() - 1).getId() : null;
-
-        return CursorPage.<String>builder()
-                .content(followerUuids)
-                .nextCursor(nextCursor)
-                .hasNext(hasNext)
-                .pageSize(pageSize)
-                .pageNo(pageNo)
-                .build();
+        return CursorPage.toCursorPage(cursorPage, targetUuid);
     }
 }

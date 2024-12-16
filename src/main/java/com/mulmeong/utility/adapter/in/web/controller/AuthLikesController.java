@@ -23,6 +23,7 @@ public class AuthLikesController {
     public BaseResponse<Void> likes(@RequestBody LikesRequestVo request) {
 
         likesUseCase.likes(request.toDto());
+        likesUseCase.renewValidate(request.toValid());
         return new BaseResponse<>();
 
     }

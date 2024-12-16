@@ -22,6 +22,7 @@ public class AuthDislikeController {
     public BaseResponse<Void> dislike(@RequestBody DislikeRequestVo request) {
 
         dislikeUseCase.dislike(request.toDto());
+        dislikeUseCase.renewValidate(request.toValid());
         return new BaseResponse<>();
 
 
