@@ -1,5 +1,7 @@
 package com.mulmeong.batchserver.contest.config;
 
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,6 +14,8 @@ import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import java.util.Objects;
+
 @Configuration
 @EnableMongoRepositories(
         basePackages = "com.mulmeong.batchserver.contest.infrastructure.repository.mongo",
@@ -19,17 +23,19 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 )
 public class ContestMongoConfig {
 
-    @Value("${spring.data.mongodb.contest.database}")
-    private String dbName;
-
     @Value("${spring.data.mongodb.contest.uri}")
     private String contestMongoUri;
 
     @Bean(name = "contestReadMongoTemplate")
     public MongoTemplate contestReadMongoTemplate() {
-        MongoClient mongoClient = MongoClients.create(contestMongoUri);
-        MongoDatabaseFactory factory = new SimpleMongoClientDatabaseFactory(mongoClient, dbName);
-        return new MongoTemplate(factory);
+        ConnectionString connectionString = new ConnectionString(contestMongoUri);
+        MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
+                .applyConnectionString(connectionString)
+                .build();
+
+        MongoClient mongoClient = MongoClients.create(mongoClientSettings);
+
+        return new MongoTemplate(mongoClient, Objects.requireNonNull(connectionString.getDatabase()));
     }
 
     @Bean

@@ -1,5 +1,7 @@
 package com.mulmeong.batchserver.utility.config;
 
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +12,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import java.util.Objects;
+
 @Configuration
 @EnableMongoRepositories(
         basePackages = "com.mulmeong.batchserver.utility.infrastructure.repository",
@@ -17,17 +21,20 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 )
 public class UtilityMongoConfig {
 
-    @Value("${spring.data.mongodb.utility.database}")
-    private String dbName;
-
     @Value("${spring.data.mongodb.utility.uri}")
     private String utilityMongoUri;
 
     @Bean(name = "utilityReadMongoTemplate")
     public MongoTemplate utilityMongoTemplate() {
-        MongoClient mongoClient = MongoClients.create(utilityMongoUri);
-        MongoDatabaseFactory factory = new SimpleMongoClientDatabaseFactory(mongoClient, dbName);
-        return new MongoTemplate(factory);
+        ConnectionString connectionString = new ConnectionString(utilityMongoUri);
+        MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
+                .applyConnectionString(connectionString)
+                .build();
+
+        MongoClient mongoClient = MongoClients.create(mongoClientSettings);
+
+        return new MongoTemplate(mongoClient, Objects.requireNonNull(connectionString.getDatabase()));
+
     }
 
 }

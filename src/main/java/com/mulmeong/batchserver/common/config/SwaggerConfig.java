@@ -37,7 +37,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .addSecurityItem(securityRequirement)
                 .components(components)
-                .addServersItem(new Server().url("/batch-service"));
+                .addServersItem(new Server().url("/batch-server"));
         //.addServersItem(new Server().url("/"));
     }
 
