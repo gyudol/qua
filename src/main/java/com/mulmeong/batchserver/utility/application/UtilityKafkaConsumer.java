@@ -7,10 +7,7 @@ import com.mulmeong.batchserver.comment.application.ShortsRecommentService;
 import com.mulmeong.batchserver.common.exception.BaseException;
 import com.mulmeong.batchserver.common.response.BaseResponseStatus;
 import com.mulmeong.batchserver.feed.application.FeedService;
-import com.mulmeong.event.utility.consume.DislikeRenewCreateEvent;
-import com.mulmeong.event.utility.consume.FeedCreateEvent;
-import com.mulmeong.event.utility.consume.LikeRenewCreateEvent;
-import com.mulmeong.event.utility.consume.ShortsCreateEvent;
+import com.mulmeong.event.utility.consume.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -28,6 +25,13 @@ public class UtilityKafkaConsumer {
     private final ShortsCommentService shortsCommentService;
     private final ShortsRecommentService shortsRecommentService;
 
+    @KafkaListener(topics = "${event.utility.pub.topics.follow-create.name}",
+            containerFactory = "followCreateListener")
+    public void followCreated(FollowCreateEvent message) {
+        log.info("follow create message: {}", message.getTargetUuid());
+        followService.createFollowerRenew(message);
+    }
+
     @KafkaListener(topics = "${event.feed.pub.topics.feed-create.name}",
             containerFactory = "feedCreateListener")
     public void feedCreated(FeedCreateEvent message) {
@@ -38,7 +42,7 @@ public class UtilityKafkaConsumer {
     @KafkaListener(topics = "${event.shorts.pub.topics.shorts-create.name}",
             containerFactory = "shortsCreateListener")
     public void shortsCreated(ShortsCreateEvent message) {
-        log.info("feed create message: {}", message.getShortsUuid());
+        log.info("shorts create message: {}", message.getShortsUuid());
         followService.createShortsFollowerAlert(message);
     }
 
