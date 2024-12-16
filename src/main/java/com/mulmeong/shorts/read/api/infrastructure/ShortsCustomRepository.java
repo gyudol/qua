@@ -59,7 +59,7 @@ public class ShortsCustomRepository {     // QueryDSL Repository
         if (requestDto.isMember()) {
             Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.match(new Criteria("visibility").is(Visibility.VISIBLE)),
-                Aggregation.sample(curPageSize));
+                Aggregation.sample(curPageSize + 1));
 
             content = mongoTemplate.aggregate(aggregation, "shorts", Shorts.class)
                 .getMappedResults();
