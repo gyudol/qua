@@ -1,5 +1,6 @@
 package com.mulmeong.feed.read.api.dto.out;
 
+import com.mulmeong.feed.read.api.domain.document.ElasticFeed;
 import com.mulmeong.feed.read.api.domain.document.Feed;
 import com.mulmeong.feed.read.api.domain.model.Hashtag;
 import com.mulmeong.feed.read.api.domain.model.Media;
@@ -41,6 +42,24 @@ public class FeedResponseDto {
             .commentCount(feed.getCommentCount())
             .createdAt(feed.getCreatedAt())
             .updatedAt(feed.getUpdatedAt())
+            .build();
+    }
+
+    public static FeedResponseDto fromDocument(ElasticFeed feed) {
+        return FeedResponseDto.builder()
+            .feedUuid(feed.getFeedUuid())
+            .memberUuid(feed.getMemberUuid())
+            .title(feed.getTitle())
+            .content(feed.getContent())
+            .categoryName(feed.getCategoryName())
+            .visibility(feed.getVisibility())
+            .hashtags(feed.getHashtags())
+            .mediaList(feed.getMediaList())
+            .likeCount(feed.getLikeCount())
+            .dislikeCount(feed.getDislikeCount())
+            .commentCount(feed.getCommentCount())
+            .createdAt(LocalDateTime.parse(feed.getCreatedAt()))
+            .updatedAt(LocalDateTime.parse(feed.getUpdatedAt()))
             .build();
     }
 
