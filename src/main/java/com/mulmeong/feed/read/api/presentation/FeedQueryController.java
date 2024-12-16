@@ -40,7 +40,8 @@ public class FeedQueryController {
         description = """
             - sortBy: `LATEST` / `LIKES` (대·소문자 구분하지 않음)<br><br>
             - LATEST: **최신순**, LIKES: **netLikes 내림차순** (likesCount - dislikeCount)<br><br>
-            - Visibility: `VISIBLE`인 피드 목록만 조회""")
+            - Visibility: `VISIBLE`인 피드 목록만 조회<br><br>
+            - sortBy가 `LIKES`일 때는 `nextCursor` 변수를 내부 로직에서 사용하지 않음""")
     @GetMapping("/feeds")
     public BaseResponse<CursorPage<FeedResponseDto>> getFeedsByCategoryOrTag(
         @RequestParam(required = false) String categoryName,

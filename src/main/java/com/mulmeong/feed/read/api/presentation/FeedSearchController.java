@@ -23,11 +23,11 @@ public class FeedSearchController {
     private final FeedSearchService feedSearchService;
 
     @Operation(summary = "Feed 검색 API", description = """ 
-        - keyword와 유사한 피드 목록 조회<br><br>
-        - 한글 영어 keyword 모두 가능
-        - title, content, categoryName, hashtags 유사도 측정
-        - 가중치, netLikes, createdAt 내림차순
-        - nextCursor 변수를 반환하긴 하지만, 내부 로직에선 사용할 수 없음""")
+        - `keyword`와 유사한 피드 목록 조회<br><br>
+        - 한글·영어 keyword 모두 가능<br><br>
+        - `title`, `content`, `categoryName`, `hashtags` 유사도 측정<br><br>
+        - 가중치 기반의 `netLikes`, `createdAt` 내림차순<br><br>
+        - `nextCursor` 변수를 반환하지만 내부 로직에서 사용하지 않음""")
     @GetMapping("/search/feeds/{keyword}")
     public BaseResponse<CursorPage<FeedResponseDto>> searchFeeds(
         @PathVariable String keyword,
