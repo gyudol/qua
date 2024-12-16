@@ -7,4 +7,9 @@ import java.util.List;
 
 public interface FollowRepository extends MongoRepository<Follow, String> {
     List<Follow> findAllByTargetUuid(String targetUuid);
+
+    Integer countByTargetUuid(String targetUuid);
+
+    Integer countBySourceUuid(String sourceUuid);
+
 }

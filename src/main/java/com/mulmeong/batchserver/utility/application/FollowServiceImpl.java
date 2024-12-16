@@ -1,8 +1,11 @@
 package com.mulmeong.batchserver.utility.application;
 
+import com.mulmeong.batchserver.member.domain.document.MemberRead;
+import com.mulmeong.batchserver.member.infrastructure.repository.MemberReadRepository;
 import com.mulmeong.batchserver.utility.domain.document.Follow;
 import com.mulmeong.batchserver.utility.infrastructure.repository.FollowRepository;
 import com.mulmeong.event.utility.consume.FeedCreateEvent;
+import com.mulmeong.event.utility.consume.FollowCreateEvent;
 import com.mulmeong.event.utility.consume.ShortsCreateEvent;
 import com.mulmeong.event.utility.produce.FeedCreatedFollowersEvent;
 import com.mulmeong.event.utility.produce.ShortsCreatedFollowersEvent;
@@ -20,6 +23,7 @@ public class FollowServiceImpl implements FollowService {
 
     private final UtilityKafkaPublisher eventPublisher;
     private final FollowRepository followRepository;
+    private final MemberReadRepository memberReadRepository;
 
 
     @Override
@@ -53,4 +57,19 @@ public class FollowServiceImpl implements FollowService {
                 message.getTitle()
         ));
     }
+
+    @Override
+    public void createFollowerRenew(FollowCreateEvent message) {
+
+        MemberRead followerUpdateMember = memberReadRepository.findByMemberUuid(message.getTargetUuid());
+        MemberRead followingUpdateMember = memberReadRepository.findByMemberUuid(message.getSourceUuid());
+
+        int followerCount = followRepository.countByTargetUuid(message.getTargetUuid());
+        int followingCount = followRepository.countBySourceUuid(message.getSourceUuid());
+
+        memberReadRepository.save(message.toFollowerUp(followerUpdateMember, followerCount));
+        memberReadRepository.save(message.toFollowingUp(followingUpdateMember, followingCount));
+
+    }
+
 }
