@@ -19,7 +19,7 @@ async function ChatbotChatroomListItem({
   const message = content.length ? content[0].message : `대화를 시작해보세요!`;
   // const createdAt = content.length ? content[0].createdAt : undefined;
   return (
-    <Link href={`chat-bot/${character}`}>
+    <Link href={`/chat-bot/${character}`}>
       <div className="flex justify-between items-center">
         <div className="flex gap-[1rem] items-center">
           <div>
@@ -45,11 +45,11 @@ async function ChatbotChatroomListItem({
                 bot
               </div>
             </div>
-            <p className="text-sm text-slate-400">{message}</p>
+            <p className="text-sm text-slate-400 line-clamp-1">{message}</p>
           </div>
         </div>
         <div className="flex flex-col">
-          <div className="border-teal-400 border-2 text-teal-400 px-2 py-1 rounded-2xl">
+          <div className="w-[5rem] border-teal-400 border-2 text-teal-400 px-2 py-1 rounded-2xl">
             대화하기
           </div>
           {/* <div>
