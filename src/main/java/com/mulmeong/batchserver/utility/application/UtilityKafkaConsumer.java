@@ -53,16 +53,16 @@ public class UtilityKafkaConsumer {
                 break;
             case "shorts":
                 break;
-            case "feed_comment":
+            case "feed-comment":
                 feedCommentService.likeCountRenew(message);
                 break;
-            case "feed_recomment":
+            case "feed-recomment":
                 feedRecommentService.likeCountRenew(message);
                 break;
-            case "shorts_comment":
+            case "shorts-comment":
                 shortsCommentService.likeCountRenew(message);
                 break;
-            case "shorts_recomment":
+            case "shorts-recomment":
                 shortsRecommentService.likeCountRenew(message);
                 break;
             default:
@@ -81,16 +81,16 @@ public class UtilityKafkaConsumer {
                 break;
             case "shorts":
                 break;
-            case "feedComment":
+            case "feed-comment":
                 feedCommentService.dislikeCountRenew(message);
                 break;
-            case "feedRecomment":
+            case "feed-recomment":
                 feedRecommentService.dislikeCountRenew(message);
                 break;
-            case "shortsComment":
+            case "shorts-comment":
                 shortsCommentService.dislikeCountRenew(message);
                 break;
-            case "shortsRecomment":
+            case "shorts-recomment":
                 shortsRecommentService.dislikeCountRenew(message);
                 break;
             default:
