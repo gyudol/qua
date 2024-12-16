@@ -2,10 +2,7 @@ package com.mulmeong.batchserver.common.config;
 
 
 import com.mulmeong.batchserver.common.exception.BaseException;
-import com.mulmeong.event.utility.consume.DislikeRenewCreateEvent;
-import com.mulmeong.event.utility.consume.FeedCreateEvent;
-import com.mulmeong.event.utility.consume.LikeRenewCreateEvent;
-import com.mulmeong.event.utility.consume.ShortsCreateEvent;
+import com.mulmeong.event.utility.consume.*;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,6 +56,10 @@ public class KafkaConsumerConfig {
         return kafkaListenerContainerFactory(DislikeRenewCreateEvent.class);
     }
 
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, FollowCreateEvent> followCreateListener() {
+        return kafkaListenerContainerFactory(FollowCreateEvent.class);
+    }
 
 
     public <T> ConsumerFactory<String, T> consumerFactory(Class<T> messageType) {
