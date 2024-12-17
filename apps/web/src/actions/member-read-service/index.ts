@@ -20,7 +20,7 @@ export async function getMemberProfileByNickname({
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-store",
   });
 
   return processResponse<MemberProfile, false>({ res });
@@ -34,7 +34,7 @@ export async function getMemberProfileByUuid({
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-store",
   });
 
   return processResponse<MemberProfile, false>({ res });
@@ -48,7 +48,7 @@ export async function getMemberCompactProfile({
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-store",
   });
 
   return processResponse<MemberCompactProfile, false>({ res });

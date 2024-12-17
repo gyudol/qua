@@ -18,7 +18,7 @@ export async function getMemberPoint({ memberUuid }: GetMemberPointReq) {
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-cache",
   });
 
   return processResponse<MemberPoint, false>({ res });
@@ -33,7 +33,7 @@ export async function getMemberPointHistory({
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-cache",
   });
 
   return processResponse<PointHistoryRecord, true>({ res });

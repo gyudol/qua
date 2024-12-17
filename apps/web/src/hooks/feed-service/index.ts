@@ -51,7 +51,7 @@ export function useGetFeedsInfiniteQuery({ ...query }: GetFeedsReq) {
         : { pageNo, ...pageParams };
     },
     initialPageParam: {
-      pageNo: pageNo || 1,
+      pageNo: pageNo || 0,
       pageSize: pageSize || 6,
       nextCursor: nextCursor || undefined,
     },
