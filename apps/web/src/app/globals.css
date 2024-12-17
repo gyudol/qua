@@ -107,7 +107,7 @@ body {
 
 @keyframes back-and-forth {
   0% {
-    transform: translateX(-60%); /* 화면 왼쪽 밖 시작, 정방향 */
+    transform: translateX(-80%); /* 화면 왼쪽 밖 시작, 정방향 */
   }
   50% {
     transform: translateX(180%); /* 화면 오른쪽 밖, 정방향 */
@@ -116,7 +116,22 @@ body {
     transform: translateX(180%); /* 뒤집기 시작 */
   }
   100% {
-    transform: translateX(-60%); /* 다시 화면 왼쪽 밖으로, 뒤집힌 방향 */
+    transform: translateX(-80%); /* 다시 화면 왼쪽 밖으로, 뒤집힌 방향 */
+  }
+}
+
+@keyframes back-and-forth-1 {
+  0% {
+    transform: translateX(180%); /* 화면 왼쪽 밖 시작, 정방향 */
+  }
+  50% {
+    transform: translateX(-80%); /* 화면 오른쪽 밖, 정방향 */
+  }
+  51% {
+    transform: translateX(-80%); /* 뒤집기 시작 */
+  }
+  100% {
+    transform: translateX(180%); /* 다시 화면 왼쪽 밖으로, 뒤집힌 방향 */
   }
 }
 
@@ -147,6 +162,21 @@ body {
   }
   100% {
     transform: scaleX(-1); /* 다시 화면 왼쪽 밖으로, 뒤집힌 방향 */
+  }
+}
+
+@keyframes flipping-1 {
+  0% {
+    transform: scaleX(-1); /* 화면 왼쪽 밖 시작, 정방향 */
+  }
+  50% {
+    transform: scaleX(-1); /* 화면 오른쪽 밖, 정방향 */
+  }
+  51% {
+    transform: scaleX(1); /* 뒤집기 시작 */
+  }
+  100% {
+    transform: scaleX(1); /* 다시 화면 왼쪽 밖으로, 뒤집힌 방향 */
   }
 }
 
@@ -209,6 +239,9 @@ body {
 .animate-back-and-forth {
   animation: back-and-forth linear infinite; /* 15초 동안 양방향 이동 반복 */
 }
+.animate-back-and-forth-1 {
+  animation: back-and-forth-1 linear infinite; /* 15초 동안 양방향 이동 반복 */
+}
 
 .animate-back-and-forth-2 {
   animation: back-and-forth-2 30s linear infinite; /* 15초 동안 양방향 이동 반복 */
@@ -216,6 +249,10 @@ body {
 
 .animate-flipping {
   animation: flipping linear infinite; /* 15초 동안 양방향 이동 반복 */
+}
+
+.animate-flipping-1 {
+  animation: flipping-1 linear infinite; /* 15초 동안 양방향 이동 반복 */
 }
 
 .animate-flipping-2 {

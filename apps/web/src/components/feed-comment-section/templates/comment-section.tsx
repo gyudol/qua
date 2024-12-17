@@ -26,7 +26,7 @@ export function CommentSection({ feedUuid }: CommentSectionProps) {
   return (
     <section
       id="comment"
-      className="flex flex-col p-[1rem] overflow-auto relative min-h-[10rem]"
+      className="flex flex-col  p-[1rem] overflow-auto relative min-h-[50dvh]"
     >
       {/* <div className="fixed w-full top-5 left-0 py-4 px-4 bg-white z-[100]"> */}
       <div className="w-full py-[1rem] bg-white">
