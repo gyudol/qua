@@ -125,4 +125,16 @@ public class UtilityKafkaConsumer {
         shortsService.shortsCommentCountRenew(message);
     }
 
+    @KafkaListener(topics = "${event.comment.pub.topics.feed-comment-delete.name}",
+            containerFactory = "feedCommentDeleteListener")
+    public void shortsCommentCreated(FeedCommentDeleteEvent message) {
+        feedService.feedCommentCountRenew(message);
+    }
+
+    @KafkaListener(topics = "${event.comment.pub.topics.shorts-comment-delete.name}",
+            containerFactory = "shortsCommentCreateListener")
+    public void shortsCommentDeleted(ShortsCommentDeleteEvent message) {
+        shortsService.shortsCommentCountRenew(message);
+    }
+
 }

@@ -1,7 +1,6 @@
 package com.mulmeong.batchserver.shorts.config;
 
 import com.mulmeong.batchserver.comment.infrastructure.repository.ShortsCommentReadRepository;
-import com.mulmeong.batchserver.feed.domain.document.FeedRead;
 import com.mulmeong.batchserver.shorts.domain.document.ShortsRead;
 import com.mulmeong.batchserver.shorts.infrastructure.repository.ShortsReadRepository;
 import com.mulmeong.batchserver.utility.infrastructure.repository.DislikesRepository;
@@ -23,7 +22,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -97,7 +95,8 @@ public class ShortsBatchConfig {
             long actualDislikeCount = dislikesRepository
                     .countByKindAndKindUuidAndStatus("shorts", shortsRead.getShortsUuid(), true);
 
-            long actualCommentCount = shortsCommentReadRepository.countByShortsUuid(shortsRead.getShortsUuid());
+            long commentCount = shortsCommentReadRepository
+                    .countByShortsUuidAndIsDeletedFalse(shortsRead.getShortsUuid());
 
 
             log.info("Processing shorts: {}, Updated like count: {}, Updated dislike count: {}",
@@ -115,7 +114,7 @@ public class ShortsBatchConfig {
                     .likeCount(actualLikeCount)
                     .dislikeCount(actualDislikeCount)
                     .netLikes(actualLikeCount - actualDislikeCount)
-                    .commentCount(actualCommentCount)
+                    .commentCount(commentCount)
                     .createdAt(shortsRead.getCreatedAt())
                     .updatedAt(shortsRead.getUpdatedAt())
                     .build();

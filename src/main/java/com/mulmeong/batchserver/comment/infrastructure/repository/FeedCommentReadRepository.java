@@ -11,5 +11,5 @@ public interface FeedCommentReadRepository extends MongoRepository<FeedComment, 
     Optional<FeedComment> findByCommentUuid(String commentUuid);
 
 
-    long countByFeedUuid(String feedUuid);
+    long countByFeedUuidAndIsDeletedFalse(String feedUuid);
 }
