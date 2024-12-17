@@ -36,7 +36,7 @@ function Aquarium({
     (tag, index, arr) => (
       <RandomFish
         key={index}
-        {...{ size, speed, tag, distance: index / arr.length, index }}
+        {...{ size, speed, tag, distance: 1 - index / arr.length, index }}
       />
     ),
   );
@@ -66,7 +66,6 @@ function RandomFish({
       style: {
         top: `${5 + ((index * 13) % 90)}%`,
         right: `${Math.random() * 90}%`,
-        zIndex: -(distance * 100),
         filter: `blur(${distance * 4}px)`,
       },
       animation: {

@@ -3,8 +3,8 @@
 import { revalidateTag } from "next/cache";
 import { getServerSession } from "next-auth";
 import type { ResponseType, ResultType } from "@/types/common";
-import { options } from "@/app/api/auth/[...nextauth]/authOption";
 import type { MemberSignInResType } from "@/types/member/common";
+import { options } from "@/app/api/auth/[...nextauth]/authOption";
 
 interface ProcessResponseParam {
   res: Response;

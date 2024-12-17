@@ -15,7 +15,7 @@ function CommentDrawer({ feedUuid }: { feedUuid: string }) {
   const { open, setOpen } = useFeedCommentDrawerContext();
   return (
     <>
-      <div className="w-full h-[4rem]" />
+      {/* <div className="w-full h-[4rem]" /> */}
       <Drawer
         open={open}
         onOpenChange={(changedOpen) => {
@@ -26,7 +26,7 @@ function CommentDrawer({ feedUuid }: { feedUuid: string }) {
           <button
             type="button"
             className="
-          w-full md:max-w-md 
+          w-full md:max-w-md z-50
           text-white text- font-bold
           h-[4rem] absolute bottom-[0] bg-teal-300 !rounded-t-xl border-[1px] !border-teal-400"
           >
