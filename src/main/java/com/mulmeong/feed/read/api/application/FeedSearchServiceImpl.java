@@ -2,9 +2,7 @@ package com.mulmeong.feed.read.api.application;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
-import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
 import com.mulmeong.feed.read.api.domain.document.ElasticFeed;
-import com.mulmeong.feed.read.api.domain.document.Feed;
 import com.mulmeong.feed.read.api.dto.in.FeedSearchRequestDto;
 import com.mulmeong.feed.read.api.dto.in.IndexSyncRequestDto;
 import com.mulmeong.feed.read.api.dto.out.FeedResponseDto;
@@ -74,7 +72,8 @@ public class FeedSearchServiceImpl implements FeedSearchService {
             .bool(new BoolQuery.Builder().should(shouldQueries).build())
             .build();
 
-        int curPageNo = Optional.ofNullable(requestDto.getPageNo()).orElse(DEFAULT_PAGE_NUMBER);
+        int curPageNo = Optional.ofNullable(requestDto.getPageNo())
+            .map(pageNo -> pageNo > 0 ? pageNo - 1 : 0).orElse(DEFAULT_PAGE_NUMBER);
         int curPageSize = Optional.ofNullable(requestDto.getPageSize()).orElse(DEFAULT_PAGE_SIZE);
 
         NativeQuery searchQuery = NativeQuery.builder()
@@ -82,24 +81,25 @@ public class FeedSearchServiceImpl implements FeedSearchService {
             .withSort(Sort.by(
                 Sort.Order.desc("netLikes"),
                 Sort.Order.desc("createdAt")))
-            .withPageable(PageRequest.of(curPageNo, curPageSize))
+            .withPageable(PageRequest.of(curPageNo, curPageSize + 1))
             .build();
 
         SearchHits<ElasticFeed> searchHits = elasticsearchOperations.search(searchQuery,
             ElasticFeed.class);
 
-        long totalHits = searchHits.getTotalHits();
+        //        long totalHits = searchHits.getTotalHits();
         String nextCursor = null;
         boolean hasNext = false;
 
-        if (totalHits > curPageSize) {
+        log.info("{}", searchHits.getSuggest());
+        if (searchHits.getSearchHits().size() > curPageSize) {
             hasNext = true;
             nextCursor = searchHits.getSearchHit(curPageSize).getContent().getId();
         }
 
-        return new CursorPage<>(
-            searchHits.stream().map(SearchHit::getContent).map(FeedResponseDto::fromDocument)
-                .toList(), nextCursor, hasNext, searchHits.getSearchHits().size(), curPageNo);
+        return new CursorPage<>(searchHits.stream().map(SearchHit::getContent)
+            .map(FeedResponseDto::fromDocument).toList(),
+            nextCursor, hasNext, searchHits.getSearchHits().size(), requestDto.getPageNo());
     }
 
     @Transactional
@@ -109,7 +109,6 @@ public class FeedSearchServiceImpl implements FeedSearchService {
         feedCustomRepository.getFeedsForSync(requestDto).forEach(feed -> {
 
             log.info("{}", feed.toString());
-
             elasticFeedRepository.save(
                 elasticFeedRepository.findByFeedUuid(feed.getFeedUuid()).orElse(
                     ElasticFeed.toElasticDocument(feed)));
