@@ -10,9 +10,9 @@ import MobileContainer from "@/components/@new/layouts/containers/MobileContaine
 import { getMemberNickname } from "@/actions/member-service";
 import Bubbles from "@/components/@new/features/Bubbles";
 import Aquarium from "@/components/@new/features/Aquarium";
-import { options } from "../api/auth/[...nextauth]/authOption";
 import { Sidebar } from "@/components/@new/layouts/bars/Sidebar";
 import { SidebarContextProvider } from "@/components/@new/context/SidebarContext";
+import { options } from "../api/auth/[...nextauth]/authOption";
 
 export const revalidate = 10;
 
