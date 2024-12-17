@@ -3,6 +3,8 @@ package com.mulmeong.utility.application.port.out;
 import com.mulmeong.utility.application.port.in.dto.FollowRequestDto;
 import com.mulmeong.utility.common.utils.CursorPage;
 
+import java.util.List;
+
 public interface FollowPort {
 
     boolean existsBySourceUuidAndTargetUuid(FollowRequestDto followRequestDto);
@@ -16,5 +18,7 @@ public interface FollowPort {
     CursorPage<String> getFollowers(String memberUuid, String lastId, int pageSize, int pageNo);
 
     CursorPage<String> getFollowings(String memberUuid, String lastId, int pageSize, int pageNo);
+
+    List<String> getAllFollowings(String memberUuid);
 }
 

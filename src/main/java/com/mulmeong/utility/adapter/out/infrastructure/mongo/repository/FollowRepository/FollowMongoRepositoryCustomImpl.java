@@ -34,7 +34,7 @@ public class FollowMongoRepositoryCustomImpl implements FollowMongoRepositoryCus
         builder.and(followEntity.targetUuid.eq(memberUuid));
 
         if (lastId != null) {
-            builder.and(followEntity.id.lt(lastId));
+            builder.and(followEntity.id.loe(lastId));
         }
 
         int currentPage = pageNo != null ? pageNo : DEFAULT_PAGE_NUMBER;
@@ -79,7 +79,7 @@ public class FollowMongoRepositoryCustomImpl implements FollowMongoRepositoryCus
         builder.and(followEntity.sourceUuid.eq(memberUuid));
 
         if (lastId != null) {
-            builder.and(followEntity.id.lt(lastId));
+            builder.and(followEntity.id.loe(lastId));
         }
 
         int currentPage = pageNo != null ? pageNo : DEFAULT_PAGE_NUMBER;

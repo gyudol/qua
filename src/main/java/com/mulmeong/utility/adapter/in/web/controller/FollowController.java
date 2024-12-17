@@ -1,13 +1,14 @@
 package com.mulmeong.utility.adapter.in.web.controller;
 
 import com.mulmeong.utility.application.port.in.FollowUseCase;
-import com.mulmeong.utility.application.port.in.dto.FollowRequestDto;
 import com.mulmeong.utility.common.response.BaseResponse;
 import com.mulmeong.utility.common.utils.CursorPage;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -37,4 +38,9 @@ public class FollowController {
         return new BaseResponse<>(followUseCase.getFollowings(memberUuid, lastId, pageSize, pageNo));
     }
 
+    @Operation(summary = "해당 member의 전체 팔로잉 조회", tags = {"추천에서 활용하기 위한 api"})
+    @GetMapping("/{memberUuid}/all/followings")
+    public BaseResponse<List<String>> getAllFollowings(@PathVariable String memberUuid) {
+        return new BaseResponse<>(followUseCase.getAllFollowings(memberUuid));
+    }
 }

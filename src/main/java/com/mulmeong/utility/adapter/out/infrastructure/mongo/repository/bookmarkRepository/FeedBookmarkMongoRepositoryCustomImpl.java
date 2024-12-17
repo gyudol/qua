@@ -36,7 +36,7 @@ public class FeedBookmarkMongoRepositoryCustomImpl implements FeedBookmarkMongoR
         builder.and(feedBookmarkEntity.memberUuid.eq(memberUuid));
 
         if (lastId != null) {
-            builder.and(feedBookmarkEntity.id.lt(lastId));
+            builder.and(feedBookmarkEntity.id.loe(lastId));
         }
 
         int currentPage = pageNo != null ? pageNo : DEFAULT_PAGE_NUMBER;
