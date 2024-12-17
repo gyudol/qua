@@ -7,6 +7,7 @@ import com.mulmeong.batchserver.comment.application.ShortsRecommentService;
 import com.mulmeong.batchserver.common.exception.BaseException;
 import com.mulmeong.batchserver.common.response.BaseResponseStatus;
 import com.mulmeong.batchserver.feed.application.FeedService;
+import com.mulmeong.batchserver.shorts.application.ShortsService;
 import com.mulmeong.event.utility.consume.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ public class UtilityKafkaConsumer {
 
     private final FollowService followService;
     private final FeedService feedService;
+    private final ShortsService shortsService;
     private final FeedCommentService feedCommentService;
     private final FeedRecommentService feedRecommentService;
     private final ShortsCommentService shortsCommentService;
@@ -100,6 +102,20 @@ public class UtilityKafkaConsumer {
             default:
                 throw new BaseException(BaseResponseStatus.NOT_EXIST);
         }
+    }
+
+    @KafkaListener(topics = "${event.comment.pub.topics.feed-comment-create.name}",
+            containerFactory = "feedCommentCreateListener")
+    public void feedCommentCreated(FeedCommentCreateEvent message) {
+        log.info("feed comment create message: {}", message.getFeedUuid());
+        feedService.feedCommentCountRenew(message);
+    }
+
+    @KafkaListener(topics = "${event.comment.pub.topics.shorts-comment-create.name}",
+            containerFactory = "shortsCommentCreateListener")
+    public void shortsCommentCreated(ShortsCommentCreateEvent message) {
+        log.info("shorts comment create message: {}", message.getShortsUuid());
+        shortsService.shortsCommentCountRenew(message);
     }
 
 }
