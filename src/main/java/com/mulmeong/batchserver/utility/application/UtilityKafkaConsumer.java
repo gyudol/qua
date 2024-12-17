@@ -34,6 +34,13 @@ public class UtilityKafkaConsumer {
         followService.createFollowerRenew(message);
     }
 
+    @KafkaListener(topics = "${event.utility.pub.topics.unfollow.name}",
+            containerFactory = "unfollowListener")
+    public void unfollowed(UnfollowEvent message) {
+        log.info("unfollow message: {}", message.getTargetUuid());
+        followService.createFollowerRenew(message);
+    }
+
     @KafkaListener(topics = "${event.feed.pub.topics.feed-create.name}",
             containerFactory = "feedCreateListener")
     public void feedCreated(FeedCreateEvent message) {

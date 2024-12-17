@@ -62,6 +62,11 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, UnfollowEvent> unfollowListener() {
+        return kafkaListenerContainerFactory(UnfollowEvent.class);
+    }
+
+    @Bean
     public ConcurrentKafkaListenerContainerFactory<String, FeedCommentCreateEvent> feedCommentCreateListener() {
         return kafkaListenerContainerFactory(FeedCommentCreateEvent.class);
     }

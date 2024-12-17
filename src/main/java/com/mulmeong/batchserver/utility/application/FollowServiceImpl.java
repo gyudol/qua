@@ -7,6 +7,7 @@ import com.mulmeong.batchserver.utility.infrastructure.repository.FollowReposito
 import com.mulmeong.event.utility.consume.FeedCreateEvent;
 import com.mulmeong.event.utility.consume.FollowCreateEvent;
 import com.mulmeong.event.utility.consume.ShortsCreateEvent;
+import com.mulmeong.event.utility.consume.UnfollowEvent;
 import com.mulmeong.event.utility.produce.FeedCreatedFollowersEvent;
 import com.mulmeong.event.utility.produce.ShortsCreatedFollowersEvent;
 import lombok.RequiredArgsConstructor;
@@ -70,6 +71,18 @@ public class FollowServiceImpl implements FollowService {
         memberReadRepository.save(message.toFollowerUp(followerUpdateMember, followerCount));
         memberReadRepository.save(message.toFollowingUp(followingUpdateMember, followingCount));
 
+    }
+
+    @Override
+    public void createFollowerRenew(UnfollowEvent message) {
+        MemberRead followerUpdateMember = memberReadRepository.findByMemberUuid(message.getTargetUuid());
+        MemberRead followingUpdateMember = memberReadRepository.findByMemberUuid(message.getSourceUuid());
+
+        int followerCount = followRepository.countByTargetUuid(message.getTargetUuid());
+        int followingCount = followRepository.countBySourceUuid(message.getSourceUuid());
+
+        memberReadRepository.save(message.toFollowerDown(followerUpdateMember, followerCount));
+        memberReadRepository.save(message.toFollowingDown(followingUpdateMember, followingCount));
     }
 
 }
