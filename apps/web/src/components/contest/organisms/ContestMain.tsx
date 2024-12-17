@@ -45,7 +45,7 @@ function ContestMain({ contests }: ContestMainProps) {
               href="/contest/contestlist"
               className="bg-gray-100 text-[#47D0BF] font-medium text-lg py-2 px-4 rounded-lg hover:bg-gray-200 text-center shadow-sm transition whitespace-nowrap"
             >
-              참여 목록 보기
+              투표하러 가기
             </Link>
             <div className="flex gap-4">
               <Link

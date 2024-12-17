@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useInfiniteScroll } from "@/hooks";
 import { useGetConstestListInfiniteQuery } from "@/hooks/contest-list-service";
 import ContestCard from "../organisms/ContestListCard";
@@ -13,25 +13,23 @@ export default function ContestList({
   contestId: number;
   sortBy?: "LATEST" | "VOTES";
 }) {
+  const [sort, setSort] = useState(sortBy);
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useGetConstestListInfiniteQuery({
       contestId,
       pageSize: 80,
       pageNo: 1,
-      sortBy,
+      sortBy: sort,
     });
   const observerRef = useInfiniteScroll({
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
   });
-  // console.log("데이터 ", data?.pages.content);
-  // console.log("순회 데이터", data?.pages);
-  // console.log("콘테스트 id", contestId);
 
   return (
     <div className="min-h-screen bg-gray-100 pt-5 px-4 border-2">
-      <ContestFilter />
+      <ContestFilter {...{ setSort }} />
       <div className="grid grid-cols-2 gap-4 w-full">
         {data
           ? data.pages.map((page) =>
