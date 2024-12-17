@@ -1,11 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import React from "react";
 
-function ContestFilter() {
-  const router = useRouter();
-
+function ContestFilter({
+  setSort,
+}: {
+  setSort: React.Dispatch<React.SetStateAction<"LATEST" | "VOTES" | undefined>>;
+}) {
   return (
     <div className="flex justify-between items-center mb-5">
       <div className="flex items-baseline gap-2">
@@ -15,7 +16,7 @@ function ContestFilter() {
         <button
           type="button"
           className="hover:text-black hover:underline transition"
-          onClick={() => router.push("?sortBy=LATEST")}
+          onClick={() => setSort("LATEST")}
         >
           최신순
         </button>
@@ -23,7 +24,7 @@ function ContestFilter() {
         <button
           type="button"
           className="hover:text-black hover:underline transition"
-          onClick={() => router.push("?sortBy=VOTES")}
+          onClick={() => setSort("VOTES")}
         >
           투표순
         </button>

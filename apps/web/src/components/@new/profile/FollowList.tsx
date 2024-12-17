@@ -11,6 +11,7 @@ import {
 } from "@/hooks/utility-service/follow-service";
 import type { Pagination } from "@/types/common";
 import { MemberProfileImage } from "@/components/profile/atoms/MemberProfileImage";
+import { useSessionContext } from "@/context/SessionContext";
 import ProfileFollowButton from "./ProfileFollowButton";
 import GradeMark from "./GradeMark";
 import BadgeMark from "./BadgeMark";
@@ -59,6 +60,7 @@ function FollowListSection({
 }
 
 function FollowListItem({ targetUuid }: { targetUuid: string }) {
+  const { memberUuid: sessionUuid } = useSessionContext();
   const { data, status } = useMemberCompactProfile({ memberUuid: targetUuid });
   if (status === "error") return null;
   if (status === "pending") return null;
@@ -74,14 +76,16 @@ function FollowListItem({ targetUuid }: { targetUuid: string }) {
               link
             />
           </div>
-          <div className="flex gap-1">
-            <p className="text">{nickname}</p>
+          <div className="flex gap-1 mr-[1rem]">
+            <p className="line-clamp-1">{nickname}</p>
             <GradeMark {...{ gradeId, size: "1.5rem" }} />
             {badgeId ? <BadgeMark {...{ badgeId, size: "1.5rem" }} /> : null}
           </div>
         </div>
         <div className="w-[8rem] h-[2.5rem] flex">
-          <ProfileFollowButton {...{ memberUuid: targetUuid }} />
+          {sessionUuid !== targetUuid ? (
+            <ProfileFollowButton {...{ memberUuid: targetUuid }} />
+          ) : null}
         </div>
       </div>
     </li>

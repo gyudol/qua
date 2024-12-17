@@ -74,7 +74,9 @@ function ContestCard({
       </button>
 
       <div className="flex justify-between items-center mt-1 text-sm text-gray-500 rounded-t-2xl">
-        <span className="text-[0.65rem]">{createdAt}</span>
+        <span className="text-[0.65rem]">
+          {new Date(createdAt).toLocaleDateString()}
+        </span>
         <span className="text-[0.65rem]">투표수: {voteCount}</span>
       </div>
     </div>

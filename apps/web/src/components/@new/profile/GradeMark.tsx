@@ -13,7 +13,10 @@ export default function GradeMark({
   if (status === "error") return null;
   if (status === "pending") return null;
   return (
-    <figure className="relative" style={{ width: size, height: size }}>
+    <figure
+      className="relative inline-block"
+      style={{ width: size, height: size }}
+    >
       <Image
         src={`https://media.qua.world/${grade.imageUrl}`}
         alt={grade.name}

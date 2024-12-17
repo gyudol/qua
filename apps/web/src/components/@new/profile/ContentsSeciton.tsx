@@ -221,7 +221,13 @@ function FeedThumbnailByUuid({ feedUuid }: { feedUuid: string }) {
         objectFit="cover"
       />
     </figure>
-  ) : null;
+  ) : (
+    <p className="size-full flex justify-center items-center bg-teal-400">
+      <span className="text-md text-white font-bold break-keep m-[1rem] line-clamp-3">
+        {title}
+      </span>
+    </p>
+  );
 }
 
 function FeedThumbnail({ title, mediaList }: Feed) {
