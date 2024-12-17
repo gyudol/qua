@@ -23,7 +23,7 @@ export async function getFeeds({ ...query }: GetFeedsReq) {
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-cache",
   });
 
   return processResponse<Feed, true>({ res });
@@ -35,7 +35,7 @@ export async function getFeed({ feedUuid }: FeedReq) {
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-cache",
   });
 
   return processResponse<Feed, false>({ res });
@@ -51,7 +51,7 @@ export async function getMemberFeeds({ memberUuid, ...query }: GetMemberFeeds) {
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-cache",
   });
 
   return processResponse<Feed, true>({ res });
@@ -63,7 +63,7 @@ export async function getRandomHashtags({ ...query }: GetRandomHashtags) {
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-cache",
   });
 
   return processResponse<Hashtag[], false>({ res });
