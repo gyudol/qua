@@ -1,12 +1,6 @@
 package com.mulmeong.batchserver.utility.config;
 
-import com.mulmeong.batchserver.comment.infrastructure.repository.ShortsCommentReadRepository;
 import com.mulmeong.batchserver.member.domain.document.MemberRead;
-import com.mulmeong.batchserver.member.infrastructure.repository.MemberReadRepository;
-import com.mulmeong.batchserver.shorts.domain.document.ShortsRead;
-import com.mulmeong.batchserver.shorts.infrastructure.repository.ShortsReadRepository;
-import com.mulmeong.batchserver.utility.infrastructure.repository.DislikesRepository;
-import com.mulmeong.batchserver.utility.infrastructure.repository.LikesRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -121,10 +115,10 @@ public class UtilityBatchConfig {
                     .createdAt(memberRead.getCreatedAt())
                     .gradeId(memberRead.getGradeId())
                     .equippedBadgeId(memberRead.getEquippedBadgeId())
-                    .followerCount((int)followerCount)
-                    .followingCount((int)followingCount)
-                    .feedCount((int)feedCount)
-                    .shortsCount((int)shortsCount)
+                    .followerCount((int) followerCount)
+                    .followingCount((int) followingCount)
+                    .feedCount((int) feedCount)
+                    .shortsCount((int) shortsCount)
                     .build();
         };
     }
