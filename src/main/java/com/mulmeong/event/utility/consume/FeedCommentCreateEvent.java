@@ -2,12 +2,15 @@ package com.mulmeong.event.utility.consume;
 
 import com.mulmeong.batchserver.feed.domain.document.FeedRead;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@Data
 @Getter
-@Builder
+@NoArgsConstructor
 public class FeedCommentCreateEvent {
 
     private String feedUuid;

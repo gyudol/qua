@@ -2,12 +2,15 @@ package com.mulmeong.event.utility.consume;
 
 import com.mulmeong.batchserver.shorts.domain.document.ShortsRead;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@Data
 @Getter
-@Builder
+@NoArgsConstructor
 public class ShortsCommentCreateEvent {
 
     private String shortsUuid;
