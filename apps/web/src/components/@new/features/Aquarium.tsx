@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useLayoutEffect, useState } from "react";
+import { cn } from "@repo/ui/lib/utils";
 import { ALL_FISH } from "@/components/fish";
+import type { Hashtag } from "@/types/contents";
 
 interface RandomFishState {
   Fish: ({
@@ -21,34 +23,51 @@ interface RandomFishState {
 
 function Aquarium({
   count = 10,
-  size = 150,
+  size = 100,
   speed = 20,
+  tags = [],
 }: {
   count?: number;
   size?: number;
   speed?: number;
+  tags?: Hashtag[];
 }) {
-  return Array.from({ length: count }).map((_, i) => (
-    <RandomFish key={i} {...{ size, speed }} />
-  ));
+  return [...tags, ...Array.from({ length: count }, () => undefined)].map(
+    (tag, index, arr) => (
+      <RandomFish
+        key={index}
+        {...{ size, speed, tag, distance: index / arr.length, index }}
+      />
+    ),
+  );
 }
 
 export default Aquarium;
 
-function RandomFish({ size: _size, speed }: { size: number; speed: number }) {
+function RandomFish({
+  size: _size,
+  speed,
+  // tag,
+  distance,
+  index,
+}: {
+  size: number;
+  speed: number;
+  tag?: Hashtag;
+  distance: number;
+  index: number;
+}) {
   const [randomState, setRandomState] = useState<RandomFishState | null>(null);
 
   useLayoutEffect(() => {
-    const index = Math.floor(Math.random() * ALL_FISH.length);
-    const distance = Math.random();
     setRandomState({
-      Fish: ALL_FISH[index],
-      size: _size * (1.5 - distance),
+      Fish: ALL_FISH[(index * 7) % ALL_FISH.length],
+      size: _size * (2 - distance),
       style: {
-        top: `${10 + Math.random() * 80}%`,
+        top: `${5 + ((index * 13) % 90)}%`,
         right: `${Math.random() * 90}%`,
         zIndex: -(distance * 100),
-        filter: `blur(${Math.floor(distance)}px)`,
+        filter: `blur(${distance * 4}px)`,
       },
       animation: {
         animationDuration: `${Math.random() * speed + speed}s`,
@@ -58,25 +77,33 @@ function RandomFish({ size: _size, speed }: { size: number; speed: number }) {
   }, [_size, speed]);
 
   if (!randomState) return null;
-  const { Fish, size, style, animation } = randomState;
+  const {
+    Fish,
+    size,
+    style: { ...style },
+    animation,
+  } = randomState;
 
   return (
     <div
-      className="
-      absolute
-      animate-back-and-forth
-      pointer-events-none"
+      className={cn(
+        "absolute",
+        index % 2 ? "animate-back-and-forth" : "animate-back-and-forth-1",
+      )}
       style={{ ...style, ...animation }}
     >
       <div
         className="
         flex flex-col 
         items-center justify-between
-        animate-up-down
         "
         style={{ ...animation }}
       >
-        <div className="animate-flipping" style={{ ...animation }}>
+        {/* {tag ? <div className="text-white font-bold">#{tag.name}</div> : null} */}
+        <div
+          className={cn(index % 2 ? "animate-flipping" : "animate-flipping-1")}
+          style={{ ...animation }}
+        >
           <Fish {...{ size }} />
         </div>
       </div>

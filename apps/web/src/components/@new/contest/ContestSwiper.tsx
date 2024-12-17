@@ -20,14 +20,14 @@ export default function ContestSwiper() {
         <SwiperSlide className="w-full" key={imageUrl}>
           <div className="px-[1rem] py-[2rem] w-full">
             <Link href="/contest">
-              <div className="p-[1rem] flex items-center bg-sky-100 rounded-2xl s">
+              <div className="px-[2rem] py-[1rem] flex justify-between items-center bg-sky-100 rounded-2xl s">
                 <div className="flex flex-col">
                   <div className="text-lg font-bold text-teal-600">Event</div>
                   <div className="text-sm font-bold text-teal-600">
                     꾸아와 함께하는 콘테스트
                   </div>
                 </div>
-                <div className="flex-1 flex justify-center items-center">
+                <div className="flex justify-center items-center mr-[4rem]">
                   <figure className="absolute size-[9rem]">
                     <Image
                       src={imageUrl}
