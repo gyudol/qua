@@ -1,13 +1,16 @@
 package com.mulmeong.batchserver.feed.application;
 
+import com.mulmeong.batchserver.comment.infrastructure.repository.FeedCommentReadRepository;
 import com.mulmeong.batchserver.feed.domain.document.FeedRead;
 import com.mulmeong.batchserver.feed.infrastructure.repository.FeedReadRepository;
 import com.mulmeong.batchserver.utility.infrastructure.repository.DislikesRepository;
 import com.mulmeong.batchserver.utility.infrastructure.repository.LikesRepository;
 import com.mulmeong.event.utility.consume.DislikeRenewCreateEvent;
+import com.mulmeong.event.utility.consume.FeedCommentCreateEvent;
 import com.mulmeong.event.utility.consume.LikeRenewCreateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.bridge.Message;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -18,6 +21,7 @@ public class FeedServiceImpl implements FeedService {
     private final FeedReadRepository feedReadRepository;
     private final LikesRepository likesRepository;
     private final DislikesRepository dislikesRepository;
+    private final FeedCommentReadRepository commentReadRepository;
 
     @Override
     public void likeCountRenew(LikeRenewCreateEvent message) {
@@ -36,4 +40,14 @@ public class FeedServiceImpl implements FeedService {
         log.info("count: {}", count);
         feedReadRepository.save(message.toFeedReadEntity(feedReadUpdate, count));
     }
+
+    @Override
+    public void feedCommentCountRenew(FeedCommentCreateEvent message) {
+        FeedRead feedReadUpdate = feedReadRepository.findByFeedUuid(message.getFeedUuid()).orElseThrow();
+        Long count = commentReadRepository.countByFeedUuid(message.getFeedUuid());
+        log.info("count: {}", count);
+        feedReadRepository.save(message.toFeedReadEntity(feedReadUpdate, count));
+    }
+
+
 }

@@ -61,6 +61,16 @@ public class KafkaConsumerConfig {
         return kafkaListenerContainerFactory(FollowCreateEvent.class);
     }
 
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, FeedCommentCreateEvent> feedCommentCreateListener() {
+        return kafkaListenerContainerFactory(FeedCommentCreateEvent.class);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ShortsCommentCreateEvent> shortsCommentCreateListener() {
+        return kafkaListenerContainerFactory(ShortsCommentCreateEvent.class);
+    }
+
 
     public <T> ConsumerFactory<String, T> consumerFactory(Class<T> messageType) {
         return new DefaultKafkaConsumerFactory<>(Map.of(
