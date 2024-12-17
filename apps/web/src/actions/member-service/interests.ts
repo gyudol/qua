@@ -21,7 +21,7 @@ export async function getHashtagInterests({ memberUuid }: GetHashtagInterests) {
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-cache",
     next: { tags: [`hashtag-interests-${memberUuid}`] },
   });
 
@@ -74,7 +74,7 @@ export async function getCategoryInterests({
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-cache",
   });
 
   return processResponse<CategoryInterestsItem[], false>({ res });

@@ -14,8 +14,6 @@ import { Sidebar } from "@/components/@new/layouts/bars/Sidebar";
 import { SidebarContextProvider } from "@/components/@new/context/SidebarContext";
 import { options } from "../api/auth/[...nextauth]/authOption";
 
-export const revalidate = 10;
-
 export const metadata: Metadata = {
   title: {
     default: "꾸아 관상어 전문 SNS",

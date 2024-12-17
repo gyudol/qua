@@ -19,7 +19,7 @@ export async function getFeedRecomments({
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-cache",
     next: { revalidate: 1 },
   });
 

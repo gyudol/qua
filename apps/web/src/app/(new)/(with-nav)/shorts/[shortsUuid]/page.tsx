@@ -1,6 +1,8 @@
 import { getShorts } from "@/actions/shorts-read-service";
 import PageContainer from "@/components/@new/layouts/containers/PageContainer";
+import ShortsCommentDrawer from "@/components/shorts/organisms/ShortsCommentDrawer";
 import { ShortsSlideContent } from "@/components/shorts/organisms/ShortsSlideContent";
+import { CommentDrawerContextProvider } from "@/provider/CommentDrawerContextProvider";
 
 export default async function page({
   params: { shortsUuid },
@@ -12,9 +14,12 @@ export default async function page({
   const shorts = await getShorts({ shortsUuid });
   return (
     <PageContainer>
-      <div className="relative size-full">
-        <ShortsSlideContent {...shorts} isActive />
-      </div>
+      <CommentDrawerContextProvider>
+        <div className="relative size-full">
+          <ShortsSlideContent {...shorts} isActive />
+        </div>
+        <ShortsCommentDrawer />
+      </CommentDrawerContextProvider>
     </PageContainer>
   );
 }

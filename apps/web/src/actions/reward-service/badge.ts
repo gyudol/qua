@@ -40,7 +40,7 @@ export async function getAllMemberBadges({
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-cache",
   });
 
   return processResponse<BadgeStatus[], false>({ res });
@@ -70,7 +70,7 @@ export async function getMemberBadgeStatus({
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-cache",
   });
 
   return processResponse<BadgeStatus, false>({ res });
@@ -82,7 +82,7 @@ export async function getAllBadges() {
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-cache",
   });
 
   return processResponse<Badge[], false>({ res });
@@ -94,7 +94,7 @@ export async function getBadge({ badgeId }: GetBadgeReq) {
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-cache",
   });
 
   return processResponse<Badge, false>({ res });

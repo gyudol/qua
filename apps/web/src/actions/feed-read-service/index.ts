@@ -74,7 +74,7 @@ export async function searchFeeds({ keyword, ...query }: SearchFeedsReq) {
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-cache",
   });
 
   return processResponse<Feed, true>({ res });

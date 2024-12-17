@@ -21,7 +21,7 @@ export async function getShorts({ shortsUuid }: GetShortsReq) {
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-cache",
   });
 
   return processResponse<Shorts, false>({ res });
@@ -33,7 +33,7 @@ export async function getShortsRecs({ ...query }: GetShortsRecsReq) {
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-cache",
   });
 
   return processResponse<Shorts, true>({ res });
@@ -52,7 +52,7 @@ export async function getMemberShortses({
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-cache",
   });
 
   return processResponse<Shorts, true>({ res });
@@ -67,7 +67,7 @@ export async function getMemberShortsRecs({
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",
-    cache: "force-cache",
+    cache: "no-cache",
   });
 
   return processResponse<Shorts, true>({ res });

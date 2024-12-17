@@ -13,8 +13,12 @@ import Bubbles from "../../features/Bubbles";
 import Aquarium from "../../features/Aquarium";
 
 function CategoryListItem({ categoryName, viewType }: Category) {
+  const { setIsOpen } = useSidebarContext();
   return (
-    <Link href={`/category/${categoryName}?view=${viewType.toLowerCase()}`}>
+    <Link
+      href={`/category/${categoryName}?view=${viewType.toLowerCase()}`}
+      onClick={() => setIsOpen(false)}
+    >
       <span
         className="
         py-1  px-2  rounded-2xl
