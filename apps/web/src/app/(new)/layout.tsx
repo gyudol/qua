@@ -11,6 +11,8 @@ import { getMemberNickname } from "@/actions/member-service";
 import Bubbles from "@/components/@new/features/Bubbles";
 import Aquarium from "@/components/@new/features/Aquarium";
 import { options } from "../api/auth/[...nextauth]/authOption";
+import { Sidebar } from "@/components/@new/layouts/bars/Sidebar";
+import { SidebarContextProvider } from "@/components/@new/context/SidebarContext";
 
 export const revalidate = 10;
 
@@ -52,15 +54,19 @@ export default async function RootLayout({
         >
           <QueryClientProvider>
             {/* 모바일 바깥 시작 */}
-            <Aquarium />
+            <Aquarium size={50} count={30} />
             <Bubbles count={200} />
             {/* <Aquarium/> */}
-            <MobileContainer>
-              {/* 모바일 화면 시작 */}
-              <CustomToaster richColors />
-              {children}
-              {/* 모바일 화면 끝 */}
-            </MobileContainer>
+
+            <SidebarContextProvider>
+              <Sidebar />
+              <MobileContainer>
+                {/* 모바일 화면 시작 */}
+                <CustomToaster richColors />
+                {children}
+                {/* 모바일 화면 끝 */}
+              </MobileContainer>
+            </SidebarContextProvider>
           </QueryClientProvider>
         </SessionContextProvider>
       </body>

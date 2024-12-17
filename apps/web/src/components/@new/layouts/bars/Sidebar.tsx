@@ -41,8 +41,9 @@ function CategoryList({ categories }: { categories: Category[] }) {
 }
 
 function HashtagListItem({ name }: Hashtag) {
+  const { setIsOpen } = useSidebarContext();
   return (
-    <Link href={`/search?tag=${name}`}>
+    <Link href={`/search?keyword=%23${name}`} onClick={() => setIsOpen(false)}>
       <span
         className="
         py-1  px-2  rounded-2xl
@@ -107,7 +108,7 @@ export function Sidebar() {
         ) : null}
       </header>
       <div className="relative flex-1">
-        <Aquarium />
+        <Aquarium tags={hashtagsStat === "success" ? hashtags : undefined} />
       </div>
 
       <footer className="z-[150] flex flex-col gap-[0.5rem]">
