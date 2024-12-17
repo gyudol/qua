@@ -6,6 +6,7 @@ import com.mulmeong.feed.read.api.domain.model.SortType;
 import com.mulmeong.feed.read.api.domain.model.Visibility;
 import com.mulmeong.feed.read.api.dto.in.FeedAuthorRequestDto;
 import com.mulmeong.feed.read.api.dto.in.FeedFilterRequestDto;
+import com.mulmeong.feed.read.api.dto.in.IndexSyncRequestDto;
 import com.mulmeong.feed.read.api.dto.model.BasePaginationRequestDto;
 import com.mulmeong.feed.read.api.dto.out.FeedResponseDto;
 import com.mulmeong.feed.read.common.utils.CursorPage;
@@ -53,6 +54,22 @@ public class FeedCustomRepository {     // QueryDSL Repository
             builder.and(feed.memberUuid.eq(author)));
 
         return getFeedsWithPagination(requestDto, builder);
+    }
+
+    public List<Feed> getFeedsForSync(IndexSyncRequestDto requestDto) {
+
+        BooleanBuilder builder = new BooleanBuilder();
+
+        Optional.ofNullable(requestDto.getLastId()).ifPresent(id -> builder.and(feed.id.goe(id)));
+
+        SpringDataMongodbQuery<Feed> query = new SpringDataMongodbQuery<>(mongoTemplate,
+            Feed.class).where(builder);
+
+        Optional.ofNullable(requestDto.getLimit())
+            .filter(limit -> limit > 0)
+            .ifPresent(query::limit);
+
+        return query.fetch();
     }
 
     private CursorPage<FeedResponseDto> getFeedsWithPagination(BasePaginationRequestDto requestDto,

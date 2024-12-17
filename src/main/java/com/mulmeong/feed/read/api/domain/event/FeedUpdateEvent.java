@@ -3,6 +3,7 @@ package com.mulmeong.feed.read.api.domain.event;
 import com.mulmeong.feed.read.api.domain.document.ElasticFeed;
 import com.mulmeong.feed.read.api.domain.document.Feed;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -36,7 +37,7 @@ public class FeedUpdateEvent {
             .build();
     }
 
-    public ElasticFeed toElasticFeedDocument(ElasticFeed existingElasticFeed) {
+    public ElasticFeed toElasticDocument(ElasticFeed existingElasticFeed) {
         return ElasticFeed.builder()
             .id(existingElasticFeed.getId())
             .feedUuid(feedUuid)
@@ -52,7 +53,7 @@ public class FeedUpdateEvent {
             .netLikes(existingElasticFeed.getNetLikes())
             .commentCount(existingElasticFeed.getCommentCount())
             .createdAt(existingElasticFeed.getCreatedAt())
-            .updatedAt(updatedAt.toString())
+            .updatedAt(updatedAt.atZone(ZoneId.of("Asia/Seoul")))
             .build();
     }
 

@@ -7,6 +7,7 @@ import com.mulmeong.feed.read.api.domain.model.Hashtag;
 import com.mulmeong.feed.read.api.domain.model.Media;
 import com.mulmeong.feed.read.api.domain.model.Visibility;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import lombok.Getter;
 import lombok.ToString;
@@ -53,7 +54,7 @@ public class FeedCreateEvent {
             .toList();
     }
 
-    public ElasticFeed toElasticFeedDocument() {
+    public ElasticFeed toElasticDocument() {
         return ElasticFeed.builder()
             .feedUuid(feedUuid)
             .memberUuid(memberUuid)
@@ -67,8 +68,8 @@ public class FeedCreateEvent {
             .dislikeCount(0L)
             .netLikes(0L)
             .commentCount(0L)
-            .createdAt(createdAt.toString())
-            .updatedAt(updatedAt.toString())
+            .createdAt(createdAt.atZone(ZoneId.of("Asia/Seoul")))
+            .updatedAt(updatedAt.atZone(ZoneId.of("Asia/Seoul")))
             .build();
     }
 

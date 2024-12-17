@@ -31,7 +31,7 @@ public class FeedEventHandlerServiceImpl implements FeedEventHandlerService {
     public void createFeedFromEvent(FeedCreateEvent event) {
 
         feedEventRepository.save(event.toFeedDocument());
-        elasticFeedRepository.save(event.toElasticFeedDocument());
+        elasticFeedRepository.save(event.toElasticDocument());
         event.toHashtagEntities().forEach(hashtag -> {
             try {
                 hashtagEventRepository.save(hashtag);
@@ -47,7 +47,7 @@ public class FeedEventHandlerServiceImpl implements FeedEventHandlerService {
         feedEventRepository.save(
             event.toFeedDocument(feedEventRepository.findByFeedUuid(event.getFeedUuid())
                 .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
-        elasticFeedRepository.save(event.toElasticFeedDocument(
+        elasticFeedRepository.save(event.toElasticDocument(
             elasticFeedRepository.findByFeedUuid(event.getFeedUuid())
                 .orElseThrow(() -> new BaseException(ELASTICSEARCH_DATA_MISMATCH))));
     }
@@ -58,7 +58,7 @@ public class FeedEventHandlerServiceImpl implements FeedEventHandlerService {
         feedEventRepository.save(
             event.toDocument(feedEventRepository.findByFeedUuid(event.getFeedUuid())
                 .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
-        elasticFeedRepository.save(event.toElasticFeedDocument(
+        elasticFeedRepository.save(event.toElasticDocument(
             elasticFeedRepository.findByFeedUuid(event.getFeedUuid())
                 .orElseThrow(() -> new BaseException(ELASTICSEARCH_DATA_MISMATCH))));
     }
@@ -69,7 +69,7 @@ public class FeedEventHandlerServiceImpl implements FeedEventHandlerService {
         feedEventRepository.save(
             event.toDocument(feedEventRepository.findByFeedUuid(event.getFeedUuid())
                 .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
-        elasticFeedRepository.save(event.toElasticFeedDocument(
+        elasticFeedRepository.save(event.toElasticDocument(
             elasticFeedRepository.findByFeedUuid(event.getFeedUuid())
                 .orElseThrow(() -> new BaseException(ELASTICSEARCH_DATA_MISMATCH))));
     }
