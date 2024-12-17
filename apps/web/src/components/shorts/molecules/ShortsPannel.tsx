@@ -58,7 +58,7 @@ export function ShortsPannel({
 
         <div className="line-clamp-1">{title}</div>
         <ul className="flex flex-wrap gap-[0.5rem] items-center">
-          {hashtags.map((hashtag) => (
+          {(hashtags || []).map((hashtag) => (
             <li key={hashtag.name}>
               <ShortsHashtag {...{ ...hashtag }} />
             </li>

@@ -22,7 +22,7 @@ export interface Shorts {
   title: string;
   playtime: number;
   visibility: "VISIBLE";
-  hashtags: Hashtag[];
+  hashtags: Hashtag[] | null;
   media: ShortsMedia;
   likeCount: number;
   dislikeCount: number;
