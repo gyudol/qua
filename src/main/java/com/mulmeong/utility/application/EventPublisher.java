@@ -1,9 +1,6 @@
 package com.mulmeong.utility.application;
 
-import com.mulmeong.event.produce.DislikeRenewCreateEvent;
-import com.mulmeong.event.produce.FollowCreateEvent;
-import com.mulmeong.event.produce.LikeCreateEvent;
-import com.mulmeong.event.produce.LikeRenewCreateEvent;
+import com.mulmeong.event.produce.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +22,8 @@ public class EventPublisher {
     private String dislikeRenewCreateEventTopic;
     @Value("${event.utility.pub.topics.follow-create.name}")
     private String followCreateEventTopic;
+    @Value("${event.utility.pub.topics.unfollow.name}")
+    private String unfollowEventTopic;
 
 
     public void send(String topic, Object event) {
@@ -51,5 +50,10 @@ public class EventPublisher {
     public void sendFollowEvent(FollowCreateEvent event) {
         kafkaTemplate.send(followCreateEventTopic, event);
         log.info("dislike topic: {}", followCreateEventTopic);
+    }
+
+    public void sendUnfollowEvent(UnfollowEvent event) {
+        kafkaTemplate.send(unfollowEventTopic, event);
+        log.info("unfollow topic: {}", unfollowEventTopic);
     }
 }

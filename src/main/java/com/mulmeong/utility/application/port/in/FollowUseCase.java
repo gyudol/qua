@@ -16,4 +16,5 @@ public interface FollowUseCase {
     CursorPage<String> getFollowers(String memberUuid, String lastId, int pageSize, int pageNo);
 
     CursorPage<String> getFollowings(String memberUuid, String lastId, int pageSize, int pageNo);
+
 }

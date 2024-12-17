@@ -1,6 +1,7 @@
 package com.mulmeong.utility.application.service;
 
 import com.mulmeong.event.produce.FollowCreateEvent;
+import com.mulmeong.event.produce.UnfollowEvent;
 import com.mulmeong.utility.application.EventPublisher;
 import com.mulmeong.utility.application.port.in.FollowUseCase;
 import com.mulmeong.utility.application.port.in.dto.FollowRequestDto;
@@ -33,6 +34,7 @@ public class FollowService implements FollowUseCase {
 
     @Override
     public void unfollow(FollowRequestDto followRequestDto) {
+        eventPublisher.sendUnfollowEvent(UnfollowEvent.toDto(followRequestDto));
         followPort.unfollow(followRequestDto);
     }
 
