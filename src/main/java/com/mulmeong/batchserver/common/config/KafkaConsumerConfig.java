@@ -76,6 +76,16 @@ public class KafkaConsumerConfig {
         return kafkaListenerContainerFactory(ShortsCommentCreateEvent.class);
     }
 
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, FeedCommentDeleteEvent> feedCommentDeleteListener() {
+        return kafkaListenerContainerFactory(FeedCommentDeleteEvent.class);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ShortsCommentDeleteEvent> shortsCommentDeleteListener() {
+        return kafkaListenerContainerFactory(ShortsCommentDeleteEvent.class);
+    }
+
 
     public <T> ConsumerFactory<String, T> consumerFactory(Class<T> messageType) {
         return new DefaultKafkaConsumerFactory<>(Map.of(
