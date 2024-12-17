@@ -1,8 +1,6 @@
 package com.mulmeong.utility.adapter.out.infrastructure.mongo.repository.FollowRepository;
 
-import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.FeedBookmarkEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.FollowEntity;
-import com.mulmeong.utility.adapter.out.infrastructure.mongo.entity.LikesEntity;
 import com.mulmeong.utility.adapter.out.infrastructure.mongo.mapper.FollowEntityMapper;
 import com.mulmeong.utility.application.port.in.dto.FollowRequestDto;
 import com.mulmeong.utility.application.port.out.FollowPort;
@@ -11,9 +9,6 @@ import com.mulmeong.utility.common.response.BaseResponseStatus;
 import com.mulmeong.utility.common.utils.CursorPage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -74,5 +69,13 @@ public class FollowRepository implements FollowPort {
                 .toList();
 
         return CursorPage.toCursorPage(cursorPage, targetUuid);
+    }
+
+    @Override
+    public List<String> getAllFollowings(String memberUuid) {
+        List<FollowEntity> followings = followMongoRepository.findBySourceUuid(memberUuid);
+        return followings.stream()
+                .map(FollowEntity::getTargetUuid)
+                .collect(Collectors.toList());
     }
 }

@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -51,6 +53,11 @@ public class FollowService implements FollowUseCase {
     @Override
     public CursorPage<String> getFollowings(String memberUuid, String lastId, int pageSize, int pageNo) {
         return followPort.getFollowings(memberUuid, lastId, pageSize, pageNo);
+    }
+
+    @Override
+    public List<String> getAllFollowings(String memberUuid) {
+        return followPort.getAllFollowings(memberUuid);
     }
 
 
