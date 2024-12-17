@@ -92,7 +92,8 @@ public class FeedBatchConfig {
             long actualDislikeCount = dislikesRepository
                     .countByKindAndKindUuidAndStatus("feed", feedRead.getFeedUuid(), true);
 
-            long actualCommentCount = feedCommentReadRepository.countByFeedUuid(feedRead.getFeedUuid());
+            long commentCount = feedCommentReadRepository
+                    .countByFeedUuidAndIsDeletedFalse(feedRead.getFeedUuid());
 
 
             log.info("Processing feed: {}, Updated like count: {}, Updated dislike count: {}",
@@ -111,7 +112,7 @@ public class FeedBatchConfig {
                     .likeCount(actualLikeCount)
                     .dislikeCount(actualDislikeCount)
                     .netLikes(actualLikeCount - actualDislikeCount)
-                    .commentCount(actualCommentCount)
+                    .commentCount(commentCount)
                     .createdAt(feedRead.getCreatedAt())
                     .updatedAt(feedRead.getUpdatedAt())
                     .build();
