@@ -4,6 +4,7 @@ import React, { useLayoutEffect, useState } from "react";
 import { cn } from "@repo/ui/lib/utils";
 import { ALL_FISH } from "@/components/fish";
 import type { Hashtag } from "@/types/contents";
+import { useMediaQuery } from "@/hooks";
 
 interface RandomFishState {
   Fish: ({
@@ -58,6 +59,7 @@ function RandomFish({
   index: number;
 }) {
   const [randomState, setRandomState] = useState<RandomFishState | null>(null);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   useLayoutEffect(() => {
     setRandomState({
@@ -103,7 +105,7 @@ function RandomFish({
           className={cn(index % 2 ? "animate-flipping" : "animate-flipping-1")}
           style={{ ...animation }}
         >
-          <Fish {...{ size }} />
+          <Fish {...{ size: isDesktop ? size : size * 0.5 }} />
         </div>
       </div>
     </div>

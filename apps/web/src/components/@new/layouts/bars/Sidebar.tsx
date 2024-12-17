@@ -26,7 +26,7 @@ function CategoryListItem({ categoryName, viewType }: Category) {
       text-white text-md font-bold
         "
       >
-        📚 {categoryName}
+        {categoryName}
       </span>
     </Link>
   );
