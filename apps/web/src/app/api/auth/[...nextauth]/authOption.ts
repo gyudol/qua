@@ -3,6 +3,7 @@ import KakaoProvider from "next-auth/providers/kakao";
 import NaverProvider from "next-auth/providers/naver";
 import type { CommonRes } from "@/types/common";
 import type { MemberSignInResType } from "@/types/member/common";
+import Credentials from "next-auth/providers/credentials";
 
 export const options: NextAuthOptions = {
   providers: [
@@ -14,11 +15,62 @@ export const options: NextAuthOptions = {
       clientId: process.env.NAVER_CLIENT_ID || "",
       clientSecret: process.env.NAVER_CLIENT_SECRET || "",
     }),
+    Credentials({
+      // The name to display on the sign in form (e.g. 'Sign in with...')
+      name: "credentials",
+      // The credentials is used to generate a suitable form on the sign in page.
+      // You can specify whatever fields you are expecting to be submitted.
+      // e.g. domain, username, password, 2FA token, etc.
+      // You can pass any HTML attribute to the <input> tag through the object.
+      credentials: {},
+      async authorize(credentials, req) {
+        console.log("--------aaaax");
+        const uniqueString = new Date().toString();
+        return {
+          memberUuid: uniqueString,
+          accessToken: "auto-sign-in",
+          refreshToken: "",
+          nickname: "",
+          id: "",
+        };
+      },
+    }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
 
   callbacks: {
     async signIn({ user, account, profile }) {
+      console.log(user);
+      if (user.accessToken === "auto-sign-in") {
+        try {
+          const res = await fetch(
+            `${process.env.BASE_API_URL}/member-service/v1/auth/sign-in`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                oauthId: user.memberUuid,
+                oauthProvider: "kakao",
+              }),
+            },
+          );
+
+          if (!res.ok) return false;
+          const responseData =
+            (await res.json()) as CommonRes<MemberSignInResType>;
+          console.log(responseData);
+          const data = responseData.result as MemberSignInResType;
+          user.memberUuid = data.memberUuid;
+          user.accessToken = data.accessToken;
+          user.refreshToken = data.refreshToken;
+
+          return true;
+        } catch (error) {
+          // console.error("Error in social login:", error);
+          return false;
+        }
+      }
+
       if (profile && account) {
         // console.log(account);
         try {

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
 const routes = {
+  autoSignIn: "/auto-sign-in",
   signIn: "/sign-in",
   signOut: "/sign-out",
   writeFeed: "/feeds/write",
@@ -25,7 +26,7 @@ const withAuthList = [
   routes.writeShorts,
   ...routes.contest,
 ];
-const withoutAuthList = [routes.signIn];
+const withoutAuthList = [routes.signIn, routes.autoSignIn];
 
 const withAuth = (req: NextRequest, token: boolean) => {
   const url = req.nextUrl.clone();
