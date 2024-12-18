@@ -25,6 +25,12 @@ export interface GetRandomHashtags {
   size: number;
 }
 
+export interface GetFeedRecommentdationsReq {
+  memberUuid: string;
+  pageSize?: number;
+  pageNo?: number;
+}
+
 export interface Feed {
   feedUuid: string;
   memberUuid: string;

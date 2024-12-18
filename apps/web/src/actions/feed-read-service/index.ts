@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { toURLSearchParams } from "@/functions/utils";
 import type {
   Feed,
+  GetFeedRecommentdationsReq,
   GetFeedsReq,
   GetMemberFeeds,
   GetRandomHashtags,
@@ -71,6 +72,20 @@ export async function getRandomHashtags({ ...query }: GetRandomHashtags) {
 
 export async function searchFeeds({ keyword, ...query }: SearchFeedsReq) {
   const URI = `${API_SERVER}/${PREFIX}/v1/search/${keyword}/feeds?${toURLSearchParams(query)}`;
+  const res: Response = await fetch(URI, {
+    headers: await getHeaders(),
+    method: "GET",
+    cache: "no-cache",
+  });
+
+  return processResponse<Feed, true>({ res });
+}
+
+export async function getFeedRecommendations({
+  memberUuid,
+  ...query
+}: GetFeedRecommentdationsReq) {
+  const URI = `${API_SERVER}/${PREFIX}/auth/v1/members/${memberUuid}/recommend/feeds?${toURLSearchParams(query)}`;
   const res: Response = await fetch(URI, {
     headers: await getHeaders(),
     method: "GET",

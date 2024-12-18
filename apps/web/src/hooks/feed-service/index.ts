@@ -8,12 +8,14 @@ import {
 } from "@tanstack/react-query";
 import {
   getFeed,
+  getFeedRecommendations,
   getFeeds,
   getMemberFeeds,
   getRandomHashtags,
   searchFeeds,
 } from "@/actions/feed-read-service";
 import type {
+  GetFeedRecommentdationsReq,
   GetFeedsReq,
   GetMemberFeeds,
   GetRandomHashtags,
@@ -54,6 +56,40 @@ export function useGetFeedsInfiniteQuery({ ...query }: GetFeedsReq) {
       pageNo: pageNo || 0,
       pageSize: pageSize || 6,
       nextCursor: nextCursor || undefined,
+    },
+  });
+}
+
+export function useGetFeedRecommendationsInfiniteQuery({
+  ...query
+}: GetFeedRecommentdationsReq) {
+  const { memberUuid, pageNo, pageSize } = query;
+  return useInfiniteQuery({
+    queryKey: [
+      "feed-service",
+      {
+        kind: "feeds",
+        query,
+      },
+    ],
+    queryFn: ({ pageParam }) =>
+      getFeedRecommendations({ memberUuid, ...pageParam }),
+    getNextPageParam: ({
+      hasNext,
+      pageNo: prevPageNo,
+      ...pageParams
+    }: {
+      pageNo: number;
+      pageSize: number;
+      nextCursor?: string;
+      hasNext: boolean;
+    }) => {
+      if (!hasNext) return null;
+      return { pageNo: prevPageNo + 1, ...pageParams };
+    },
+    initialPageParam: {
+      pageNo: pageNo || 0,
+      pageSize: pageSize || 6,
     },
   });
 }
