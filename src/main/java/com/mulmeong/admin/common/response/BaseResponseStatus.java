@@ -45,7 +45,7 @@ public enum BaseResponseStatus {
     NO_EXIST_CATEGORY(HttpStatus.NOT_FOUND, false, 1200, "존재하지 않는 카테고리입니다."),
     EXIST_CATEGORY(HttpStatus.CONFLICT, false, 1201, "이미 존재하는 카테고리입니다.");
 
-    private final HttpStatusCode httpStatusCode;
+    private final HttpStatus httpStatusCode;
     private final boolean isSuccess;
     private final int code;
     private final String message;

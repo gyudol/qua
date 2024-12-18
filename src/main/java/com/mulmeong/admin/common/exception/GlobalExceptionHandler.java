@@ -1,11 +1,13 @@
 package com.mulmeong.admin.common.exception;
 
 import com.mulmeong.admin.common.response.BaseResponse;
-import com.mulmeong.admin.common.response.BaseResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import static com.mulmeong.admin.common.response.BaseResponseStatus.INTERNAL_SERVER_ERROR;
+import static com.mulmeong.admin.common.response.BaseResponseStatus.INVALID_INPUT_VALUE;
 
 @Slf4j
 @RestControllerAdvice
@@ -35,22 +37,30 @@ public class GlobalExceptionHandler {
 
     /**
      * 의도치않게 발생한 RuntimeException 예외 처리
-     * 예외 객체를 BaseResponse에 넘겨 응답에서 디버깅할 수 있도록 처리.
+     * 예외객체를 BaseResponse에 넘겨 응답에서 디버깅할 수 있도록 처리.
      */
     @ExceptionHandler(RuntimeException.class)
     protected BaseResponse<Void> handleRuntimeException(RuntimeException e) {
 
         log.error("런타임 예외: {}", e.getMessage());
 
-        return new BaseResponse<>(BaseResponseStatus.INTERNAL_SERVER_ERROR, e);
+        return new BaseResponse<>(INTERNAL_SERVER_ERROR, e);
     }
 
     /**
      * "@Valid" 유효성 검사 실패 예외 처리.
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected BaseResponse<Void> handleValidException(MethodArgumentNotValidException e) {
+    protected BaseResponse<String> handleValidException(MethodArgumentNotValidException e) {
         log.error("MethodArgumentNotValidException 발생 : {}", e.getMessage());
-        return new BaseResponse<>(BaseResponseStatus.INVALID_INPUT_VALUE, e);
+
+        // 모든 validation 오류 메시지를 가져옴
+        String errorMessage = e.getBindingResult().getFieldErrors().stream()
+                .map(fieldError -> fieldError.getDefaultMessage()) // 기본 메시지 가져오기
+                .findFirst() // 첫 번째 메시지만 사용
+                .orElse("유효성 검증 실패");
+
+        // 응답에 구체적인 에러 메시지를 포함
+        return new BaseResponse<>(INVALID_INPUT_VALUE, errorMessage);
     }
 }
