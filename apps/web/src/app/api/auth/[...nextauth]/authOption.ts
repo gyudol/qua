@@ -58,11 +58,73 @@ export const options: NextAuthOptions = {
           if (!res.ok) return false;
           const responseData =
             (await res.json()) as CommonRes<MemberSignInResType>;
-          console.log(responseData);
+
           const data = responseData.result as MemberSignInResType;
           user.memberUuid = data.memberUuid;
           user.accessToken = data.accessToken;
           user.refreshToken = data.refreshToken;
+
+          const headers = {
+            "Content-Type": "application/json",
+            "Member-Uuid": data.memberUuid,
+            Authorization: `Bearer ${data.accessToken}`,
+          };
+
+          const randomHashtagURI = `${process.env.BASE_API_URL}/feed-read-service/v1/hashtags?size=5`;
+          const allCategoryURI = `${process.env.BASE_API_URL}/admin-service/v1/category`;
+
+          const [hashtagsRes, categoriesRes] = await Promise.all([
+            fetch(randomHashtagURI, {
+              headers,
+              method: "GET",
+            }),
+            fetch(allCategoryURI, {
+              headers,
+              method: "GET",
+            }),
+          ]);
+
+          const [hashtagsJson, categoriesJson] = await Promise.all([
+            hashtagsRes.json(),
+            categoriesRes.json(),
+          ]);
+          const { result: hashtags }: { result: { name: string }[] } =
+            hashtagsJson;
+          const {
+            result: categories,
+          }: {
+            result: {
+              categoryId: number;
+              categoryName: string;
+              viewType: string;
+            }[];
+          } = categoriesJson;
+
+          const i = Math.floor(Math.random() * categories.length);
+          const j = Math.floor(Math.random() * categories.length);
+
+          const tagInterestURI = `${process.env.BASE_API_URL}/member-service/v1/members/${data.memberUuid}/interests/hashtags`;
+          const categoryInterestURI = `${process.env.BASE_API_URL}/member-service/v1/members/${data.memberUuid}/interests/categories`;
+
+          await Promise.all([
+            fetch(tagInterestURI, {
+              headers,
+              method: "PUT",
+              cache: "no-cache",
+              body: JSON.stringify({ hashtags }),
+            }),
+            fetch(categoryInterestURI, {
+              headers,
+              method: "PUT",
+              cache: "no-cache",
+              body: JSON.stringify({
+                categories: [
+                  { id: categories[i].categoryId },
+                  { id: categories[j].categoryId },
+                ],
+              }),
+            }),
+          ]);
 
           return true;
         } catch (error) {

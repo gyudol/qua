@@ -1,9 +1,12 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import AutoSignIn from "@/components/@new/auth/AutoSignIn";
+import PageContainer from "@/components/@new/layouts/containers/PageContainer";
 
-export default async function page() {
-  await signIn("credentials", { callbackUrl: "/" });
-  return <div />;
-  // return void signIn("auto-sign-in", {callbackUrl: "/"})
+export default function page() {
+  return (
+    <PageContainer>
+      <AutoSignIn />
+    </PageContainer>
+  );
 }
