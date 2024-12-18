@@ -13,8 +13,10 @@ import {
 import { useRouter, useSearchParams } from "next/navigation";
 import type { GetFeedsReq } from "@/types/feed/feed-read-service";
 import { toURLSearchParams } from "@/functions/utils";
+import { useSessionContext } from "@/context/SessionContext";
 
 export function FeedSortSelector() {
+  const { memberUuid } = useSessionContext();
   const router = useRouter();
   const searchParams = Object.fromEntries(useSearchParams().entries());
   const sortBy: GetFeedsReq["sortBy"] =
@@ -40,6 +42,9 @@ export function FeedSortSelector() {
           <SelectLabel>Sort by</SelectLabel>
           <SelectItem value="latest">Latest</SelectItem>
           <SelectItem value="likes">Like</SelectItem>
+          {memberUuid ? (
+            <SelectItem value="recommends">Recommend</SelectItem>
+          ) : null}
         </SelectGroup>
       </SelectContent>
     </Select>
