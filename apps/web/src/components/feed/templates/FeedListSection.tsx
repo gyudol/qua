@@ -24,7 +24,7 @@ export default function FeedListSection({
   view,
   useInfiniteQueryResult,
 }: FeedListSectionProps) {
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage, status } =
     useInfiniteQueryResult;
   const observerRef = useInfiniteScroll({
     hasNextPage,
@@ -44,7 +44,7 @@ export default function FeedListSection({
               )),
             )
           : null}
-        {data?.pages[0].content.length ? null : (
+        {status === "pending" || data?.pages[0].content.length ? null : (
           <div className="h-[20rem] flex gap-2 justify-center items-center font-bold">
             피드가 없어요
             <Kitty />
@@ -54,11 +54,11 @@ export default function FeedListSection({
           ref={observerRef}
           className="flex gap-4 justify-center items-center text-teal-400"
         >
-          {isFetchingNextPage ? (
+          {/* {isFetchingNextPage ? (
             <>
               로딩중 <Kitty />
             </>
-          ) : null}
+          ) : null} */}
         </div>
       </section>
     </div>
