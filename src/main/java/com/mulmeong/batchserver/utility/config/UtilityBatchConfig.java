@@ -1,7 +1,6 @@
 package com.mulmeong.batchserver.utility.config;
 
 import com.mulmeong.batchserver.member.domain.document.MemberRead;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
@@ -31,17 +30,27 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 @EnableScheduling
 @EnableBatchProcessing
-@RequiredArgsConstructor
 @Slf4j
 public class UtilityBatchConfig {
 
     private final PlatformTransactionManager transactionManager;
-    @Qualifier("utilityReadMongoTemplate")
     private final MongoTemplate utilityMongoTemplate;
-    @Qualifier("memberReadMongoTemplate")
     private final MongoTemplate memberMongoTemplate;
     private final JobRepository jobRepository;
     private final JobLauncher jobLauncher;
+
+    public UtilityBatchConfig(
+            PlatformTransactionManager transactionManager,
+            @Qualifier("utilityReadMongoTemplate") MongoTemplate utilityMongoTemplate,
+            @Qualifier("memberReadMongoTemplate") MongoTemplate memberMongoTemplate,
+            JobRepository jobRepository,
+            JobLauncher jobLauncher) {
+        this.transactionManager = transactionManager;
+        this.utilityMongoTemplate = utilityMongoTemplate;
+        this.memberMongoTemplate = memberMongoTemplate;
+        this.jobRepository = jobRepository;
+        this.jobLauncher = jobLauncher;
+    }
 
     @Scheduled(fixedRate = 3000000)
     public void runMemberRenewJob() throws Exception {
