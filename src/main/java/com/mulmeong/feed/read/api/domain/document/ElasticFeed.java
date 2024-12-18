@@ -1,13 +1,20 @@
 package com.mulmeong.feed.read.api.domain.document;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mulmeong.feed.read.api.domain.model.Hashtag;
 import com.mulmeong.feed.read.api.domain.model.Media;
 import com.mulmeong.feed.read.api.domain.model.Visibility;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -59,16 +66,42 @@ public class ElasticFeed {
     private Long commentCount;
 
     @Field(type = FieldType.Date)
-    private String createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX||"
+                                                           + "yyyy-MM-dd'T'HH:mm:ss.SSSX||"
+                                                           + "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    private ZonedDateTime createdAt;
 
     @Field(type = FieldType.Date)
-    private String updatedAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX||"
+                                                           + "yyyy-MM-dd'T'HH:mm:ss.SSSX||"
+                                                           + "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    private ZonedDateTime updatedAt;
+
+    public static ElasticFeed toElasticDocument(Feed feed) {
+        return ElasticFeed.builder()
+            .id(feed.getId())
+            .feedUuid(feed.getFeedUuid())
+            .memberUuid(feed.getMemberUuid())
+            .title(feed.getTitle())
+            .content(feed.getContent())
+            .visibility(feed.getVisibility())
+            .categoryName(feed.getCategoryName())
+            .hashtags(feed.getHashtags())
+            .mediaList(feed.getMediaList())
+            .likeCount(feed.getLikeCount())
+            .dislikeCount(feed.getDislikeCount())
+            .netLikes(feed.getNetLikes())
+            .commentCount(feed.getCommentCount())
+            .createdAt(feed.getCreatedAt().atZone(ZoneId.of("Asia/Seoul")))
+            .updatedAt(feed.getUpdatedAt().atZone(ZoneId.of("Asia/Seoul")))
+            .build();
+    }
 
     @Builder
     public ElasticFeed(String id, String feedUuid, String memberUuid, String title, String content,
         String categoryName, Visibility visibility, List<Hashtag> hashtags, List<Media> mediaList,
         Long likeCount, Long dislikeCount, Long netLikes, Long commentCount,
-        String createdAt, String updatedAt) {
+        ZonedDateTime createdAt, ZonedDateTime updatedAt) {
 
         this.id = id;
         this.feedUuid = feedUuid;
@@ -79,11 +112,11 @@ public class ElasticFeed {
         this.categoryName = categoryName;
         this.hashtags = hashtags;
         this.mediaList = mediaList;
-        this.dislikeCount = dislikeCount;
         this.likeCount = likeCount;
+        this.dislikeCount = dislikeCount;
         this.netLikes = netLikes;
-        this.createdAt = createdAt;
         this.commentCount = commentCount;
+        this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 }

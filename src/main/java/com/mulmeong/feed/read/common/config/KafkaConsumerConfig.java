@@ -3,6 +3,7 @@ package com.mulmeong.feed.read.common.config;
 import com.mulmeong.feed.read.api.domain.event.FeedCreateEvent;
 import com.mulmeong.feed.read.api.domain.event.FeedDeleteEvent;
 import com.mulmeong.feed.read.api.domain.event.FeedHashtagUpdateEvent;
+import com.mulmeong.feed.read.api.domain.event.FeedMetricsUpdateEvent;
 import com.mulmeong.feed.read.api.domain.event.FeedStatusUpdateEvent;
 import com.mulmeong.feed.read.api.domain.event.FeedUpdateEvent;
 import com.mulmeong.feed.read.common.exception.BaseException;
@@ -58,6 +59,11 @@ public class KafkaConsumerConfig {
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, FeedUpdateEvent> feedUpdateEventListener() {
         return kafkaListenerContainerFactory(FeedUpdateEvent.class);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, FeedMetricsUpdateEvent> feedMetricsUpdateEventListener() {
+        return kafkaListenerContainerFactory(FeedMetricsUpdateEvent.class);
     }
 
     /**

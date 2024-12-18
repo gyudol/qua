@@ -45,21 +45,21 @@ public class FeedResponseDto {
             .build();
     }
 
-    public static FeedResponseDto fromDocument(ElasticFeed feed) {
+    public static FeedResponseDto fromDocument(ElasticFeed elasticFeed) {
         return FeedResponseDto.builder()
-            .feedUuid(feed.getFeedUuid())
-            .memberUuid(feed.getMemberUuid())
-            .title(feed.getTitle())
-            .content(feed.getContent())
-            .categoryName(feed.getCategoryName())
-            .visibility(feed.getVisibility())
-            .hashtags(feed.getHashtags())
-            .mediaList(feed.getMediaList())
-            .likeCount(feed.getLikeCount())
-            .dislikeCount(feed.getDislikeCount())
-            .commentCount(feed.getCommentCount())
-            .createdAt(LocalDateTime.parse(feed.getCreatedAt()))
-            .updatedAt(LocalDateTime.parse(feed.getUpdatedAt()))
+            .feedUuid(elasticFeed.getFeedUuid())
+            .memberUuid(elasticFeed.getMemberUuid())
+            .title(elasticFeed.getTitle())
+            .content(elasticFeed.getContent())
+            .categoryName(elasticFeed.getCategoryName())
+            .visibility(elasticFeed.getVisibility())
+            .hashtags(elasticFeed.getHashtags())
+            .mediaList(elasticFeed.getMediaList())
+            .likeCount(elasticFeed.getLikeCount())
+            .dislikeCount(elasticFeed.getDislikeCount())
+            .commentCount(elasticFeed.getCommentCount())
+            .createdAt(elasticFeed.getCreatedAt().toLocalDateTime())
+            .updatedAt(elasticFeed.getUpdatedAt().toLocalDateTime())
             .build();
     }
 

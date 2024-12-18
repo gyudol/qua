@@ -2,21 +2,16 @@ package com.mulmeong.feed.read.api.domain.event;
 
 import com.mulmeong.feed.read.api.domain.document.ElasticFeed;
 import com.mulmeong.feed.read.api.domain.document.Feed;
-import com.mulmeong.feed.read.api.domain.model.Hashtag;
-import com.mulmeong.feed.read.api.domain.model.Visibility;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
 import lombok.Getter;
-import lombok.ToString;
 
 @Getter
-@ToString
-public class FeedStatusUpdateEvent {
+public class FeedMetricsUpdateEvent {
 
     private String feedUuid;
-    private Visibility visibility;
-    private LocalDateTime updatedAt;
+    private Long likeCount;
+    private Long dislikeCount;
+    private Long commentCount;
 
     public Feed toDocument(Feed existingFeed) {
         return Feed.builder()
@@ -26,15 +21,15 @@ public class FeedStatusUpdateEvent {
             .title(existingFeed.getTitle())
             .content(existingFeed.getContent())
             .categoryName(existingFeed.getCategoryName())
-            .visibility(visibility)
+            .visibility(existingFeed.getVisibility())
             .hashtags(existingFeed.getHashtags())
             .mediaList(existingFeed.getMediaList())
-            .likeCount(existingFeed.getLikeCount())
-            .dislikeCount(existingFeed.getDislikeCount())
-            .netLikes(existingFeed.getNetLikes())
-            .commentCount(existingFeed.getCommentCount())
+            .likeCount(likeCount)
+            .dislikeCount(dislikeCount)
+            .netLikes(likeCount - dislikeCount)
+            .commentCount(commentCount)
             .createdAt(existingFeed.getCreatedAt())
-            .updatedAt(updatedAt)
+            .updatedAt(existingFeed.getUpdatedAt())
             .build();
     }
 
@@ -46,15 +41,15 @@ public class FeedStatusUpdateEvent {
             .title(existingElasticFeed.getTitle())
             .content(existingElasticFeed.getContent())
             .categoryName(existingElasticFeed.getCategoryName())
-            .visibility(visibility)
+            .visibility(existingElasticFeed.getVisibility())
             .hashtags(existingElasticFeed.getHashtags())
             .mediaList(existingElasticFeed.getMediaList())
-            .likeCount(existingElasticFeed.getLikeCount())
-            .dislikeCount(existingElasticFeed.getDislikeCount())
-            .netLikes(existingElasticFeed.getNetLikes())
-            .commentCount(existingElasticFeed.getCommentCount())
+            .likeCount(likeCount)
+            .dislikeCount(dislikeCount)
+            .netLikes(likeCount - dislikeCount)
+            .commentCount(commentCount)
             .createdAt(existingElasticFeed.getCreatedAt())
-            .updatedAt(updatedAt.atZone(ZoneId.of("Asia/Seoul")))
+            .updatedAt(existingElasticFeed.getUpdatedAt())
             .build();
     }
 

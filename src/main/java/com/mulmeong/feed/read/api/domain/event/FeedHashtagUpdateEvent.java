@@ -1,8 +1,10 @@
 package com.mulmeong.feed.read.api.domain.event;
 
+import com.mulmeong.feed.read.api.domain.document.ElasticFeed;
 import com.mulmeong.feed.read.api.domain.document.Feed;
 import com.mulmeong.feed.read.api.domain.model.Hashtag;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import lombok.Getter;
 import lombok.ToString;
@@ -15,7 +17,7 @@ public class FeedHashtagUpdateEvent {
     private List<Hashtag> hashtags;
     private LocalDateTime updatedAt;
 
-    public Feed toDocument(Feed existingFeed) {
+    public Feed toFeedDocument(Feed existingFeed) {
         return Feed.builder()
             .id(existingFeed.getId())
             .feedUuid(feedUuid)
@@ -32,6 +34,26 @@ public class FeedHashtagUpdateEvent {
             .commentCount(existingFeed.getCommentCount())
             .createdAt(existingFeed.getCreatedAt())
             .updatedAt(updatedAt)
+            .build();
+    }
+
+    public ElasticFeed toElasticDocument(ElasticFeed existingElasticFeed) {
+        return ElasticFeed.builder()
+            .id(existingElasticFeed.getId())
+            .feedUuid(feedUuid)
+            .memberUuid(existingElasticFeed.getMemberUuid())
+            .title(existingElasticFeed.getTitle())
+            .content(existingElasticFeed.getContent())
+            .categoryName(existingElasticFeed.getCategoryName())
+            .visibility(existingElasticFeed.getVisibility())
+            .hashtags(hashtags)
+            .mediaList(existingElasticFeed.getMediaList())
+            .likeCount(existingElasticFeed.getLikeCount())
+            .dislikeCount(existingElasticFeed.getDislikeCount())
+            .netLikes(existingElasticFeed.getNetLikes())
+            .commentCount(existingElasticFeed.getCommentCount())
+            .createdAt(existingElasticFeed.getCreatedAt())
+            .updatedAt(updatedAt.atZone(ZoneId.of("Asia/Seoul")))
             .build();
     }
 
