@@ -2,11 +2,8 @@ package com.mulmeong.batchserver.member.application;
 
 import com.mulmeong.batchserver.member.domain.document.MemberRead;
 import com.mulmeong.batchserver.member.infrastructure.repository.MemberReadRepository;
-import com.mulmeong.batchserver.utility.application.UtilityKafkaPublisher;
-import com.mulmeong.batchserver.utility.infrastructure.repository.FollowRepository;
 import com.mulmeong.event.utility.consume.FeedCreateEvent;
 import com.mulmeong.event.utility.consume.ShortsCreateEvent;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -78,7 +75,7 @@ public class MemberServiceImpl implements MemberService {
                         .followerCount(memberRead.getFollowerCount())
                         .followingCount(memberRead.getFollowingCount())
                         .feedCount(memberRead.getFeedCount())
-                        .shortsCount((int)shortsCount)
+                        .shortsCount((int) shortsCount)
                         .build()
         );
     }
