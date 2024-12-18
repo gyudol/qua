@@ -15,10 +15,12 @@ import com.querydsl.core.types.OrderSpecifier;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.support.SpringDataMongodbQuery;
 import org.springframework.stereotype.Repository;
 
+@Slf4j
 @RequiredArgsConstructor
 @Repository
 public class FeedCustomRepository {     // QueryDSL Repository
@@ -80,10 +82,12 @@ public class FeedCustomRepository {     // QueryDSL Repository
                 .ifPresent(id -> builder.and(feed.id.loe(id)));
         }
 
-        int curPageNo = Optional.ofNullable(requestDto.getPageNo()).orElse(DEFAULT_PAGE_NUMBER);
+        int curPageNo = Optional.ofNullable(requestDto.getPageNo())
+            .map(pageNo -> pageNo > 0 ? pageNo - 1 : 0).orElse(DEFAULT_PAGE_NUMBER);
         int curPageSize = Optional.ofNullable(requestDto.getPageSize()).orElse(DEFAULT_PAGE_SIZE);
         int offset = Math.max(0, (curPageNo - 1) * curPageSize);
 
+        log.info("{}", curPageNo);
         SpringDataMongodbQuery<Feed> query = new SpringDataMongodbQuery<>(mongoTemplate,
             Feed.class);
 
@@ -103,7 +107,7 @@ public class FeedCustomRepository {     // QueryDSL Repository
         }
 
         return new CursorPage<>(content.stream().map(FeedResponseDto::fromDocument).toList(),
-            nextCursor, hasNext, content.size(), curPageNo);
+            nextCursor, hasNext, content.size(), curPageNo + 1);
     }
 
     private OrderSpecifier<?> determineSortOrder(QFeed feed, SortType sortType) {

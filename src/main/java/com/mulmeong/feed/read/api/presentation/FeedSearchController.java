@@ -1,6 +1,7 @@
 package com.mulmeong.feed.read.api.presentation;
 
 import com.mulmeong.feed.read.api.application.FeedSearchService;
+import com.mulmeong.feed.read.api.dto.in.FeedRecommendRequestDto;
 import com.mulmeong.feed.read.api.dto.in.FeedSearchRequestDto;
 import com.mulmeong.feed.read.api.dto.in.IndexSyncRequestDto;
 import com.mulmeong.feed.read.api.dto.out.FeedResponseDto;

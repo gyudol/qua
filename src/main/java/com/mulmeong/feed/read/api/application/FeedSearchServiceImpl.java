@@ -15,7 +15,6 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
@@ -91,15 +90,19 @@ public class FeedSearchServiceImpl implements FeedSearchService {
         String nextCursor = null;
         boolean hasNext = false;
 
+        // used for subList
+        List<SearchHit<ElasticFeed>> searchHitList = searchHits.stream().toList();
         log.info("{}", searchHits.getSuggest());
+
         if (searchHits.getSearchHits().size() > curPageSize) {
             hasNext = true;
             nextCursor = searchHits.getSearchHit(curPageSize).getContent().getId();
+            searchHitList = searchHitList.subList(0, curPageSize);
         }
 
-        return new CursorPage<>(searchHits.stream().map(SearchHit::getContent)
+        return new CursorPage<>(searchHitList.stream().map(SearchHit::getContent)
             .map(FeedResponseDto::fromDocument).toList(),
-            nextCursor, hasNext, searchHits.getSearchHits().size(), requestDto.getPageNo());
+            nextCursor, hasNext, searchHitList.size(), curPageNo + 1);
     }
 
     @Transactional
