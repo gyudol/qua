@@ -1,11 +1,11 @@
 package com.mulmeong.batchserver.feed.config;
 
 import com.mulmeong.batchserver.comment.infrastructure.repository.FeedCommentReadRepository;
+import com.mulmeong.batchserver.feed.application.FeedKafkaPublisher;
 import com.mulmeong.batchserver.feed.domain.document.FeedRead;
-import com.mulmeong.batchserver.feed.infrastructure.repository.FeedReadRepository;
 import com.mulmeong.batchserver.utility.infrastructure.repository.DislikesRepository;
 import com.mulmeong.batchserver.utility.infrastructure.repository.LikesRepository;
-import lombok.RequiredArgsConstructor;
+import com.mulmeong.event.utility.produce.FeedMetricsUpdateEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.*;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -33,29 +33,29 @@ import org.springframework.transaction.PlatformTransactionManager;
 public class FeedBatchConfig {
 
     private final PlatformTransactionManager transactionManager;
-    private final FeedReadRepository feedReadRepository;
     private final LikesRepository likesRepository;
     private final DislikesRepository dislikesRepository;
     private final FeedCommentReadRepository feedCommentReadRepository;
     private final MongoTemplate feedReadMongoTemplate;
     private final JobRepository jobRepository;
     private final JobLauncher jobLauncher;
+    private final FeedKafkaPublisher feedKafkaPublisher;
 
     public FeedBatchConfig(
             PlatformTransactionManager transactionManager,
-            FeedReadRepository feedReadRepository,
             LikesRepository likesRepository,
             DislikesRepository dislikesRepository,
             FeedCommentReadRepository feedCommentReadRepository,
             @Qualifier("feedReadMongoTemplate") MongoTemplate feedReadMongoTemplate,
+            FeedKafkaPublisher feedKafkaPublisher,
             JobRepository jobRepository,
             JobLauncher jobLauncher) {
         this.transactionManager = transactionManager;
-        this.feedReadRepository = feedReadRepository;
         this.likesRepository = likesRepository;
         this.dislikesRepository = dislikesRepository;
         this.feedCommentReadRepository = feedCommentReadRepository;
         this.feedReadMongoTemplate = feedReadMongoTemplate;
+        this.feedKafkaPublisher = feedKafkaPublisher;
         this.jobRepository = jobRepository;
         this.jobLauncher = jobLauncher;
     }
@@ -139,7 +139,11 @@ public class FeedBatchConfig {
 
     @Bean
     public ItemWriter<FeedRead> feedWriter() {
-        return feedReadRepository::saveAll;
+        return items -> {
+            for (FeedRead feedRead : items) {
+                feedKafkaPublisher.send(FeedMetricsUpdateEvent.toDto(feedRead));
+            }
+        };
     }
 
     @Bean

@@ -1,6 +1,7 @@
 package com.mulmeong.batchserver.utility.application;
 
 import com.mulmeong.event.utility.produce.FeedCreatedFollowersEvent;
+import com.mulmeong.event.utility.produce.FeedMetricsUpdateEvent;
 import com.mulmeong.event.utility.produce.ShortsCreatedFollowersEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ public class UtilityKafkaPublisher {
     @Value("${event.utility.pub.topics.shorts-create-followers.name}")
     private String shortsCreatedFollowersEventTopic;
 
+
     public void send(FeedCreatedFollowersEvent event) {
         kafkaTemplate.send(feedCreatedFollowersEventTopic, event);
         log.info("feed create topic: {}", feedCreatedFollowersEventTopic);
@@ -27,6 +29,7 @@ public class UtilityKafkaPublisher {
 
     public void send(ShortsCreatedFollowersEvent event) {
         kafkaTemplate.send(shortsCreatedFollowersEventTopic, event);
-        log.info("feed create topic: {}", shortsCreatedFollowersEventTopic);
+        log.info("shorts create topic: {}", shortsCreatedFollowersEventTopic);
     }
+    
 }
