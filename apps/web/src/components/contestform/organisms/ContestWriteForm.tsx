@@ -5,12 +5,15 @@ import { useRef, useState } from "react";
 import { contestPost } from "@/actions/contest/contest";
 import type { MediaContest } from "@/types/contest/contest";
 import ContestFormFields from "./ContestFormFields";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface ContestFormProps {
   contestId: number;
 }
 
 function ContestWriteForm({ contestId }: ContestFormProps) {
+  const router = useRouter();
   const [payload, setPayload] = useState<
     Omit<MediaContest, "media"> & Partial<Pick<MediaContest, "media">>
   >({
@@ -24,8 +27,14 @@ function ContestWriteForm({ contestId }: ContestFormProps) {
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault(); // 기본 form 제출 방지
-
-    await contestPost(payload as MediaContest); // 타입 강제 변환
+    try {
+      await contestPost(payload as MediaContest); // 타입 강제 변환
+      toast.success("성공적으로 제출되었습니다.");
+      router.back();
+    } catch (error) {
+      toast.error((error as Error).message);
+      router.back();
+    }
   };
 
   return (

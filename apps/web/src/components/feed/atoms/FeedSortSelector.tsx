@@ -11,7 +11,6 @@ import {
   SelectValue,
 } from "@repo/ui/shadcn/select";
 import { useRouter, useSearchParams } from "next/navigation";
-import type { GetFeedsReq } from "@/types/feed/feed-read-service";
 import { toURLSearchParams } from "@/functions/utils";
 import { useSessionContext } from "@/context/SessionContext";
 
@@ -19,8 +18,14 @@ export function FeedSortSelector() {
   const { memberUuid } = useSessionContext();
   const router = useRouter();
   const searchParams = Object.fromEntries(useSearchParams().entries());
-  const sortBy: GetFeedsReq["sortBy"] =
-    searchParams.sortBy === "likes" ? "likes" : "latest";
+
+  let sortBy: "latest" | "likes" | "recommends";
+  const _sortBy = searchParams.sortBy;
+
+  if (_sortBy === "likes") sortBy = "likes";
+  else if (_sortBy === "latest") sortBy = "latest";
+  else if (memberUuid) sortBy = "recommends";
+  else sortBy = "latest";
 
   function handleChange(value: string) {
     router.push(`?${toURLSearchParams({ ...searchParams, sortBy: value })}`);
@@ -40,11 +45,11 @@ export function FeedSortSelector() {
       <SelectContent className="border-none outline-none text-teal-400">
         <SelectGroup>
           <SelectLabel>Sort by</SelectLabel>
-          <SelectItem value="latest">Latest</SelectItem>
-          <SelectItem value="likes">Like</SelectItem>
           {memberUuid ? (
             <SelectItem value="recommends">Recommend</SelectItem>
           ) : null}
+          <SelectItem value="latest">Latest</SelectItem>
+          <SelectItem value="likes">Like</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>
