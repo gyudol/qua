@@ -7,6 +7,7 @@ import static com.mulmeong.feed.read.common.response.BaseResponseStatus.HASHTAG_
 import com.mulmeong.feed.read.api.domain.event.FeedCreateEvent;
 import com.mulmeong.feed.read.api.domain.event.FeedDeleteEvent;
 import com.mulmeong.feed.read.api.domain.event.FeedHashtagUpdateEvent;
+import com.mulmeong.feed.read.api.domain.event.FeedMetricsUpdateEvent;
 import com.mulmeong.feed.read.api.domain.event.FeedStatusUpdateEvent;
 import com.mulmeong.feed.read.api.domain.event.FeedUpdateEvent;
 import com.mulmeong.feed.read.api.infrastructure.ElasticFeedRepository;
@@ -65,6 +66,17 @@ public class FeedEventHandlerServiceImpl implements FeedEventHandlerService {
 
     @Override
     public void updateFeedFromEvent(FeedUpdateEvent event) {
+
+        feedEventRepository.save(
+            event.toDocument(feedEventRepository.findByFeedUuid(event.getFeedUuid())
+                .orElseThrow(() -> new BaseException(FEED_NOT_FOUND))));
+        elasticFeedRepository.save(event.toElasticDocument(
+            elasticFeedRepository.findByFeedUuid(event.getFeedUuid())
+                .orElseThrow(() -> new BaseException(ELASTICSEARCH_DATA_MISMATCH))));
+    }
+
+    @Override
+    public void updateFeedMetricsFromEvent(FeedMetricsUpdateEvent event) {
 
         feedEventRepository.save(
             event.toDocument(feedEventRepository.findByFeedUuid(event.getFeedUuid())
