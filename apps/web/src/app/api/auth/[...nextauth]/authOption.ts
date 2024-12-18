@@ -24,7 +24,6 @@ export const options: NextAuthOptions = {
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {},
       async authorize(credentials, req) {
-        console.log("--------aaaax");
         const uniqueString = new Date().toString();
         return {
           memberUuid: uniqueString,
@@ -70,7 +69,7 @@ export const options: NextAuthOptions = {
             Authorization: `Bearer ${data.accessToken}`,
           };
 
-          const randomHashtagURI = `${process.env.BASE_API_URL}/feed-read-service/v1/hashtags?size=5`;
+          const randomHashtagURI = `${process.env.BASE_API_URL}/feed-read-service/v1/hashtags?size=3`;
           const allCategoryURI = `${process.env.BASE_API_URL}/admin-service/v1/category`;
 
           const [hashtagsRes, categoriesRes] = await Promise.all([

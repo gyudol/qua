@@ -6,6 +6,7 @@ import PageContainer from "@/components/@new/layouts/containers/PageContainer";
 import { FeedPageFeedListSection } from "@/components/feed/pages/FeedPageFeedListSection";
 import type { FeedViewType } from "@/types/feed/common";
 import { FeedRecommendsListSection } from "@/components/feed/pages/FeedRecommendsListSection";
+import { toURLSearchParams } from "@/functions/utils";
 
 export default async function page({
   searchParams: { sortBy: _sortBy, view: _view },
@@ -29,7 +30,8 @@ export default async function page({
   const view = _view === "compact" ? "compact" : "card";
 
   if (sortBy === "recommends") {
-    if (!memberUuid) return redirect("?latest");
+    if (!memberUuid)
+      return redirect(`/?${toURLSearchParams({ sortBy: "latest", view })}`);
     return (
       <PageContainer>
         <ContestSwiper />
