@@ -85,9 +85,9 @@ public class FeedCustomRepository {     // QueryDSL Repository
         int curPageNo = Optional.ofNullable(requestDto.getPageNo())
             .map(pageNo -> pageNo > 0 ? pageNo - 1 : 0).orElse(DEFAULT_PAGE_NUMBER);
         int curPageSize = Optional.ofNullable(requestDto.getPageSize()).orElse(DEFAULT_PAGE_SIZE);
-        int offset = Math.max(0, (curPageNo - 1) * curPageSize);
+        int offset = Math.max(0, curPageNo * curPageSize);
 
-        log.info("{}", curPageNo);
+        // log.info("curPageNo: {}, offset: {}", curPageNo, offset);
         SpringDataMongodbQuery<Feed> query = new SpringDataMongodbQuery<>(mongoTemplate,
             Feed.class);
 
@@ -110,11 +110,11 @@ public class FeedCustomRepository {     // QueryDSL Repository
             nextCursor, hasNext, content.size(), curPageNo + 1);
     }
 
-    private OrderSpecifier<?> determineSortOrder(QFeed feed, SortType sortType) {
+    private OrderSpecifier<?>[] determineSortOrder(QFeed feed, SortType sortType) {
 
         return switch (sortType) {
-            case LATEST -> feed.createdAt.desc();
-            case LIKES -> feed.netLikes.desc();
+            case LATEST -> new OrderSpecifier<?>[] { feed.createdAt.desc() };
+            case LIKES -> new OrderSpecifier<?>[] {feed.netLikes.desc(), feed.updatedAt.desc() };
         };
     }
 

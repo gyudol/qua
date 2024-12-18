@@ -86,7 +86,7 @@ public class FeedSearchServiceImpl implements FeedSearchService {
         SearchHits<ElasticFeed> searchHits = elasticsearchOperations.search(searchQuery,
             ElasticFeed.class);
 
-        //        long totalHits = searchHits.getTotalHits();
+        // long totalHits = searchHits.getTotalHits();
         String nextCursor = null;
         boolean hasNext = false;
 
