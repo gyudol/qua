@@ -29,7 +29,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @EnableBatchProcessing
-@RequiredArgsConstructor
 @Slf4j
 public class FeedBatchConfig {
 
@@ -38,9 +37,28 @@ public class FeedBatchConfig {
     private final LikesRepository likesRepository;
     private final DislikesRepository dislikesRepository;
     private final FeedCommentReadRepository feedCommentReadRepository;
-    private final @Qualifier("feedReadMongoTemplate") MongoTemplate feedReadMongoTemplate;
+    private final MongoTemplate feedReadMongoTemplate;
     private final JobRepository jobRepository;
     private final JobLauncher jobLauncher;
+
+    public FeedBatchConfig(
+            PlatformTransactionManager transactionManager,
+            FeedReadRepository feedReadRepository,
+            LikesRepository likesRepository,
+            DislikesRepository dislikesRepository,
+            FeedCommentReadRepository feedCommentReadRepository,
+            @Qualifier("feedReadMongoTemplate") MongoTemplate feedReadMongoTemplate,
+            JobRepository jobRepository,
+            JobLauncher jobLauncher) {
+        this.transactionManager = transactionManager;
+        this.feedReadRepository = feedReadRepository;
+        this.likesRepository = likesRepository;
+        this.dislikesRepository = dislikesRepository;
+        this.feedCommentReadRepository = feedCommentReadRepository;
+        this.feedReadMongoTemplate = feedReadMongoTemplate;
+        this.jobRepository = jobRepository;
+        this.jobLauncher = jobLauncher;
+    }
 
     @Scheduled(fixedRate = 300000)
     public void runFeedRenewJob() throws Exception {

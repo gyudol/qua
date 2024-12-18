@@ -1,11 +1,9 @@
 package com.mulmeong.batchserver.utility.config;
 
 import com.mulmeong.batchserver.member.domain.document.MemberRead;
+import com.mulmeong.batchserver.member.infrastructure.repository.MemberReadRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.JobParametersBuilder;
-import org.springframework.batch.core.Step;
+import org.springframework.batch.core.*;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
@@ -28,38 +26,34 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-@EnableScheduling
 @EnableBatchProcessing
 @Slf4j
 public class UtilityBatchConfig {
 
     private final PlatformTransactionManager transactionManager;
+    private final MemberReadRepository memberReadRepository;
     private final MongoTemplate utilityMongoTemplate;
     private final MongoTemplate memberMongoTemplate;
+    private final MongoTemplate feedMongoTemplate;
+    private final MongoTemplate shortsMongoTemplate;
     private final JobRepository jobRepository;
-    private final JobLauncher jobLauncher;
 
     public UtilityBatchConfig(
             PlatformTransactionManager transactionManager,
+            MemberReadRepository memberReadRepository,
             @Qualifier("utilityReadMongoTemplate") MongoTemplate utilityMongoTemplate,
             @Qualifier("memberReadMongoTemplate") MongoTemplate memberMongoTemplate,
-            JobRepository jobRepository,
-            JobLauncher jobLauncher) {
+            @Qualifier("feedReadMongoTemplate") MongoTemplate feedMongoTemplate,
+            @Qualifier("shortsReadMongoTemplate") MongoTemplate shortsMongoTemplate,
+            JobRepository jobRepository
+    ) {
         this.transactionManager = transactionManager;
+        this.memberReadRepository = memberReadRepository;
         this.utilityMongoTemplate = utilityMongoTemplate;
         this.memberMongoTemplate = memberMongoTemplate;
+        this.feedMongoTemplate = feedMongoTemplate;
+        this.shortsMongoTemplate = shortsMongoTemplate;
         this.jobRepository = jobRepository;
-        this.jobLauncher = jobLauncher;
-    }
-
-    @Scheduled(fixedRate = 3000000)
-    public void runMemberRenewJob() throws Exception {
-        JobParameters jobParameters = new JobParametersBuilder()
-                .addLong("time", System.currentTimeMillis())
-                .toJobParameters();
-        log.info("Running job {}", jobParameters);
-
-        jobLauncher.run(memberRenewJob(), jobParameters);
     }
 
     @Bean
@@ -76,6 +70,7 @@ public class UtilityBatchConfig {
                 .reader(memberReader())
                 .processor(memberProcessor())
                 .writer(memberWriter())
+                .listener(memberLoggingStepExecutionListener())
                 .build();
     }
 
@@ -106,16 +101,17 @@ public class UtilityBatchConfig {
                     "follow"
             );
 
-            long feedCount = utilityMongoTemplate.count(
+            long feedCount = feedMongoTemplate.count(
                     Query.query(Criteria.where("memberUuid").is(memberUuid)),
                     "feed"
             );
 
-            long shortsCount = utilityMongoTemplate.count(
+            long shortsCount = shortsMongoTemplate.count(
                     Query.query(Criteria.where("memberUuid").is(memberUuid)),
                     "shorts"
             );
-
+            log.info("Member read: {}, follower: {}, following: {}, feedCnt: {}, shortsCnt: {}"
+                    , memberUuid, followerCount, followingCount, feedCount, shortsCount);
 
             return MemberRead.builder()
                     .memberUuid(memberRead.getMemberUuid())
@@ -134,10 +130,22 @@ public class UtilityBatchConfig {
 
     @Bean
     public ItemWriter<MemberRead> memberWriter() {
-        return items -> memberMongoTemplate.bulkOps(
-                BulkOperations.BulkMode.UNORDERED,
-                MemberRead.class,
-                "member"
-        ).insert(items).execute();
+        return memberReadRepository::saveAll;
+    }
+
+    @Bean
+    public StepExecutionListener memberLoggingStepExecutionListener() {
+        return new StepExecutionListener() {
+            @Override
+            public void beforeStep(StepExecution stepExecution) {
+                log.info("Starting step: {}", stepExecution.getStepName());
+            }
+
+            @Override
+            public ExitStatus afterStep(StepExecution stepExecution) {
+                log.info("Completed step: {} with status: {}", stepExecution.getStepName(), stepExecution.getStatus());
+                return stepExecution.getExitStatus();
+            }
+        };
     }
 }

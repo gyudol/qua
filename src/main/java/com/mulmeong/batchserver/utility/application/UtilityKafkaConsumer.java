@@ -7,6 +7,7 @@ import com.mulmeong.batchserver.comment.application.ShortsRecommentService;
 import com.mulmeong.batchserver.common.exception.BaseException;
 import com.mulmeong.batchserver.common.response.BaseResponseStatus;
 import com.mulmeong.batchserver.feed.application.FeedService;
+import com.mulmeong.batchserver.member.application.MemberService;
 import com.mulmeong.batchserver.shorts.application.ShortsService;
 import com.mulmeong.event.utility.consume.*;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class UtilityKafkaConsumer {
     private final FollowService followService;
     private final FeedService feedService;
     private final ShortsService shortsService;
+    private final MemberService memberService;
     private final FeedCommentService feedCommentService;
     private final FeedRecommentService feedRecommentService;
     private final ShortsCommentService shortsCommentService;
@@ -46,6 +48,7 @@ public class UtilityKafkaConsumer {
     public void feedCreated(FeedCreateEvent message) {
         log.info("feed create message: {}", message.getFeedUuid());
         followService.createFeedFollowerAlert(message);
+        memberService.updateFeedCount(message);
     }
 
     @KafkaListener(topics = "${event.shorts.pub.topics.shorts-create.name}",
@@ -53,6 +56,7 @@ public class UtilityKafkaConsumer {
     public void shortsCreated(ShortsCreateEvent message) {
         log.info("shorts create message: {}", message.getShortsUuid());
         followService.createShortsFollowerAlert(message);
+        memberService.updateShortsCount(message);
     }
 
     @KafkaListener(topics = "${event.utility.pub.topics.like-renew-create.name}",
