@@ -36,7 +36,7 @@ public class FeedEventHandlerServiceImpl implements FeedEventHandlerService {
             try {
                 hashtagEventRepository.save(hashtag);
             } catch (DataIntegrityViolationException e) {
-                log.error("{}: {}", hashtag.getName(), HASHTAG_DUPLICATE_KEY.getMessage());
+                log.info("{}: {}", hashtag.getName(), HASHTAG_DUPLICATE_KEY.getMessage());
             }
         });
     }

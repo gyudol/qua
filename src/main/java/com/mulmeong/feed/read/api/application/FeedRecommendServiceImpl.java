@@ -44,12 +44,11 @@ public class FeedRecommendServiceImpl implements FeedRecommendService {
             .map(CategoryDto::getId)
             .map(categoryId -> feignService.getCategory(categoryId).getCategoryName())
             .orElse("일상");
-        String interestHashtag = Optional.ofNullable(
+        List<String> interestHashtag = Optional.ofNullable(
                 feignService.getInterestHashtag(requestDto.getMemberUuid()))
             .filter(list -> !list.isEmpty())
-            .map(list -> list.get(0))
-            .map(HashtagDto::getName)
-            .orElse("물");
+            .map(list -> list.stream().map(HashtagDto::getName).toList())
+            .orElse(List.of("물"));
         List<String> followingList = feignService.getAllFollowings(requestDto.getMemberUuid());
 
         log.info("Interest Category: {}", interestCategory);
@@ -58,7 +57,7 @@ public class FeedRecommendServiceImpl implements FeedRecommendService {
 
         List<Query> shouldQueries = new ArrayList<>();
 
-        Optional.ofNullable(interestCategory).ifPresent(category -> {
+        Optional.of(interestCategory).ifPresent(category -> {
             shouldQueries.add(new Query.Builder()
                 .match(m -> m
                     .field("title")
@@ -91,38 +90,40 @@ public class FeedRecommendServiceImpl implements FeedRecommendService {
                 .build());
         });
 
-        Optional.ofNullable(interestHashtag).ifPresent(hashtag -> {
-            shouldQueries.add(new Query.Builder()
-                .match(m -> m
-                    .field("title")
-                    .query(hashtag)
-                    .boost(1.2F)
-                    .fuzziness("AUTO"))
-                .build());
+        Optional.of(interestHashtag).ifPresent(hashtags -> {
+            hashtags.forEach(hashtag -> {
+                shouldQueries.add(new Query.Builder()
+                    .match(m -> m
+                        .field("title")
+                        .query(hashtag)
+                        .boost(1.2F)
+                        .fuzziness("AUTO"))
+                    .build());
 
-            shouldQueries.add(new Query.Builder()
-                .match(m -> m
-                    .field("content")
-                    .query(hashtag)
-                    .boost(1.2F)
-                    .fuzziness("AUTO"))
-                .build());
+                shouldQueries.add(new Query.Builder()
+                    .match(m -> m
+                        .field("content")
+                        .query(hashtag)
+                        .boost(1.2F)
+                        .fuzziness("AUTO"))
+                    .build());
 
-            shouldQueries.add(new Query.Builder()
-                .match(m -> m
-                    .field("categoryName")
-                    .query(hashtag)
-                    .boost(1.2F)
-                    .fuzziness("AUTO"))
-                .build());
+                shouldQueries.add(new Query.Builder()
+                    .match(m -> m
+                        .field("categoryName")
+                        .query(hashtag)
+                        .boost(1.2F)
+                        .fuzziness("AUTO"))
+                    .build());
 
-            shouldQueries.add(new Query.Builder()
-                .match(m -> m
-                    .field("hashtags.name")
-                    .query(hashtag)
-                    .boost(1.6F)
-                    .fuzziness("AUTO"))
-                .build());
+                shouldQueries.add(new Query.Builder()
+                    .match(m -> m
+                        .field("hashtags.name")
+                        .query(hashtag)
+                        .boost(1.6F)
+                        .fuzziness("AUTO"))
+                    .build());
+            });
         });
 
         // 2. Boost based on memberUuid in followingList
