@@ -65,7 +65,7 @@ public class LikesService implements LikesUseCase {
 
     @Override
     public void renewValidate(LikesRenewRequestDto requestDto) {
-        if (requestDto.getLikeCount() < 10) {
+        if (requestDto.getLikeCount() < 100) {
             eventPublisher.sendLikedRenewEvent(LikeRenewCreateEvent.toDto(requestDto));
         }
     }
