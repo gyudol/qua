@@ -20,7 +20,6 @@ export async function getFeedRecomments({
     headers: await getHeaders(),
     method: "GET",
     cache: "no-cache",
-    next: { revalidate: 1 },
   });
 
   return processResponse<FeedRecomment, true>({ res });
