@@ -6,7 +6,6 @@ import com.mulmeong.batchserver.comment.infrastructure.repository.FeedCommentRea
 import com.mulmeong.batchserver.comment.infrastructure.repository.FeedRecommentReadRepository;
 import com.mulmeong.batchserver.utility.infrastructure.repository.DislikesRepository;
 import com.mulmeong.batchserver.utility.infrastructure.repository.LikesRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.*;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -32,7 +31,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 @EnableScheduling
 @EnableBatchProcessing
-@RequiredArgsConstructor
 @Slf4j
 public class FeedCommentBatchConfig {
 
@@ -41,10 +39,28 @@ public class FeedCommentBatchConfig {
     private final FeedRecommentReadRepository feedRecommentReadRepository;
     private final LikesRepository likesRepository;
     private final DislikesRepository dislikesRepository;
-    @Qualifier("commentReadMongoTemplate")
     private final MongoTemplate commentReadMongoTemplate;
     private final JobRepository jobRepository;
     private final JobLauncher jobLauncher;
+
+    public FeedCommentBatchConfig(
+            PlatformTransactionManager transactionManager,
+            FeedCommentReadRepository feedCommentReadRepository,
+            FeedRecommentReadRepository feedRecommentReadRepository,
+            LikesRepository likesRepository,
+            DislikesRepository dislikesRepository,
+            @Qualifier("commentReadMongoTemplate") MongoTemplate commentReadMongoTemplate,
+            JobRepository jobRepository,
+            JobLauncher jobLauncher) {
+        this.transactionManager = transactionManager;
+        this.feedCommentReadRepository = feedCommentReadRepository;
+        this.feedRecommentReadRepository = feedRecommentReadRepository;
+        this.likesRepository = likesRepository;
+        this.dislikesRepository = dislikesRepository;
+        this.commentReadMongoTemplate = commentReadMongoTemplate;
+        this.jobRepository = jobRepository;
+        this.jobLauncher = jobLauncher;
+    }
 
     @Scheduled(fixedRate = 300000)
     public void runFeedCommentRenewJob() throws Exception {

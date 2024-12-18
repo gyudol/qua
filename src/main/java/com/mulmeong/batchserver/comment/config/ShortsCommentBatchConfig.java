@@ -32,7 +32,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 @EnableScheduling
 @EnableBatchProcessing
-@RequiredArgsConstructor
 @Slf4j
 public class ShortsCommentBatchConfig {
 
@@ -41,10 +40,28 @@ public class ShortsCommentBatchConfig {
     private final ShortsRecommentReadRepository shortsRecommentReadRepository;
     private final LikesRepository likesRepository;
     private final DislikesRepository dislikesRepository;
-    @Qualifier("commentReadMongoTemplate")
-    private final  MongoTemplate commentReadMongoTemplate;
+    private final MongoTemplate commentReadMongoTemplate;
     private final JobRepository jobRepository;
     private final JobLauncher jobLauncher;
+
+    public ShortsCommentBatchConfig(
+            PlatformTransactionManager transactionManager,
+            ShortsCommentReadRepository shortsCommentReadRepository,
+            ShortsRecommentReadRepository shortsRecommentReadRepository,
+            LikesRepository likesRepository,
+            DislikesRepository dislikesRepository,
+            @Qualifier("commentReadMongoTemplate") MongoTemplate commentReadMongoTemplate,
+            JobRepository jobRepository,
+            JobLauncher jobLauncher) {
+        this.transactionManager = transactionManager;
+        this.shortsCommentReadRepository = shortsCommentReadRepository;
+        this.shortsRecommentReadRepository = shortsRecommentReadRepository;
+        this.likesRepository = likesRepository;
+        this.dislikesRepository = dislikesRepository;
+        this.commentReadMongoTemplate = commentReadMongoTemplate;
+        this.jobRepository = jobRepository;
+        this.jobLauncher = jobLauncher;
+    }
 
     @Scheduled(fixedRate = 300000)
     public void runShortsCommentRenewJob() throws Exception {

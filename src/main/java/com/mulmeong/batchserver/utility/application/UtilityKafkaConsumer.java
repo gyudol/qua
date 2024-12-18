@@ -7,6 +7,7 @@ import com.mulmeong.batchserver.comment.application.ShortsRecommentService;
 import com.mulmeong.batchserver.common.exception.BaseException;
 import com.mulmeong.batchserver.common.response.BaseResponseStatus;
 import com.mulmeong.batchserver.feed.application.FeedService;
+import com.mulmeong.batchserver.member.application.MemberService;
 import com.mulmeong.batchserver.shorts.application.ShortsService;
 import com.mulmeong.event.utility.consume.*;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class UtilityKafkaConsumer {
     private final FollowService followService;
     private final FeedService feedService;
     private final ShortsService shortsService;
+    private final MemberService memberService;
     private final FeedCommentService feedCommentService;
     private final FeedRecommentService feedRecommentService;
     private final ShortsCommentService shortsCommentService;
@@ -46,6 +48,7 @@ public class UtilityKafkaConsumer {
     public void feedCreated(FeedCreateEvent message) {
         log.info("feed create message: {}", message.getFeedUuid());
         followService.createFeedFollowerAlert(message);
+        memberService.updateFeedCount(message);
     }
 
     @KafkaListener(topics = "${event.shorts.pub.topics.shorts-create.name}",
@@ -53,11 +56,13 @@ public class UtilityKafkaConsumer {
     public void shortsCreated(ShortsCreateEvent message) {
         log.info("shorts create message: {}", message.getShortsUuid());
         followService.createShortsFollowerAlert(message);
+        memberService.updateShortsCount(message);
     }
 
     @KafkaListener(topics = "${event.utility.pub.topics.like-renew-create.name}",
             containerFactory = "likeRenewCreateListener")
-    public void likesRenewCreated(LikeRenewCreateEvent message) {
+    public void likesRenewCreated(LikeRenewCreateEvent message) throws InterruptedException {
+        Thread.sleep(1000);
         String kind = message.getKind();
         log.info("like message: {}", kind);
         switch (kind) {
@@ -85,7 +90,8 @@ public class UtilityKafkaConsumer {
 
     @KafkaListener(topics = "${event.utility.pub.topics.dislike-renew-create.name}",
             containerFactory = "dislikeRenewCreateListener")
-    public void dislikesCreated(DislikeRenewCreateEvent message) {
+    public void dislikesCreated(DislikeRenewCreateEvent message) throws InterruptedException {
+        Thread.sleep(1000);
         String kind = message.getKind();
         log.info("dislike message: {}", kind);
         switch (kind) {
@@ -113,27 +119,31 @@ public class UtilityKafkaConsumer {
 
     @KafkaListener(topics = "${event.comment.pub.topics.feed-comment-create.name}",
             containerFactory = "feedCommentCreateListener")
-    public void feedCommentCreated(FeedCommentCreateEvent message) {
+    public void feedCommentCreated(FeedCommentCreateEvent message) throws InterruptedException {
+        Thread.sleep(1000);
         log.info("feed comment create message: {}", message.getFeedUuid());
         feedService.feedCommentCountRenew(message);
     }
 
     @KafkaListener(topics = "${event.comment.pub.topics.shorts-comment-create.name}",
             containerFactory = "shortsCommentCreateListener")
-    public void shortsCommentCreated(ShortsCommentCreateEvent message) {
+    public void shortsCommentCreated(ShortsCommentCreateEvent message) throws InterruptedException {
+        Thread.sleep(1000);
         log.info("shorts comment create message: {}", message.getShortsUuid());
         shortsService.shortsCommentCountRenew(message);
     }
 
     @KafkaListener(topics = "${event.comment.pub.topics.feed-comment-delete.name}",
             containerFactory = "feedCommentDeleteListener")
-    public void shortsCommentCreated(FeedCommentDeleteEvent message) {
+    public void feedCommentDeleted(FeedCommentDeleteEvent message) throws InterruptedException {
+        Thread.sleep(1000);
         feedService.feedCommentCountRenew(message);
     }
 
     @KafkaListener(topics = "${event.comment.pub.topics.shorts-comment-delete.name}",
             containerFactory = "shortsCommentDeleteListener")
-    public void shortsCommentDeleted(ShortsCommentDeleteEvent message) {
+    public void shortsCommentDeleted(ShortsCommentDeleteEvent message) throws InterruptedException {
+        Thread.sleep(1000);
         shortsService.shortsCommentCountRenew(message);
     }
 
