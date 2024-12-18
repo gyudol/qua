@@ -14,7 +14,9 @@ export default async function page({
   const shorts = await getShorts({ shortsUuid });
   return (
     <PageContainer>
-      <CommentDrawerContextProvider>
+      <CommentDrawerContextProvider
+        defaultValue={{ targetType: "shorts", targetUuid: shortsUuid }}
+      >
         <div className="relative size-full">
           <ShortsSlideContent {...shorts} isActive />
         </div>

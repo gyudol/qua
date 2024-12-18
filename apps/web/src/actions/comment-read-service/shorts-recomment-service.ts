@@ -20,7 +20,6 @@ export async function getShortsRecomments({
     headers: await getHeaders(),
     method: "GET",
     cache: "no-cache",
-    next: { revalidate: 1 },
   });
 
   return processResponse<ShortsRecomment, true>({ res });
