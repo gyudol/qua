@@ -11,7 +11,7 @@ import type { MemberProfile } from "@/types/member/member-read-service";
 import { FeedReportButton } from "../atoms/FeedReportButton";
 // import { FeedEditButton } from '../atoms/FeedEditButton';
 import { FeedDeleteButton } from "../atoms/FeedDeleteButton";
-import { FeedChatButton } from "../atoms/FeedChatButton";
+// import { FeedChatButton } from "../atoms/FeedChatButton";
 
 type FeedMoreOptionProps = Pick<Feed, "feedUuid" | "memberUuid"> &
   Partial<Pick<MemberProfile, "nickname">>;
@@ -19,7 +19,7 @@ type FeedMoreOptionProps = Pick<Feed, "feedUuid" | "memberUuid"> &
 export function FeedMoreOption({
   feedUuid,
   memberUuid,
-  nickname,
+  // nickname,
 }: FeedMoreOptionProps) {
   const { memberUuid: sessionUuid } = useSessionContext();
 
@@ -31,11 +31,11 @@ export function FeedMoreOption({
       <DropdownMenuContent className="rounded-lg shadow-xl">
         {sessionUuid !== memberUuid ? (
           <>
-            {nickname ? (
+            {/* {nickname ? (
               <DropdownMenuItem className="py-0 text-xs">
                 <FeedChatButton {...{ nickname }} />
               </DropdownMenuItem>
-            ) : null}
+            ) : null} */}
             <DropdownMenuItem className="py-0 text-xs">
               <FeedReportButton {...{ feedUuid }} />
             </DropdownMenuItem>

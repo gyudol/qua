@@ -1,22 +1,26 @@
 "use client";
 
 import { Send } from "lucide-react";
+import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@repo/ui/lib/utils";
 import { useInfiniteScroll } from "@/hooks";
 import {
-  useGetChatbotChatMutation,
+  // useGetChatbotChatMutation,
   useGetChatbotHistoryByCharacterInfiniteQuery,
 } from "@/hooks/chat-service/chatbot-service";
 import type {
   ChatbotCharacter,
   ChatbotChatRecord,
 } from "@/types/chat-service/chatbot-service";
+import { getChatbotChat } from "@/actions/chat-service/chatbot-service";
 
 export default function ChatbotChatContainer({
+  newChats,
   character,
 }: {
   character: ChatbotCharacter;
+  newChats: ChatbotChatRecord[];
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage, status } =
@@ -35,19 +39,29 @@ export default function ChatbotChatContainer({
   }, [status]);
 
   return (
-    <div
-      ref={ref}
-      className="w-full flex flex-col-reverse p-[1rem] gap-4 bg-zinc-100"
-    >
-      <div ref={observerRef} />
-      {data?.pages[0].content.length
-        ? data.pages.map((page) =>
-            page.content.map((chat) => (
-              <ChatbotChat key={chat.createdAt} {...chat} />
-            )),
-          )
-        : null}
-    </div>
+    <>
+      <div
+        ref={ref}
+        className="w-full flex flex-col-reverse px-[1rem] pt-[1rem] gap-4 bg-zinc-100"
+      >
+        <div ref={observerRef} />
+        {data?.pages[0].content.length
+          ? data.pages.map((page) =>
+              page.content.map((chat) => (
+                <ChatbotChat key={chat.createdAt} {...chat} />
+              )),
+            )
+          : null}
+      </div>
+      <div
+        ref={ref}
+        className="w-full flex flex-col px-[1rem] pb-[1rem] gap-4 bg-zinc-100"
+      >
+        {newChats.map((chat) => (
+          <ChatbotChat key={chat.createdAt} {...chat} />
+        ))}
+      </div>
+    </>
   );
 }
 
@@ -77,21 +91,38 @@ function ChatbotChat({ message, role }: ChatbotChatRecord) {
 
 export function ChatbotChatInputSection({
   character,
+  setNewChats,
 }: {
   character: ChatbotCharacter;
+  setNewChats: Dispatch<SetStateAction<ChatbotChatRecord[]>>;
 }) {
   const heightPerLine = 1.5;
   const [message, setMessage] = useState<string>("");
   const [line, setLine] = useState(1);
-  const { mutate } = useGetChatbotChatMutation({ character });
+  // const { mutate } = useGetChatbotChatMutation({ character });
+
+  const [answer, setAnswer] = useState<ChatbotChatRecord>();
 
   useEffect(() => {
     setLine(Math.min(message.split("\n").length, 6));
   }, [message]);
 
-  function onClick() {
-    mutate({ message });
+  useEffect(() => {
+    if (answer) setNewChats((prev) => [...prev, answer]);
+  }, [answer]);
+
+  async function onClick() {
     setMessage("");
+    const myChat: ChatbotChatRecord = {
+      character,
+      role: "user",
+      message,
+      createdAt: new Date().toString(),
+    } as ChatbotChatRecord;
+    setNewChats((prev) => [...prev, myChat]);
+
+    const chat = await getChatbotChat({ message, character });
+    setAnswer(chat);
   }
 
   return (
@@ -119,7 +150,7 @@ export function ChatbotChatInputSection({
           className="
       flex justify-center items-center
       p-3  bg-teal-400 rounded-full"
-          {...{ onClick }}
+          {...{ onClick: () => void onClick() }}
         >
           <Send className="stroke-white" />
         </button>

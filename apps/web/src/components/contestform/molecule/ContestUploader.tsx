@@ -44,6 +44,7 @@ function ImageUploader({
     const uniqueUuid = UuidConverter();
     const uniqueFileName = `${uniqueUuid}.${fileExtention}`;
 
+    toast.info("잠시만 기다려주세요.");
     const s3Url = await uploadFileToS3(file, uniqueFileName);
 
     if (!s3Url) return;

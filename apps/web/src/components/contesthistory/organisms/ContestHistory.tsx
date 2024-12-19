@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import type { Winner } from "@/types/contest/contest";
+import { getMemberNickname } from "@/actions/member-service";
 
 interface ContestHistoryProps {
   winners: Winner[];
@@ -20,6 +21,15 @@ function ContestHistory({
 }: ContestHistoryProps) {
   const [showDetails, setShowDetails] = useState(false);
   const [showWinners, setShowWinners] = useState(false);
+  const [winnerNames, setWinnerNames] = useState<string[]>([]);
+
+  useEffect(() => {
+    void Promise.all(
+      winners.map(({ memberUuid }) => getMemberNickname({ memberUuid })),
+    ).then((names: string[]) => {
+      setWinnerNames(names);
+    });
+  }, [winners]);
 
   return (
     <div className="bg-slate-400 p-4 text-white rounded-xl mt-5">
@@ -79,13 +89,13 @@ function ContestHistory({
                   🏆 Top 3 Winners
                 </h3>
                 <div className="space-y-3">
-                  {winners.map((winner) => (
+                  {winners.map((winner, i) => (
                     <div
                       key={winner.ranking}
                       className="flex justify-between items-center text-black bg-gray-100 p-4 rounded-lg shadow-sm"
                     >
                       <span className="font-medium text-gray-900 text-sm sm:text-base">
-                        {winner.ranking}. {contestName}
+                        {winner.ranking}. {winnerNames[i]}
                       </span>
                       <span className="text-[#47D0BF] font-bold text-sm sm:text-base">
                         {winner.voteCount} 투표 수
