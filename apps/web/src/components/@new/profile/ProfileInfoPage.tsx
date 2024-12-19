@@ -1,6 +1,5 @@
 import { Separator } from "@repo/ui/shadcn/separator";
 import Image from "next/image";
-import { ImageIcon, PencilLine } from "lucide-react";
 import { cn } from "@repo/ui/lib/utils";
 import Link from "next/link";
 import { getHashtagInterests } from "@/actions/member-service/interests";
@@ -34,12 +33,12 @@ export default async function ProfileInfoPage({
           <MemberProfileImage
             {...{ profileImageUrl, nickname, size: "8rem" }}
           />
-          <button
+          {/* <button
             type="button"
             className="absolute -right-1 -bottom-1 size-[2.5rem] flex justify-center items-center bg-teal-400 p-1 rounded-2xl"
           >
             <ImageIcon size="1.5rem" className="stroke-white" />
-          </button>
+          </button> */}
         </div>
         <div className="flex gap-2 items-center">
           <p className="text-lg font-bold">{nickname}</p>
@@ -62,7 +61,7 @@ export default async function ProfileInfoPage({
             ) : null}
           </div>
         </div>
-        {my ? (
+        {/* {my ? (
           <div>
             <button
               type="button"
@@ -72,7 +71,7 @@ export default async function ProfileInfoPage({
               <span>edit</span>
             </button>
           </div>
-        ) : null}
+        ) : null} */}
       </section>
       <Separator className="h-[0.5rem] bg-zinc-100" />
       <GradeAndPointSection {...{ memberUuid, gradeId }} />
@@ -188,7 +187,7 @@ async function BadgeAndInterestsSection({
             <div className="text-sm border-b border-black">더보기</div>
           ) : null}
         </div>
-        <ul className="w-full flex flex-col">
+        <ul className="w-full flex flex-col mb-[1rem]">
           {equippedBadgeId ? (
             <li className="w-full">
               <BadgeListItem {...{ badgeId: equippedBadgeId, my }} equipped />
@@ -200,6 +199,7 @@ async function BadgeAndInterestsSection({
             .map(({ badgeId }) => (
               <BadgeListItem key={badgeId} {...{ badgeId, my }} />
             ))}
+          {badges.length === 0 ? <li>보유한 뱃지가 없습니다.</li> : null}
         </ul>
       </div>
       <div className="flex flex-col gap-[1rem]">
@@ -208,7 +208,7 @@ async function BadgeAndInterestsSection({
         </div>
         <div className="flex gap-2 flex-wrap">
           {interests.map(({ name }) => (
-            <Link key={name} href={`/search?keyword=#${name}`}>
+            <Link key={name} href={`/search?keyword=%23${name}`}>
               <div className="border-2 border-teal-400 text-teal-400 font-bold text px-2 py-1 rounded-2xl">
                 #{name}
               </div>
