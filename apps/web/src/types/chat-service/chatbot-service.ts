@@ -32,7 +32,7 @@ export interface ChatbotChatRecord {
   role: ChatbotChatRole;
   message: string;
   chatRoomUuid: string;
-  createdAt: Datetime;
+  createdAt: string;
 }
 
 export interface ChatbotChatRoomInfo {

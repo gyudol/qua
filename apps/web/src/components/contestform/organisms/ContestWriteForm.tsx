@@ -2,11 +2,11 @@
 
 import { Button } from "@repo/ui/shadcn/button";
 import { useRef, useState } from "react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import { contestPost } from "@/actions/contest/contest";
 import type { MediaContest } from "@/types/contest/contest";
 import ContestFormFields from "./ContestFormFields";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 
 interface ContestFormProps {
   contestId: number;
