@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { signIn } from "next-auth/react";
+import { toast } from "sonner";
 import {
   Bubbles,
   KakaoButton,
@@ -14,7 +15,10 @@ function SignInForm({ callbackUrl }: { callbackUrl?: string }) {
   };
 
   const handleNaverSignIn = () => {
-    signIn("naver", { callbackUrl: callbackUrl || "/" }).catch(() => null);
+    toast.info(
+      "현재 네이버 로그인의 경우 '앱 인증' 절차가 진행되는 중 입니다.",
+    );
+    // signIn("naver", { callbackUrl: callbackUrl || "/" }).catch(() => null);
   };
 
   return (

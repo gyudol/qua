@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import ChatbotChatContainer, {
   ChatbotChatInputSection,
 } from "@/components/@new/chat-bot/ChatbotChatContainer";
@@ -8,7 +9,6 @@ import type {
   ChatbotCharacter,
   ChatbotChatRecord,
 } from "@/types/chat-service/chatbot-service";
-import { useState } from "react";
 
 export default function ChatbotPage({
   character,

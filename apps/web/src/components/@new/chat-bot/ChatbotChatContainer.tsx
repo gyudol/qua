@@ -1,7 +1,8 @@
 "use client";
 
 import { Send } from "lucide-react";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@repo/ui/lib/utils";
 import { useInfiniteScroll } from "@/hooks";
 import {

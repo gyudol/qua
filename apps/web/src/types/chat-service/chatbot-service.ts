@@ -1,4 +1,4 @@
-import type { CommonPaginationReq, Datetime } from "../common";
+import type { CommonPaginationReq } from "../common";
 
 export type ChatbotCharacter = "nimo" | "dori";
 
