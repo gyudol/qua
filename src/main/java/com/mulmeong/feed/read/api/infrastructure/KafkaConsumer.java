@@ -4,6 +4,7 @@ import com.mulmeong.feed.read.api.application.FeedEventHandlerService;
 import com.mulmeong.feed.read.api.domain.event.FeedCreateEvent;
 import com.mulmeong.feed.read.api.domain.event.FeedDeleteEvent;
 import com.mulmeong.feed.read.api.domain.event.FeedHashtagUpdateEvent;
+import com.mulmeong.feed.read.api.domain.event.FeedMetricsUpdateEvent;
 import com.mulmeong.feed.read.api.domain.event.FeedStatusUpdateEvent;
 import com.mulmeong.feed.read.api.domain.event.FeedUpdateEvent;
 import lombok.RequiredArgsConstructor;
@@ -61,6 +62,15 @@ public class KafkaConsumer {
         log.info("Consumed feed-updated event: {}", event);
         feedEventHandlerService.updateFeedFromEvent(event);
         log.info("Successfully processed feed-updated event: {}", event);
+    }
+
+    @KafkaListener(topics = "${event.feed.pub.topics.feed-metrics-update.name}",
+        containerFactory = "feedMetricsUpdateEventListener")
+    public void consumeFeedMetricsUpdateEvent(FeedMetricsUpdateEvent event) {
+
+        log.info("Consumed feed-metrics-updated event: {}", event);
+        feedEventHandlerService.updateFeedMetricsFromEvent(event);
+        log.info("Successfully processed feed-metrics-updated event: {}", event);
     }
 
 }
