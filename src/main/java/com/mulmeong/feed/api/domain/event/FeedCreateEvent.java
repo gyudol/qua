@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 public class FeedCreateEvent {
 
-    private  String feedUuid;
+    private String feedUuid;
     private String memberUuid;
     private String title;
     private String content;

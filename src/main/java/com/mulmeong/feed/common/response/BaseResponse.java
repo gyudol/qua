@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatusCode;
 
 import static com.mulmeong.feed.common.response.BaseResponseStatus.SUCCESS;
 
-public record BaseResponse<T>(HttpStatusCode httpStatus, Boolean isSuccess, String message,
+public record BaseResponse<T>(HttpStatus httpStatus, Boolean isSuccess, String message,
                               int code, T result) {
 
     // 필요값 : Http 상태코드, 성공여부, 메시지, 에러코드, 결과값
@@ -34,7 +34,7 @@ public record BaseResponse<T>(HttpStatusCode httpStatus, Boolean isSuccess, Stri
      * @param status 응답 상태
      */
     public BaseResponse(BaseResponseStatus status) {
-        this(status.getHttpStatusCode(), false, status.getMessage(), status.getCode(),
+        this(status.getHttpStatus(), false, status.getMessage(), status.getCode(),
             TypeCaster.castMessage(status.getMessage()));
     }
 
@@ -45,7 +45,7 @@ public record BaseResponse<T>(HttpStatusCode httpStatus, Boolean isSuccess, Stri
      * @param message 에러 메시지
      */
     public BaseResponse(BaseResponseStatus status, String message) {
-        this(status.getHttpStatusCode(), false, message, status.getCode(),
+        this(status.getHttpStatus(), false, message, status.getCode(),
             TypeCaster.castMessage(status.getMessage()));
     }
 

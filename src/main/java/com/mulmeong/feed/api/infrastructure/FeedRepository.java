@@ -8,4 +8,6 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
 
     Optional<Feed> findByFeedUuid(String feedUuid);
 
+    void deleteByFeedUuid(String feedUuid);
+
 }
