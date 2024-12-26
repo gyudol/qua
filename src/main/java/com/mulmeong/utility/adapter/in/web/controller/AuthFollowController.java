@@ -20,7 +20,8 @@ public class AuthFollowController {
     @Operation(summary = "source -> target 팔로우", tags = {"follow Service"})
     @PostMapping("/{sourceUuid}/following/{targetUuid}")
     public BaseResponse<Void> follow(@PathVariable String sourceUuid, @PathVariable String targetUuid) {
-        followUseCase.follow(new FollowRequestDto(sourceUuid, targetUuid));
+        FollowRequestDto requestDto = new FollowRequestDto(sourceUuid, targetUuid);
+        followUseCase.follow(requestDto);
         return new BaseResponse<>();
     }
 
