@@ -158,9 +158,9 @@
 - **Language |** Java 17
 - **Framework |** Spring Boot 3.3.5
 - **Library |** Spring Eureka, Spring Cloud Config, Spring Security, Spring Batch, Spring Validation, Spring Data JPA, Spring Kafka, Spring Data MongoDB, Spring Data Elasticsearch, Spring Data Redis, Spring OpenFeign, Spring Cloud GCP, Google Cloud Vision 3.4.0, GRPC Netty Shaded 1.67.1, Springdoc OpenAPI 2.6.0, Querydsl 5.0.0
-- **Database |** MySQL 9.1.0, 
+- **Database |** Apache Kafka 3.8.1, MySQL 9.1.0, MongoDB 8.0.3, Redis 7.4.1, Elasticsearch 8.15.5
 - **IDE |** IntelliJ IDEA 2024.2 (Ultimate Edition)
-- **Build Tool |** Gradle 8.8.0
+- **Build Tool |** Gradle 8.11.1
 
 ### ⚙️ DevOps
 <div align="center">
