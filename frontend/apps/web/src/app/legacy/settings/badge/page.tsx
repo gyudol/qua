@@ -1,0 +1,18 @@
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { CommonLayout } from "@/components/common/atoms";
+import { options } from "@/app/api/auth/[...nextauth]/authOption";
+import { MemberBadgeListSection } from "@/components/settings/badge/templates/BadgeSection";
+
+export default async function Page() {
+  const session = await getServerSession(options);
+  if (session?.user) {
+    const { memberUuid } = session.user as { memberUuid: string };
+    return (
+      <CommonLayout.Contents className="bg-white">
+        <MemberBadgeListSection {...{ memberUuid }} />
+      </CommonLayout.Contents>
+    );
+  }
+  redirect("/settings");
+}

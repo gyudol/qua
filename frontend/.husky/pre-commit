@@ -1,0 +1,2 @@
+turbo lint -- --fix
+pnpm exec lint-staged
