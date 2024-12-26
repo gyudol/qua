@@ -31,7 +31,7 @@ public enum BaseResponseStatus {
     FEED_FORBIDDEN(HttpStatus.FORBIDDEN, false, 1003, "피드 접근 권한이 없습니다."),
     FEED_NOT_FOUND(HttpStatus.NOT_FOUND, false, 1004, "존재하지 않는 게시글 정보입니다.");
 
-    private final HttpStatusCode httpStatusCode;
+    private final HttpStatus httpStatus;
     private final boolean isSuccess;
     private final int code;
     private final String message;
