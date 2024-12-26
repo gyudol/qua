@@ -1,0 +1,203 @@
+# Kafka Event 설정 파일
+## Kafka Event 정보를 중앙으로 관리하고, 각 서비스에서는 이 파일을 참조하여 topic, group-id를 사용합니다.
+### 이벤트 발행시에는 다른 서비스에서 구독할 수 있도록 본 파일에 이벤트를 추가해주세요.
+#### 이벤트 이름은 ${spring.profiles.active:default}-[event-name] 형식으로 작성해주세요. * profiles.active는 개발 환경에 따라 dev | local로 변경됩니다.
+#### 초안 작성자: SeongGwang Ju
+
+event:
+  # Member 도메인
+  member:
+    pub:
+      topics:
+        member-create: # event
+          name: ${spring.profiles.active:default}-member-created
+          dto : MemberCreateEvent # 이름 참고용 DTO, 세부 필드는 Figma 참고
+        nickname-update: # 회원 닉네임 수정시 발생(명확하다면 아래에서부터는 생략)
+          name: ${spring.profiles.active:default}-nickname-updated
+          dto: MemberNicknameUpdateEvent
+        profile-img-update:
+          name: ${spring.profiles.active:default}-profile-img-update
+          dto: MemberProfileImgUpdateEvent
+    sub: # member-read-service
+      group-id: ${spring.profiles.active:default}-member-read-group
+  # 아래에 각자 도메인에 맞게 추가해주세요.
+
+  # Feed 도메인
+  feed:
+    pub:
+      topics:
+        feed-create:
+          name: ${spring.profiles.active:default}-feed-created
+          dto: FeedCreateEvent
+        feed-delete:
+          name: ${spring.profiles.active:default}-feed-deleted
+          dto: FeedDeleteEvent
+        feed-update:
+          name: ${spring.profiles.active:default}-feed-updated
+          dto: FeedUpdateEvent
+        feed-hashtag-update:
+          name: ${spring.profiles.active:default}-feed-hashtag-updated
+          dto: FeedHashtagUpdateEvent
+        feed-status-update:
+          name: ${spring.profiles.active:default}-feed-status-updated
+          dto: FeedStatusUpdateEvent
+        feed-metrics-update:
+          name: ${spring.profiles.active:default}-feed-metrics-updated
+          dto: FeedMetricsUpdateEvent
+    sub:  # feed-read-service
+      group-id: ${spring.profiles.active:default}-feed-read-group
+
+  # Shorts 도메인
+  shorts:
+    pub:
+      topics:
+        shorts-create:
+          name: ${spring.profiles.active:default}-shorts-created
+          dto: ShortsCreateEvent
+        shorts-delete:
+          name: ${spring.profiles.active:default}-shorts-deleted
+          dto: ShortsDeleteEvent
+        shorts-update:
+          name: ${spring.profiles.active:default}-shorts-updated
+          dto: ShortsUpdateEvent
+        shorts-hashtag-update:
+          name: ${spring.profiles.active:default}-shorts-hashtag-updated
+          dto: ShortsHashtagUpdateEvent
+        shorts-status-update:
+          name: ${spring.profiles.active:default}-shorts-status-updated
+          dto: ShortsStatusUpdateEvent
+    sub:  # shorts-read-service
+      group-id: ${spring.profiles.active:default}-shorts-read-group
+      
+  #Comment 도메인
+  comment:
+    pub:
+      topics:
+        feed-comment-create:
+          name: ${spring.profiles.active:default}-feed-comment-created
+          dto: FeedCommentCreateEvent # 이름 참고용 DTO, 세부 필드는 Figma 참고
+        feed-comment-update:
+          name: ${spring.profiles.active:default}-feed-comment-updated
+          dto: FeedCommentUpdateEvent
+        feed-comment-delete:
+          name: ${spring.profiles.active:default}-feed-comment-deleted
+          dto: FeedCommentDeleteEvent
+        feed-recomment-create:
+          name: ${spring.profiles.active:default}-feed-recomment-created
+          dto: FeedRecommentCreateEvent 
+        feed-recomment-update:
+          name: ${spring.profiles.active:default}-feed-recomment-updated
+          dto: FeedRecommentUpdateEvent
+        feed-recomment-delete:
+          name: ${spring.profiles.active:default}-feed-recomment-deleted
+          dto: FeedRecommentDeleteEvent
+        shorts-comment-create:
+          name: ${spring.profiles.active:default}-short-comment-created
+          dto: ShortsCommentCreateEvent 
+        shorts-comment-update:
+          name: ${spring.profiles.active:default}-short-comment-updated
+          dto: ShortsCommentUpdateEvent
+        shorts-comment-delete:
+          name: ${spring.profiles.active:default}-short-comment-deleted
+          dto: ShortsCommentDeleteEvent
+        shorts-recomment-create:
+          name: ${spring.profiles.active:default}-short-recomment-created
+          dto: ShortsRecommentCreateEvent
+        shorts-recomment-update:
+          name: ${spring.profiles.active:default}-short-recomment-updated
+          dto: ShortsRecommentUpdateEvent
+        shorts-recomment-delete:
+          name: ${spring.profiles.active:default}-short-recomment-deleted
+          dto: ShortsRecommentDeleteEvent
+    sub:
+      group-id: ${spring.profiles.active:default}-comment-read-group
+
+  #Contest 도메인
+  contest:
+    pub:
+      topics:
+        contest-vote-update:
+          name: ${spring.profiles.active:default}-contest-vote-updated
+          dto: ContestVoteRenewEvent
+        contest-vote-record:
+          name: ${spring.profiles.active:default}-contest-vote-recorded
+          dto: ContestVoteRecordEvent
+        contest-result:
+          name: ${spring.profiles.active:default}-contest-top
+          dto: ContestVoteResultEvent
+        contest-status-alter:
+          name: ${spring.profiles.active:default}-contest-status-alt
+          dto: ContestStatusEvent
+        contest-post-create:
+          name: ${spring.profiles.active:default}-contest-post-created
+          dto: ContestPostCreateEvent
+    sub:
+      group-id: ${spring.profiles.active:default}-contest-post-group
+  
+  # Reward 도메인 - Badge, Grade
+  reward:
+    sub:
+      group-id: ${spring.profiles.active:default}-reward-group
+  badge:
+    pub:
+      topics:
+        member-badge-create:
+          name: ${spring.profiles.active:default}-member-badge-created
+          dto: MemberBadgeCreateEvent
+        member-badge-update:
+          name: ${spring.profiles.active:default}-member-badge-updated
+          dto: MemberBadgeUpdateEvent
+  
+  grade: 
+    pub:
+      topics:
+        member-grade-update: # 발행 예정, 성광
+          name: ${spring.profiles.active:default}-member-grade-updated
+          dto: MemberGradeUpdateEvent
+  # chat 도메인
+  chat:
+    pub:
+      topics:
+        chatting-create: #발행 예정, 성광
+          name: ${spring.profiles.active:default}-chatting-created
+          dto: ChattingCreateEvent
+
+  #utility 도메인
+  utility:
+    pub:
+      topics:
+        like-create:
+          name: ${spring.profiles.active:default}-like-created
+          dto: LikeCreateEvent
+        like-renew-create:
+          name: ${spring.profiles.active:default}-like-renew-created
+          dto: LikeRenewCreateEvent
+        dislike-renew-create:
+          name: ${spring.profiles.active:default}-dislike-renew-created
+          dto: DislikeRenewCreateEvent
+        feed-create-followers:
+          name: ${spring.profiles.active:default}-feed-created-followers
+          dto: FeedCreatedFollowersEvent
+        shorts-create-followers:
+          name: ${spring.profiles.active:default}-shorts-created-followers
+          dto: ShortsCreatedFollowersEvent
+        follow-create:
+          name: ${spring.profiles.active:default}-follow-created
+          dto: FollowCreateEvent
+        unfollow:
+          name: ${spring.profiles.active:default}-unfollow
+          dto: UnfollowEvent
+  #신고 도메인 #구현 필요
+  report:
+    pub:
+      topics:
+        report-create:
+          name: ${spring.profiles.active:default}-report-created
+          dto: ReportCreateEvent
+        report-approve: #관리자에 의해 적절한 신고로 인정된 경우, 포인트 감소 등의 조치시 사용
+          name: ${spring.profiles.active:default}-report-approved
+          dto: ReportAcceptEvent
+  #알림 도메인
+  notification:
+    sub:
+      group-id: ${spring.profiles.active:default}-notification-group

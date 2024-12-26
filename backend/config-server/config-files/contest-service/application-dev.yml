@@ -1,0 +1,54 @@
+server:
+  port: 25675
+mongodb:
+  encrypted-uri: "{cipher}a517cc0cd2e3d64f9a4a9ae03d15743aab0aca07131f9aebe85219010a2d50ff78e4590f7da8bcd516bbc04e3da3fa7d04dfb32012c7a01d4a5f92b18950122b178f28943790e0eda5eb9e14f0b05013"
+  base: "/contest_db?replicaSet=rs0&authSource=admin"
+    
+spring:
+  application:
+    name: contest-service
+    
+  datasource:
+    url: jdbc:mysql://qua-rdb/contest_db
+    username: "{cipher}876532613553ec861fdad2a10e7f4be2682e0845b8513d2ed09f5b9f34f63c90"
+    password: "{cipher}e2b85d7788b9f4330a8a552026592f5e2f2003475abd19d97971145f5b2da72558ad63bd423c9cb80d8d88f41a434189"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    
+    properties:
+      hibernate:
+        format_sql: true
+  data:
+    mongodb:
+      uri: "${mongodb.encrypted-uri}${mongodb.base}"
+      auto-index-creation: true
+    redis:
+      lettuce:
+        pool:
+          max-active: 10
+          max-idle: 10
+          min-idle: 2
+      host: "{cipher}ae016d0f02b9bd622fc8aecbc3641028d5234ba3b8ae7d12ca3ee9432c7e4e54"
+      port: 6379
+      password: "{cipher}710142fef4d9b369d5d250abad029544616dae3b0237c2fedf059b0af60a27c5"
+  kafka:
+    bootstrap-servers: kafka-primary:19092,kafka-secondary:19092,kafka-backup:19092
+    consumer:
+      group-id: contest-group
+  cloud:
+    gcp:
+      credentials:
+        location: classpath:google-credentials.json
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8516/eureka/

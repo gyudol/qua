@@ -1,0 +1,41 @@
+server:
+  port: 7210
+  forward-headers-strategy: framework
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8516/eureka/
+
+spring:
+  application:
+    name: gateway-service
+
+  main:
+    web-application-type: reactive
+
+  config:
+    import:
+    - optional:classpath:/gateway-config.yml
+    - optional:classpath:/routes-config.yml
+    - optional:classpath:/swagger-config.yml
+
+jwt:
+  secretKey: "{cipher}d41a1773631d457e42d09501b90c1c968a440c7283ea98dd6f81efd2c982ed138229bce5d135777673e4fb1bf0021c32715727e13622ad1474f558a9c79a2d503dd56b3f575fd42e169e5850c9daf885cf8f4f03d4b3cc6c4f4571dc57acf04d"
+  issuer: "{cipher}64e7dc4672176371545e3ff945cd2a7967c409a20cadcff32364ab051b97b8906d10d2e80c93c6dbb59ea6affcc5714e"
+  accessExpireTime: 36000000 # 10 hours
+  refreshExpireTime: 604800000 # 7 days
+  tokenPrefix: "Bearer "
+  accessTokenPrefix: "Authorization"
+  refreshTokenPrefix: "X-Refresh-Token"
+
+#로그 설정
+logging:
+  level:
+    root: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"

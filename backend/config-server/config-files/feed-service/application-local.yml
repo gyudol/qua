@@ -1,0 +1,38 @@
+server:
+  port: 25670
+mongodb:
+  encrypted-uri: "{cipher}a517cc0cd2e3d64f9a4a9ae03d15743aab0aca07131f9aebe85219010a2d50ff78e4590f7da8bcd516bbc04e3da3fa7d04dfb32012c7a01d4a5f92b18950122b178f28943790e0eda5eb9e14f0b05013"
+  base: "/feed_db?authSource=admin"
+mysql:
+  encrypted-uri: "{cipher}ee40345caa44b44f7c7d55e7ecc98145100cf54ffe8c16347cdb1aa3def2fb5ddc9d47668376a960576a40a1075432fa77102de4dc95d228f254a0d748eb7a32"
+  base: "/feed_db"
+spring:
+  application:
+    name: feed-service
+  dataSource:
+    url: "${mysql.encrypted-uri}${mysql.base}"
+    username: "{cipher}876532613553ec861fdad2a10e7f4be2682e0845b8513d2ed09f5b9f34f63c90"
+    password: "{cipher}e2b85d7788b9f4330a8a552026592f5e2f2003475abd19d97971145f5b2da72558ad63bd423c9cb80d8d88f41a434189"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    mongodb:
+      uri: "${mongodb.encrypted-uri}${mongodb.base}"
+      auto-index-creation: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+  kafka:
+    bootstrap-servers: "{cipher}a0ea7fa7614decbb52dca73ba151276b0038ab37fb82fcc63776a2bb407b8a9954ad6c97c9e9e7d65cbc442e9210e829675f016cbe2d9311b1a657dd1abe312b6691fd7b4341e1310f83061909ca44be"
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8516/eureka/

@@ -1,0 +1,48 @@
+server:
+  port: 25676
+
+mongodb:
+  encrypted-uri: "{cipher}a517cc0cd2e3d64f9a4a9ae03d15743aab0aca07131f9aebe85219010a2d50ff78e4590f7da8bcd516bbc04e3da3fa7d04dfb32012c7a01d4a5f92b18950122b178f28943790e0eda5eb9e14f0b05013"
+  base: "/chat_db?authSource=admin"
+
+spring:
+  application:
+    name: chat-service
+
+  config:
+    import: "optional:classpath:API-KEY.yml"
+
+  data:
+    mongodb:
+      uri: "${mongodb.encrypted-uri}${mongodb.base}"
+      auto-index-creation: true
+    redis:
+      lettuce:
+        pool:
+          max-active: 10
+          max-idle: 10
+          min-idle: 2
+      host: "{cipher}ca9a8f9c2411856993261468371f76cb789d803b3a1d799310535dc72e03281a"
+      port: 7379
+      password: "{cipher}710142fef4d9b369d5d250abad029544616dae3b0237c2fedf059b0af60a27c5"
+  kafka:
+    bootstrap-servers: "{cipher}a0ea7fa7614decbb52dca73ba151276b0038ab37fb82fcc63776a2bb407b8a9954ad6c97c9e9e7d65cbc442e9210e829675f016cbe2d9311b1a657dd1abe312b6691fd7b4341e1310f83061909ca44be"
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8516/eureka/
+
+API-KEY:
+  key: "{cipher}798106c5fea74a29552e3abc020873539509a44179e99986266ae149600b3b9bea8c0810bfadba16a061ab643f18a10055669e27d0a15f3379c60575fb8a0695b04b5a9932f2fecc2f1ecaec71cd204756b614bece28c6b8873f83491f4bb879b0d2198fb16dc36767351585a8032dfc6106eebdf6cf42cc83ff19d781c3076b998aa0a9c0c2c2c735266eddea9f1a431887e9dd88fc40283f2d93400b7e55fb69bdf0399360afc1d60a11c650d60bb7a1fe2d29a81264506a1fe719143cf15f"
+  url: "{cipher}63754571865d361ddd7c24fa418bca520dc0b7e29087218a39b6cb80660c20c5a90912f2a72779edb1369b15cb257171b43340415a32d63b8b82158b54362ae2"
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui/index.html
+  api-docs:
+    path: /v3/api-docs

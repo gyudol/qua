@@ -1,0 +1,39 @@
+# Dev
+server:
+  port: 25671
+
+spring:
+  application:
+    name: member-service
+
+  # Redis
+  data:
+    redis:
+      lettuce:
+        pool:
+          max-active: 10
+          max-idle: 10
+          min-idle: 2
+      host: "{cipher}ae016d0f02b9bd622fc8aecbc3641028d5234ba3b8ae7d12ca3ee9432c7e4e54"
+      port: 6379
+      password: "{cipher}710142fef4d9b369d5d250abad029544616dae3b0237c2fedf059b0af60a27c5"
+
+  # MySQL
+  datasource:
+    url: jdbc:mysql://qua-rdb/member_db
+    username: "{cipher}876532613553ec861fdad2a10e7f4be2682e0845b8513d2ed09f5b9f34f63c90"
+    password: "{cipher}e2b85d7788b9f4330a8a552026592f5e2f2003475abd19d97971145f5b2da72558ad63bd423c9cb80d8d88f41a434189"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # Kafka
+  kafka:
+    bootstrap-servers: kafka-primary:19092,kafka-secondary:19092,kafka-backup:19092
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8516/eureka/

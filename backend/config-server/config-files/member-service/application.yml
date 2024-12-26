@@ -1,0 +1,30 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+
+#set log level
+logging:
+  level:
+    root: info
+    org.hibernate.validator: info
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
+
+jwt:
+  secretKey: "{cipher}d41a1773631d457e42d09501b90c1c968a440c7283ea98dd6f81efd2c982ed138229bce5d135777673e4fb1bf0021c32715727e13622ad1474f558a9c79a2d503dd56b3f575fd42e169e5850c9daf885cf8f4f03d4b3cc6c4f4571dc57acf04d"
+  issuer: "{cipher}64e7dc4672176371545e3ff945cd2a7967c409a20cadcff32364ab051b97b8906d10d2e80c93c6dbb59ea6affcc5714e"
+  #accessExpireTime: 36000000 # 10hours
+  accessExpireTime: 604800000 # 10hours
+  refreshExpireTime: 604800000 # 7 days
+  tokenPrefix: "Bearer "
+  accessTokenPrefix: "Authorization"
+  refreshTokenPrefix: "X-Refresh-Token"
+
+defaultProfileImage:
+  url: "image/198af19d-bbc6-4252-a632-d1a1ccd5c659.webp"

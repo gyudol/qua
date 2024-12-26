@@ -1,0 +1,56 @@
+server:
+  port: 27670
+
+mongodb:
+  encrypted-uri: "{cipher}4c2437e12cbac1fef39e51d77da52ea9dd382f1c1c649d9789d66fac09e4e1c2ce4c6ee79d334720467789bac81caabae5fc9ebf82212192687bd30a70960f54aa467e6512e1d25943b7b6561914d10d4f3cf8a8c3eb410652bfa0e7490267f0"
+  base: "/feed_read_db?replicaSet=rs0&authSource=admin"
+
+spring:
+  application:
+    name: feed-read-service
+
+  dataSource:
+    url: jdbc:mysql://qua-rdb/feed_read_db
+    username: "{cipher}876532613553ec861fdad2a10e7f4be2682e0845b8513d2ed09f5b9f34f63c90"
+    password: "{cipher}e2b85d7788b9f4330a8a552026592f5e2f2003475abd19d97971145f5b2da72558ad63bd423c9cb80d8d88f41a434189"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  data:
+    mongodb:
+      uri: "${mongodb.encrypted-uri}${mongodb.base}"
+      auto-index-creation: true
+  elasticsearch:
+    username: "{cipher}58c3d64825cc362237f387e0e0ca62b0d1cca4b8d1b7b120b2fe120425286851"
+    password: "{cipher}08d4bd112a4136c6d441122225053f3146a9cbad2b03d0c5fd324d0a3ad37d5b"
+    uris: "{cipher}5bb716e05adc7c1f605d34f5e5eee1d1b3a850a17f31eb93ea8afbe675ef8e5f3d4577331b18fb4900c054a0b3def799"
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+    properties:
+      hibernate:
+        format_sql: true
+
+  kafka:
+    bootstrap-servers: kafka-primary:19092,kafka-secondary:19092,kafka-backup:19092
+    consumer:
+      group-id: feed-read-group
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8516/eureka/
+
+api:
+  member-service:
+    url: "http://member-service:25671/v1"
+  utility-service:
+    url: "http://utility-service:25672/v1"
+  admin-service:
+    url: "http://admin-service:25674/v1"

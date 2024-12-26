@@ -1,0 +1,45 @@
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    use-root-path: true
+    path: /swagger-ui.html
+    urls:
+      - url: "/feed-service/v3/api-docs"
+        name: "Feed Service API"
+      - url: "/member-service/v3/api-docs"
+        name: "Member Service API"
+      - url: "/comment-service/v3/api-docs"
+        name: "Comment Service API"
+      - url: "/utility-service/v3/api-docs"
+        name: "Utility Service API"
+      - url: "/admin-service/v3/api-docs"
+        name: "Admin Service API"
+      - url: "/shorts-service/v3/api-docs"
+        name: "Shorts Service API"
+
+      - url: "/member-read-service/v3/api-docs"
+        name: "Member Read Service API"
+      - url: "/feed-read-service/v3/api-docs"
+        name: "Feed Read Service API"
+      - url: "/comment-read-service/v3/api-docs"
+        name: "Comment Read Service API"
+      - url: "/shorts-read-service/v3/api-docs"
+        name: "Shorts Read Service API"
+
+      - url: "/contest-service/v3/api-docs"
+        name: "Contest Service API"
+      - url: "/contest-read-service/v3/api-docs"
+        name: "Contest Read Service API"
+      - url: "/reward-service/v3/api-docs"
+        name: "Reward Service API"
+      - url: "/chat-service/v3/api-docs"
+        name: "Chat Service API"
+      
+      - url: "/notification-service/v3/api-docs"
+        name: "Notification Service API"
+        
+      - url: "/batch-server/v3/api-docs"
+        name: "Batch Server API"
+

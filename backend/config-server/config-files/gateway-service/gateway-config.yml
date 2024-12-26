@@ -1,0 +1,30 @@
+# gateway-config.yml
+# global cors configuration(On API gateway level, not on service level. It is applied to all services)
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+      global-cors:
+        corsConfigurations:
+          '[/**]':
+            allowed-origin-patterns:
+              - "*" # Allow all origins, temporarily set.
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+              - PATCH
+            allowedHeaders:
+              - Content-Type # HTTP request body type
+              - X-Requested-With # AJAX request header
+              - credential # additonal auth info, ex) memberUuid
+#              - Refresh-Token # refresh token
+              - Authorization # Access token
+              - X-Forwarded-Prefix #
+              - Member-Uuid # member uuid
+            exposed-headers:
+              - X-Forwarded-Prefix
+            allowCredentials: true

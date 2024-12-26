@@ -1,0 +1,73 @@
+Server:
+  port: 9127
+
+mysql:
+  encrypted-uri: "{cipher}ee40345caa44b44f7c7d55e7ecc98145100cf54ffe8c16347cdb1aa3def2fb5ddc9d47668376a960576a40a1075432fa77102de4dc95d228f254a0d748eb7a32"
+  base: "/contest_db"
+
+mongodb:
+  encrypted-uri: "{cipher}a517cc0cd2e3d64f9a4a9ae03d15743aab0aca07131f9aebe85219010a2d50ff78e4590f7da8bcd516bbc04e3da3fa7d04dfb32012c7a01d4a5f92b18950122b178f28943790e0eda5eb9e14f0b05013"
+  qua_utility: "utility_db?authSource=admin"
+  qua_contest: "contest_read_db?authSource=admin"
+  qua_feed: "feed_read_db?authSource=admin"
+  qua_shorts: "shorts_read_db?authSource=admin"
+  qua_comment: "comment_read_db?authSource=admin"
+
+spring:
+  application:
+    name: batch-server
+  batch:
+    jdbc:
+      initialize-schema: always
+
+  dataSource:
+    url: "${mysql.encrypted-uri}${mysql.base}"
+    username: "{cipher}876532613553ec861fdad2a10e7f4be2682e0845b8513d2ed09f5b9f34f63c90"
+    password: "{cipher}e2b85d7788b9f4330a8a552026592f5e2f2003475abd19d97971145f5b2da72558ad63bd423c9cb80d8d88f41a434189"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  data:
+    mongodb:
+      contest:
+        uri: "${mongodb.encrypted-uri}"
+        database: ${mongodb.qua_contest}
+        auto-index-creation: true
+      utility:
+        uri: "${mongodb.encrypted-uri}"
+        database: ${mongodb.qua_utility}
+        auto-index-creation: true
+      feed:
+        uri: "${mongodb.encrypted-uri}"
+        database: ${mongodb.qua_feed}
+        auto-index-creation: true
+      shorts:
+        uri: "${mongodb.encrypted-uri}"
+        database: ${mongodb.qua_shorts}
+        auto-index-creation: true
+      comment:
+        uri: "${mongodb.encrypted-uri}"
+        database: ${mongodb.qua_comment}
+        auto-index-creation: true
+    redis:
+      lettuce:
+        pool:
+          max-active: 10
+          max-idle: 10
+          min-idle: 2
+      host: "{cipher}ca9a8f9c2411856993261468371f76cb789d803b3a1d799310535dc72e03281a"
+      port: 7379
+      password: "{cipher}710142fef4d9b369d5d250abad029544616dae3b0237c2fedf059b0af60a27c5"
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+    properties:
+      hibernate:
+        format_sql: true
+
+  kafka:
+    bootstrap-servers: "{cipher}a0ea7fa7614decbb52dca73ba151276b0038ab37fb82fcc63776a2bb407b8a9954ad6c97c9e9e7d65cbc442e9210e829675f016cbe2d9311b1a657dd1abe312b6691fd7b4341e1310f83061909ca44be"
+    consumer:
+      group-id: batch-server
