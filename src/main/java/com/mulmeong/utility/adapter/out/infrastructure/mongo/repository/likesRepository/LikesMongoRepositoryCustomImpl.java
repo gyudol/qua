@@ -36,7 +36,7 @@ public class LikesMongoRepositoryCustomImpl implements LikesMongoRepositoryCusto
         builder.and(likesEntity.status.eq(true));
 
         if (lastId != null) {
-            builder.and(likesEntity.id.lt(lastId));
+            builder.and(likesEntity.id.goe(lastId));
         }
 
         int currentPage = pageNo != null ? pageNo : DEFAULT_PAGE_NUMBER;

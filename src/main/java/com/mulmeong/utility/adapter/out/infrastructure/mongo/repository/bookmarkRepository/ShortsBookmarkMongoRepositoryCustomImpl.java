@@ -35,7 +35,7 @@ public class ShortsBookmarkMongoRepositoryCustomImpl implements ShortsBookmarkMo
         builder.and(shortsBookmarkEntity.memberUuid.eq(memberUuid));
 
         if (lastId != null) {
-            builder.and(shortsBookmarkEntity.id.lt(lastId));
+            builder.and(shortsBookmarkEntity.id.goe(lastId));
         }
 
         int currentPage = pageNo != null ? pageNo : DEFAULT_PAGE_NUMBER;
